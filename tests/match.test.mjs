@@ -182,11 +182,11 @@ function expectGroups(tests, refArr, want, msg) {
   const ok = got.length === want.length && got.every((g, i) => g === want[i]);
   if (ok) pass++; else { fail++; fails.push(`✗ ${msg}\n    got:  [${got}]\n    want: [${want}]`); }
 }
-expectGroups(['UEC', 'immunoglobulins'], [], ['goldx1'], 'both local → one gold tube');
-expectGroups(['UEC', 'immunoglobulins'], ['immunoglobulins'], ['goldx1', 'gold#refx1'],
-  'send-away immunoglobulins → its own gold tube, local first');
+expectGroups(['UEC', 'immunoglobulins'], [], ['goldx1'], 'both local → one gold tube x1');
+expectGroups(['UEC', 'immunoglobulins'], ['immunoglobulins'], ['gold#refx2'],
+  'send-away → one gold card, qty 2 (local + send-away), not a second row');
 expectGroups(['FBC', 'UEC'], ['UEC'], ['gold#refx1', 'purplex1'],
-  'referral keeps draw order (gold before purple)');
+  'send-away only on gold → gold x1 referral, draw order kept');
 
 // — Niche / commonly-referred test auto-flagging —
 function expectNiche(s, want, msg) {

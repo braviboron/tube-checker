@@ -96,8 +96,12 @@
   .chip-add { border: 1px dashed var(--tertiary); background: none; color: var(--blue); min-width: 30px; height: 27px; border-radius: 999px; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
   .chip-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #6b4d00; background: #ffe9a8; border-radius: 4px; padding: 1px 5px; }
   .chip-hint { font-size: 10px; font-weight: 600; color: var(--secondary); background: rgba(60,60,67,0.08); border-radius: 4px; padding: 1px 5px; }
-  .refer-note { font-size: 12.5px; color: var(--note); background: var(--note-bg); border-radius: 8px; padding: 8px 11px; margin-top: 10px; line-height: 1.45; }
-  .ref-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #6b4d00; background: #ffe9a8; border-radius: 4px; padding: 2px 6px; vertical-align: middle; }
+
+  /* Bottom-of-results referral advisory */
+  .advisory { background: var(--note-bg); border-radius: 12px; padding: 13px 16px; margin-top: 16px; }
+  .advisory-title { font-size: 13px; font-weight: 600; color: var(--note); margin-bottom: 6px; }
+  .advisory ul { margin: 0; padding-left: 18px; }
+  .advisory li { font-size: 13px; color: var(--note); margin-bottom: 4px; line-height: 1.45; }
 
   .btn-filled {
     width: 100%; margin-top: 12px; background: var(--blue); color: #fff; border: none;
@@ -146,6 +150,7 @@
   .tube-name-row { display: flex; align-items: baseline; gap: 8px; }
   .tube-name { font-size: 16px; font-weight: 600; flex: 1; }
   .tube-qty { font-size: 14px; color: var(--secondary); flex: none; }
+  .tube-qty.multi { font-size: 15px; font-weight: 700; color: #9a3d00; background: #ffe2c2; border-radius: 7px; padding: 2px 9px; }
   .tube-sub { font-size: 13px; color: var(--secondary); margin-top: 1px; }
   .tube-tests { font-size: 13px; color: var(--label); margin-top: 5px; }
   .tube-tests span { color: var(--secondary); }
@@ -283,6 +288,7 @@
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <div class="group" id="tubes-needed"></div>
+    <div id="refer-advisory"></div>
     <button class="btn-outline" id="share-btn">Share / print summary</button>
   </div>
 
@@ -640,27 +646,32 @@ function tubeQty(key, n) {
   return cap ? Math.max(1, Math.ceil(n / cap)) : 1;
 }
 
-// Map a list of test strings to tube GROUPS. A send-away (referral) test gets its own
-// group of its colour, separate from locally-run tests of the same colour, because the
-// lab aliquots and ships it separately. Returns ordered groups (draw order, local before
-// send-away) each with a quantity, plus the unmatched tests. `referralSet` = lowercased
-// test strings marked send-away. Pure — takes its inputs as arguments.
+// Map a list of test strings to tube GROUPS — one group per colour. The quantity
+// accounts for BOTH volume (large panels split) AND send-away tests (each referral
+// batch needs its own tube of that colour). Returns ordered groups (draw order) with a
+// quantity, the send-away tests, and the unmatched tests. Pure (inputs as arguments).
 function tubeGroupsFor(tests, referralSet) {
-  const map = new Map();          // groupId -> { key, referral, tests:[] }
+  const map = new Map();          // key -> { key, tests:[], refTests:[] }
   const unmatched = [];
   for (const t of tests) {
     const keys = Object.keys(matchTests(t).tubeMap);
     if (!keys.length) { unmatched.push(t); continue; }
     const ref = referralSet.has(t.toLowerCase());
     for (const k of keys) {
-      const id = k + (ref ? '#ref' : '');
-      if (!map.has(id)) map.set(id, { key: k, referral: ref, tests: [] });
-      map.get(id).tests.push(t);
+      if (!map.has(k)) map.set(k, { key: k, tests: [], refTests: [] });
+      const g = map.get(k);
+      g.tests.push(t);
+      if (ref) g.refTests.push(t);
     }
   }
-  const groups = [...map.values()].sort((a, b) =>
-    (TUBES[a.key].draw - TUBES[b.key].draw) || ((a.referral ? 1 : 0) - (b.referral ? 1 : 0)));
-  groups.forEach(g => { g.qty = tubeQty(g.key, g.tests.length); });
+  const groups = [...map.values()].sort((a, b) => TUBES[a.key].draw - TUBES[b.key].draw);
+  groups.forEach(g => {
+    const localCount = g.tests.length - g.refTests.length;
+    g.localQty = localCount > 0 ? tubeQty(g.key, localCount) : 0;
+    g.refQty = g.refTests.length > 0 ? tubeQty(g.key, g.refTests.length) : 0;
+    g.qty = Math.max(1, g.localQty + g.refQty);
+    g.referral = g.refTests.length > 0;
+  });
   return { groups, unmatched };
 }
 
@@ -771,19 +782,14 @@ async function shareSummary() {
 
 function renderChips(unmatched) {
   const wrap = document.getElementById('recognised-wrap');
-  const niche = [];
   const chipsHtml = selectedTests.map((t, i) => {
     const flag = unmatched.has(t) ? ' unmatched' : '';
     const isRef = referral.has(t.toLowerCase());
     const ref = isRef ? '<span class="chip-tag">send-away</span>' : '';
-    let hint = '';
-    if (!isRef && isNicheTest(t)) { hint = '<span class="chip-hint">refer?</span>'; niche.push(t); }
+    const hint = (!isRef && isNicheTest(t)) ? '<span class="chip-hint">refer?</span>' : '';
     return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>${ref}${hint}` +
            `<button class="chip-x" data-i="${i}" aria-label="Remove">&times;</button></span>`;
   }).join('');
-  const referNote = niche.length
-    ? `<div class="refer-note">Possibly referred to a reference lab (each may need its own tube): ${niche.map(escapeHtml).join(', ')}. Tap one and turn on Send-away to split it.</div>`
-    : '';
   const rawHtml = lastRawText ? `
       <button class="raw-toggle" id="raw-toggle">${rawShown ? 'Hide' : 'Show'} extracted text</button>
       <div id="raw-text"${rawShown ? '' : ' style="display:none"'}>${escapeHtml(lastRawText)}</div>` : '';
@@ -791,7 +797,6 @@ function renderChips(unmatched) {
     <div class="recognised">
       <div class="recognised-head">Detected tests · tap to edit, × to remove</div>
       <div class="chips">${chipsHtml}<button class="chip-add" id="chip-add" aria-label="Add a test">+</button></div>
-      ${referNote}
       ${rawHtml}
     </div>`;
   wrap.querySelectorAll('.chip-x').forEach(b =>
@@ -822,11 +827,11 @@ function renderTubes(groups) {
     const tube = TUBES[g.key];
     total += g.qty;
     const notes = [];
-    if (g.referral) notes.push('Send-away: collect a separate tube for the referral lab.');
-    if (g.qty > 1) notes.push(`Large panel for one tube: about ${g.qty} tubes estimated for volume; confirm with your lab.`);
+    if (g.refTests.length) notes.push(`Includes a send-away tube for: ${g.refTests.map(escapeHtml).join(', ')}.`);
+    if (g.localQty > 1) notes.push(`Large local panel: about ${g.localQty} tubes estimated for volume; confirm with your lab.`);
     if (tube.note) notes.push(tube.note);
     const noteHtml = notes.length ? `<div class="tube-note">${notes.join(' ')}</div>` : '';
-    const refTag = g.referral ? ` <span class="ref-tag">send-away</span>` : '';
+    const qtyHtml = `<span class="tube-qty${g.qty > 1 ? ' multi' : ''}">&times;${g.qty}</span>`;
     const row = document.createElement('div');
     row.className = 'tube-row';
     row.innerHTML = `
@@ -834,8 +839,8 @@ function renderTubes(groups) {
       <div class="tube-tile" style="background:${tube.color}"></div>
       <div class="tube-main">
         <div class="tube-name-row">
-          <span class="tube-name">${tube.name}${refTag}</span>
-          <span class="tube-qty">&times;${g.qty}</span>
+          <span class="tube-name">${tube.name}</span>
+          ${qtyHtml}
         </div>
         <div class="tube-sub">${tube.additive}</div>
         <div class="tube-tests"><span>Tests:</span> ${g.tests.map(escapeHtml).join(', ')}</div>
@@ -844,6 +849,25 @@ function renderTubes(groups) {
     tubesEl.appendChild(row);
   });
   summaryEl.textContent = total === 1 ? '1 tube.' : `${total} tubes · collect in the order shown.`;
+  renderReferAdvisory();
+}
+
+// Bottom-of-results advisory: even without confirming send-away, name each niche test
+// and suggest a separate tube of its colour. (e.g. "ANCA may need referral off-site at
+// some centres; consider a separate Gold / SST (Serum) tube.")
+function renderReferAdvisory() {
+  const el = document.getElementById('refer-advisory');
+  if (!el) return;
+  const items = [];
+  selectedTests.forEach(t => {
+    if (referral.has(t.toLowerCase()) || !isNicheTest(t)) return;
+    const keys = Object.keys(matchTests(t).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
+    if (!keys.length) return;
+    items.push(`<li>${escapeHtml(t)} may need referral off-site at some centres; consider a separate ${escapeHtml(TUBES[keys[0]].name)} tube.</li>`);
+  });
+  el.innerHTML = items.length
+    ? `<div class="advisory"><div class="advisory-title">Possible referrals (check locally)</div><ul>${items.join('')}</ul></div>`
+    : '';
 }
 
 // Chip actions. Add/edit open the searchable test picker; remove is immediate.
