@@ -215,7 +215,7 @@
   <!-- Primary input: type, or the phone's own Scan Text -->
   <p class="group-header">Requested tests</p>
   <div class="input-card">
-    <textarea id="manual-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests, or press &amp; hold to Scan Text.&#10;e.g. FBC, UEC, CRP, coags, group &amp; hold, blood cultures"></textarea>
+    <textarea id="manual-input" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests, or press &amp; hold the box to scan.&#10;e.g. FBC, UEC, CRP, coags, group &amp; hold, blood cultures"></textarea>
   </div>
   <button type="button" class="btn-scan" id="scan-text-btn" hidden>
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>
@@ -624,9 +624,9 @@ document.getElementById('manual-btn').addEventListener('click', () => {
   btn.hidden = false;
 
   if (isIOS) {
-    tip.innerHTML = 'To scan: <strong>press &amp; hold</strong> the box above, then tap <strong>Scan Text</strong> — ' +
-                    'your iPhone’s own camera OCR fills it in. ' +
-                    'No Scan Text? Turn on <em>Settings → General → Language &amp; Region → Live Text</em>.';
+    tip.innerHTML = 'To scan a form: <strong>press &amp; hold</strong> the box, tap <strong>AutoFill</strong>, then ' +
+                    '<strong>Scan Text</strong> — your iPhone’s camera reads it straight in. ' +
+                    '(Scan Text lives <em>inside</em> the AutoFill menu.)';
   } else {
     btn.lastChild.textContent = ' Type or scan the form';
     tip.innerHTML = 'To scan: press &amp; hold the box above and use your keyboard’s text scan ' +
