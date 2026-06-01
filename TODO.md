@@ -20,12 +20,23 @@
       `sw.js`, `icons/`). Direction decided: web-only, no paid native/App Store route.
 - [x] Test harness (`tests/match.test.mjs`) running against the real rules in index.html.
 
+## Parked for later (agreed with user)
+- [ ] **Clinical test-list sweep** — go through the tests actually ordered on the ward
+      (paste a list / photograph a request form) and add every missing abbreviation,
+      mapping each to the right tube in one pass. EUC was the first such gap found.
+- [ ] **More than one tube of the same colour.** Today the app always consolidates to
+      one tube per colour (×1). Real life needs a 2nd sometimes, for (a) draw VOLUME and
+      (b) dedicated/split tubes (lab-specific). Needs per-test volume data + split rules;
+      capture these during the sweep above.
+- [ ] **Optional: native one-shot camera** — offered as a more private/clearer capture
+      (system Camera app, no held live stream). Not yet decided; current live-preview
+      multi-page capture stays for now.
+
 ## Clinical accuracy (ongoing)
 - [ ] Have a second clinician sanity-check the full `RULES` set against the NSW catalogue.
 - [ ] Decide lab-specific edge cases that genuinely vary (ESR dedicated tube? PTH serum vs
       EDTA? folate serum vs red-cell?) — currently follows the Monash/RCPA convention.
 - [ ] Confirm trace-element tube draw-order position for the target lab.
-- [ ] Model tests that legitimately need a specific tube *volume* or multiple tubes.
 
 ## Features
 - [ ] Show recommended fill volumes per tube.
@@ -34,10 +45,9 @@
 - [ ] Print / share a collection summary.
 
 ## OCR / input
-- [ ] Image pre-processing (deskew, threshold) to improve recognition.
+- [x] Image pre-processing (upscale, greyscale, contrast) + tuned worker — done.
+- [ ] Further pre-processing (deskew, adaptive threshold) if accuracy needs it.
 - [ ] Optional auto-scan when the form is held steady in frame.
 
 ## Engineering
 - [ ] Add an `npm test` wrapper / CI once a package.json is justified.
-- [ ] Consider vendoring Tesseract.js locally to remove the one remaining CDN dependency
-      (would make the app fully offline after first load with no external calls at all).
