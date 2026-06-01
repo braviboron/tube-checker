@@ -15,6 +15,9 @@
 - [x] Removed Google Fonts dependency (system font stack).
 - [x] **Fully offline — vendored Tesseract.js** (library, worker, WASM core, eng model)
       under `vendor/tesseract/`; zero network calls. `fetch-assets.sh` to re-fetch.
+- [x] **PWA** — installable to home screen, full-screen, service worker precaches the
+      whole app (incl. 11 MB model) for true offline. Free, no App Store. (`manifest.json`,
+      `sw.js`, `icons/`). Direction decided: web-only, no paid native/App Store route.
 - [x] Test harness (`tests/match.test.mjs`) running against the real rules in index.html.
 
 ## Clinical accuracy (ongoing)

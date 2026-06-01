@@ -23,14 +23,27 @@ python -m http.server 8000
 
 "Offline" means no internet access is required — a local static server is still needed.
 
+## Install on a phone (PWA — free, no App Store)
+
+Host the folder on any static host (e.g. GitHub Pages / Netlify, free), open the URL on
+the phone, then **Share → Add to Home Screen**. It installs like an app: full-screen, its
+own icon, and — thanks to the service worker — it caches everything (including the 11 MB
+language model) so it then runs **fully offline**. No developer account, no cost.
+
 ## Project layout
 
 ```
 index.html              the app (UI + matching engine + OCR wiring)
+manifest.json           PWA manifest (installable, standalone)
+sw.js                   service worker — precaches the app for offline use
+icons/                  app icons (192 / 512 / apple-touch)
 vendor/tesseract/        vendored Tesseract.js — library, worker, WASM core, eng model
   fetch-assets.sh        re-download/upgrade those assets
 tests/match.test.mjs     matching-engine tests (run against index.html directly)
 ```
+
+> **Dev note:** the service worker precaches `index.html`. After editing the app, bump
+> `CACHE` in [sw.js](sw.js) (or unregister the SW in devtools) to see changes.
 
 ## How it works
 

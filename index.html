@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Tube Checker</title>
+
+<!-- PWA: installable, offline, no app store -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#007aff">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tube Checker">
+
 <!-- Tesseract.js vendored locally — no CDN, zero network calls. See vendor/tesseract/. -->
 <script src="vendor/tesseract/tesseract.min.js"></script>
 <style>
@@ -494,6 +505,9 @@ const TESS_VENDOR = new URL('vendor/tesseract/', document.baseURI).href;
 async function runOCR(source, onProgress) {
   const result = await Tesseract.recognize(source, 'eng', {
     // All assets served locally — no network access required.
+    // workerBlobURL:false loads the worker from a same-origin URL (not a blob), so its
+    // sub-requests are intercepted by the service worker and work fully offline.
+    workerBlobURL: false,
     workerPath: TESS_VENDOR + 'worker.min.js',
     corePath: TESS_VENDOR,
     langPath: TESS_VENDOR,
@@ -617,6 +631,13 @@ document.getElementById('cam-done').addEventListener('click', e => {
   stopCamera();
   if (pages.length) readPages();
 });
+
+// ─── PWA: register service worker (installable + fully offline) ────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* offline-first still works on next load */ });
+  });
+}
 </script>
 </body>
 </html>

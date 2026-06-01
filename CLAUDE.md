@@ -19,6 +19,14 @@ blood collection tube colours. OCR via Tesseract.js runs entirely client-side.
   citation links in the references section, which load only when the user taps them.
 - Camera + OCR require serving over `http://localhost` (or https); `file://` blocks
   workers/`getUserMedia`. "Offline" = no internet, not no server.
+- **PWA:** `manifest.json` + `sw.js` make it installable and fully offline. `sw.js`
+  precaches the app shell + all `vendor/tesseract/` assets + icons. **Bump `CACHE` in
+  `sw.js` whenever a precached asset changes** — otherwise the SW serves the stale copy
+  (this also bites during local dev; unregister the SW or bump the cache to see edits).
+- OCR uses `workerBlobURL:false` so the worker is same-origin and its sub-requests pass
+  through the service worker (required for true offline once installed).
+- App icons live in `icons/` (192/512/apple-touch). No build tooling — they were drawn
+  on a canvas; regenerate similarly if the brand changes.
 
 ## Visual design
 - **iOS-style "sterile" clinical look** (reference: UCLH directory app): light grouped
