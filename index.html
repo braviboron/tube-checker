@@ -217,10 +217,10 @@
   <div class="input-card">
     <textarea id="manual-input" placeholder="Type tests here — or on a phone, use “Scan the form” below.&#10;e.g. FBC, UEC, CRP, LFT, coags, group &amp; hold, blood cultures"></textarea>
   </div>
-  <button class="btn-scan" id="scan-text-btn" hidden>
+  <label class="btn-scan" id="scan-text-btn" for="manual-input" hidden>
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>
     Scan the form with my camera
-  </button>
+  </label>
   <p class="hint" id="scan-tip">
     Uses your phone’s own <strong>Scan Text</strong> — far more accurate than the image reader below.
   </p>
@@ -632,11 +632,10 @@ document.getElementById('manual-btn').addEventListener('click', () => {
                     'to read the form into the box, or paste text in.';
   }
 
-  btn.addEventListener('click', () => {
-    ta.focus();
-    try { ta.setSelectionRange(ta.value.length, ta.value.length); } catch (e) {}
-    ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
+  // The label[for="manual-input"] focuses the box natively — the reliable way to bring
+  // up the iOS keyboard (+ Scan Text). Keep a tiny JS focus as a fallback for older
+  // browsers; deliberately no scrolling, which can suppress the keyboard on iOS.
+  btn.addEventListener('click', () => { ta.focus(); });
 })();
 
 document.getElementById('clear-btn').addEventListener('click', () => {
