@@ -21,25 +21,40 @@ python -m http.server 8000
 
 ## How it works
 
-1. **Input** — upload an image, capture via camera, or type tests manually.
-2. **OCR** — Tesseract.js extracts text from the image.
-3. **Match** — the extracted text is run against an ordered list of regex `RULES`,
-   each mapping a set of test keywords to a tube colour (`TUBES`).
-4. **Render** — matched tubes are shown as cards; unrecognised lines are flagged for
-   manual review.
+1. **Input** — type the tests, **tap-to-scan** with the camera (no photo is saved), or
+   upload an image of the form.
+2. **OCR** — Tesseract.js extracts text locally from the image.
+3. **Match** — the text is run against an ordered list of regex `RULES`, each mapping
+   test keywords to one or more tubes (`TUBES`).
+4. **Render** — needed tubes are shown as cards, **sorted by order of draw** and
+   numbered, with a tube-count summary; tests sharing a tube are consolidated;
+   unrecognised lines are flagged for manual review.
 
 The matching logic lives entirely in the `<script>` block of `index.html`:
-`TUBES` (tube database), `RULES` (keyword → tube regexes), and `matchTests()`.
+`TUBES` (tube database, each with a `draw` order), `RULES` (keyword → tube regexes),
+and `matchTests()`.
 
-## Status & known issues
+## Clinical basis
 
-This is an early prototype. Tracked items live in [TODO.md](TODO.md). Highlights:
+Tube mappings and the order of draw follow **NSW Health Pathology** / **RCPA** /
+standard CLSI conventions, cross-referenced against published AU collection charts.
+The in-app "Sources & references" section links the primary sources. See
+[CLAUDE.md](CLAUDE.md) for the clinical-safety norms applied to rule changes.
 
-- **Clinical accuracy needs review.** Several rules are ambiguous or conflicting
-  (e.g. `ESR` maps to both purple and gold; `lithium` only matches the gold drug-level
-  rule). The full rule set should be audited against an authoritative AU/NZ tube guide.
-- **No order-of-draw guidance** is shown.
-- **OCR robustness** — the unmatched-line heuristic is fragile and form-layout dependent.
+## Tests
+
+`tests/match.test.mjs` extracts the live `RULES`/`matchTests` from `index.html` (no
+duplicated logic) and asserts key mappings, regressions, and draw order:
+
+```sh
+node tests/match.test.mjs
+```
+
+## Status
+
+Working prototype with order of draw, tube counts, references and a disclaimer.
+Remaining work — chiefly a second-clinician audit of the full rule set and OCR
+robustness — is tracked in [TODO.md](TODO.md).
 
 ## ⚠️ Disclaimer
 
