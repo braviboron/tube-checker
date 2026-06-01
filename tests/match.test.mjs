@@ -14,9 +14,9 @@ const end = html.indexOf('// ─── RENDER');
 if (start === -1 || end === -1) throw new Error('Could not locate logic block markers in index.html');
 const block = html.slice(start, end);
 
-// Evaluate the block and expose matchTests + TUBES.
-const factory = new Function(`${block}\n return { matchTests, TUBES };`);
-const { matchTests, TUBES } = factory();
+// Evaluate the block and expose the matcher, tubes, and the canonical test list.
+const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests };`);
+const { matchTests, TUBES, TESTS, searchTests } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────
 let pass = 0, fail = 0;
@@ -122,6 +122,26 @@ expectTubes('UEC, LFT, CRP, calcium, magnesium, TSH, lipids, troponin', ['gold']
 // — Empty / nonsense —
 expectTubes('', [], 'empty input → no tubes');
 expectTubes('hello world banana', [], 'non-test text → no tubes');
+
+// — Canonical test list consistency: every canonical NAME must map (via the rules) to
+//   its declared tube. Keeps the picker list and the matcher in sync. —
+for (const t of TESTS) {
+  const keys = tubesFor(t.name);
+  if (keys.includes(t.tube)) pass++;
+  else { fail++; fails.push(`✗ canonical "${t.name}" should map to ${t.tube}\n    got: [${keys}]`); }
+}
+
+// — Picker search: alias, acronym, and typo tolerance —
+function expectTopHit(query, name, msg) {
+  const r = searchTests(query, 5);
+  if (r[0] && r[0].name === name) { pass++; }
+  else { fail++; fails.push(`✗ ${msg}\n    search(${JSON.stringify(query)})[0] = ${r[0] ? r[0].name : 'none'}, want ${name}`); }
+}
+expectTopHit('FBE', 'Full Blood Count', 'alias FBE → Full Blood Count');
+expectTopHit('EUC', 'Urea, Electrolytes & Creatinine', 'acronym EUC → UEC entry');
+expectTopHit('magnesum', 'Magnesium', 'typo magnesum → Magnesium');
+expectTopHit('troponni', 'Troponin', 'typo troponni → Troponin');
+expectTopHit('gent', 'Gentamicin', 'partial gent → Gentamicin');
 
 // ─── Report ─────────────────────────────────────────────────────────────────
 console.log(`\nTube Checker matching tests: ${pass} passed, ${fail} failed\n`);

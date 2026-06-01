@@ -49,7 +49,7 @@
 
   /* Large-title header (iOS) */
   header { background: var(--card); border-bottom: 1px solid var(--sep); padding: 16px 18px 14px; }
-  .header-inner { max-width: 620px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+  .header-inner { max-width: 620px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .app-logo { width: 46px; height: 46px; border-radius: 10px; flex: none; }
   h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
   .subtitle { font-size: 13px; color: var(--secondary); margin-top: 2px; }
@@ -158,6 +158,23 @@
 
   footer { text-align: center; font-size: 11px; color: var(--tertiary); padding: 10px 18px 20px; }
 
+  /* Test picker (bottom sheet) */
+  .picker-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: flex-end; }
+  .picker-modal.active { display: flex; }
+  .picker-sheet { background: var(--bg); width: 100%; max-width: 620px; margin: 0 auto; border-radius: 16px 16px 0 0; max-height: 82vh; display: flex; flex-direction: column; padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); }
+  .picker-bar { display: flex; gap: 10px; align-items: center; }
+  #picker-input { flex: 1; background: var(--card); border: 1px solid var(--sep-strong); border-radius: 10px; padding: 11px 13px; font-size: 16px; font-family: var(--font); color: var(--label); outline: none; }
+  #picker-input:focus { border-color: var(--blue); }
+  .picker-cancel { background: none; border: none; color: var(--blue); font-size: 16px; font-family: var(--font); cursor: pointer; padding: 8px 2px; }
+  .picker-list { margin-top: 10px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .picker-item { display: flex; align-items: center; gap: 12px; padding: 12px 4px; cursor: pointer; border-bottom: 1px solid var(--sep); }
+  .picker-item:active { background: var(--card); }
+  .picker-dot { width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.14); }
+  .picker-text { min-width: 0; }
+  .picker-name { font-size: 15px; color: var(--label); }
+  .picker-name.picker-free { color: var(--blue); }
+  .picker-sub { font-size: 12px; color: var(--secondary); margin-top: 1px; }
+
   /* Camera modal (dark, native capture convention) */
   #camera-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
   #camera-modal.active { display: flex; }
@@ -188,11 +205,11 @@
 
 <header>
   <div class="header-inner">
-    <img class="app-logo" src="icons/icon-192.png" alt="" width="46" height="46">
     <div>
       <h1>Tube Checker</h1>
       <p class="subtitle">Blood tubes and order of the draw · Australia</p>
     </div>
+    <img class="app-logo" src="icons/icon-192.png" alt="" width="46" height="46">
   </div>
 </header>
 
@@ -203,7 +220,17 @@
     <textarea id="manual-input" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests here, e.g. FBC, EUC, CRP&#10;Or, on iPhone: press &amp; hold the box → AutoFill → Scan Text"></textarea>
   </div>
 
-  <!-- Image input: upload or camera (built-in offline reader) -->
+  <!-- Image input: camera or upload (built-in offline reader) -->
+  <div class="group option">
+    <div class="row" id="camera-btn">
+      <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="row-main">
+        <div class="row-title">Scan with camera</div>
+        <div class="row-sub">Point and tap, capture multi-page forms</div>
+      </div>
+      <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
+    </div>
+  </div>
   <div class="group option">
     <label class="row" for="file-input">
       <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
@@ -214,16 +241,6 @@
       <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
       <input type="file" id="file-input" accept="image/*" multiple hidden>
     </label>
-  </div>
-  <div class="group option">
-    <div class="row" id="camera-btn">
-      <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
-      <div class="row-main">
-        <div class="row-title">Scan with camera</div>
-        <div class="row-sub">Point and tap, capture multi-page forms</div>
-      </div>
-      <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
-    </div>
   </div>
 
   <div class="pages" id="pages"></div>
@@ -255,6 +272,17 @@
 </main>
 
 <footer>Tube Checker</footer>
+
+<!-- Test picker -->
+<div id="picker-modal" class="picker-modal">
+  <div class="picker-sheet">
+    <div class="picker-bar">
+      <input id="picker-input" type="text" placeholder="Search tests, e.g. magnesium, FBC" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <button id="picker-cancel" class="picker-cancel">Cancel</button>
+    </div>
+    <div id="picker-list" class="picker-list"></div>
+  </div>
+</div>
 
 <!-- Camera modal -->
 <div id="camera-modal">
@@ -338,7 +366,7 @@ const RULES = [
   { re: /\baerobic\s*cult/i, tube: 'bc_aerobic' },
 
   // Coagulation → light blue citrate
-  { re: /\b(inr|aptt|appt|pt\s*\/\s*inr|prothrombin|coags?|coag\s*(?:screen|profile|studies)?|coagulation|d[\s.-]?dimer|fibrinogen|factor\s*(?:assays?|[ivx]+)|lupus\s*anticoag|heparin\s*assay|anti[\s-]?xa|clotting\s*(?:screen|profile)?)\b/i, tube: 'blue' },
+  { re: /\b(inr|aptt|appt|pt\s*\/\s*inr|prothrombin|coags?|coag\s*(?:screen|profile|studies)?|coagulation|d[\s.-]?dimer|fibrinogen|factor\s*(?:assays?|[ivx]+)|lupus\s*anticoag(?:ulant)?|heparin\s*assay|anti[\s-]?xa|clotting\s*(?:screen|profile)?)\b/i, tube: 'blue' },
 
   // Blood bank → pink EDTA
   { re: /\b(group\s*(?:and|&|\+|\s)\s*(?:hold|screen|save)|g\s*(?:and|&|\+)\s*[hs]\b|gxm|cross[\s-]?match|x[\s-]?match|antibody\s*screen|blood\s*bank|transfusion|type\s*(?:and|&|\+)\s*(?:screen|hold))\b/i, tube: 'pink' },
@@ -358,7 +386,7 @@ const RULES = [
   { re: /\b(fbc|fbe|cbc|full\s*blood\s*(?:count|exam)|complete\s*blood\s*count|blood\s*film|\bfilm\b|wcc|white\s*cell\s*count|differential|\bdiff\b|platelets?|\bplt\b|hb\s*a1c|hba1c|glycated\s*h(?:a)?emoglobin|haemoglobin|\bhb\b|reticulocytes?|retics?|esr|coombs|\bdct\b|malaria|thick\s*(?:and|&)?\s*thin|haemochromatosis|\bhfe\b|thalassaemia|parathyroid|\bpth\b|homocysteine|ciclosporin|cyclosporin|tacrolimus|sirolimus)\b/i, tube: 'purple' },
 
   // Biochemistry / serology / hormones / drug levels / serum → gold (broad; last)
-  { re: /\b(euc|uec|u\s*&\s*e|ue\b|urea|creatinine|egfr|electrolytes?|sodium|potassium|chloride|bicarb(?:onate)?|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein\s*(?:studies|electrophoresis)|spep|crp|c[\s-]?reactive\s*protein|tsh|t4|ft4|free\s*t4|t3|ft3|thyroid\s*function|tfts?|calcium|phosphate|po4|magnesium|mg\b|urate|uric\s*acid|ldh|creatine\s*kinase|ck[\s-]?mb|\bck\b|amylase|lipase|cholesterol|triglycerides?|hdl|ldl|lipids?|iron\s*studies|\biron\b|transferrin|ferritin|\bb12\b|vitamin\s*b12|folate|vitamin\s*d|25[\s-]?oh|\bhcg\b|beta[\s-]?hcg|bhcg|troponin|trop\b|\bbnp\b|nt[\s-]?pro[\s-]?bnp|procalcitonin|immunoglobulins?|ig[gam]\b|\bige\b|complement|\bc3\b|\bc4\b|\bana\b|\banca\b|anti[\s-]?ds[\s-]?dna|dsdna|\bena\b|rheumatoid|\brf\b|anti[\s-]?ccp|digoxin|phenytoin|valproate|carbamazepine|lithium|vancomycin|gentamicin|tobramycin|theophylline|paracetamol|salicylate|clonazepam|clozapine|drug\s*levels?|cortisol|dheas?|testosterone|oestradiol|estradiol|progesterone|prolactin|\bfsh\b|\blh\b|insulin|c[\s-]?peptide|psa|\bcea\b|\bca\s*125\b|ca\s*19[\s-]?9|ca\s*15[\s-]?3|afp|alpha\s*fetoprotein|osmolality|ethanol|coeliac|\bttg\b|gliadin|hiv|hepatitis|hbsag|hcv|syphilis|rpr|tpha|ebv|\bcmv\b|toxoplasma|rubella|varicella|\bvzv\b|measles|mumps|serology)\b/i, tube: 'gold' },
+  { re: /\b(euc|uec|u\s*&\s*e|ue\b|urea|creatinine|egfr|electrolytes?|sodium|potassium|chloride|bicarb(?:onate)?|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein\s*(?:studies|electrophoresis)|spep|crp|c[\s-]?reactive\s*protein|tsh|t4|ft4|free\s*t4|t3|ft3|thyroid\s*function|tfts?|calcium|phosphate|po4|magnesium|mg\b|urate|uric\s*acid|ldh|creatine\s*kinase|ck[\s-]?mb|\bck\b|amylase|lipase|cholesterol|triglycerides?|hdl|ldl|lipids?|iron\s*studies|\biron\b|transferrin|ferritin|\bb12\b|vitamin\s*b12|folate|vitamin\s*d|25[\s-]?oh|\bhcg\b|beta[\s-]?hcg|bhcg|troponin|trop\b|\bbnp\b|nt[\s-]?pro[\s-]?bnp|procalcitonin|immunoglobulins?|ig[gam]\b|\bige\b|complement|\bc3\b|\bc4\b|\bana\b|\banca\b|anti[\s-]?ds[\s-]?dna|dsdna|\bena\b|rheumatoid|\brf\b|anti[\s-]?ccp|digoxin|phenytoin|valproate|carbamazepine|lithium|vancomycin|gentamicin|tobramycin|theophylline|paracetamol|salicylate|clonazepam|clozapine|drug\s*levels?|cortisol|dheas?|testosterone|oestradiol|estradiol|progesterone|prolactin|\bfsh\b|\blh\b|insulin|c[\s-]?peptide|psa|\bcea\b|\bca[\s-]*125\b|ca[\s-]*19[\s-]?9|ca[\s-]*15[\s-]?3|afp|alpha\s*fetoprotein|osmolality|ethanol|coeliac|\bttg\b|gliadin|hiv|hepatitis|hbsag|hcv|syphilis|rpr|tpha|ebv|\bcmv\b|toxoplasma|rubella|varicella|\bvzv\b|measles|mumps|serology)\b/i, tube: 'gold' },
 ];
 
 // Phrases to ignore when scanning for "unrecognised" candidate lines (form noise).
@@ -394,6 +422,174 @@ function matchTests(text) {
   }
 
   return { tubeMap, unmatched: [...new Set(unmatched)] };
+}
+
+// ─── CANONICAL TEST LIST (for the add/edit picker) ────────────────────────────
+// Each entry: a canonical display name, the tube it maps to, and aliases/acronyms
+// for searching. The `tube` here is for the picker's colour dot; the actual tube
+// mapping still goes through matchTests(name) — a test asserts they agree.
+const TESTS = [
+  // Haematology / EDTA (purple)
+  { name: 'Full Blood Count', tube: 'purple', aliases: ['FBC', 'FBE', 'CBC', 'full blood exam', 'complete blood count', 'blood count'] },
+  { name: 'White Cell Count', tube: 'purple', aliases: ['WCC', 'white cell count', 'white blood cells'] },
+  { name: 'Platelet Count', tube: 'purple', aliases: ['platelets', 'PLT', 'platelet count'] },
+  { name: 'Blood Film', tube: 'purple', aliases: ['film', 'blood film', 'peripheral smear'] },
+  { name: 'Reticulocytes', tube: 'purple', aliases: ['retics', 'reticulocyte count'] },
+  { name: 'ESR', tube: 'purple', aliases: ['erythrocyte sedimentation rate', 'sed rate'] },
+  { name: 'HbA1c', tube: 'purple', aliases: ['glycated haemoglobin', 'glycated hemoglobin', 'glycosylated haemoglobin', 'hba1c'] },
+  { name: 'Coombs / DCT', tube: 'purple', aliases: ['coombs', 'direct coombs', 'DCT', 'direct antiglobulin test'] },
+  { name: 'Malaria', tube: 'purple', aliases: ['malaria parasites', 'thick and thin', 'malaria film'] },
+  { name: 'Haemochromatosis (HFE)', tube: 'purple', aliases: ['haemochromatosis', 'HFE', 'hereditary haemochromatosis'] },
+  { name: 'Thalassaemia', tube: 'purple', aliases: ['thalassaemia', 'thalassemia'] },
+  { name: 'Parathyroid Hormone', tube: 'purple', aliases: ['PTH', 'parathyroid hormone', 'parathyroid'] },
+  { name: 'Homocysteine', tube: 'purple', aliases: ['homocysteine'] },
+  { name: 'Ciclosporin', tube: 'purple', aliases: ['ciclosporin', 'cyclosporin', 'cyclosporine'] },
+  { name: 'Tacrolimus', tube: 'purple', aliases: ['tacrolimus', 'FK506'] },
+
+  // Coagulation (light blue citrate)
+  { name: 'INR', tube: 'blue', aliases: ['INR', 'international normalised ratio'] },
+  { name: 'APTT', tube: 'blue', aliases: ['APTT', 'aptt', 'activated partial thromboplastin time'] },
+  { name: 'Prothrombin Time', tube: 'blue', aliases: ['PT', 'prothrombin', 'prothrombin time'] },
+  { name: 'Coagulation Profile', tube: 'blue', aliases: ['coags', 'coag', 'coagulation profile', 'clotting screen', 'coagulation screen'] },
+  { name: 'D-Dimer', tube: 'blue', aliases: ['d-dimer', 'ddimer', 'd dimer'] },
+  { name: 'Fibrinogen', tube: 'blue', aliases: ['fibrinogen'] },
+  { name: 'Factor Assay', tube: 'blue', aliases: ['factor assay', 'factor V', 'factor VIII', 'factor IX'] },
+  { name: 'Lupus Anticoagulant', tube: 'blue', aliases: ['lupus anticoagulant'] },
+  { name: 'Anti-Xa', tube: 'blue', aliases: ['anti-xa', 'antixa', 'heparin assay', 'heparin level'] },
+
+  // Blood bank (pink EDTA)
+  { name: 'Group & Hold', tube: 'pink', aliases: ['group and hold', 'G&H', 'group & hold', 'GH'] },
+  { name: 'Group & Screen', tube: 'pink', aliases: ['group and screen', 'group & screen', 'type and screen'] },
+  { name: 'Crossmatch', tube: 'pink', aliases: ['crossmatch', 'cross match', 'XM', 'GXM'] },
+  { name: 'Antibody Screen', tube: 'pink', aliases: ['antibody screen', 'red cell antibodies'] },
+
+  // Glucose / lactate (grey fluoride)
+  { name: 'Glucose', tube: 'grey', aliases: ['glucose', 'BSL', 'BGL', 'fasting glucose', 'random glucose', 'blood sugar'] },
+  { name: 'Oral Glucose Tolerance Test', tube: 'grey', aliases: ['OGTT', 'GTT', 'glucose tolerance test'] },
+  { name: 'Lactate', tube: 'grey', aliases: ['lactate', 'lactic acid'] },
+
+  // Trace elements (royal blue)
+  { name: 'Zinc', tube: 'royalblue', aliases: ['zinc', 'Zn'] },
+  { name: 'Copper', tube: 'royalblue', aliases: ['copper', 'Cu'] },
+  { name: 'Manganese', tube: 'royalblue', aliases: ['manganese', 'Mn'] },
+  { name: 'Selenium', tube: 'royalblue', aliases: ['selenium', 'Se'] },
+  { name: 'Trace Elements', tube: 'royalblue', aliases: ['trace elements', 'trace metals'] },
+
+  // Heparin / cytogenetics (green)
+  { name: 'Ammonia', tube: 'green', aliases: ['ammonia', 'NH3'] },
+  { name: 'Chromosome Studies', tube: 'green', aliases: ['chromosome studies', 'karyotype', 'cytogenetics'] },
+
+  // Blood cultures
+  { name: 'Blood Cultures', tube: 'bc_aerobic', aliases: ['blood culture', 'blood cultures', 'BC', 'BCx'] },
+
+  // Biochemistry / serum (gold)
+  { name: 'Urea, Electrolytes & Creatinine', tube: 'gold', aliases: ['UEC', 'EUC', 'U&E', 'urea', 'electrolytes', 'creatinine', 'renal function', 'EUCs'] },
+  { name: 'eGFR', tube: 'gold', aliases: ['eGFR', 'GFR'] },
+  { name: 'Liver Function Tests', tube: 'gold', aliases: ['LFT', 'LFTs', 'liver function'] },
+  { name: 'C-Reactive Protein', tube: 'gold', aliases: ['CRP', 'c-reactive protein'] },
+  { name: 'Thyroid Function', tube: 'gold', aliases: ['TSH', 'TFT', 'TFTs', 'thyroid function', 'T4', 'FT4', 'T3', 'FT3'] },
+  { name: 'Calcium', tube: 'gold', aliases: ['calcium', 'Ca', 'corrected calcium'] },
+  { name: 'Phosphate', tube: 'gold', aliases: ['phosphate', 'PO4'] },
+  { name: 'Magnesium', tube: 'gold', aliases: ['magnesium', 'Mg'] },
+  { name: 'Urate', tube: 'gold', aliases: ['urate', 'uric acid'] },
+  { name: 'Creatine Kinase', tube: 'gold', aliases: ['CK', 'creatine kinase'] },
+  { name: 'CK-MB', tube: 'gold', aliases: ['CK-MB', 'CKMB'] },
+  { name: 'Amylase', tube: 'gold', aliases: ['amylase'] },
+  { name: 'Lipase', tube: 'gold', aliases: ['lipase'] },
+  { name: 'Lipids', tube: 'gold', aliases: ['lipids', 'cholesterol', 'triglycerides', 'HDL', 'LDL', 'lipid profile'] },
+  { name: 'Iron Studies', tube: 'gold', aliases: ['iron studies', 'iron', 'transferrin', 'transferrin saturation'] },
+  { name: 'Ferritin', tube: 'gold', aliases: ['ferritin'] },
+  { name: 'Vitamin B12', tube: 'gold', aliases: ['B12', 'vitamin B12', 'cobalamin'] },
+  { name: 'Folate', tube: 'gold', aliases: ['folate', 'folic acid'] },
+  { name: 'Vitamin D', tube: 'gold', aliases: ['vitamin D', '25-OH vitamin D', '25 OH'] },
+  { name: 'Beta-hCG', tube: 'gold', aliases: ['beta hcg', 'bhcg', 'hcg', 'pregnancy test', 'quantitative hcg'] },
+  { name: 'Troponin', tube: 'gold', aliases: ['troponin', 'trop', 'troponin I', 'troponin T', 'hs-troponin'] },
+  { name: 'BNP / NT-proBNP', tube: 'gold', aliases: ['BNP', 'NT-proBNP', 'nt pro bnp', 'natriuretic peptide'] },
+  { name: 'Procalcitonin', tube: 'gold', aliases: ['procalcitonin', 'PCT'] },
+  { name: 'Immunoglobulins', tube: 'gold', aliases: ['immunoglobulins', 'IgG', 'IgA', 'IgM', 'IgE'] },
+  { name: 'Complement (C3/C4)', tube: 'gold', aliases: ['complement', 'C3', 'C4'] },
+  { name: 'ANA', tube: 'gold', aliases: ['ANA', 'antinuclear antibody'] },
+  { name: 'ANCA', tube: 'gold', aliases: ['ANCA'] },
+  { name: 'dsDNA', tube: 'gold', aliases: ['dsDNA', 'anti-dsDNA', 'double stranded DNA'] },
+  { name: 'ENA', tube: 'gold', aliases: ['ENA', 'extractable nuclear antigen'] },
+  { name: 'Rheumatoid Factor', tube: 'gold', aliases: ['rheumatoid factor', 'RF'] },
+  { name: 'Anti-CCP', tube: 'gold', aliases: ['anti-CCP', 'CCP'] },
+  { name: 'Digoxin', tube: 'gold', aliases: ['digoxin', 'dig level'] },
+  { name: 'Phenytoin', tube: 'gold', aliases: ['phenytoin', 'dilantin'] },
+  { name: 'Valproate', tube: 'gold', aliases: ['valproate', 'sodium valproate', 'epilim'] },
+  { name: 'Carbamazepine', tube: 'gold', aliases: ['carbamazepine', 'tegretol'] },
+  { name: 'Lithium', tube: 'gold', aliases: ['lithium', 'lithium level'] },
+  { name: 'Vancomycin', tube: 'gold', aliases: ['vancomycin', 'vanc level'] },
+  { name: 'Gentamicin', tube: 'gold', aliases: ['gentamicin', 'gent level'] },
+  { name: 'Paracetamol', tube: 'gold', aliases: ['paracetamol', 'acetaminophen', 'panadol level'] },
+  { name: 'Cortisol', tube: 'gold', aliases: ['cortisol'] },
+  { name: 'Testosterone', tube: 'gold', aliases: ['testosterone'] },
+  { name: 'Oestradiol', tube: 'gold', aliases: ['oestradiol', 'estradiol'] },
+  { name: 'Progesterone', tube: 'gold', aliases: ['progesterone'] },
+  { name: 'Prolactin', tube: 'gold', aliases: ['prolactin'] },
+  { name: 'FSH', tube: 'gold', aliases: ['FSH', 'follicle stimulating hormone'] },
+  { name: 'LH', tube: 'gold', aliases: ['LH', 'luteinising hormone'] },
+  { name: 'Insulin', tube: 'gold', aliases: ['insulin'] },
+  { name: 'C-Peptide', tube: 'gold', aliases: ['c-peptide', 'c peptide'] },
+  { name: 'PSA', tube: 'gold', aliases: ['PSA', 'prostate specific antigen'] },
+  { name: 'CEA', tube: 'gold', aliases: ['CEA', 'carcinoembryonic antigen'] },
+  { name: 'CA-125', tube: 'gold', aliases: ['CA 125', 'CA-125', 'ca125'] },
+  { name: 'AFP', tube: 'gold', aliases: ['AFP', 'alpha fetoprotein'] },
+  { name: 'Coeliac Serology', tube: 'gold', aliases: ['coeliac', 'celiac', 'tTG', 'gliadin', 'coeliac serology'] },
+  { name: 'HIV Serology', tube: 'gold', aliases: ['HIV', 'hiv serology'] },
+  { name: 'Hepatitis Serology', tube: 'gold', aliases: ['hepatitis', 'hep B', 'hep C', 'HBsAg', 'HCV'] },
+  { name: 'Syphilis Serology', tube: 'gold', aliases: ['syphilis', 'RPR', 'TPHA'] },
+  { name: 'EBV Serology', tube: 'gold', aliases: ['EBV', 'epstein barr', 'monospot'] },
+  { name: 'CMV Serology', tube: 'gold', aliases: ['CMV', 'cytomegalovirus'] },
+  { name: 'Protein Electrophoresis', tube: 'gold', aliases: ['SPEP', 'protein electrophoresis', 'EPP', 'protein studies'] },
+  { name: 'Albumin', tube: 'gold', aliases: ['albumin'] },
+];
+
+// normalise for fuzzy comparison (drop case + non-alphanumerics)
+function normTest(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ''); }
+
+// Levenshtein distance (small strings) for typo tolerance.
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  const m = a.length, n = b.length;
+  if (!m) return n; if (!n) return m;
+  let prev = Array.from({ length: n + 1 }, (_, i) => i);
+  for (let i = 1; i <= m; i++) {
+    let cur = [i];
+    for (let j = 1; j <= n; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+    }
+    prev = cur;
+  }
+  return prev[n];
+}
+
+// Search canonical tests by name + aliases, with substring + typo tolerance.
+function searchTests(query, limit = 8) {
+  const q = normTest(query);
+  if (!q) return TESTS.slice(0, limit);
+  const scored = [];
+  for (const t of TESTS) {
+    let best = Infinity;
+    for (const h of [t.name, ...(t.aliases || [])]) {
+      const n = normTest(h);
+      if (!n) continue;
+      let score;
+      if (n === q) score = 0;
+      else if (n.startsWith(q)) score = 1;
+      else if (n.includes(q)) score = 2;
+      else {
+        const d = levenshtein(q, n);
+        const tol = Math.max(1, Math.floor(q.length / 3));   // allow more typos in longer queries
+        score = d <= tol ? 3 + d / 10 : Infinity;
+      }
+      if (score < best) best = score;
+    }
+    if (best < Infinity) scored.push({ t, best });
+  }
+  scored.sort((a, b) => a.best - b.best || a.t.name.length - b.t.name.length);
+  return scored.slice(0, limit).map(s => s.t);
 }
 
 // ─── RENDER (editable detected-tests model) ───────────────────────────────────
@@ -534,22 +730,63 @@ function renderTubes(tubeMap) {
   });
 }
 
-// Chip actions (prompt-based edit/add — simple and reliable on mobile).
+// Chip actions. Add/edit open the searchable test picker; remove is immediate.
 function removeTest(i) { selectedTests.splice(i, 1); update(); }
-function editTest(i) {
-  const v = prompt('Edit test', selectedTests[i]);
-  if (v === null) return;
-  const t = v.trim();
-  if (!t) { selectedTests.splice(i, 1); }
-  else if (selectedTests.some((x, j) => j !== i && x.toLowerCase() === t.toLowerCase())) selectedTests.splice(i, 1);
-  else selectedTests[i] = t;
-  update();
+function editTest(i) { openPicker(i); }
+function addTest() { openPicker('add'); }
+
+// ─── TEST PICKER (search canonical tests with aliases + typo tolerance) ────────
+let pickerMode = null;   // 'add', or the index being edited
+
+function openPicker(modeOrIndex) {
+  pickerMode = modeOrIndex;
+  const input = document.getElementById('picker-input');
+  input.value = (typeof modeOrIndex === 'number') ? selectedTests[modeOrIndex] : '';
+  document.getElementById('picker-modal').classList.add('active');
+  renderPickerList(input.value);
+  setTimeout(() => { input.focus(); input.select(); }, 40);
 }
-function addTest() {
-  const v = prompt('Add a test (e.g. magnesium)');
-  if (!v) return;
-  const t = v.trim();
-  if (t && !selectedTests.some(x => x.toLowerCase() === t.toLowerCase())) selectedTests.push(t);
+
+function closePicker() {
+  document.getElementById('picker-modal').classList.remove('active');
+  pickerMode = null;
+}
+
+function renderPickerList(query) {
+  const list = document.getElementById('picker-list');
+  const results = searchTests(query, 12);
+  let html = results.map(t => {
+    const tube = TUBES[t.tube] || {};
+    return `<div class="picker-item" data-name="${escapeHtml(t.name)}">
+        <span class="picker-dot" style="background:${tube.color || 'var(--tertiary)'}"></span>
+        <div class="picker-text"><div class="picker-name">${escapeHtml(t.name)}</div>
+          <div class="picker-sub">${escapeHtml(tube.name || '')}</div></div>
+      </div>`;
+  }).join('');
+  const q = query.trim();
+  if (q && !results.some(t => t.name.toLowerCase() === q.toLowerCase())) {
+    html = `<div class="picker-item" data-name="${escapeHtml(q)}">
+        <span class="picker-dot" style="background:var(--tertiary)"></span>
+        <div class="picker-text"><div class="picker-name picker-free">Use “${escapeHtml(q)}”</div>
+          <div class="picker-sub">free text</div></div>
+      </div>` + html;
+  }
+  list.innerHTML = html || `<div class="picker-sub" style="padding:16px 6px">No matching tests</div>`;
+  list.querySelectorAll('.picker-item').forEach(it =>
+    it.addEventListener('click', () => commitPicker(it.dataset.name)));
+}
+
+function commitPicker(name) {
+  const t = (name || '').trim();
+  if (t) {
+    if (typeof pickerMode === 'number') {
+      if (selectedTests.some((x, j) => j !== pickerMode && x.toLowerCase() === t.toLowerCase())) selectedTests.splice(pickerMode, 1);
+      else selectedTests[pickerMode] = t;
+    } else if (!selectedTests.some(x => x.toLowerCase() === t.toLowerCase())) {
+      selectedTests.push(t);
+    }
+  }
+  closePicker();
   update();
   showResults();
 }
@@ -789,6 +1026,22 @@ document.getElementById('cam-done').addEventListener('click', e => {
   stopCamera();
   if (pages.length) readPages();
 });
+
+// ─── PICKER wiring ────────────────────────────────────────────────────────────
+(() => {
+  const input = document.getElementById('picker-input');
+  const modal = document.getElementById('picker-modal');
+  input.addEventListener('input', () => renderPickerList(input.value));
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const first = document.querySelector('#picker-list .picker-item');
+      commitPicker(first ? first.dataset.name : input.value);
+    } else if (e.key === 'Escape') { closePicker(); }
+  });
+  document.getElementById('picker-cancel').addEventListener('click', closePicker);
+  modal.addEventListener('click', e => { if (e.target === modal) closePicker(); });
+})();
 
 // ─── PWA: register service worker (installable + fully offline) ────────────────
 if ('serviceWorker' in navigator) {

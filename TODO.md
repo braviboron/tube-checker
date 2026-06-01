@@ -20,6 +20,13 @@
       `sw.js`, `icons/`). Direction decided: web-only, no paid native/App Store route.
 - [x] Test harness (`tests/match.test.mjs`) running against the real rules in index.html.
 
+## Next up
+- [ ] **Test picker when adding / editing a chip.** Replace the prompt() with a dropdown /
+      typeahead of all known tests. Each tube rule gets a CANONICAL test name; the picker
+      searches those canonical names with alias support (alternate names/acronyms) and
+      typo tolerance (fuzzy match). Selecting a canonical name guarantees a correct tube
+      mapping. Needs: a canonical test list (name + aliases + tube) and a fuzzy search.
+
 ## Parked for later (agreed with user)
 - [ ] **Clinical test-list sweep** — go through the tests actually ordered on the ward
       (paste a list / photograph a request form) and add every missing abbreviation,
