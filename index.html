@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Path Tube Checker</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --border: #2a2f3e;
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --accent: #4ade80;
+    --accent-dim: rgba(74,222,128,0.12);
+    --warn: #facc15;
+    --warn-dim: rgba(250,204,21,0.12);
+    --gold: #f59e0b;
+    --purple: #a78bfa;
+    --green: #34d399;
+    --blue: #60a5fa;
+    --red: #f87171;
+    --grey-tube: #9ca3af;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', monospace;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  header {
+    padding: 20px 20px 0;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 16px;
+  }
+
+  .logo {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 4px;
+  }
+
+  .subtitle {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  main {
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Scan zone */
+  .scan-zone {
+    border: 1.5px dashed var(--border);
+    border-radius: 12px;
+    padding: 28px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .scan-zone:hover, .scan-zone.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .scan-zone input[type=file] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .scan-icon {
+    font-size: 36px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .scan-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .scan-hint {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* Camera button */
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  button:hover { border-color: var(--accent); background: var(--accent-dim); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0f1117;
+  }
+
+  button.primary:hover { background: #6ee7a0; border-color: #6ee7a0; }
+
+  /* Preview */
+  #preview-wrap {
+    display: none;
+    margin-top: 14px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  #preview-wrap img {
+    width: 100%;
+    display: block;
+    max-height: 280px;
+    object-fit: contain;
+    background: #000;
+  }
+
+  /* Progress */
+  #progress-wrap {
+    display: none;
+    margin-top: 14px;
+  }
+
+  .progress-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .progress-bar-bg {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.3s;
+    border-radius: 2px;
+  }
+
+  /* Results */
+  #results {
+    margin-top: 24px;
+    display: none;
+  }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  /* Tube cards */
+  .tubes-needed {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .tube-card {
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    padding: 14px 16px;
+    background: var(--surface);
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .tube-dot {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+    border: 2px solid rgba(255,255,255,0.15);
+  }
+
+  .tube-info { flex: 1; }
+
+  .tube-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .tube-additive {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .tube-tests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .test-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    padding: 3px 7px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    background: rgba(255,255,255,0.04);
+  }
+
+  /* Unmatched */
+  .unmatched-box {
+    border: 1.5px solid var(--warn);
+    border-radius: 10px;
+    padding: 12px 16px;
+    background: var(--warn-dim);
+    margin-bottom: 24px;
+  }
+
+  .unmatched-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--warn);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+
+  .unmatched-item {
+    font-size: 12px;
+    color: var(--warn);
+    margin-bottom: 2px;
+  }
+
+  /* Raw text toggle */
+  .raw-toggle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    flex: none;
+    width: auto;
+  }
+
+  .raw-toggle:hover { color: var(--text); background: none; }
+
+  #raw-text {
+    display: none;
+    margin-top: 10px;
+    background: #0a0d13;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 160px;
+    overflow-y: auto;
+  }
+
+  /* Manual input */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 24px 0;
+    color: var(--muted);
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    color: var(--text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: var(--muted); }
+
+  /* No data notice */
+  .notice {
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .notice::before { content: '🔒'; font-size: 12px; }
+
+  /* Camera modal */
+  #camera-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 100;
+    flex-direction: column;
+  }
+
+  #camera-modal.active { display: flex; }
+
+  #camera-video {
+    flex: 1;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .camera-bar {
+    background: #000;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .shutter {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: #fff;
+    border: 4px solid #555;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+
+  .shutter:hover { transform: scale(0.95); background: #ddd; }
+
+  .cam-cancel {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #fff;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: auto;
+    flex: none;
+  }
+
+  canvas { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">AU/NZ Pathology</div>
+  <h1>Tube Checker</h1>
+  <p class="subtitle">Scan a request form — no data saved, no network calls</p>
+</header>
+
+<main>
+  <!-- Scan zone -->
+  <div class="scan-zone" id="drop-zone">
+    <input type="file" id="file-input" accept="image/*">
+    <span class="scan-icon">📄</span>
+    <div class="scan-label">Drop or tap to upload form</div>
+    <div class="scan-hint">Photo or scanned image</div>
+  </div>
+
+  <div class="btn-row">
+    <button id="camera-btn">📷 Use Camera</button>
+    <button class="primary" id="scan-btn" disabled>Run OCR</button>
+  </div>
+
+  <div id="preview-wrap">
+    <img id="preview-img" src="" alt="Preview">
+  </div>
+
+  <div id="progress-wrap">
+    <div class="progress-label" id="progress-label">Initialising…</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
+  </div>
+
+  <!-- Results -->
+  <div id="results">
+    <div class="section-label">Tubes Required</div>
+    <div class="tubes-needed" id="tubes-needed"></div>
+    <div id="unmatched-wrap"></div>
+    <button class="raw-toggle" id="raw-toggle">Show extracted text</button>
+    <div id="raw-text"></div>
+  </div>
+
+  <!-- Manual input -->
+  <div class="divider">or enter manually</div>
+  <textarea id="manual-input" placeholder="e.g. FBC, UEC, CRP, LFT, coagulation, blood cultures…"></textarea>
+  <div class="btn-row" style="margin-top:10px">
+    <button class="primary" id="manual-btn">Check Tubes</button>
+    <button id="clear-btn">Clear</button>
+  </div>
+
+  <p class="notice">All processing is local. Nothing leaves your device.</p>
+</main>
+
+<!-- Camera modal -->
+<div id="camera-modal">
+  <video id="camera-video" autoplay playsinline></video>
+  <canvas id="camera-canvas"></canvas>
+  <div class="camera-bar">
+    <button class="cam-cancel" id="cam-cancel">Cancel</button>
+    <button class="shutter" id="shutter"></button>
+    <div style="width:60px"></div>
+  </div>
+</div>
+
+<script>
+// ─── TUBE DATABASE ────────────────────────────────────────────────────────────
+// AU/NZ conventions
+const TUBES = {
+  gold: {
+    name: 'Gold Top (SST)',
+    additive: 'Serum separator — clot activator + gel',
+    color: '#f59e0b',
+    tests: []
+  },
+  purple: {
+    name: 'Purple Top (EDTA)',
+    additive: 'EDTA anticoagulant',
+    color: '#a78bfa',
+    tests: []
+  },
+  green: {
+    name: 'Green Top (Li-Heparin)',
+    additive: 'Lithium heparin — plasma separator',
+    color: '#34d399',
+    tests: []
+  },
+  blue: {
+    name: 'Blue Top (Citrate)',
+    additive: '3.2% sodium citrate — fill to line',
+    color: '#60a5fa',
+    tests: []
+  },
+  grey: {
+    name: 'Grey Top (Fluoride/Oxalate)',
+    additive: 'NaF/KOx — glycolysis inhibitor',
+    color: '#9ca3af',
+    tests: []
+  },
+  pink: {
+    name: 'Pink Top (EDTA — Group & Hold)',
+    additive: 'EDTA — blood bank use',
+    color: '#f472b6',
+    tests: []
+  },
+  yellow: {
+    name: 'Yellow Top (Blood Culture)',
+    additive: 'Aerobic culture medium',
+    color: '#fde68a',
+    tests: []
+  },
+  'yellow-anaerobic': {
+    name: 'Grey/Maroon Top (Blood Culture)',
+    additive: 'Anaerobic culture medium',
+    color: '#6b7280',
+    tests: []
+  },
+};
+
+// Map: keyword regex → tube key
+// Order matters: more specific first
+const RULES = [
+  // Purple top
+  { re: /\b(fbc|full\s*blood\s*count|cbc|complete\s*blood\s*count|blood\s*film|esr|reticulocyte|hba1c|hb\s*a1c|glyco.*haemoglobin|glyco.*hemoglobin|hba|mono|diff|differential)\b/i, tube: 'purple', label: (m) => m[0] },
+  // Blue top
+  { re: /\b(inr|aptt|pt\b|prothrombin|coag|d.?dimer|fibrinogen|factor\s*[vx]|clotting|coagulation)\b/i, tube: 'blue', label: (m) => m[0] },
+  // Grey top
+  { re: /\b(glucose|bsl|bgl|lactate|lactic)\b/i, tube: 'grey', label: (m) => m[0] },
+  // Pink top
+  { re: /\b(group\s*(?:and|&|\+)\s*(?:hold|screen)|g\s*(?:and|&|\+)\s*h|crossmatch|cross\s*match|blood\s*bank|type\s*(?:and|&|\+)\s*(?:screen|hold))\b/i, tube: 'pink', label: (m) => m[0] },
+  // Blood cultures
+  { re: /\b(blood\s*cult|aerobic\s*cult)\b/i, tube: 'yellow', label: (m) => m[0] },
+  { re: /\b(anaerobic\s*cult)\b/i, tube: 'yellow-anaerobic', label: (m) => m[0] },
+  // Gold top (biochem — broad, last)
+  { re: /\b(uec|u\s*&\s*e|urea|creatinine|electrolyte|sodium|potassium|bicarb|bicarbonate|chloride|egfr|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein|crp|c.?reactive|esr|tsh|t4|free\s*t4|ft4|t3|ft3|thyroid|cortisol|calcium|phosphate|magnesium|urate|uric\s*acid|ldh|ck|creatine\s*kinase|amylase|lipase|cholesterol|triglyceride|hdl|ldl|lipid|iron|transferrin|ferritin|b12|folate|vitamin\s*b|vitamin\s*d|25.?oh|parathyroid|pth|hcg|beta.?hcg|troponin|bnp|nt.?pro|procalcitonin|pct|immunoglobulin|igg|iga|igm|ige|protein\s*electrophoresis|spep|complement|c3|c4|ana|anca|anti.?ds|rheum|rf|anti.?ccp|tpmt|ciclosporin|tacrolimus|drug\s*level|phenytoin|vancomycin|gentamicin|digoxin|lithium|valproate|carbamazepine|ammonia|osmolality|cortisol|dheas?|testosterone|oestradiol|progesterone|prolactin|fsh|lh|igf|insulin|c.?peptide|zinc|copper|selenium|manganese|haematin|porphyrin|urea\s*breath|serology|hiv|hepatitis|hbsag|hcvab|syphilis|rpr|ebv|cmv|toxoplasma|rubella|varicella|vzv|herpes|hsv|covid|sars)\b/i, tube: 'gold', label: (m) => m[0] },
+];
+
+// ─── MATCHING ENGINE ──────────────────────────────────────────────────────────
+function matchTests(text) {
+  const tubeMap = {}; // tube key → Set of matched labels
+  const matchedSpans = []; // track what was matched
+
+  for (const rule of RULES) {
+    let match;
+    const re = new RegExp(rule.re.source, 'gi');
+    while ((match = re.exec(text)) !== null) {
+      if (!tubeMap[rule.tube]) tubeMap[rule.tube] = new Set();
+      tubeMap[rule.tube].add(match[0].trim().toUpperCase().replace(/\s+/g,' '));
+      matchedSpans.push([match.index, match.index + match[0].length]);
+    }
+  }
+
+  // Find unmatched candidate words (capitalised/medical-looking tokens not matched)
+  const unmatched = [];
+  const lines = text.split(/\n/);
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (trimmed.length < 2) continue;
+    // Look for lines that seem like test names (capital start, 2-40 chars, no common noise)
+    if (/^[A-Z][A-Za-z\s\/&\-\(\)]{1,50}$/.test(trimmed) && !/date|time|stop|specimen|blood|request|patient|dob|ur|name|sex|ward|dr\.|doctor|ordered|required|collection|required|spec\s*type|priority/i.test(trimmed)) {
+      // Check if already matched
+      const alreadyMatched = RULES.some(r => new RegExp(r.re.source,'i').test(trimmed));
+      if (!alreadyMatched) unmatched.push(trimmed);
+    }
+  }
+
+  return { tubeMap, unmatched: [...new Set(unmatched)] };
+}
+
+function renderResults(text) {
+  const { tubeMap, unmatched } = matchTests(text);
+
+  // Raw text
+  document.getElementById('raw-text').textContent = text;
+
+  const tubesEl = document.getElementById('tubes-needed');
+  const unmatchedEl = document.getElementById('unmatched-wrap');
+  tubesEl.innerHTML = '';
+  unmatchedEl.innerHTML = '';
+
+  const ORDER = ['purple','blue','gold','green','grey','pink','yellow','yellow-anaerobic'];
+
+  let found = false;
+  for (const key of ORDER) {
+    if (!tubeMap[key]) continue;
+    found = true;
+    const tube = TUBES[key];
+    const tests = [...tubeMap[key]];
+    const card = document.createElement('div');
+    card.className = 'tube-card';
+    card.innerHTML = `
+      <div class="tube-dot" style="background:${tube.color}"></div>
+      <div class="tube-info">
+        <div class="tube-name">${tube.name}</div>
+        <div class="tube-additive">${tube.additive}</div>
+        <div class="tube-tests">${tests.map(t => `<span class="test-tag">${t}</span>`).join('')}</div>
+      </div>
+    `;
+    tubesEl.appendChild(card);
+  }
+
+  if (!found) {
+    tubesEl.innerHTML = `<div style="color:var(--muted);font-size:13px;text-align:center;padding:20px 0">No recognised tests found.<br><span style="font-size:11px">Try entering tests manually below.</span></div>`;
+  }
+
+  if (unmatched.length > 0) {
+    unmatchedEl.innerHTML = `
+      <div class="unmatched-box">
+        <div class="unmatched-title">⚠ Unrecognised — verify manually</div>
+        ${unmatched.slice(0,8).map(u => `<div class="unmatched-item">· ${u}</div>`).join('')}
+      </div>`;
+  }
+
+  document.getElementById('results').style.display = 'block';
+}
+
+// ─── OCR ──────────────────────────────────────────────────────────────────────
+let currentFile = null;
+
+function setFile(file) {
+  if (!file) return;
+  currentFile = file;
+  const url = URL.createObjectURL(file);
+  document.getElementById('preview-img').src = url;
+  document.getElementById('preview-wrap').style.display = 'block';
+  document.getElementById('scan-btn').disabled = false;
+}
+
+document.getElementById('file-input').addEventListener('change', e => setFile(e.target.files[0]));
+
+// Drag & drop
+const dz = document.getElementById('drop-zone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); setFile(e.dataTransfer.files[0]); });
+
+document.getElementById('scan-btn').addEventListener('click', async () => {
+  if (!currentFile) return;
+  const prog = document.getElementById('progress-wrap');
+  const label = document.getElementById('progress-label');
+  const bar = document.getElementById('progress-bar');
+  prog.style.display = 'block';
+  document.getElementById('scan-btn').disabled = true;
+
+  try {
+    const result = await Tesseract.recognize(currentFile, 'eng', {
+      logger: m => {
+        if (m.status === 'recognizing text') {
+          bar.style.width = Math.round(m.progress * 100) + '%';
+          label.textContent = `Recognising text… ${Math.round(m.progress*100)}%`;
+        } else {
+          label.textContent = m.status;
+        }
+      }
+    });
+    prog.style.display = 'none';
+    renderResults(result.data.text);
+  } catch(e) {
+    label.textContent = 'OCR failed — try manual entry below.';
+  }
+  document.getElementById('scan-btn').disabled = false;
+});
+
+// ─── MANUAL ──────────────────────────────────────────────────────────────────
+document.getElementById('manual-btn').addEventListener('click', () => {
+  const text = document.getElementById('manual-input').value;
+  if (!text.trim()) return;
+  renderResults(text);
+});
+
+document.getElementById('clear-btn').addEventListener('click', () => {
+  document.getElementById('manual-input').value = '';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('preview-wrap').style.display = 'none';
+  document.getElementById('scan-btn').disabled = true;
+  currentFile = null;
+});
+
+// ─── RAW TEXT TOGGLE ──────────────────────────────────────────────────────────
+document.getElementById('raw-toggle').addEventListener('click', () => {
+  const el = document.getElementById('raw-text');
+  const btn = document.getElementById('raw-toggle');
+  if (el.style.display === 'block') {
+    el.style.display = 'none'; btn.textContent = 'Show extracted text';
+  } else {
+    el.style.display = 'block'; btn.textContent = 'Hide extracted text';
+  }
+});
+
+// ─── CAMERA ───────────────────────────────────────────────────────────────────
+let cameraStream = null;
+
+document.getElementById('camera-btn').addEventListener('click', async () => {
+  try {
+    cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    document.getElementById('camera-video').srcObject = cameraStream;
+    document.getElementById('camera-modal').classList.add('active');
+  } catch(e) {
+    alert('Camera not available. Please upload a photo instead.');
+  }
+});
+
+document.getElementById('shutter').addEventListener('click', () => {
+  const video = document.getElementById('camera-video');
+  const canvas = document.getElementById('camera-canvas');
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  canvas.getContext('2d').drawImage(video, 0, 0);
+  canvas.toBlob(blob => {
+    stopCamera();
+    setFile(new File([blob], 'capture.jpg', { type: 'image/jpeg' }));
+  }, 'image/jpeg', 0.95);
+});
+
+document.getElementById('cam-cancel').addEventListener('click', stopCamera);
+
+function stopCamera() {
+  if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
+  document.getElementById('camera-modal').classList.remove('active');
+}
+</script>
+</body>
+</html>

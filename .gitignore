@@ -1,0 +1,15 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Node (if a build/test step is added later)
+node_modules/
+npm-debug.log*
+dist/
+
+# Local scratch
+*.local
+scratch/
