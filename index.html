@@ -81,6 +81,18 @@
   }
   textarea::placeholder { color: var(--secondary); }
 
+  /* Tip / hint under the input */
+  .hint { font-size: 13px; color: var(--secondary); line-height: 1.45; margin: 9px 6px 0; padding: 10px 12px; background: var(--blue-tint); border-radius: 10px; }
+  .hint strong { color: var(--label); font-weight: 600; }
+
+  /* Recognised-tests feedback block */
+  .recognised { background: var(--card); border-radius: 12px; padding: 13px 16px; margin-bottom: 8px; }
+  .recognised-head { font-size: 13px; color: var(--secondary); margin-bottom: 9px; }
+  .recognised-head strong { color: var(--label); font-weight: 600; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 13px; padding: 4px 10px; border-radius: 999px; background: var(--blue-tint); color: #0b5cab; border: 1px solid #cfe2fb; }
+  .low-note { font-size: 13px; color: var(--note); background: var(--note-bg); border-radius: 8px; padding: 8px 11px; margin-top: 10px; line-height: 1.45; }
+
   .btn-filled {
     width: 100%; margin-top: 12px; background: var(--blue); color: #fff; border: none;
     border-radius: 12px; padding: 13px; font-family: var(--font); font-size: 16px; font-weight: 600;
@@ -192,15 +204,21 @@
 </header>
 
 <main>
-  <!-- Manual entry -->
+  <!-- Primary input: type, or the phone's own Scan Text -->
   <p class="group-header">Requested tests</p>
   <div class="input-card">
-    <textarea id="manual-input" placeholder="Type or paste tests, e.g. FBC, UEC, CRP, LFT, coags, group &amp; hold, blood cultures"></textarea>
+    <textarea id="manual-input" placeholder="Type tests here — or on a phone, tap and choose “Scan Text”.&#10;e.g. FBC, UEC, CRP, LFT, coags, group &amp; hold, blood cultures"></textarea>
   </div>
+  <p class="hint" id="scan-tip">
+    <strong>Best accuracy on a phone:</strong> tap in the box above, choose
+    <strong>Scan Text</strong>, and point at the form. Your phone’s own camera text
+    recognition types it in — then check the words and tap <em>Check tubes</em>.
+  </p>
   <button class="btn-filled" id="manual-btn">Check tubes</button>
 
-  <!-- Scan -->
-  <p class="group-header">Or scan a request form</p>
+  <!-- Secondary: built-in offline image reader (less accurate) -->
+  <p class="group-header">Or read a form image</p>
+  <p class="group-caption">Built-in reader — fully offline, but less accurate than your phone’s Scan Text.</p>
   <div class="group">
     <label class="row" for="file-input">
       <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
@@ -231,6 +249,7 @@
 
   <!-- Results -->
   <div id="results">
+    <div id="recognised-wrap"></div>
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <div class="group" id="tubes-needed"></div>
@@ -416,16 +435,29 @@ function renderResults(text) {
   const summaryEl = document.getElementById('summary-wrap');
   const tubesEl = document.getElementById('tubes-needed');
   const unmatchedEl = document.getElementById('unmatched-wrap');
+  const recognisedEl = document.getElementById('recognised-wrap');
   summaryEl.textContent = '';
   tubesEl.innerHTML = '';
   unmatchedEl.innerHTML = '';
+  recognisedEl.innerHTML = '';
+
+  // Every distinct test the matcher picked up — shown back so the user can verify.
+  const recognised = [...new Set(Object.values(tubeMap).flatMap(s => [...s]))];
+  if (recognised.length > 0) {
+    recognisedEl.innerHTML = `
+      <div class="recognised">
+        <div class="recognised-head"><strong>Recognised ${recognised.length} test${recognised.length === 1 ? '' : 's'}</strong> — check this matches the form</div>
+        <div class="chips">${recognised.map(t => `<span class="chip">${t}</span>`).join('')}</div>
+        <div class="low-note">Missing one? Add it in the box above and tap <em>Check tubes</em> again.</div>
+      </div>`;
+  }
 
   // Sort needed tubes by order of draw
   const needed = Object.keys(tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
 
   if (needed.length === 0) {
     summaryEl.textContent = '';
-    tubesEl.innerHTML = `<div class="empty">No recognised tests found.<br>Check the spelling, or verify against your lab's manual.</div>`;
+    tubesEl.innerHTML = `<div class="empty">No tests recognised.<br>Try your phone’s <strong>Scan Text</strong> into the box above, or type the tests in.</div>`;
   } else {
     const total = needed.length;
     summaryEl.textContent = total === 1
