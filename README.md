@@ -50,18 +50,22 @@ tests/match.test.mjs     matching-engine tests (run against index.html directly)
 
 ## How it works
 
-1. **Input** — type the tests, **tap-to-scan** with the camera (no photo is saved), or
-   upload an image of the form.
-2. **OCR** — Tesseract.js extracts text locally from the image.
-3. **Match** — the text is run against an ordered list of regex `RULES`, each mapping
-   test keywords to one or more tubes (`TUBES`).
-4. **Render** — needed tubes are shown as cards, **sorted by order of draw** and
-   numbered, with a tube-count summary; tests sharing a tube are consolidated;
-   unrecognised lines are flagged for manual review.
+1. **Input** — type the tests, scan with the camera, or upload an image. Typing and
+   scanning both **add** to one editable list.
+2. **OCR** — Tesseract.js extracts text locally (with image pre-processing).
+3. **Detected tests** — shown as **editable chips** in form order: tap to edit, × to
+   remove, **+** to add via a **searchable picker** (canonical names, alias + typo
+   tolerant). Unrecognised tests show as amber chips you can fix.
+4. **Tubes** — recomputed live from the chip list and shown **in order of draw**, with
+   tests sharing a tube consolidated. A **Share / print summary** button exports it.
 
-The matching logic lives entirely in the `<script>` block of `index.html`:
-`TUBES` (tube database, each with a `draw` order), `RULES` (keyword → tube regexes),
-and `matchTests()`.
+Key structures in the `<script>` block of `index.html`:
+- `TUBES` — tube database (name, additive, colour, `draw` order, note).
+- `RULES` — ordered keyword→tube regexes; `matchTests()` runs them.
+- `TESTS` — canonical test list (name + aliases + tube) powering the picker search
+  (`searchTests()`, fuzzy). A test asserts every canonical name maps via `RULES` to its
+  declared tube, keeping the two in sync.
+- `selectedTests` is the source of truth; `computeTubes()` maps it to tubes.
 
 ## Clinical basis
 

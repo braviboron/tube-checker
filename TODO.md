@@ -19,13 +19,13 @@
       whole app (incl. 11 MB model) for true offline. Free, no App Store. (`manifest.json`,
       `sw.js`, `icons/`). Direction decided: web-only, no paid native/App Store route.
 - [x] Test harness (`tests/match.test.mjs`) running against the real rules in index.html.
-
-## Next up
-- [ ] **Test picker when adding / editing a chip.** Replace the prompt() with a dropdown /
-      typeahead of all known tests. Each tube rule gets a CANONICAL test name; the picker
-      searches those canonical names with alias support (alternate names/acronyms) and
-      typo tolerance (fuzzy match). Selecting a canonical name guarantees a correct tube
-      mapping. Needs: a canonical test list (name + aliases + tube) and a fuzzy search.
+- [x] **Editable detected-tests** — chips you can add (+), edit (tap), remove (×); typing
+      and scanning MERGE into one list; tubes recompute live; tests shown in form order.
+- [x] **Searchable test picker** — canonical `TESTS` list (99 tests) with aliases + typo
+      tolerance (Levenshtein); add/edit opens a bottom-sheet picker. A consistency test
+      keeps the canonical list and the matcher in sync (it caught 2 rule bugs).
+- [x] **Share / print summary** (Web Share API + clipboard fallback + print CSS).
+- [x] `npm test` + GitHub Actions CI (`.github/workflows/test.yml`).
 
 ## Parked for later (agreed with user)
 - [ ] **Clinical test-list sweep** — go through the tests actually ordered on the ward
@@ -46,15 +46,17 @@
 - [ ] Confirm trace-element tube draw-order position for the target lab.
 
 ## Features
-- [ ] Show recommended fill volumes per tube.
-- [ ] Let the user confirm/reject individual matches before finalising.
-- [ ] "Did you mean…?" suggestions for unrecognised lines.
-- [ ] Print / share a collection summary.
+- [x] Let the user confirm/reject individual matches — editable chips.
+- [x] "Did you mean…?" — tapping an amber (unrecognised) chip opens the picker, which
+      fuzzy-suggests the closest canonical test.
+- [x] Print / share a collection summary.
+- [ ] Show recommended fill volumes per tube. NOTE: deferred — volumes vary by lab /
+      manufacturer; needs the user to confirm values (clinical), so not added blind.
 
 ## OCR / input
-- [x] Image pre-processing (upscale, greyscale, contrast) + tuned worker — done.
+- [x] Image pre-processing (upscale, greyscale, contrast) + tuned worker.
 - [ ] Further pre-processing (deskew, adaptive threshold) if accuracy needs it.
 - [ ] Optional auto-scan when the form is held steady in frame.
 
 ## Engineering
-- [ ] Add an `npm test` wrapper / CI once a package.json is justified.
+- [x] `npm test` wrapper + GitHub Actions CI.

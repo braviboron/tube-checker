@@ -168,12 +168,12 @@
   /* Test picker (bottom sheet) */
   .picker-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: flex-end; }
   .picker-modal.active { display: flex; }
-  .picker-sheet { background: var(--bg); width: 100%; max-width: 620px; margin: 0 auto; border-radius: 16px 16px 0 0; max-height: 82vh; display: flex; flex-direction: column; padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); }
+  .picker-sheet { background: var(--bg); width: 100%; max-width: 620px; margin: 0 auto; border-radius: 16px 16px 0 0; height: 72vh; display: flex; flex-direction: column; padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); }
   .picker-bar { display: flex; gap: 10px; align-items: center; }
   #picker-input { flex: 1; background: var(--card); border: 1px solid var(--sep-strong); border-radius: 10px; padding: 11px 13px; font-size: 16px; font-family: var(--font); color: var(--label); outline: none; }
   #picker-input:focus { border-color: var(--blue); }
   .picker-cancel { background: none; border: none; color: var(--blue); font-size: 16px; font-family: var(--font); cursor: pointer; padding: 8px 2px; }
-  .picker-list { margin-top: 10px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  .picker-list { margin-top: 10px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
   .picker-item { display: flex; align-items: center; gap: 12px; padding: 12px 4px; cursor: pointer; border-bottom: 1px solid var(--sep); }
   .picker-item:active { background: var(--card); }
   .picker-dot { width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.14); }
@@ -225,7 +225,7 @@
   <div class="header-inner">
     <div>
       <h1>Tube Checker</h1>
-      <p class="subtitle">Blood tubes and order of the draw · Australia</p>
+      <p class="subtitle">Blood tubes and order of the draw</p>
     </div>
     <img class="app-logo" src="icons/icon-192.png" alt="" width="46" height="46">
   </div>
@@ -815,13 +815,22 @@ function renderPickerList(query) {
           <div class="picker-sub">${escapeHtml(tube.name || '')}</div></div>
       </div>`;
   }).join('');
+  // Offer the typed text ONLY if it actually maps to a tube (don't let people add a
+  // test that wouldn't be recognised) AND no canonical result already covers it
+  // (by name or alias). Show the tube it maps to.
   const q = query.trim();
-  if (q && !results.some(t => t.name.toLowerCase() === q.toLowerCase())) {
-    html = `<div class="picker-item" data-name="${escapeHtml(q)}">
-        <span class="picker-dot" style="background:var(--tertiary)"></span>
-        <div class="picker-text"><div class="picker-name picker-free">Use “${escapeHtml(q)}”</div>
-          <div class="picker-sub">free text</div></div>
-      </div>` + html;
+  const qn = normTest(q);
+  const covered = results.some(t => [t.name, ...(t.aliases || [])].some(a => normTest(a) === qn));
+  if (q && !covered) {
+    const keys = Object.keys(matchTests(q).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
+    if (keys.length) {
+      const tube = TUBES[keys[0]];
+      html = `<div class="picker-item" data-name="${escapeHtml(q)}">
+          <span class="picker-dot" style="background:${tube.color}"></span>
+          <div class="picker-text"><div class="picker-name picker-free">Use “${escapeHtml(q)}”</div>
+            <div class="picker-sub">${escapeHtml(tube.name)}</div></div>
+        </div>` + html;
+    }
   }
   list.innerHTML = html || `<div class="picker-sub" style="padding:16px 6px">No matching tests</div>`;
   list.querySelectorAll('.picker-item').forEach(it =>

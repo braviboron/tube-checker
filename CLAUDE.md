@@ -39,12 +39,24 @@ blood collection tube colours. OCR via Tesseract.js runs entirely client-side.
 - Do NOT add fake/non-functional chrome (nav tabs, bottom tab bars) just for looks.
 
 ## Code map (all inside `index.html`)
-- `TUBES` — object: tube key → display metadata (name, additive, colour).
-- `RULES` — ordered array of `{ re, tube, label }`. **Order matters** — more specific
-  rules first; the broad "gold/biochem" rule is intentionally last.
-- `matchTests(text)` — runs `RULES` over text, returns `{ tubeMap, unmatched }`.
-- `renderResults(text)` — renders tube cards + unmatched warnings.
-- OCR, manual-entry, camera, and raw-text-toggle handlers follow.
+- `TUBES` — tube key → metadata (name, additive, colour, `draw` order, note).
+- `RULES` — ordered `{ re, tube }`. **Order matters** — more specific first; the broad
+  "gold/biochem" rule is last. Within a rule's alternation, specific multi-token terms
+  must precede generic short ones (e.g. `hb\s*a1c` before `\bhb\b`).
+- `matchTests(text)` — runs `RULES`, returns `{ tubeMap, unmatched }`.
+- `TESTS` — canonical test list `{ name, tube, aliases }` (~99). Powers the add/edit
+  **picker** via `searchTests()` (fuzzy: substring + Levenshtein). **Invariant:** every
+  canonical `name` must map through `RULES` to its declared `tube` — `tests/match.test.mjs`
+  asserts this, so adding a `TESTS` entry whose name the rules don't catch fails CI (fix
+  the rule or the name). This is how the picker guarantees correct mapping.
+- `selectedTests` (array of strings) is the **source of truth**. Typing/scanning MERGE
+  into it (`renderResults`→`mergeTests`). `computeTubes()` maps it → tubes; `update()`
+  re-renders chips + tube cards. `detectOrdered()` extracts tests in form order.
+- `renderChips()` (editable chips + extracted-text toggle), `renderTubes()`, the picker
+  (`openPicker`/`renderPickerList`/`commitPicker`), `buildSummary`/`shareSummary`, and
+  OCR/camera handlers follow.
+- The bottom **fine print** (`.fineprint`) consolidates disclaimer + privacy + sources.
+  No em dashes anywhere on the page (use commas/colons).
 
 ## Clinical-safety norms
 - This is decision support, not authority. Keep the disclaimer visible.
