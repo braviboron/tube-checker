@@ -15,8 +15,8 @@ if (start === -1 || end === -1) throw new Error('Could not locate logic block ma
 const block = html.slice(start, end);
 
 // Evaluate the block and expose the matcher, tubes, and the canonical test list.
-const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest };`);
-const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest } = factory();
+const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl };`);
+const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────
 let pass = 0, fail = 0;
@@ -202,6 +202,23 @@ expectNiche('lupus anticoagulant', true, 'lupus anticoagulant is niche');
 expectNiche('UEC', false, 'UEC is not niche');
 expectNiche('FBC', false, 'FBC is not niche');
 expectNiche('CRP', false, 'CRP is not niche');
+
+// — Total syringe-draw volume (mL) sums tube fill volumes × quantity —
+function expectEq(got, want, msg) {
+  if (got === want) pass++;
+  else { fail++; fails.push(`✗ ${msg}\n    got ${got}, want ${want}`); }
+}
+function mlFor(tests, refArr) {
+  const { groups } = tubeGroupsFor(tests, new Set((refArr || []).map(s => s.toLowerCase())));
+  return tubesMl(groups);
+}
+// FBC (purple 4) + UEC (gold 5) = 9
+expectEq(mlFor(['FBC', 'UEC']), 9, 'FBC + UEC = 9 mL');
+// blood cultures: aerobic 10 + anaerobic 10 = 20
+expectEq(mlFor(['blood cultures']), 20, 'blood cultures = 20 mL (two 10 mL bottles)');
+// send-away doubles the gold tube: UEC + immunoglobulins (send-away) -> gold x2 = 10
+expectEq(mlFor(['UEC', 'immunoglobulins'], ['immunoglobulins']), 10, 'gold x2 = 10 mL');
+expectEq(mlFor([]), 0, 'no tests = 0 mL');
 
 // ─── Report ─────────────────────────────────────────────────────────────────
 console.log(`\nTube Checker matching tests: ${pass} passed, ${fail} failed\n`);

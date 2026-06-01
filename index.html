@@ -157,6 +157,8 @@
   .tube-note { font-size: 12.5px; color: var(--note); background: var(--note-bg); border-radius: 7px; padding: 6px 9px; margin-top: 7px; }
 
   .empty { padding: 22px 16px; text-align: center; color: var(--secondary); font-size: 14px; }
+  .syringe-total { font-size: 12.5px; color: var(--secondary); margin: 10px 6px 0; }
+  .syringe-total:empty { display: none; }
 
   .raw-toggle { display: block; margin: 11px 0 0; background: none; border: none; color: var(--blue); font-family: var(--font); font-size: 13px; cursor: pointer; }
   #raw-text {
@@ -288,6 +290,7 @@
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <div class="group" id="tubes-needed"></div>
+    <p id="syringe-total" class="syringe-total"></p>
     <div id="refer-advisory"></div>
     <button class="btn-outline" id="share-btn">Share / print summary</button>
   </div>
@@ -342,47 +345,47 @@
 // (lower = drawn first). See "Sources & references" in the UI.
 const TUBES = {
   bc_aerobic: {
-    name: 'Blood Culture, Aerobic', color: '#3b82f6', draw: 1,
+    name: 'Blood Culture, Aerobic', color: '#3b82f6', draw: 1, ml: 10,
     additive: 'Aerobic culture medium',
     note: 'Aseptic technique. Fill to the mark. Collect BEFORE the anaerobic bottle.'
   },
   bc_anaerobic: {
-    name: 'Blood Culture, Anaerobic', color: '#f97316', draw: 2,
+    name: 'Blood Culture, Anaerobic', color: '#f97316', draw: 2, ml: 10,
     additive: 'Anaerobic culture medium',
     note: 'Collect AFTER the aerobic bottle.'
   },
   blue: {
-    name: 'Light Blue (Sodium Citrate)', color: '#60a5fa', draw: 3, maxTests: 5,
+    name: 'Light Blue (Sodium Citrate)', color: '#60a5fa', draw: 3, maxTests: 5, ml: 2.7,
     additive: '3.2% sodium citrate, coagulation',
     note: 'Fill exactly to the line, the blood:anticoagulant ratio is critical.'
   },
   gold: {
-    name: 'Gold / SST (Serum)', color: '#f59e0b', draw: 4, maxTests: 15,
+    name: 'Gold / SST (Serum)', color: '#f59e0b', draw: 4, maxTests: 15, ml: 5,
     additive: 'Clot activator + separator gel, serum',
     note: ''
   },
   green: {
-    name: 'Green (Lithium Heparin)', color: '#34d399', draw: 5, maxTests: 15,
+    name: 'Green (Lithium Heparin)', color: '#34d399', draw: 5, maxTests: 15, ml: 4,
     additive: 'Lithium heparin, plasma',
     note: ''
   },
   purple: {
-    name: 'Purple / Lavender (EDTA)', color: '#a78bfa', draw: 6, maxTests: 12,
+    name: 'Purple / Lavender (EDTA)', color: '#a78bfa', draw: 6, maxTests: 12, ml: 4,
     additive: 'EDTA anticoagulant, whole blood',
     note: ''
   },
   pink: {
-    name: 'Pink (EDTA, Blood Bank)', color: '#f472b6', draw: 7,
+    name: 'Pink (EDTA, Blood Bank)', color: '#f472b6', draw: 7, ml: 6,
     additive: 'EDTA, group & hold / crossmatch',
     note: 'Strict patient-ID and labelling rules apply for transfusion samples.'
   },
   grey: {
-    name: 'Grey (Fluoride Oxalate)', color: '#9ca3af', draw: 8, maxTests: 8,
+    name: 'Grey (Fluoride Oxalate)', color: '#9ca3af', draw: 8, maxTests: 8, ml: 2,
     additive: 'Sodium fluoride / potassium oxalate, glycolysis inhibitor',
     note: ''
   },
   royalblue: {
-    name: 'Royal Blue (Trace Elements)', color: '#1d4ed8', draw: 9, maxTests: 6,
+    name: 'Royal Blue (Trace Elements)', color: '#1d4ed8', draw: 9, maxTests: 6, ml: 6,
     additive: 'Trace-element-free tube',
     note: 'Draw-order position for trace-element tubes varies, check local policy.'
   },
@@ -675,6 +678,12 @@ function tubeGroupsFor(tests, referralSet) {
   return { groups, unmatched };
 }
 
+// Approximate total blood volume (mL) across all tubes (× quantity) — for a syringe draw.
+// Tube fill volumes are nominal adult values; they vary by brand/size.
+function tubesMl(groups) {
+  return groups.reduce((s, g) => s + ((TUBES[g.key] && TUBES[g.key].ml) || 0) * g.qty, 0);
+}
+
 // ─── RENDER (editable detected-tests model) ───────────────────────────────────
 // `selectedTests` is the single source of truth. Typing or scanning ADDS to it; the
 // user then edits it directly (+ add, tap to edit, × remove) and tubes recompute live.
@@ -762,6 +771,8 @@ function buildSummary() {
       return `${i + 1}. ${TUBES[g.key].name}${ref}${q}: ${g.tests.join(', ')}`;
     });
     lines.push(`${total} tube${total === 1 ? '' : 's'}, in order of draw:`, '', ...body);
+    const ml = tubesMl(groups);
+    if (ml > 0) lines.push('', `Total approx ${Math.ceil(ml)} mL if drawing with a syringe.`);
   }
   lines.push('', 'Verify against your local pathology service before collection.');
   return lines.join('\n');
@@ -849,6 +860,11 @@ function renderTubes(groups) {
     tubesEl.appendChild(row);
   });
   summaryEl.textContent = total === 1 ? '1 tube.' : `${total} tubes · collect in the order shown.`;
+  const mlEl = document.getElementById('syringe-total');
+  if (mlEl) {
+    const ml = tubesMl(groups);
+    mlEl.textContent = ml > 0 ? `Total ≈ ${Math.ceil(ml)} mL if drawing with a syringe (approx).` : '';
+  }
   renderReferAdvisory();
 }
 
