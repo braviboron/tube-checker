@@ -83,12 +83,16 @@
   textarea::placeholder { color: var(--secondary); }
 
 
-  /* Recognised-tests feedback block */
+  /* Detected-tests editable chips */
   .recognised { background: var(--card); border-radius: 12px; padding: 13px 16px; margin-bottom: 8px; }
-  .recognised-head { font-size: 13px; color: var(--label); margin-bottom: 9px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
-  .chip { font-size: 13px; padding: 4px 10px; border-radius: 999px; background: var(--blue-tint); color: #0b5cab; border: 1px solid #cfe2fb; }
-  .low-note { font-size: 13px; color: var(--note); background: var(--note-bg); border-radius: 8px; padding: 8px 11px; margin-top: 10px; line-height: 1.45; }
+  .recognised-head { font-size: 13px; color: var(--secondary); margin-bottom: 9px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; padding: 4px 5px 4px 11px; border-radius: 999px; background: var(--blue-tint); color: #0b5cab; border: 1px solid #cfe2fb; }
+  .chip-label { cursor: pointer; }
+  .chip-x { border: none; background: rgba(11,92,171,0.14); color: #0b5cab; width: 19px; height: 19px; border-radius: 50%; font-size: 14px; line-height: 1; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
+  .chip.unmatched { background: var(--note-bg); color: var(--note); border-color: #e7d8a4; }
+  .chip.unmatched .chip-x { background: rgba(168,83,11,0.14); color: var(--note); }
+  .chip-add { border: 1px dashed var(--tertiary); background: none; color: var(--blue); min-width: 30px; height: 27px; border-radius: 999px; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
 
   .btn-filled {
     width: 100%; margin-top: 12px; background: var(--blue); color: #fff; border: none;
@@ -137,10 +141,6 @@
 
   .empty { padding: 22px 16px; text-align: center; color: var(--secondary); font-size: 14px; }
 
-  .unmatched-box { background: var(--card); border-radius: 12px; padding: 13px 16px; margin-top: 16px; }
-  .unmatched-title { font-size: 14px; font-weight: 600; color: var(--note); margin-bottom: 5px; }
-  .unmatched-item { font-size: 14px; color: var(--label); margin-bottom: 2px; }
-
   .raw-toggle { display: block; margin: 14px 6px 0; background: none; border: none; color: var(--blue); font-family: var(--font); font-size: 14px; cursor: pointer; }
   #raw-text {
     display: none; margin: 8px 0 0; background: var(--card); border-radius: 12px; padding: 13px;
@@ -188,7 +188,7 @@
 <header>
   <div class="header-inner">
     <h1>Tube Checker</h1>
-    <p class="subtitle">NSW / Australian pathology · tubes &amp; order of draw</p>
+    <p class="subtitle">Blood tubes and order of the draw · Australia</p>
   </div>
 </header>
 
@@ -238,7 +238,6 @@
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <div class="group" id="tubes-needed"></div>
-    <div id="unmatched-wrap"></div>
     <button class="raw-toggle" id="raw-toggle">Show extracted text</button>
     <div id="raw-text"></div>
   </div>
@@ -253,7 +252,7 @@
   </section>
 </main>
 
-<footer>Tube Checker · runs locally · no data stored</footer>
+<footer>Tube Checker</footer>
 
 <!-- Camera modal -->
 <div id="camera-modal">
@@ -395,76 +394,149 @@ function matchTests(text) {
   return { tubeMap, unmatched: [...new Set(unmatched)] };
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
-function renderResults(text) {
-  const { tubeMap, unmatched } = matchTests(text);
-  document.getElementById('raw-text').textContent = text || '(no text)';
+// ─── RENDER (editable detected-tests model) ───────────────────────────────────
+// `selectedTests` is the single source of truth. Typing or scanning ADDS to it; the
+// user then edits it directly (+ add, tap to edit, × remove) and tubes recompute live.
+let selectedTests = [];
 
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+
+// Detect tests in the ORDER they appear in the text (line by line, left to right),
+// including test-like lines that didn't match any rule.
+function detectOrdered(text) {
+  const out = [];
+  const seen = new Set();
+  const push = s => { const k = s.toLowerCase(); if (!seen.has(k)) { seen.add(k); out.push(s); } };
+  for (const rawLine of String(text).split(/\n/)) {
+    const line = rawLine.trim();
+    if (!line) continue;
+    const found = [];
+    for (const rule of RULES) {
+      const re = new RegExp(rule.re.source, 'gi');
+      let m;
+      while ((m = re.exec(line)) !== null) found.push({ pos: m.index, label: m[0].trim().toUpperCase().replace(/\s+/g, ' ') });
+    }
+    if (found.length) { found.sort((a, b) => a.pos - b.pos); found.forEach(f => push(f.label)); }
+    else if (line.length >= 2 && line.length <= 50 &&
+             /^[A-Za-z][A-Za-z0-9\s\/&\-()+.]{1,48}$/.test(line) && !NOISE_RE.test(line)) {
+      push(line);   // test-like line that matched no rule
+    }
+  }
+  return out;
+}
+
+// Entry point from "Check tubes" and scanning: detect tests (in order) and MERGE.
+function renderResults(text) {
+  document.getElementById('raw-text').textContent = text || '(no text)';
+  mergeTests(detectOrdered(text));
+  showResults();
+}
+
+function mergeTests(tests) {
+  const have = new Set(selectedTests.map(t => t.toLowerCase()));
+  for (let t of tests) {
+    t = (t || '').trim();
+    if (!t) continue;
+    const k = t.toLowerCase();
+    if (have.has(k)) continue;
+    have.add(k);
+    selectedTests.push(t);
+  }
+  update();
+}
+
+function showResults() {
+  const r = document.getElementById('results');
+  r.style.display = 'block';
+  r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// Recompute tubes from selectedTests, then re-render the chips and the tube cards.
+function update() {
+  const tubeMap = {};            // tubeKey -> Set of test labels
+  const unmatched = new Set();
+  selectedTests.forEach(t => {
+    const keys = Object.keys(matchTests(t).tubeMap);
+    if (keys.length === 0) unmatched.add(t);
+    else keys.forEach(k => { (tubeMap[k] = tubeMap[k] || new Set()).add(t); });
+  });
+  renderChips(unmatched);
+  renderTubes(tubeMap);
+}
+
+function renderChips(unmatched) {
+  const wrap = document.getElementById('recognised-wrap');
+  const chipsHtml = selectedTests.map((t, i) => {
+    const flag = unmatched.has(t) ? ' unmatched' : '';
+    return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>` +
+           `<button class="chip-x" data-i="${i}" aria-label="Remove">&times;</button></span>`;
+  }).join('');
+  wrap.innerHTML = `
+    <div class="recognised">
+      <div class="recognised-head">Detected tests · tap to edit, × to remove</div>
+      <div class="chips">${chipsHtml}<button class="chip-add" id="chip-add" aria-label="Add a test">+</button></div>
+    </div>`;
+  wrap.querySelectorAll('.chip-x').forEach(b =>
+    b.addEventListener('click', e => { e.stopPropagation(); removeTest(+b.dataset.i); }));
+  wrap.querySelectorAll('.chip-label').forEach(l =>
+    l.addEventListener('click', () => editTest(+l.dataset.i)));
+  document.getElementById('chip-add').addEventListener('click', addTest);
+}
+
+function renderTubes(tubeMap) {
   const summaryEl = document.getElementById('summary-wrap');
   const tubesEl = document.getElementById('tubes-needed');
-  const unmatchedEl = document.getElementById('unmatched-wrap');
-  const recognisedEl = document.getElementById('recognised-wrap');
-  summaryEl.textContent = '';
   tubesEl.innerHTML = '';
-  unmatchedEl.innerHTML = '';
-  recognisedEl.innerHTML = '';
-
-  // Every distinct test the matcher picked up, shown back so the user can verify.
-  const recognised = [...new Set(Object.values(tubeMap).flatMap(s => [...s]))];
-  if (recognised.length > 0) {
-    recognisedEl.innerHTML = `
-      <div class="recognised">
-        <div class="recognised-head">Recognised ${recognised.length} test${recognised.length === 1 ? '' : 's'}, check this matches the form</div>
-        <div class="chips">${recognised.map(t => `<span class="chip">${t}</span>`).join('')}</div>
-        <div class="low-note">Missing one? Add it in the box above and tap <em>Check tubes</em> again.</div>
-      </div>`;
-  }
-
-  // Sort needed tubes by order of draw
   const needed = Object.keys(tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
-
   if (needed.length === 0) {
     summaryEl.textContent = '';
-    tubesEl.innerHTML = `<div class="empty">No tests recognised.<br>Try your phone’s Scan Text into the box above, or type the tests in.</div>`;
-  } else {
-    const total = needed.length;
-    summaryEl.textContent = total === 1
-      ? '1 tube.'
-      : `${total} tubes · collect in the order shown.`;
-
-    needed.forEach((key, i) => {
-      const tube = TUBES[key];
-      const tests = [...tubeMap[key]];
-      const noteHtml = tube.note ? `<div class="tube-note">${tube.note}</div>` : '';
-      const row = document.createElement('div');
-      row.className = 'tube-row';
-      row.innerHTML = `
-        <div class="tube-ord">${i + 1}</div>
-        <div class="tube-tile" style="background:${tube.color}"></div>
-        <div class="tube-main">
-          <div class="tube-name-row">
-            <span class="tube-name">${tube.name}</span>
-            <span class="tube-qty">&times;1</span>
-          </div>
-          <div class="tube-sub">${tube.additive}</div>
-          <div class="tube-tests"><span>Tests:</span> ${tests.join(', ')}</div>
-          ${noteHtml}
-        </div>`;
-      tubesEl.appendChild(row);
-    });
+    tubesEl.innerHTML = `<div class="empty">No tubes yet. Type or scan tests, or tap + to add one.</div>`;
+    return;
   }
-
-  if (unmatched.length > 0) {
-    unmatchedEl.innerHTML = `
-      <div class="unmatched-box">
-        <div class="unmatched-title">Unrecognised, verify manually</div>
-        ${unmatched.slice(0, 8).map(u => `<div class="unmatched-item">${u}</div>`).join('')}
+  const total = needed.length;
+  summaryEl.textContent = total === 1 ? '1 tube.' : `${total} tubes · collect in the order shown.`;
+  needed.forEach((key, i) => {
+    const tube = TUBES[key];
+    const tests = [...tubeMap[key]];
+    const noteHtml = tube.note ? `<div class="tube-note">${tube.note}</div>` : '';
+    const row = document.createElement('div');
+    row.className = 'tube-row';
+    row.innerHTML = `
+      <div class="tube-ord">${i + 1}</div>
+      <div class="tube-tile" style="background:${tube.color}"></div>
+      <div class="tube-main">
+        <div class="tube-name-row">
+          <span class="tube-name">${tube.name}</span>
+          <span class="tube-qty">&times;1</span>
+        </div>
+        <div class="tube-sub">${tube.additive}</div>
+        <div class="tube-tests"><span>Tests:</span> ${tests.map(escapeHtml).join(', ')}</div>
+        ${noteHtml}
       </div>`;
-  }
+    tubesEl.appendChild(row);
+  });
+}
 
-  const results = document.getElementById('results');
-  results.style.display = 'block';
-  results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// Chip actions (prompt-based edit/add — simple and reliable on mobile).
+function removeTest(i) { selectedTests.splice(i, 1); update(); }
+function editTest(i) {
+  const v = prompt('Edit test', selectedTests[i]);
+  if (v === null) return;
+  const t = v.trim();
+  if (!t) { selectedTests.splice(i, 1); }
+  else if (selectedTests.some((x, j) => j !== i && x.toLowerCase() === t.toLowerCase())) selectedTests.splice(i, 1);
+  else selectedTests[i] = t;
+  update();
+}
+function addTest() {
+  const v = prompt('Add a test (e.g. magnesium)');
+  if (!v) return;
+  const t = v.trim();
+  if (t && !selectedTests.some(x => x.toLowerCase() === t.toLowerCase())) selectedTests.push(t);
+  update();
+  showResults();
 }
 
 // ─── MULTI-PAGE OCR PIPELINE ──────────────────────────────────────────────────
@@ -627,15 +699,16 @@ document.getElementById('read-btn').addEventListener('click', readPages);
 
 // ─── MANUAL ENTRY ─────────────────────────────────────────────────────────────
 document.getElementById('manual-btn').addEventListener('click', () => {
-  const text = document.getElementById('manual-input').value;
-  if (!text.trim()) return;
-  renderResults(text);
+  const input = document.getElementById('manual-input');
+  if (!input.value.trim()) return;
+  renderResults(input.value);   // adds the typed tests to the editable list
+  input.value = '';             // they're now chips, so clear the box
 });
-
 
 document.getElementById('clear-btn').addEventListener('click', () => {
   document.getElementById('manual-input').value = '';
   document.getElementById('results').style.display = 'none';
+  selectedTests = [];
   while (pages.length) removePage(0);
 });
 
