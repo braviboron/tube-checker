@@ -215,12 +215,12 @@
   <!-- Primary input: type, or the phone's own Scan Text -->
   <p class="group-header">Requested tests</p>
   <div class="input-card">
-    <textarea id="manual-input" placeholder="Type tests here — or on a phone, use “Scan the form” below.&#10;e.g. FBC, UEC, CRP, LFT, coags, group &amp; hold, blood cultures"></textarea>
+    <textarea id="manual-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests, or press &amp; hold to Scan Text.&#10;e.g. FBC, UEC, CRP, coags, group &amp; hold, blood cultures"></textarea>
   </div>
-  <label class="btn-scan" id="scan-text-btn" for="manual-input" hidden>
+  <button type="button" class="btn-scan" id="scan-text-btn" hidden>
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>
     Scan the form with my camera
-  </label>
+  </button>
   <p class="hint" id="scan-tip">
     Uses your phone’s own <strong>Scan Text</strong> — far more accurate than the image reader below.
   </p>
@@ -624,17 +624,17 @@ document.getElementById('manual-btn').addEventListener('click', () => {
   btn.hidden = false;
 
   if (isIOS) {
-    tip.innerHTML = 'Opens your keyboard — then tap <strong>Scan Text</strong> (the document-camera icon), ' +
-                    'or press &amp; hold the box and choose <strong>Scan Text</strong>. This uses your iPhone’s own OCR.';
+    tip.innerHTML = 'To scan: <strong>press &amp; hold</strong> the box above, then tap <strong>Scan Text</strong> — ' +
+                    'your iPhone’s own camera OCR fills it in. ' +
+                    'No Scan Text? Turn on <em>Settings → General → Language &amp; Region → Live Text</em>.';
   } else {
     btn.lastChild.textContent = ' Type or scan the form';
-    tip.innerHTML = 'Opens your keyboard — use its built-in text scan (e.g. Gboard’s camera / Google Lens) ' +
-                    'to read the form into the box, or paste text in.';
+    tip.innerHTML = 'To scan: press &amp; hold the box above and use your keyboard’s text scan ' +
+                    '(e.g. Gboard’s camera / Google Lens), or paste text in.';
   }
 
-  // The label[for="manual-input"] focuses the box natively — the reliable way to bring
-  // up the iOS keyboard (+ Scan Text). Keep a tiny JS focus as a fallback for older
-  // browsers; deliberately no scrolling, which can suppress the keyboard on iOS.
+  // The button focuses the box (opens the keyboard). The actual scan is the OS "Scan Text"
+  // option in the box's press-and-hold menu — a page can't trigger that directly.
   btn.addEventListener('click', () => { ta.focus(); });
 })();
 
@@ -709,7 +709,18 @@ document.getElementById('cam-done').addEventListener('click', e => {
 // ─── PWA: register service worker (installable + fully offline) ────────────────
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => { /* offline-first still works on next load */ });
+    // Auto-reload once when a new service worker takes over, so the app never gets
+    // stuck on a stale cached version. updateViaCache:'none' stops the browser from
+    // HTTP-caching sw.js itself.
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      location.reload();
+    });
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' })
+      .then(reg => reg.update())
+      .catch(() => { /* offline-first still works on next load */ });
   });
 }
 </script>
