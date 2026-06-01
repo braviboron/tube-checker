@@ -49,7 +49,8 @@
 
   /* Large-title header (iOS) */
   header { background: var(--card); border-bottom: 1px solid var(--sep); padding: 16px 18px 14px; }
-  .header-inner { max-width: 620px; margin: 0 auto; }
+  .header-inner { max-width: 620px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+  .app-logo { width: 46px; height: 46px; border-radius: 10px; flex: none; }
   h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
   .subtitle { font-size: 13px; color: var(--secondary); margin-top: 2px; }
 
@@ -141,7 +142,7 @@
 
   .empty { padding: 22px 16px; text-align: center; color: var(--secondary); font-size: 14px; }
 
-  .raw-toggle { display: block; margin: 14px 6px 0; background: none; border: none; color: var(--blue); font-family: var(--font); font-size: 14px; cursor: pointer; }
+  .raw-toggle { display: block; margin: 11px 0 0; background: none; border: none; color: var(--blue); font-family: var(--font); font-size: 13px; cursor: pointer; }
   #raw-text {
     display: none; margin: 8px 0 0; background: var(--card); border-radius: 12px; padding: 13px;
     font-size: 12.5px; color: var(--secondary); white-space: pre-wrap; word-break: break-word;
@@ -155,7 +156,7 @@
   .fineprint a { color: var(--blue); text-decoration: none; word-break: break-word; }
   .fineprint a:hover { text-decoration: underline; }
 
-  footer { text-align: center; font-size: 11px; color: var(--tertiary); padding: 26px 20px 32px; }
+  footer { text-align: center; font-size: 11px; color: var(--tertiary); padding: 10px 18px 20px; }
 
   /* Camera modal (dark, native capture convention) */
   #camera-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
@@ -187,8 +188,11 @@
 
 <header>
   <div class="header-inner">
-    <h1>Tube Checker</h1>
-    <p class="subtitle">Blood tubes and order of the draw · Australia</p>
+    <img class="app-logo" src="icons/icon-192.png" alt="" width="46" height="46">
+    <div>
+      <h1>Tube Checker</h1>
+      <p class="subtitle">Blood tubes and order of the draw · Australia</p>
+    </div>
   </div>
 </header>
 
@@ -235,8 +239,6 @@
   <!-- Results -->
   <div id="results">
     <div id="recognised-wrap"></div>
-    <button class="raw-toggle" id="raw-toggle">Show extracted text</button>
-    <div id="raw-text"></div>
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <div class="group" id="tubes-needed"></div>
@@ -398,6 +400,8 @@ function matchTests(text) {
 // `selectedTests` is the single source of truth. Typing or scanning ADDS to it; the
 // user then edits it directly (+ add, tap to edit, × remove) and tubes recompute live.
 let selectedTests = [];
+let lastRawText = '';      // the text last detected from (typed or OCR'd)
+let rawShown = false;
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
@@ -429,7 +433,7 @@ function detectOrdered(text) {
 
 // Entry point from "Check tubes" and scanning: detect tests (in order) and MERGE.
 function renderResults(text) {
-  document.getElementById('raw-text').textContent = text || '(no text)';
+  lastRawText = text || '';
   mergeTests(detectOrdered(text));
   showResults();
 }
@@ -473,16 +477,27 @@ function renderChips(unmatched) {
     return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>` +
            `<button class="chip-x" data-i="${i}" aria-label="Remove">&times;</button></span>`;
   }).join('');
+  const rawHtml = lastRawText ? `
+      <button class="raw-toggle" id="raw-toggle">${rawShown ? 'Hide' : 'Show'} extracted text</button>
+      <div id="raw-text"${rawShown ? '' : ' style="display:none"'}>${escapeHtml(lastRawText)}</div>` : '';
   wrap.innerHTML = `
     <div class="recognised">
       <div class="recognised-head">Detected tests · tap to edit, × to remove</div>
       <div class="chips">${chipsHtml}<button class="chip-add" id="chip-add" aria-label="Add a test">+</button></div>
+      ${rawHtml}
     </div>`;
   wrap.querySelectorAll('.chip-x').forEach(b =>
     b.addEventListener('click', e => { e.stopPropagation(); removeTest(+b.dataset.i); }));
   wrap.querySelectorAll('.chip-label').forEach(l =>
     l.addEventListener('click', () => editTest(+l.dataset.i)));
   document.getElementById('chip-add').addEventListener('click', addTest);
+  const rt = document.getElementById('raw-toggle');
+  if (rt) rt.addEventListener('click', () => {
+    rawShown = !rawShown;
+    const rx = document.getElementById('raw-text');
+    rx.style.display = rawShown ? 'block' : 'none';
+    rt.textContent = (rawShown ? 'Hide' : 'Show') + ' extracted text';
+  });
 }
 
 function renderTubes(tubeMap) {
@@ -710,15 +725,6 @@ document.getElementById('clear-btn').addEventListener('click', () => {
   document.getElementById('results').style.display = 'none';
   selectedTests = [];
   while (pages.length) removePage(0);
-});
-
-// ─── RAW TEXT TOGGLE ──────────────────────────────────────────────────────────
-document.getElementById('raw-toggle').addEventListener('click', () => {
-  const el = document.getElementById('raw-text');
-  const btn = document.getElementById('raw-toggle');
-  const open = el.style.display === 'block';
-  el.style.display = open ? 'none' : 'block';
-  btn.textContent = open ? 'Show extracted text' : 'Hide extracted text';
 });
 
 // ─── CAMERA: capture pages (no photo saved to device) ─────────────────────────
