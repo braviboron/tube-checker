@@ -54,6 +54,7 @@ function expectExcludes(input, tube, msg) {
 // — Core single-test mappings —
 expectTubes('FBC', ['purple'], 'FBC → purple (EDTA)');
 expectTubes('UEC', ['gold'], 'UEC → gold (serum)');
+expectTubes('EUC', ['gold'], 'EUC → gold (NSW spelling of UEC)');
 expectTubes('LFT', ['gold'], 'LFT → gold');
 expectTubes('CRP', ['gold'], 'CRP → gold');
 expectTubes('coags', ['blue'], 'coags → blue (citrate)');

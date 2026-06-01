@@ -81,14 +81,10 @@
   }
   textarea::placeholder { color: var(--secondary); }
 
-  /* Tip / hint under the input */
-  .hint { font-size: 13px; color: var(--secondary); line-height: 1.45; margin: 9px 6px 0; padding: 10px 12px; background: var(--blue-tint); border-radius: 10px; }
-  .hint strong { color: var(--label); font-weight: 600; }
 
   /* Recognised-tests feedback block */
   .recognised { background: var(--card); border-radius: 12px; padding: 13px 16px; margin-bottom: 8px; }
-  .recognised-head { font-size: 13px; color: var(--secondary); margin-bottom: 9px; }
-  .recognised-head strong { color: var(--label); font-weight: 600; }
+  .recognised-head { font-size: 13px; color: var(--label); margin-bottom: 9px; }
   .chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .chip { font-size: 13px; padding: 4px 10px; border-radius: 999px; background: var(--blue-tint); color: #0b5cab; border: 1px solid #cfe2fb; }
   .low-note { font-size: 13px; color: var(--note); background: var(--note-bg); border-radius: 8px; padding: 8px 11px; margin-top: 10px; line-height: 1.45; }
@@ -157,7 +153,7 @@
   .disclaimer { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-top: 26px; border-left: 3px solid var(--orange); }
   .disclaimer-title { font-size: 13px; font-weight: 600; color: var(--note); margin-bottom: 4px; }
   .disclaimer p { font-size: 13px; color: var(--label); line-height: 1.5; }
-  .disclaimer strong { font-weight: 600; }
+  .disclaimer p + p { margin-top: 8px; }
 
   /* References */
   .refs { background: var(--card); border-radius: 12px; margin-top: 16px; overflow: hidden; }
@@ -208,10 +204,8 @@
   <!-- Primary input: type, or the phone's own Scan Text -->
   <p class="group-header">Requested tests</p>
   <div class="input-card">
-    <textarea id="manual-input" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests, or press &amp; hold the box to scan.&#10;e.g. FBC, UEC, CRP, coags, group &amp; hold, blood cultures"></textarea>
+    <textarea id="manual-input" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests here — e.g. FBC, EUC, CRP&#10;Or, on iPhone: press &amp; hold the box → AutoFill → Scan Text"></textarea>
   </div>
-  <p class="hint" id="scan-tip" hidden></p>
-  <button class="btn-filled" id="manual-btn">Check tubes</button>
 
   <!-- Secondary: built-in offline image reader (less accurate) -->
   <p class="group-header">Or read a form image</p>
@@ -239,6 +233,8 @@
   <div class="pages" id="pages"></div>
   <button class="btn-filled" id="read-btn" disabled style="display:none">Read pages</button>
 
+  <button class="btn-filled" id="manual-btn">Check tubes</button>
+
   <div id="progress-wrap">
     <div class="progress-label" id="progress-label">Preparing…</div>
     <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
@@ -261,11 +257,13 @@
 
   <!-- Disclaimer -->
   <div class="disclaimer">
-    <div class="disclaimer-title">Important — clinical disclaimer</div>
-    <p>A <strong>decision-support aid only</strong>, not a substitute for professional judgement or
-    your laboratory's official collection manual. Tube types, additives and the order of draw can
-    vary between laboratories and over time.
-    <strong>Always verify against your local pathology service before collecting blood.</strong></p>
+    <div class="disclaimer-title">Important — please read</div>
+    <p>This is a decision-support aid only — not a substitute for professional judgement or your
+    laboratory's official collection manual. Tube types, additives and the order of draw vary between
+    laboratories and over time, so always verify against your local pathology service before collecting blood.</p>
+    <p>Processing happens entirely on your device and nothing is sent anywhere — but protecting patient
+    confidentiality is your responsibility. Do not enter, photograph or expose identifiable patient
+    information, and follow your workplace's privacy and data-handling policies.</p>
   </div>
 
   <!-- References -->
@@ -388,7 +386,7 @@ const RULES = [
   { re: /\b(fbc|fbe|cbc|full\s*blood\s*(?:count|exam)|complete\s*blood\s*count|blood\s*film|\bfilm\b|wcc|white\s*cell\s*count|differential|\bdiff\b|platelets?|\bplt\b|hb\s*a1c|hba1c|glycated\s*h(?:a)?emoglobin|haemoglobin|\bhb\b|reticulocytes?|retics?|esr|coombs|\bdct\b|malaria|thick\s*(?:and|&)?\s*thin|haemochromatosis|\bhfe\b|thalassaemia|parathyroid|\bpth\b|homocysteine|ciclosporin|cyclosporin|tacrolimus|sirolimus)\b/i, tube: 'purple' },
 
   // Biochemistry / serology / hormones / drug levels / serum → gold (broad; last)
-  { re: /\b(uec|u\s*&\s*e|ue\b|urea|creatinine|egfr|electrolytes?|sodium|potassium|chloride|bicarb(?:onate)?|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein\s*(?:studies|electrophoresis)|spep|crp|c[\s-]?reactive\s*protein|tsh|t4|ft4|free\s*t4|t3|ft3|thyroid\s*function|tfts?|calcium|phosphate|po4|magnesium|mg\b|urate|uric\s*acid|ldh|creatine\s*kinase|ck[\s-]?mb|\bck\b|amylase|lipase|cholesterol|triglycerides?|hdl|ldl|lipids?|iron\s*studies|\biron\b|transferrin|ferritin|\bb12\b|vitamin\s*b12|folate|vitamin\s*d|25[\s-]?oh|\bhcg\b|beta[\s-]?hcg|bhcg|troponin|trop\b|\bbnp\b|nt[\s-]?pro[\s-]?bnp|procalcitonin|immunoglobulins?|ig[gam]\b|\bige\b|complement|\bc3\b|\bc4\b|\bana\b|\banca\b|anti[\s-]?ds[\s-]?dna|dsdna|\bena\b|rheumatoid|\brf\b|anti[\s-]?ccp|digoxin|phenytoin|valproate|carbamazepine|lithium|vancomycin|gentamicin|tobramycin|theophylline|paracetamol|salicylate|clonazepam|clozapine|drug\s*levels?|cortisol|dheas?|testosterone|oestradiol|estradiol|progesterone|prolactin|\bfsh\b|\blh\b|insulin|c[\s-]?peptide|psa|\bcea\b|\bca\s*125\b|ca\s*19[\s-]?9|ca\s*15[\s-]?3|afp|alpha\s*fetoprotein|osmolality|ethanol|coeliac|\bttg\b|gliadin|hiv|hepatitis|hbsag|hcv|syphilis|rpr|tpha|ebv|\bcmv\b|toxoplasma|rubella|varicella|\bvzv\b|measles|mumps|serology)\b/i, tube: 'gold' },
+  { re: /\b(euc|uec|u\s*&\s*e|ue\b|urea|creatinine|egfr|electrolytes?|sodium|potassium|chloride|bicarb(?:onate)?|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein\s*(?:studies|electrophoresis)|spep|crp|c[\s-]?reactive\s*protein|tsh|t4|ft4|free\s*t4|t3|ft3|thyroid\s*function|tfts?|calcium|phosphate|po4|magnesium|mg\b|urate|uric\s*acid|ldh|creatine\s*kinase|ck[\s-]?mb|\bck\b|amylase|lipase|cholesterol|triglycerides?|hdl|ldl|lipids?|iron\s*studies|\biron\b|transferrin|ferritin|\bb12\b|vitamin\s*b12|folate|vitamin\s*d|25[\s-]?oh|\bhcg\b|beta[\s-]?hcg|bhcg|troponin|trop\b|\bbnp\b|nt[\s-]?pro[\s-]?bnp|procalcitonin|immunoglobulins?|ig[gam]\b|\bige\b|complement|\bc3\b|\bc4\b|\bana\b|\banca\b|anti[\s-]?ds[\s-]?dna|dsdna|\bena\b|rheumatoid|\brf\b|anti[\s-]?ccp|digoxin|phenytoin|valproate|carbamazepine|lithium|vancomycin|gentamicin|tobramycin|theophylline|paracetamol|salicylate|clonazepam|clozapine|drug\s*levels?|cortisol|dheas?|testosterone|oestradiol|estradiol|progesterone|prolactin|\bfsh\b|\blh\b|insulin|c[\s-]?peptide|psa|\bcea\b|\bca\s*125\b|ca\s*19[\s-]?9|ca\s*15[\s-]?3|afp|alpha\s*fetoprotein|osmolality|ethanol|coeliac|\bttg\b|gliadin|hiv|hepatitis|hbsag|hcv|syphilis|rpr|tpha|ebv|\bcmv\b|toxoplasma|rubella|varicella|\bvzv\b|measles|mumps|serology)\b/i, tube: 'gold' },
 ];
 
 // Phrases to ignore when scanning for "unrecognised" candidate lines (form noise).
@@ -445,7 +443,7 @@ function renderResults(text) {
   if (recognised.length > 0) {
     recognisedEl.innerHTML = `
       <div class="recognised">
-        <div class="recognised-head"><strong>Recognised ${recognised.length} test${recognised.length === 1 ? '' : 's'}</strong> — check this matches the form</div>
+        <div class="recognised-head">Recognised ${recognised.length} test${recognised.length === 1 ? '' : 's'} — check this matches the form</div>
         <div class="chips">${recognised.map(t => `<span class="chip">${t}</span>`).join('')}</div>
         <div class="low-note">Missing one? Add it in the box above and tap <em>Check tubes</em> again.</div>
       </div>`;
@@ -456,7 +454,7 @@ function renderResults(text) {
 
   if (needed.length === 0) {
     summaryEl.textContent = '';
-    tubesEl.innerHTML = `<div class="empty">No tests recognised.<br>Try your phone’s <strong>Scan Text</strong> into the box above, or type the tests in.</div>`;
+    tubesEl.innerHTML = `<div class="empty">No tests recognised.<br>Try your phone’s Scan Text into the box above, or type the tests in.</div>`;
   } else {
     const total = needed.length;
     summaryEl.textContent = total === 1
@@ -663,19 +661,6 @@ document.getElementById('manual-btn').addEventListener('click', () => {
   renderResults(text);
 });
 
-// ─── iOS Scan Text tip ────────────────────────────────────────────────────────
-// On iPhone/iPad, point users at Apple's Scan Text (its Live Text camera OCR) — the
-// most accurate input. It lives in the box's press-and-hold AutoFill menu.
-(() => {
-  const tip = document.getElementById('scan-tip');
-  if (!tip) return;
-  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  if (!isIOS) return;
-  tip.hidden = false;
-  tip.innerHTML = 'Tip: <strong>press &amp; hold</strong> the box → <strong>AutoFill</strong> → ' +
-                  '<strong>Scan Text</strong> to read a form with your camera (your iPhone’s own OCR).';
-})();
 
 document.getElementById('clear-btn').addEventListener('click', () => {
   document.getElementById('manual-input').value = '';
