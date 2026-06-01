@@ -1,5 +1,8 @@
 # Tube Checker
 
+**Live:** https://braviboron.github.io/tube-checker/ — open on a phone and
+*Share → Add to Home Screen* to install it.
+
 An offline web app that reads a pathology request form (photo, scan, or manual entry)
 and tells you which **blood collection tubes** you need, in what quantity and in what
 **order of draw**, using NSW Health / RCPA conventions.
