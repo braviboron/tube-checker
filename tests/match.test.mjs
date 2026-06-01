@@ -15,8 +15,8 @@ if (start === -1 || end === -1) throw new Error('Could not locate logic block ma
 const block = html.slice(start, end);
 
 // Evaluate the block and expose the matcher, tubes, and the canonical test list.
-const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests };`);
-const { matchTests, TUBES, TESTS, searchTests } = factory();
+const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty };`);
+const { matchTests, TUBES, TESTS, searchTests, tubeQty } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────
 let pass = 0, fail = 0;
@@ -142,6 +142,35 @@ expectTopHit('EUC', 'Urea, Electrolytes & Creatinine', 'acronym EUC → UEC entr
 expectTopHit('magnesum', 'Magnesium', 'typo magnesum → Magnesium');
 expectTopHit('troponni', 'Troponin', 'typo troponni → Troponin');
 expectTopHit('gent', 'Gentamicin', 'partial gent → Gentamicin');
+
+// Every canonical test must be findable as its own top search hit, and names unique.
+{
+  const seenNames = new Set();
+  for (const t of TESTS) {
+    const key = t.name.toLowerCase();
+    if (seenNames.has(key)) { fail++; fails.push(`✗ duplicate canonical name: ${t.name}`); }
+    seenNames.add(key);
+    const top = searchTests(t.name, 3)[0];
+    if (top && top.name === t.name) pass++;
+    else { fail++; fails.push(`✗ searchTests("${t.name}")[0] = ${top ? top.name : 'none'}, want itself`); }
+  }
+}
+
+// — Multi-tube quantity (volume-limited tubes split for large panels) —
+function expectQty(key, n, want, msg) {
+  const got = tubeQty(key, n);
+  if (got === want) pass++;
+  else { fail++; fails.push(`✗ ${msg}\n    tubeQty(${key}, ${n}) = ${got}, want ${want}`); }
+}
+expectQty('gold', 1, 1, 'gold: 1 test -> 1 tube');
+expectQty('gold', 15, 1, 'gold: 15 tests -> 1 tube (cap)');
+expectQty('gold', 16, 2, 'gold: 16 tests -> 2 tubes');
+expectQty('gold', 31, 3, 'gold: 31 tests -> 3 tubes');
+expectQty('blue', 5, 1, 'citrate: 5 coag tests -> 1 tube');
+expectQty('blue', 6, 2, 'citrate: 6 coag tests -> 2 tubes (splits sooner)');
+expectQty('pink', 50, 1, 'blood bank: always 1 regardless of count');
+expectQty('bc_aerobic', 10, 1, 'blood culture: always 1');
+expectQty('purple', 0, 1, 'never less than 1');
 
 // ─── Report ─────────────────────────────────────────────────────────────────
 console.log(`\nTube Checker matching tests: ${pass} passed, ${fail} failed\n`);

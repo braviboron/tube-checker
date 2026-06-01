@@ -339,22 +339,22 @@ const TUBES = {
     note: 'Collect AFTER the aerobic bottle.'
   },
   blue: {
-    name: 'Light Blue (Sodium Citrate)', color: '#60a5fa', draw: 3,
+    name: 'Light Blue (Sodium Citrate)', color: '#60a5fa', draw: 3, maxTests: 5,
     additive: '3.2% sodium citrate, coagulation',
     note: 'Fill exactly to the line, the blood:anticoagulant ratio is critical.'
   },
   gold: {
-    name: 'Gold / SST (Serum)', color: '#f59e0b', draw: 4,
+    name: 'Gold / SST (Serum)', color: '#f59e0b', draw: 4, maxTests: 15,
     additive: 'Clot activator + separator gel, serum',
     note: ''
   },
   green: {
-    name: 'Green (Lithium Heparin)', color: '#34d399', draw: 5,
+    name: 'Green (Lithium Heparin)', color: '#34d399', draw: 5, maxTests: 15,
     additive: 'Lithium heparin, plasma',
     note: ''
   },
   purple: {
-    name: 'Purple / Lavender (EDTA)', color: '#a78bfa', draw: 6,
+    name: 'Purple / Lavender (EDTA)', color: '#a78bfa', draw: 6, maxTests: 12,
     additive: 'EDTA anticoagulant, whole blood',
     note: ''
   },
@@ -364,12 +364,12 @@ const TUBES = {
     note: 'Strict patient-ID and labelling rules apply for transfusion samples.'
   },
   grey: {
-    name: 'Grey (Fluoride Oxalate)', color: '#9ca3af', draw: 8,
+    name: 'Grey (Fluoride Oxalate)', color: '#9ca3af', draw: 8, maxTests: 8,
     additive: 'Sodium fluoride / potassium oxalate, glycolysis inhibitor',
     note: ''
   },
   royalblue: {
-    name: 'Royal Blue (Trace Elements)', color: '#1d4ed8', draw: 9,
+    name: 'Royal Blue (Trace Elements)', color: '#1d4ed8', draw: 9, maxTests: 6,
     additive: 'Trace-element-free tube',
     note: 'Draw-order position for trace-element tubes varies, check local policy.'
   },
@@ -611,6 +611,15 @@ function searchTests(query, limit = 8) {
   return scored.slice(0, limit).map(s => s.t);
 }
 
+// Estimated number of tubes of a colour needed for `n` tests on it. Volume-limited
+// tubes carry a conservative `maxTests` capacity (usable volume ÷ typical per-test
+// volume); blood-culture and blood-bank tubes have none and are always 1. This is a
+// guide only — one serum tube covers a big panel; small citrate tubes split sooner.
+function tubeQty(key, n) {
+  const cap = TUBES[key] && TUBES[key].maxTests;
+  return cap ? Math.max(1, Math.ceil(n / cap)) : 1;
+}
+
 // ─── RENDER (editable detected-tests model) ───────────────────────────────────
 // `selectedTests` is the single source of truth. Typing or scanning ADDS to it; the
 // user then edits it directly (+ add, tap to edit, × remove) and tubes recompute live.
@@ -698,8 +707,13 @@ function buildSummary() {
   const lines = ['Tube Checker collection summary', ''];
   if (!needed.length) { lines.push('No tubes.'); }
   else {
-    lines.push(`${needed.length} tube${needed.length === 1 ? '' : 's'}, in order of draw:`, '');
-    needed.forEach((k, i) => lines.push(`${i + 1}. ${TUBES[k].name}: ${[...tubeMap[k]].join(', ')}`));
+    let total = 0;
+    const body = needed.map((k, i) => {
+      const qty = tubeQty(k, tubeMap[k].size);
+      total += qty;
+      return `${i + 1}. ${TUBES[k].name}${qty > 1 ? ` (x${qty})` : ''}: ${[...tubeMap[k]].join(', ')}`;
+    });
+    lines.push(`${total} tube${total === 1 ? '' : 's'}, in order of draw:`, '', ...body);
   }
   lines.push('', 'Verify against your local pathology service before collection.');
   return lines.join('\n');
@@ -758,12 +772,16 @@ function renderTubes(tubeMap) {
     tubesEl.innerHTML = `<div class="empty">No tubes yet. Type or scan tests, or tap + to add one.</div>`;
     return;
   }
-  const total = needed.length;
-  summaryEl.textContent = total === 1 ? '1 tube.' : `${total} tubes · collect in the order shown.`;
+  let total = 0;
   needed.forEach((key, i) => {
     const tube = TUBES[key];
     const tests = [...tubeMap[key]];
-    const noteHtml = tube.note ? `<div class="tube-note">${tube.note}</div>` : '';
+    const qty = tubeQty(key, tests.length);
+    total += qty;
+    const notes = [];
+    if (qty > 1) notes.push(`Large panel for one tube: about ${qty} tubes estimated for volume; confirm with your lab.`);
+    if (tube.note) notes.push(tube.note);
+    const noteHtml = notes.length ? `<div class="tube-note">${notes.join(' ')}</div>` : '';
     const row = document.createElement('div');
     row.className = 'tube-row';
     row.innerHTML = `
@@ -772,7 +790,7 @@ function renderTubes(tubeMap) {
       <div class="tube-main">
         <div class="tube-name-row">
           <span class="tube-name">${tube.name}</span>
-          <span class="tube-qty">&times;1</span>
+          <span class="tube-qty">&times;${qty}</span>
         </div>
         <div class="tube-sub">${tube.additive}</div>
         <div class="tube-tests"><span>Tests:</span> ${tests.map(escapeHtml).join(', ')}</div>
@@ -780,6 +798,7 @@ function renderTubes(tubeMap) {
       </div>`;
     tubesEl.appendChild(row);
   });
+  summaryEl.textContent = total === 1 ? '1 tube.' : `${total} tubes · collect in the order shown.`;
 }
 
 // Chip actions. Add/edit open the searchable test picker; remove is immediate.
