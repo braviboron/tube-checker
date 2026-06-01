@@ -15,7 +15,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Tube Checker">
 
-<!-- Tesseract.js vendored locally — no CDN, zero network calls. See vendor/tesseract/. -->
+<!-- Tesseract.js vendored locally, no CDN, zero network calls. See vendor/tesseract/. -->
 <script src="vendor/tesseract/tesseract.min.js"></script>
 <style>
   :root {
@@ -147,29 +147,16 @@
     max-height: 180px; overflow-y: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
 
-  .notice { font-size: 12px; color: var(--secondary); text-align: center; margin: 22px 8px 0; line-height: 1.5; }
-
-  /* Disclaimer as a grouped note */
-  .disclaimer { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-top: 26px; border-left: 3px solid var(--orange); }
-  .disclaimer-title { font-size: 13px; font-weight: 600; color: var(--note); margin-bottom: 4px; }
-  .disclaimer p { font-size: 13px; color: var(--label); line-height: 1.5; }
-  .disclaimer p + p { margin-top: 8px; }
-
-  /* References */
-  .refs { background: var(--card); border-radius: 12px; margin-top: 16px; overflow: hidden; }
-  .refs summary { font-size: 15px; color: var(--blue); cursor: pointer; list-style: none; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; }
-  .refs summary::-webkit-details-marker { display: none; }
-  .refs summary::after { content: '›'; color: var(--tertiary); font-size: 20px; transition: transform 0.2s; }
-  .refs[open] summary::after { transform: rotate(90deg); }
-  .refs-body { padding: 4px 16px 14px; border-top: 1px solid var(--sep); }
-  .refs ul { margin: 10px 0 0; padding-left: 16px; }
-  .refs li { font-size: 13px; color: var(--secondary); margin-bottom: 9px; line-height: 1.45; }
-  .refs a { color: var(--blue); text-decoration: none; word-break: break-word; }
-  .refs .ref-note { font-size: 12px; color: var(--secondary); margin-top: 8px; font-style: italic; }
+  /* Consolidated fine print: disclaimer + privacy + sources */
+  .fineprint { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--sep); }
+  .fineprint p { font-size: 12px; color: var(--secondary); line-height: 1.55; }
+  .fineprint p + p { margin-top: 8px; }
+  .fineprint a { color: var(--blue); text-decoration: none; word-break: break-word; }
+  .fineprint a:hover { text-decoration: underline; }
 
   footer { text-align: center; font-size: 11px; color: var(--tertiary); padding: 26px 20px 32px; }
 
-  /* Camera modal (dark — native capture convention) */
+  /* Camera modal (dark, native capture convention) */
   #camera-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
   #camera-modal.active { display: flex; }
   .cam-stage { flex: 1; position: relative; overflow: hidden; cursor: pointer; }
@@ -186,7 +173,11 @@
   .camera-bar { background: #000; padding: 16px 20px calc(16px + env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
   .camera-bar button { background: transparent; border: none; color: #fff; font-family: var(--font); font-size: 16px; cursor: pointer; padding: 8px 4px; }
   .camera-bar button.primary { font-weight: 600; color: var(--blue); }
-  .cam-count { color: #fff; font-size: 13px; text-align: center; min-width: 90px; opacity: 0.85; }
+  /* Done lights up green once at least one page is captured */
+  .camera-bar button#cam-done.ready { background: #34c759; color: #fff; border-radius: 9px; padding: 9px 18px; }
+  .camera-bar button#cam-done.pulse { animation: donepulse 0.45s ease; }
+  @keyframes donepulse { 0% { transform: scale(1); } 45% { transform: scale(1.12); } 100% { transform: scale(1); } }
+  .cam-count { color: #fff; font-size: 13px; text-align: center; min-width: 90px; opacity: 0.9; }
 
   canvas { display: none; }
 </style>
@@ -204,12 +195,10 @@
   <!-- Primary input: type, or the phone's own Scan Text -->
   <p class="group-header">Requested tests</p>
   <div class="input-card">
-    <textarea id="manual-input" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests here — e.g. FBC, EUC, CRP&#10;Or, on iPhone: press &amp; hold the box → AutoFill → Scan Text"></textarea>
+    <textarea id="manual-input" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests here, e.g. FBC, EUC, CRP&#10;Or, on iPhone: press &amp; hold the box → AutoFill → Scan Text"></textarea>
   </div>
 
-  <!-- Secondary: built-in offline image reader (less accurate) -->
-  <p class="group-header">Or read a form image</p>
-  <p class="group-caption">Built-in reader — fully offline, but less accurate than your phone’s Scan Text.</p>
+  <!-- Image input: upload or camera (built-in offline reader) -->
   <div class="group">
     <label class="row" for="file-input">
       <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
@@ -224,7 +213,7 @@
       <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
       <div class="row-main">
         <div class="row-title">Scan with camera</div>
-        <div class="row-sub">Point and tap — capture multi-page forms</div>
+        <div class="row-sub">Point and tap, capture multi-page forms</div>
       </div>
       <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
     </div>
@@ -253,33 +242,12 @@
 
   <button class="btn-link" id="clear-btn">Clear</button>
 
-  <p class="notice">All processing happens on your device. No image or patient data is stored or sent anywhere.</p>
-
-  <!-- Disclaimer -->
-  <div class="disclaimer">
-    <div class="disclaimer-title">Important — please read</div>
-    <p>This is a decision-support aid only — not a substitute for professional judgement or your
-    laboratory's official collection manual. Tube types, additives and the order of draw vary between
-    laboratories and over time, so always verify against your local pathology service before collecting blood.</p>
-    <p>Processing happens entirely on your device and nothing is sent anywhere — but protecting patient
-    confidentiality is your responsibility. Do not enter, photograph or expose identifiable patient
-    information, and follow your workplace's privacy and data-handling policies.</p>
-  </div>
-
-  <!-- References -->
-  <details class="refs">
-    <summary>Sources &amp; references</summary>
-    <div class="refs-body">
-      <ul>
-        <li><a href="https://catalogue.pathology.health.nsw.gov.au/" target="_blank" rel="noopener">NSW Health Pathology — Test Catalogue</a> — primary per-test specimen / tube authority for NSW.</li>
-        <li><a href="https://pathology.health.nsw.gov.au/" target="_blank" rel="noopener">NSW Health Pathology</a> — collection guidance and policies.</li>
-        <li><a href="https://www.cec.health.nsw.gov.au/__data/assets/pdf_file/0005/259412/Adult-Blood-Culture-Guidance.PDF" target="_blank" rel="noopener">NSW Clinical Excellence Commission — Adult Blood Culture Guidance (v3.0, 2024)</a>.</li>
-        <li><a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/General-Information/Chart/Chart-A1" target="_blank" rel="noopener">RCPA Manual — Blood tube chart &amp; recommended order of draw</a> — national reference for the order of draw.</li>
-      </ul>
-      <p class="ref-note">Order of draw follows the standard CLSI / RCPA sequence used across Australian
-      laboratories and is consistent with NSW Health Pathology guidance. Last reviewed: June 2026.</p>
-    </div>
-  </details>
+  <!-- Disclaimer, privacy and sources (consolidated fine print) -->
+  <section class="fineprint">
+    <p>Decision-support aid only, not a substitute for professional judgement or your laboratory's official collection manual. Tube types, additives and the order of draw vary between laboratories and over time, so always verify against your local pathology service before collecting blood.</p>
+    <p>All processing happens on your device and nothing is sent anywhere. Protecting patient confidentiality is your responsibility: do not enter, photograph or expose identifiable patient information, and follow your workplace's privacy and data-handling policies.</p>
+    <p>Sources: <a href="https://catalogue.pathology.health.nsw.gov.au/" target="_blank" rel="noopener">NSW Health Pathology Test Catalogue</a> (primary per-test tube authority for NSW); <a href="https://pathology.health.nsw.gov.au/" target="_blank" rel="noopener">NSW Health Pathology</a> (collection guidance and policies); <a href="https://www.cec.health.nsw.gov.au/__data/assets/pdf_file/0005/259412/Adult-Blood-Culture-Guidance.PDF" target="_blank" rel="noopener">NSW CEC Adult Blood Culture Guidance (v3.0, 2024)</a>; <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/General-Information/Chart/Chart-A1" target="_blank" rel="noopener">RCPA Manual blood tube chart and order of draw</a>. Order of draw follows the standard CLSI / RCPA sequence used across Australian laboratories. Last reviewed June 2026.</p>
+  </section>
 </main>
 
 <footer>Tube Checker · runs locally · no data stored</footer>
@@ -310,49 +278,49 @@
 // (lower = drawn first). See "Sources & references" in the UI.
 const TUBES = {
   bc_aerobic: {
-    name: 'Blood Culture — Aerobic', color: '#3b82f6', draw: 1,
+    name: 'Blood Culture, Aerobic', color: '#3b82f6', draw: 1,
     additive: 'Aerobic culture medium',
     note: 'Aseptic technique. Fill to the mark. Collect BEFORE the anaerobic bottle.'
   },
   bc_anaerobic: {
-    name: 'Blood Culture — Anaerobic', color: '#f97316', draw: 2,
+    name: 'Blood Culture, Anaerobic', color: '#f97316', draw: 2,
     additive: 'Anaerobic culture medium',
     note: 'Collect AFTER the aerobic bottle.'
   },
   blue: {
     name: 'Light Blue (Sodium Citrate)', color: '#60a5fa', draw: 3,
-    additive: '3.2% sodium citrate — coagulation',
-    note: 'Fill exactly to the line — the blood:anticoagulant ratio is critical.'
+    additive: '3.2% sodium citrate, coagulation',
+    note: 'Fill exactly to the line, the blood:anticoagulant ratio is critical.'
   },
   gold: {
     name: 'Gold / SST (Serum)', color: '#f59e0b', draw: 4,
-    additive: 'Clot activator + separator gel — serum',
+    additive: 'Clot activator + separator gel, serum',
     note: ''
   },
   green: {
     name: 'Green (Lithium Heparin)', color: '#34d399', draw: 5,
-    additive: 'Lithium heparin — plasma',
+    additive: 'Lithium heparin, plasma',
     note: ''
   },
   purple: {
     name: 'Purple / Lavender (EDTA)', color: '#a78bfa', draw: 6,
-    additive: 'EDTA anticoagulant — whole blood',
+    additive: 'EDTA anticoagulant, whole blood',
     note: ''
   },
   pink: {
-    name: 'Pink (EDTA — Blood Bank)', color: '#f472b6', draw: 7,
-    additive: 'EDTA — group & hold / crossmatch',
+    name: 'Pink (EDTA, Blood Bank)', color: '#f472b6', draw: 7,
+    additive: 'EDTA, group & hold / crossmatch',
     note: 'Strict patient-ID and labelling rules apply for transfusion samples.'
   },
   grey: {
     name: 'Grey (Fluoride Oxalate)', color: '#9ca3af', draw: 8,
-    additive: 'Sodium fluoride / potassium oxalate — glycolysis inhibitor',
+    additive: 'Sodium fluoride / potassium oxalate, glycolysis inhibitor',
     note: ''
   },
   royalblue: {
     name: 'Royal Blue (Trace Elements)', color: '#1d4ed8', draw: 9,
     additive: 'Trace-element-free tube',
-    note: 'Draw-order position for trace-element tubes varies — check local policy.'
+    note: 'Draw-order position for trace-element tubes varies, check local policy.'
   },
 };
 
@@ -438,12 +406,12 @@ function renderResults(text) {
   unmatchedEl.innerHTML = '';
   recognisedEl.innerHTML = '';
 
-  // Every distinct test the matcher picked up — shown back so the user can verify.
+  // Every distinct test the matcher picked up, shown back so the user can verify.
   const recognised = [...new Set(Object.values(tubeMap).flatMap(s => [...s]))];
   if (recognised.length > 0) {
     recognisedEl.innerHTML = `
       <div class="recognised">
-        <div class="recognised-head">Recognised ${recognised.length} test${recognised.length === 1 ? '' : 's'} — check this matches the form</div>
+        <div class="recognised-head">Recognised ${recognised.length} test${recognised.length === 1 ? '' : 's'}, check this matches the form</div>
         <div class="chips">${recognised.map(t => `<span class="chip">${t}</span>`).join('')}</div>
         <div class="low-note">Missing one? Add it in the box above and tap <em>Check tubes</em> again.</div>
       </div>`;
@@ -486,7 +454,7 @@ function renderResults(text) {
   if (unmatched.length > 0) {
     unmatchedEl.innerHTML = `
       <div class="unmatched-box">
-        <div class="unmatched-title">Unrecognised — verify manually</div>
+        <div class="unmatched-title">Unrecognised, verify manually</div>
         ${unmatched.slice(0, 8).map(u => `<div class="unmatched-item">${u}</div>`).join('')}
       </div>`;
   }
@@ -578,7 +546,7 @@ let _ocrProgress = null;
 async function getOCRWorker() {
   if (_ocrWorker) return _ocrWorker;
   _ocrWorker = await Tesseract.createWorker('eng', 1, {
-    // All assets served locally — no network access required.
+    // All assets served locally, no network access required.
     workerBlobURL: false,
     workerPath: TESS_VENDOR + 'worker.min.js',
     corePath: TESS_VENDOR,
@@ -601,7 +569,7 @@ async function runOCR(source, onProgress) {
     const { data } = await worker.recognize(image);
     return data.text;
   } catch (e) {
-    // Fallback if the persistent-worker API isn't available — still uses preprocessing.
+    // Fallback if the persistent-worker API isn't available, still uses preprocessing.
     const { data } = await Tesseract.recognize(image, 'eng', {
       workerBlobURL: false,
       workerPath: TESS_VENDOR + 'worker.min.js',
@@ -638,7 +606,7 @@ async function readPages() {
     prog.style.display = 'none';
     renderResults(parts.join('\n\n'));
   } catch (e) {
-    label.textContent = 'Reading failed — try a clearer image, or type the tests above.';
+    label.textContent = 'Reading failed, try a clearer image, or type the tests above.';
   }
   readBtn.disabled = pages.length === 0;
 }
@@ -682,13 +650,15 @@ let cameraStream = null;
 let sessionStart = 0;
 
 function updateCamCount() {
-  const added = pages.length - sessionStart;
   const el = document.getElementById('cam-count');
+  const done = document.getElementById('cam-done');
   el.textContent = pages.length === 0 ? 'No pages yet'
-    : `${pages.length} page${pages.length === 1 ? '' : 's'}` + (added > 0 ? ` (+${added})` : '');
+    : `${pages.length} page${pages.length === 1 ? '' : 's'} captured`;
   document.getElementById('cam-instruction').textContent = pages.length > sessionStart
-    ? 'Tap to add another page, or press Done'
+    ? 'Tap for another page, or press Done'
     : 'Point at the form and tap to capture a page';
+  if (pages.length > 0) { done.classList.add('ready'); done.textContent = `Done (${pages.length})`; }
+  else { done.classList.remove('ready'); done.textContent = 'Done'; }
 }
 
 async function openCamera() {
@@ -718,7 +688,15 @@ function capturePage() {
   canvas.getContext('2d').drawImage(video, 0, 0);
   const flash = document.getElementById('cam-flash');
   flash.classList.remove('fire'); void flash.offsetWidth; flash.classList.add('fire');
-  canvas.toBlob(blob => { addPage(blob); updateCamCount(); }, 'image/jpeg', 0.95);
+  canvas.toBlob(blob => {
+    addPage(blob);
+    updateCamCount();
+    // Clear "captured" confirmation + draw the eye to the Done button.
+    const done = document.getElementById('cam-done');
+    done.classList.remove('pulse'); void done.offsetWidth; done.classList.add('pulse');
+    document.getElementById('cam-instruction').textContent =
+      `Page ${pages.length} captured. Tap for another, or press Done.`;
+  }, 'image/jpeg', 0.95);
 }
 
 document.getElementById('camera-btn').addEventListener('click', openCamera);
