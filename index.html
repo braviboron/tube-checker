@@ -124,7 +124,7 @@
   .progress-bar-fill { height: 100%; background: var(--blue); width: 0%; transition: width 0.3s; border-radius: 3px; }
 
   /* Results */
-  #results { display: none; }
+  #results { display: none; margin-top: 16px; }   /* gap between Check tubes and detected tests */
 
   .tube-row { display: flex; align-items: flex-start; gap: 13px; padding: 13px 16px; background: var(--card); position: relative; }
   .tube-row + .tube-row::before { content: ''; position: absolute; top: 0; left: 60px; right: 0; height: 1px; background: var(--sep); }
@@ -235,11 +235,11 @@
   <!-- Results -->
   <div id="results">
     <div id="recognised-wrap"></div>
+    <button class="raw-toggle" id="raw-toggle">Show extracted text</button>
+    <div id="raw-text"></div>
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <div class="group" id="tubes-needed"></div>
-    <button class="raw-toggle" id="raw-toggle">Show extracted text</button>
-    <div id="raw-text"></div>
   </div>
 
   <button class="btn-link" id="clear-btn">Clear</button>
