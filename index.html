@@ -110,6 +110,13 @@
   }
   .btn-link:active { opacity: 0.6; }
 
+  .btn-outline {
+    width: 100%; margin-top: 4px; background: var(--card); color: var(--blue);
+    border: 1px solid var(--sep-strong); border-radius: 12px; padding: 12px;
+    font-family: var(--font); font-size: 15px; font-weight: 500; cursor: pointer;
+  }
+  .btn-outline:active { background: var(--surface-2, var(--bg)); }
+
   /* Pages strip */
   .pages { display: flex; gap: 10px; flex-wrap: wrap; padding: 0 2px; }
   .pages:not(:empty) { margin-top: 12px; }
@@ -199,6 +206,17 @@
   .cam-count { color: #fff; font-size: 13px; text-align: center; min-width: 90px; opacity: 0.9; }
 
   canvas { display: none; }
+
+  /* Print: just the detected tests + tube list, cleanly */
+  @media print {
+    header, .input-card, .group.option, #manual-btn, #read-btn, .pages, #progress-wrap,
+    #clear-btn, .fineprint, footer, #share-btn, .raw-toggle, #raw-text, .chip-x, .chip-add {
+      display: none !important;
+    }
+    body { background: #fff; }
+    main { padding: 0; }
+    #results { display: block !important; margin: 0; }
+  }
 </style>
 </head>
 <body>
@@ -259,6 +277,7 @@
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <div class="group" id="tubes-needed"></div>
+    <button class="btn-outline" id="share-btn">Share / print summary</button>
   </div>
 
   <button class="btn-link" id="clear-btn">Clear</button>
@@ -653,17 +672,50 @@ function showResults() {
   r.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Recompute tubes from selectedTests, then re-render the chips and the tube cards.
-function update() {
-  const tubeMap = {};            // tubeKey -> Set of test labels
+// Map the current selectedTests to tubes (tubeKey -> Set of test labels) + unmatched.
+function computeTubes() {
+  const tubeMap = {};
   const unmatched = new Set();
   selectedTests.forEach(t => {
     const keys = Object.keys(matchTests(t).tubeMap);
     if (keys.length === 0) unmatched.add(t);
     else keys.forEach(k => { (tubeMap[k] = tubeMap[k] || new Set()).add(t); });
   });
+  return { tubeMap, unmatched };
+}
+
+// Recompute tubes from selectedTests, then re-render the chips and the tube cards.
+function update() {
+  const { tubeMap, unmatched } = computeTubes();
   renderChips(unmatched);
   renderTubes(tubeMap);
+}
+
+// Plain-text collection summary for sharing / printing.
+function buildSummary() {
+  const { tubeMap } = computeTubes();
+  const needed = Object.keys(tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
+  const lines = ['Tube Checker collection summary', ''];
+  if (!needed.length) { lines.push('No tubes.'); }
+  else {
+    lines.push(`${needed.length} tube${needed.length === 1 ? '' : 's'}, in order of draw:`, '');
+    needed.forEach((k, i) => lines.push(`${i + 1}. ${TUBES[k].name}: ${[...tubeMap[k]].join(', ')}`));
+  }
+  lines.push('', 'Verify against your local pathology service before collection.');
+  return lines.join('\n');
+}
+
+async function shareSummary() {
+  const text = buildSummary();
+  try {
+    if (navigator.share) { await navigator.share({ title: 'Tube Checker', text }); return; }
+  } catch (e) { if (e && e.name === 'AbortError') return; }
+  try {
+    await navigator.clipboard.writeText(text);
+    alert('Summary copied to clipboard.');
+  } catch (e) {
+    window.print();
+  }
 }
 
 function renderChips(unmatched) {
@@ -948,6 +1000,7 @@ document.addEventListener('dragover', e => e.preventDefault());
 document.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer.files.length) [...e.dataTransfer.files].forEach(addPage); });
 
 document.getElementById('read-btn').addEventListener('click', readPages);
+document.getElementById('share-btn').addEventListener('click', shareSummary);
 
 // ─── MANUAL ENTRY ─────────────────────────────────────────────────────────────
 document.getElementById('manual-btn').addEventListener('click', () => {
