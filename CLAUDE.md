@@ -8,18 +8,27 @@ blood collection tube colours. OCR via Tesseract.js runs entirely client-side.
 - **Single file.** The whole app is `index.html` — HTML, CSS, and JS inlined. Keep it
   that way unless the user explicitly opts into a build step. The offline/single-file
   property is a feature, not an accident.
-- **No network calls after load, no data persistence.** This is a privacy guarantee
-  shown to the user in the UI ("All processing is local. Nothing leaves your device.").
-  Do not add analytics, telemetry, remote APIs, localStorage of patient data, etc.
-- The only external resource is the Tesseract.js CDN script, loaded at page load.
-  (Google Fonts were removed — the UI uses the system font stack.) Prefer not to add
-  more; ideally vendor Tesseract locally eventually for a fully offline app.
+- **Zero network calls, no data persistence.** This is a privacy guarantee shown in the
+  UI. Do not add analytics, telemetry, remote APIs, web fonts, CDNs, or localStorage of
+  patient data. The app must work fully offline.
+- **Tesseract.js is vendored** under `vendor/tesseract/` (library, worker, WASM core,
+  and `eng.traineddata.gz`). `runOCR()` points `workerPath`/`corePath`/`langPath` at
+  `TESS_VENDOR` — an ABSOLUTE URL built from `document.baseURI` (the blob-URL worker's
+  `importScripts` cannot resolve relative paths). Re-fetch via
+  `vendor/tesseract/fetch-assets.sh`. The only remaining external URLs are the four
+  citation links in the references section, which load only when the user taps them.
+- Camera + OCR require serving over `http://localhost` (or https); `file://` blocks
+  workers/`getUserMedia`. "Offline" = no internet, not no server.
 
 ## Visual design
-- Conservative, clinical look: light theme, system sans-serif, restrained navy accent
-  (`--accent`), neutral borders. **No emoji** — use simple inline line-SVG icons or text.
-- Tube cap-colour dots ARE meaningful (they represent the physical tube) — keep them
+- **iOS-style "sterile" clinical look** (reference: UCLH directory app): light grouped
+  background (`--bg`), white grouped cards (`.group`), hairline separators (`.row::before`,
+  inset), uppercase grey section headers (`.group-header`), rounded-square tinted leading
+  tiles (`.tile`), chevrons, large bold title, system font, restrained iOS blue (`--blue`).
+- **No emoji** — inline line-SVG icons or text only.
+- Tube cap-colour tiles ARE meaningful (they represent the physical tube) — keep them
   vivid; they are the one place colour is allowed to be strong.
+- Do NOT add fake/non-functional chrome (nav tabs, bottom tab bars) just for looks.
 
 ## Code map (all inside `index.html`)
 - `TUBES` — object: tube key → display metadata (name, additive, colour).

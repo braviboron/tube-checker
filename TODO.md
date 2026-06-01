@@ -10,8 +10,11 @@
 - [x] Sources & references section (NSW Health Pathology, CEC, RCPA) + formal disclaimer.
 - [x] Camera capture (no photo saved to device); tap the preview to capture pages.
 - [x] Multi-page forms — add several pages (upload or camera), OCR'd together.
-- [x] Conservative clinical redesign: light theme, system font, no emoji, line icons.
-- [x] Removed Google Fonts dependency (system font stack) — one fewer network call.
+- [x] Conservative clinical redesign, then an iOS-style "sterile" grouped-list redesign
+      (reference: UCLH directory app): grouped cards, hairline separators, tinted tiles.
+- [x] Removed Google Fonts dependency (system font stack).
+- [x] **Fully offline — vendored Tesseract.js** (library, worker, WASM core, eng model)
+      under `vendor/tesseract/`; zero network calls. `fetch-assets.sh` to re-fetch.
 - [x] Test harness (`tests/match.test.mjs`) running against the real rules in index.html.
 
 ## Clinical accuracy (ongoing)

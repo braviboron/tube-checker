@@ -4,231 +4,169 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Tube Checker</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.1.1/tesseract.min.js"></script>
+<!-- Tesseract.js vendored locally — no CDN, zero network calls. See vendor/tesseract/. -->
+<script src="vendor/tesseract/tesseract.min.js"></script>
 <style>
   :root {
-    --bg: #f4f5f7;
-    --surface: #ffffff;
-    --surface-2: #f8fafb;
-    --border: #d8dde3;
-    --border-strong: #c3cad2;
-    --text: #1a2330;
-    --muted: #5c6672;
-    --accent: #1f5673;
-    --accent-hover: #18475f;
-    --accent-soft: #e9f0f4;
-    --warn-text: #6f5400;
-    --warn-bg: #fbf6e7;
-    --warn-border: #e7d8a4;
-    --radius: 8px;
-    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    /* iOS-style system palette */
+    --bg: #f2f2f7;          /* systemGroupedBackground */
+    --card: #ffffff;
+    --sep: rgba(60,60,67,0.12);
+    --sep-strong: rgba(60,60,67,0.20);
+    --label: #1c1c1e;
+    --secondary: #8e8e93;
+    --tertiary: #c5c5c7;
+    --blue: #007aff;
+    --blue-tint: #e8f1ff;
+    --orange: #ff9500;
+    --note: #a8530b;
+    --note-bg: #fff6ea;
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
     background: var(--bg);
-    color: var(--text);
+    color: var(--label);
     font-family: var(--font);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.4;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
   }
 
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 20px;
+  /* Large-title header (iOS) */
+  header { background: var(--card); border-bottom: 1px solid var(--sep); padding: 16px 18px 14px; }
+  .header-inner { max-width: 620px; margin: 0 auto; }
+  h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+  .subtitle { font-size: 13px; color: var(--secondary); margin-top: 2px; }
+
+  main { max-width: 620px; margin: 0 auto; padding: 8px 18px 24px; }
+
+  /* Grouped-list building blocks */
+  .group-header { font-size: 13px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.01em; font-weight: 500; margin: 26px 6px 7px; }
+  .group-caption { font-size: 13px; color: var(--secondary); margin: -2px 6px 9px; }
+  .group { background: var(--card); border-radius: 12px; overflow: hidden; }
+
+  .row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--card); position: relative; cursor: pointer; }
+  .row + .row::before { content: ''; position: absolute; top: 0; left: 56px; right: 0; height: 1px; background: var(--sep); }
+  .row:active { background: #f7f7fa; }
+  .row-main { flex: 1; min-width: 0; }
+  .row-title { font-size: 16px; color: var(--label); }
+  .row-sub { font-size: 13px; color: var(--secondary); margin-top: 1px; }
+  .chevron { color: var(--tertiary); flex: none; }
+
+  /* Rounded-square leading tile (like the reference's icon tiles) */
+  .tile { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex: none; }
+  .tile.blue { background: var(--blue-tint); color: var(--blue); }
+
+  /* Input card */
+  .input-card { background: var(--card); border-radius: 12px; padding: 4px 6px; }
+  textarea {
+    width: 100%; border: none; outline: none; resize: vertical; min-height: 88px;
+    padding: 11px 10px; font-family: var(--font); font-size: 16px; color: var(--label);
+    background: transparent; line-height: 1.45;
   }
-  .header-inner { max-width: 640px; margin: 0 auto; }
-  .eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
-  h1 { font-size: 21px; font-weight: 600; margin-top: 2px; color: var(--text); }
-  .subtitle { font-size: 13px; color: var(--muted); margin-top: 3px; }
+  textarea::placeholder { color: var(--secondary); }
 
-  main { max-width: 640px; margin: 0 auto; padding: 20px; }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 18px;
+  .btn-filled {
+    width: 100%; margin-top: 12px; background: var(--blue); color: #fff; border: none;
+    border-radius: 12px; padding: 13px; font-family: var(--font); font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: opacity 0.15s;
   }
+  .btn-filled:active { opacity: 0.8; }
+  .btn-filled:disabled { background: var(--tertiary); cursor: not-allowed; }
 
-  .panel-label { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-
-  /* Upload / drop zone */
-  .drop-zone {
-    border: 1.5px dashed var(--border-strong);
-    border-radius: var(--radius);
-    padding: 22px 18px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.15s, background 0.15s;
-    position: relative;
-    background: var(--surface-2);
+  .btn-link {
+    display: block; width: 100%; margin-top: 12px; background: none; border: none;
+    color: var(--blue); font-family: var(--font); font-size: 15px; cursor: pointer; text-align: center;
   }
-  .drop-zone:hover, .drop-zone.drag-over { border-color: var(--accent); background: var(--accent-soft); }
-  .drop-zone input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-  .drop-icon { color: var(--muted); margin-bottom: 8px; display: inline-flex; }
-  .drop-label { font-size: 14px; font-weight: 600; color: var(--text); }
-  .drop-hint { font-size: 12px; color: var(--muted); margin-top: 3px; }
-
-  .btn-row { display: flex; gap: 10px; margin-top: 12px; }
-
-  button {
-    flex: 1;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    padding: 10px 14px;
-    border-radius: var(--radius);
-    border: 1px solid var(--border-strong);
-    background: var(--surface);
-    color: var(--text);
-    font-family: var(--font);
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  button:hover { background: var(--surface-2); border-color: var(--accent); }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-  button.primary:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
-  button svg { flex: none; }
+  .btn-link:active { opacity: 0.6; }
 
   /* Pages strip */
-  .pages { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-  .page-thumb {
-    position: relative; width: 62px; height: 78px; border: 1px solid var(--border);
-    border-radius: 6px; overflow: hidden; background: var(--surface-2);
-  }
+  .pages { display: flex; gap: 10px; flex-wrap: wrap; padding: 0 2px; }
+  .pages:not(:empty) { margin-top: 12px; }
+  .page-thumb { position: relative; width: 60px; height: 76px; border-radius: 9px; overflow: hidden; background: var(--card); border: 1px solid var(--sep); }
   .page-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .page-num {
-    position: absolute; bottom: 0; left: 0; right: 0; background: rgba(26,35,48,0.7);
-    color: #fff; font-size: 10px; text-align: center; padding: 1px 0;
-  }
-  .page-remove {
-    position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; padding: 0;
-    border-radius: 50%; background: rgba(26,35,48,0.75); color: #fff; border: none;
-    font-size: 13px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer;
-  }
-  .page-remove:hover { background: #b23b3b; }
+  .page-num { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.55); color: #fff; font-size: 10px; text-align: center; padding: 1px 0; }
+  .page-remove { position: absolute; top: 3px; right: 3px; width: 19px; height: 19px; padding: 0; border-radius: 50%; background: rgba(0,0,0,0.6); color: #fff; border: none; font-size: 14px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
   /* Progress */
-  #progress-wrap { display: none; margin-top: 14px; }
-  .progress-label { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
-  .progress-bar-bg { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; border-radius: 3px; }
-
-  /* Divider */
-  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--muted); font-size: 12px; }
-  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  textarea {
-    width: 100%; background: var(--surface); border: 1px solid var(--border-strong);
-    border-radius: var(--radius); padding: 12px 14px; color: var(--text);
-    font-family: var(--font); font-size: 14px; resize: vertical; min-height: 92px;
-    transition: border-color 0.15s; outline: none;
-  }
-  textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
-  textarea::placeholder { color: var(--muted); }
+  #progress-wrap { display: none; margin-top: 14px; padding: 0 2px; }
+  .progress-label { font-size: 13px; color: var(--secondary); margin-bottom: 7px; }
+  .progress-bar-bg { height: 5px; background: var(--sep); border-radius: 3px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; background: var(--blue); width: 0%; transition: width 0.3s; border-radius: 3px; }
 
   /* Results */
-  #results { margin-top: 24px; display: none; }
-  .section-label { font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  #results { display: none; }
 
-  .summary-bar {
-    display: flex; align-items: center; gap: 14px;
-    background: var(--accent-soft); border: 1px solid var(--accent);
-    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px;
-  }
-  .summary-count { font-size: 28px; font-weight: 700; color: var(--accent); line-height: 1; }
-  .summary-text { font-size: 13px; color: var(--text); }
-  .summary-swatches { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; max-width: 120px; justify-content: flex-end; }
-  .summary-swatch { width: 15px; height: 15px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.18); }
+  .tube-row { display: flex; align-items: flex-start; gap: 13px; padding: 13px 16px; background: var(--card); position: relative; }
+  .tube-row + .tube-row::before { content: ''; position: absolute; top: 0; left: 60px; right: 0; height: 1px; background: var(--sep); }
+  .tube-ord { width: 19px; flex: none; font-size: 13px; color: var(--secondary); font-weight: 600; text-align: center; margin-top: 9px; }
+  .tube-tile { width: 34px; height: 34px; border-radius: 8px; flex: none; margin-top: 2px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
+  .tube-main { flex: 1; min-width: 0; }
+  .tube-name-row { display: flex; align-items: baseline; gap: 8px; }
+  .tube-name { font-size: 16px; font-weight: 600; flex: 1; }
+  .tube-qty { font-size: 14px; color: var(--secondary); flex: none; }
+  .tube-sub { font-size: 13px; color: var(--secondary); margin-top: 1px; }
+  .tube-tests { font-size: 13px; color: var(--label); margin-top: 5px; }
+  .tube-tests span { color: var(--secondary); }
+  .tube-note { font-size: 12.5px; color: var(--note); background: var(--note-bg); border-radius: 7px; padding: 6px 9px; margin-top: 7px; }
 
-  .draw-hint { font-size: 12px; font-weight: 600; color: var(--muted); margin: 0 0 10px; }
+  .empty { padding: 22px 16px; text-align: center; color: var(--secondary); font-size: 14px; }
 
-  .tubes-needed { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
-  .tube-card {
-    border: 1px solid var(--border); border-radius: var(--radius); padding: 14px;
-    background: var(--surface); display: flex; align-items: flex-start; gap: 12px;
-  }
-  .draw-badge {
-    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
-    background: var(--accent-soft); border: 1px solid var(--accent);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; font-weight: 700; color: var(--accent); margin-top: 1px;
-  }
-  .tube-dot { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; border: 1px solid rgba(0,0,0,0.2); }
-  .tube-info { flex: 1; min-width: 0; }
-  .tube-name-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-  .tube-name { font-size: 15px; font-weight: 600; }
-  .tube-qty { font-size: 12px; color: var(--muted); font-weight: 600; }
-  .tube-additive { font-size: 12px; color: var(--muted); margin: 2px 0 6px; }
-  .tube-note { font-size: 12px; color: var(--warn-text); background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 6px; padding: 5px 9px; margin-bottom: 8px; }
-  .tube-note strong { font-weight: 600; }
-  .tube-tests { display: flex; flex-wrap: wrap; gap: 5px; }
-  .test-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border); color: var(--text); background: var(--surface-2); }
+  .unmatched-box { background: var(--card); border-radius: 12px; padding: 13px 16px; margin-top: 16px; }
+  .unmatched-title { font-size: 14px; font-weight: 600; color: var(--note); margin-bottom: 5px; }
+  .unmatched-item { font-size: 14px; color: var(--label); margin-bottom: 2px; }
 
-  .unmatched-box { border: 1px solid var(--warn-border); border-radius: var(--radius); padding: 12px 14px; background: var(--warn-bg); margin-bottom: 22px; }
-  .unmatched-title { font-size: 13px; font-weight: 600; color: var(--warn-text); margin-bottom: 6px; }
-  .unmatched-item { font-size: 13px; color: var(--warn-text); margin-bottom: 2px; }
-
-  .raw-toggle { font-size: 13px; color: var(--accent); cursor: pointer; background: none; border: none; padding: 0; text-decoration: underline; text-underline-offset: 3px; flex: none; width: auto; font-weight: 500; }
-  .raw-toggle:hover { color: var(--accent-hover); background: none; border-color: transparent; }
+  .raw-toggle { display: block; margin: 14px 6px 0; background: none; border: none; color: var(--blue); font-family: var(--font); font-size: 14px; cursor: pointer; }
   #raw-text {
-    display: none; margin-top: 10px; background: var(--surface-2); border: 1px solid var(--border);
-    border-radius: 6px; padding: 12px; font-size: 12px; color: var(--muted);
-    white-space: pre-wrap; word-break: break-word; max-height: 180px; overflow-y: auto;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    display: none; margin: 8px 0 0; background: var(--card); border-radius: 12px; padding: 13px;
+    font-size: 12.5px; color: var(--secondary); white-space: pre-wrap; word-break: break-word;
+    max-height: 180px; overflow-y: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
 
-  .notice { font-size: 12px; color: var(--muted); text-align: center; margin-top: 18px; }
+  .notice { font-size: 12px; color: var(--secondary); text-align: center; margin: 22px 8px 0; line-height: 1.5; }
 
-  /* Disclaimer */
-  .disclaimer { margin-top: 28px; border: 1px solid var(--warn-border); border-left: 4px solid var(--warn-border); border-radius: var(--radius); background: var(--warn-bg); padding: 14px 16px; }
-  .disclaimer-title { font-size: 13px; font-weight: 700; color: var(--warn-text); margin-bottom: 5px; }
-  .disclaimer p { font-size: 13px; color: var(--text); }
+  /* Disclaimer as a grouped note */
+  .disclaimer { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-top: 26px; border-left: 3px solid var(--orange); }
+  .disclaimer-title { font-size: 13px; font-weight: 600; color: var(--note); margin-bottom: 4px; }
+  .disclaimer p { font-size: 13px; color: var(--label); line-height: 1.5; }
   .disclaimer strong { font-weight: 600; }
 
   /* References */
-  .refs { margin-top: 16px; }
-  .refs summary { font-size: 13px; font-weight: 500; color: var(--accent); cursor: pointer; list-style: none; padding: 8px 0; }
+  .refs { background: var(--card); border-radius: 12px; margin-top: 16px; overflow: hidden; }
+  .refs summary { font-size: 15px; color: var(--blue); cursor: pointer; list-style: none; padding: 13px 16px; display: flex; align-items: center; justify-content: space-between; }
   .refs summary::-webkit-details-marker { display: none; }
-  .refs summary::before { content: '+ '; font-weight: 600; }
-  .refs[open] summary::before { content: '\2212  '; }
-  .refs ul { margin: 4px 0 0; padding-left: 18px; }
-  .refs li { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
-  .refs a { color: var(--accent); text-decoration: none; word-break: break-word; }
-  .refs a:hover { text-decoration: underline; }
-  .refs .ref-note { font-size: 12px; color: var(--muted); margin-top: 10px; font-style: italic; }
+  .refs summary::after { content: '›'; color: var(--tertiary); font-size: 20px; transition: transform 0.2s; }
+  .refs[open] summary::after { transform: rotate(90deg); }
+  .refs-body { padding: 4px 16px 14px; border-top: 1px solid var(--sep); }
+  .refs ul { margin: 10px 0 0; padding-left: 16px; }
+  .refs li { font-size: 13px; color: var(--secondary); margin-bottom: 9px; line-height: 1.45; }
+  .refs a { color: var(--blue); text-decoration: none; word-break: break-word; }
+  .refs .ref-note { font-size: 12px; color: var(--secondary); margin-top: 8px; font-style: italic; }
 
-  footer { text-align: center; font-size: 11px; color: var(--muted); padding: 24px 20px; }
+  footer { text-align: center; font-size: 11px; color: var(--tertiary); padding: 26px 20px 32px; }
 
-  /* Camera modal (kept dark — standard for capture UIs) */
-  #camera-modal { display: none; position: fixed; inset: 0; background: #0c0f13; z-index: 100; flex-direction: column; }
+  /* Camera modal (dark — native capture convention) */
+  #camera-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
   #camera-modal.active { display: flex; }
   .cam-stage { flex: 1; position: relative; overflow: hidden; cursor: pointer; }
   #camera-video { width: 100%; height: 100%; object-fit: cover; }
-  .scan-frame { position: absolute; inset: 12% 8%; border: 2px solid rgba(255,255,255,0.75); border-radius: 10px; pointer-events: none; box-shadow: 0 0 0 100vmax rgba(0,0,0,0.35); }
-  .scan-instruction { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: #fff; font-size: 14px; pointer-events: none; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+  .scan-frame { position: absolute; inset: 12% 8%; border: 2px solid rgba(255,255,255,0.8); border-radius: 12px; pointer-events: none; box-shadow: 0 0 0 100vmax rgba(0,0,0,0.35); }
+  .scan-instruction { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: #fff; font-size: 15px; pointer-events: none; text-shadow: 0 1px 4px rgba(0,0,0,0.85); }
   .cam-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
   .cam-flash.fire { animation: flash 0.35s ease-out; }
   @keyframes flash { 0% { opacity: 0.85; } 100% { opacity: 0; } }
-  .cam-overlay { position: absolute; inset: 0; background: rgba(12,15,19,0.75); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #fff; }
+  .cam-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.78); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #fff; }
   .cam-overlay.active { display: flex; }
   .cam-spinner { width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.25); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .cam-overlay-label { font-size: 13px; }
-  .camera-bar { background: #0c0f13; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .camera-bar button { background: transparent; border: 1px solid rgba(255,255,255,0.25); color: #fff; }
-  .camera-bar button:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.5); }
-  .camera-bar button.primary { background: #fff; color: #0c0f13; border-color: #fff; }
-  .camera-bar button.primary:hover { background: #e8e8e8; }
-  .cam-count { color: #fff; font-size: 13px; text-align: center; min-width: 84px; }
+  .camera-bar { background: #000; padding: 16px 20px calc(16px + env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .camera-bar button { background: transparent; border: none; color: #fff; font-family: var(--font); font-size: 16px; cursor: pointer; padding: 8px 4px; }
+  .camera-bar button.primary { font-weight: 600; color: var(--blue); }
+  .cam-count { color: #fff; font-size: 13px; text-align: center; min-width: 90px; opacity: 0.85; }
 
   canvas { display: none; }
 </style>
@@ -237,80 +175,85 @@
 
 <header>
   <div class="header-inner">
-    <div class="eyebrow">NSW / Australian Pathology</div>
     <h1>Tube Checker</h1>
-    <p class="subtitle">Enter or scan the requested tests to get the tubes, quantities and order of draw.</p>
+    <p class="subtitle">NSW / Australian pathology · tubes &amp; order of draw</p>
   </div>
 </header>
 
 <main>
-  <div class="card">
-    <div class="panel-label">Scan a request form</div>
-    <div class="drop-zone" id="drop-zone">
-      <input type="file" id="file-input" accept="image/*" multiple>
-      <span class="drop-icon">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>
-      </span>
-      <div class="drop-label">Add a page</div>
-      <div class="drop-hint">Drop or tap to add a photo or scan. Add more than one for multi-page forms.</div>
-    </div>
+  <!-- Manual entry -->
+  <p class="group-header">Requested tests</p>
+  <div class="input-card">
+    <textarea id="manual-input" placeholder="Type or paste tests, e.g. FBC, UEC, CRP, LFT, coags, group &amp; hold, blood cultures"></textarea>
+  </div>
+  <button class="btn-filled" id="manual-btn">Check tubes</button>
 
-    <div class="btn-row">
-      <button id="camera-btn">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/></svg>
-        Scan with camera
-      </button>
-      <button class="primary" id="read-btn" disabled>Read pages</button>
+  <!-- Scan -->
+  <p class="group-header">Or scan a request form</p>
+  <div class="group">
+    <label class="row" for="file-input">
+      <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
+      <div class="row-main">
+        <div class="row-title">Upload page(s)</div>
+        <div class="row-sub">Add one or more photos or scans</div>
+      </div>
+      <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
+      <input type="file" id="file-input" accept="image/*" multiple hidden>
+    </label>
+    <div class="row" id="camera-btn">
+      <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+      <div class="row-main">
+        <div class="row-title">Scan with camera</div>
+        <div class="row-sub">Point and tap — capture multi-page forms</div>
+      </div>
+      <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
     </div>
+  </div>
 
-    <div class="pages" id="pages"></div>
+  <div class="pages" id="pages"></div>
+  <button class="btn-filled" id="read-btn" disabled style="display:none">Read pages</button>
 
-    <div id="progress-wrap">
-      <div class="progress-label" id="progress-label">Preparing…</div>
-      <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
-    </div>
-
-    <div class="divider">or enter tests manually</div>
-    <textarea id="manual-input" placeholder="e.g. FBC, UEC, CRP, LFT, coags, group &amp; hold, blood cultures"></textarea>
-    <div class="btn-row">
-      <button class="primary" id="manual-btn">Check tubes</button>
-      <button id="clear-btn">Clear</button>
-    </div>
+  <div id="progress-wrap">
+    <div class="progress-label" id="progress-label">Preparing…</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
   </div>
 
   <!-- Results -->
   <div id="results">
-    <div class="section-label">Tubes required</div>
-    <div id="summary-wrap"></div>
-    <div class="draw-hint" id="draw-hint">Collect in this order:</div>
-    <div class="tubes-needed" id="tubes-needed"></div>
+    <p class="group-header">Tubes required</p>
+    <p class="group-caption" id="summary-wrap"></p>
+    <div class="group" id="tubes-needed"></div>
     <div id="unmatched-wrap"></div>
     <button class="raw-toggle" id="raw-toggle">Show extracted text</button>
     <div id="raw-text"></div>
   </div>
+
+  <button class="btn-link" id="clear-btn">Clear</button>
 
   <p class="notice">All processing happens on your device. No image or patient data is stored or sent anywhere.</p>
 
   <!-- Disclaimer -->
   <div class="disclaimer">
     <div class="disclaimer-title">Important — clinical disclaimer</div>
-    <p>This tool is a <strong>decision-support aid only</strong> and is not a substitute for
-    professional judgement or your laboratory's official collection manual. Tube types, additives
-    and the order of draw can vary between laboratories and over time.
-    <strong>Always verify requirements against your local pathology service before collecting blood.</strong></p>
+    <p>A <strong>decision-support aid only</strong>, not a substitute for professional judgement or
+    your laboratory's official collection manual. Tube types, additives and the order of draw can
+    vary between laboratories and over time.
+    <strong>Always verify against your local pathology service before collecting blood.</strong></p>
   </div>
 
   <!-- References -->
   <details class="refs">
     <summary>Sources &amp; references</summary>
-    <ul>
-      <li><a href="https://catalogue.pathology.health.nsw.gov.au/" target="_blank" rel="noopener">NSW Health Pathology — Test Catalogue</a> — primary per-test specimen / tube authority for NSW.</li>
-      <li><a href="https://pathology.health.nsw.gov.au/" target="_blank" rel="noopener">NSW Health Pathology</a> — collection guidance and policies.</li>
-      <li><a href="https://www.cec.health.nsw.gov.au/__data/assets/pdf_file/0005/259412/Adult-Blood-Culture-Guidance.PDF" target="_blank" rel="noopener">NSW Clinical Excellence Commission — Adult Blood Culture Guidance (v3.0, 2024)</a>.</li>
-      <li><a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/General-Information/Chart/Chart-A1" target="_blank" rel="noopener">RCPA Manual — Blood tube chart &amp; recommended order of draw</a> — national reference for the order of draw used here.</li>
-    </ul>
-    <p class="ref-note">Order of draw follows the standard CLSI / RCPA sequence used across Australian
-    laboratories and is consistent with NSW Health Pathology guidance. Last reviewed: June 2026.</p>
+    <div class="refs-body">
+      <ul>
+        <li><a href="https://catalogue.pathology.health.nsw.gov.au/" target="_blank" rel="noopener">NSW Health Pathology — Test Catalogue</a> — primary per-test specimen / tube authority for NSW.</li>
+        <li><a href="https://pathology.health.nsw.gov.au/" target="_blank" rel="noopener">NSW Health Pathology</a> — collection guidance and policies.</li>
+        <li><a href="https://www.cec.health.nsw.gov.au/__data/assets/pdf_file/0005/259412/Adult-Blood-Culture-Guidance.PDF" target="_blank" rel="noopener">NSW Clinical Excellence Commission — Adult Blood Culture Guidance (v3.0, 2024)</a>.</li>
+        <li><a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/General-Information/Chart/Chart-A1" target="_blank" rel="noopener">RCPA Manual — Blood tube chart &amp; recommended order of draw</a> — national reference for the order of draw.</li>
+      </ul>
+      <p class="ref-note">Order of draw follows the standard CLSI / RCPA sequence used across Australian
+      laboratories and is consistent with NSW Health Pathology guidance. Last reviewed: June 2026.</p>
+    </div>
   </details>
 </main>
 
@@ -325,7 +268,7 @@
     <div class="scan-instruction" id="cam-instruction">Point at the form and tap to capture a page</div>
     <div class="cam-overlay" id="cam-overlay">
       <div class="cam-spinner"></div>
-      <div class="cam-overlay-label" id="cam-overlay-label">Reading…</div>
+      <div id="cam-overlay-label">Reading…</div>
     </div>
   </div>
   <canvas id="camera-canvas"></canvas>
@@ -462,8 +405,7 @@ function renderResults(text) {
   const summaryEl = document.getElementById('summary-wrap');
   const tubesEl = document.getElementById('tubes-needed');
   const unmatchedEl = document.getElementById('unmatched-wrap');
-  const drawHint = document.getElementById('draw-hint');
-  summaryEl.innerHTML = '';
+  summaryEl.textContent = '';
   tubesEl.innerHTML = '';
   unmatchedEl.innerHTML = '';
 
@@ -471,38 +413,33 @@ function renderResults(text) {
   const needed = Object.keys(tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
 
   if (needed.length === 0) {
-    drawHint.style.display = 'none';
-    tubesEl.innerHTML = `<div style="color:var(--muted);font-size:14px;text-align:center;padding:18px 0">No recognised tests found.<br><span style="font-size:12px">Check the spelling, or verify against your lab's manual.</span></div>`;
+    summaryEl.textContent = '';
+    tubesEl.innerHTML = `<div class="empty">No recognised tests found.<br>Check the spelling, or verify against your lab's manual.</div>`;
   } else {
     const total = needed.length;
-    const swatches = needed.map(k => `<span class="summary-swatch" style="background:${TUBES[k].color}"></span>`).join('');
-    summaryEl.innerHTML = `
-      <div class="summary-bar">
-        <div class="summary-count">${total}</div>
-        <div class="summary-text"><strong>tube${total === 1 ? '' : 's'}</strong> needed${total > 1 ? '. Collect in the order below.' : '.'}</div>
-        <div class="summary-swatches">${swatches}</div>
-      </div>`;
-    drawHint.style.display = total > 1 ? 'block' : 'none';
+    summaryEl.textContent = total === 1
+      ? '1 tube.'
+      : `${total} tubes · collect in the order shown.`;
 
     needed.forEach((key, i) => {
       const tube = TUBES[key];
       const tests = [...tubeMap[key]];
-      const noteHtml = tube.note ? `<div class="tube-note"><strong>Note:</strong> ${tube.note}</div>` : '';
-      const card = document.createElement('div');
-      card.className = 'tube-card';
-      card.innerHTML = `
-        <div class="draw-badge">${i + 1}</div>
-        <div class="tube-dot" style="background:${tube.color}"></div>
-        <div class="tube-info">
+      const noteHtml = tube.note ? `<div class="tube-note">${tube.note}</div>` : '';
+      const row = document.createElement('div');
+      row.className = 'tube-row';
+      row.innerHTML = `
+        <div class="tube-ord">${i + 1}</div>
+        <div class="tube-tile" style="background:${tube.color}"></div>
+        <div class="tube-main">
           <div class="tube-name-row">
             <span class="tube-name">${tube.name}</span>
             <span class="tube-qty">&times;1</span>
           </div>
-          <div class="tube-additive">${tube.additive}</div>
+          <div class="tube-sub">${tube.additive}</div>
+          <div class="tube-tests"><span>Tests:</span> ${tests.join(', ')}</div>
           ${noteHtml}
-          <div class="tube-tests">${tests.map(t => `<span class="test-tag">${t}</span>`).join('')}</div>
         </div>`;
-      tubesEl.appendChild(card);
+      tubesEl.appendChild(row);
     });
   }
 
@@ -510,7 +447,7 @@ function renderResults(text) {
     unmatchedEl.innerHTML = `
       <div class="unmatched-box">
         <div class="unmatched-title">Unrecognised — verify manually</div>
-        ${unmatched.slice(0, 8).map(u => `<div class="unmatched-item">&middot; ${u}</div>`).join('')}
+        ${unmatched.slice(0, 8).map(u => `<div class="unmatched-item">${u}</div>`).join('')}
       </div>`;
   }
 
@@ -534,6 +471,7 @@ function renderPages() {
     btn.addEventListener('click', () => removePage(+btn.dataset.i)));
 
   const readBtn = document.getElementById('read-btn');
+  readBtn.style.display = pages.length ? 'block' : 'none';
   readBtn.disabled = pages.length === 0;
   readBtn.textContent = pages.length === 0 ? 'Read pages'
     : `Read ${pages.length} page${pages.length === 1 ? '' : 's'}`;
@@ -549,8 +487,16 @@ function removePage(i) {
   if (pages[i]) { URL.revokeObjectURL(pages[i].url); pages.splice(i, 1); renderPages(); }
 }
 
+// Absolute base URL for the vendored assets. Must be absolute: Tesseract runs the
+// worker from a blob URL, and importScripts() inside it cannot resolve relative paths.
+const TESS_VENDOR = new URL('vendor/tesseract/', document.baseURI).href;
+
 async function runOCR(source, onProgress) {
   const result = await Tesseract.recognize(source, 'eng', {
+    // All assets served locally — no network access required.
+    workerPath: TESS_VENDOR + 'worker.min.js',
+    corePath: TESS_VENDOR,
+    langPath: TESS_VENDOR,
     logger: m => { if (onProgress && m.status === 'recognizing text') onProgress(m.progress); }
   });
   return result.data.text;
@@ -581,7 +527,7 @@ async function readPages() {
     prog.style.display = 'none';
     renderResults(parts.join('\n\n'));
   } catch (e) {
-    label.textContent = 'Reading failed — try a clearer image, or type the tests below.';
+    label.textContent = 'Reading failed — try a clearer image, or type the tests above.';
   }
   readBtn.disabled = pages.length === 0;
 }
@@ -591,11 +537,9 @@ document.getElementById('file-input').addEventListener('change', e => {
   e.target.value = '';
 });
 
-// Drag & drop
-const dz = document.getElementById('drop-zone');
-dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
-dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
-dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); [...e.dataTransfer.files].forEach(addPage); });
+// Drag & drop onto the whole document for convenience
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer.files.length) [...e.dataTransfer.files].forEach(addPage); });
 
 document.getElementById('read-btn').addEventListener('click', readPages);
 
@@ -623,7 +567,7 @@ document.getElementById('raw-toggle').addEventListener('click', () => {
 
 // ─── CAMERA: capture pages (no photo saved to device) ─────────────────────────
 let cameraStream = null;
-let sessionStart = 0; // pages count when camera opened
+let sessionStart = 0;
 
 function updateCamCount() {
   const added = pages.length - sessionStart;
@@ -653,7 +597,6 @@ function stopCamera() {
   document.getElementById('cam-overlay').classList.remove('active');
 }
 
-// Capture the current frame as a page. No image is written to the camera roll.
 function capturePage() {
   const video = document.getElementById('camera-video');
   if (!video.videoWidth) return;

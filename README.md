@@ -1,22 +1,35 @@
 # Tube Checker
 
-A single-file, offline web app that reads a pathology request form (photo, scan, or
-manual entry) and tells you which **blood collection tubes** you need, using AU/NZ
-colour-top conventions.
+An offline web app that reads a pathology request form (photo, scan, or manual entry)
+and tells you which **blood collection tubes** you need, in what quantity and in what
+**order of draw**, using NSW Health / RCPA conventions.
 
-- **Privacy-first:** all OCR runs locally in the browser (Tesseract.js). No data is
-  saved and no network calls are made after the page loads.
-- **No build step:** `index.html` is the entire app. Open it in a browser to run.
+- **Fully offline — zero network calls.** OCR (Tesseract.js) and its language model are
+  vendored locally under `vendor/tesseract/`. Nothing is fetched from the internet and
+  no image or patient data is stored or transmitted. The only external URLs are the
+  citation links in the references section, which open only when tapped.
+- **No build step:** the app is `index.html` plus the vendored OCR assets.
 
 ## Run it
 
-Just open `index.html` in any modern browser. For camera capture you'll need to serve
-it over `https://` or `localhost` (browsers block `getUserMedia` on `file://`):
+Serve the folder over `localhost` (the camera and OCR worker need an HTTP origin —
+browsers block `getUserMedia` and workers on `file://`):
 
 ```sh
 # from the project root
 python -m http.server 8000
 # then visit http://localhost:8000
+```
+
+"Offline" means no internet access is required — a local static server is still needed.
+
+## Project layout
+
+```
+index.html              the app (UI + matching engine + OCR wiring)
+vendor/tesseract/        vendored Tesseract.js — library, worker, WASM core, eng model
+  fetch-assets.sh        re-download/upgrade those assets
+tests/match.test.mjs     matching-engine tests (run against index.html directly)
 ```
 
 ## How it works
