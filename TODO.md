@@ -27,14 +27,20 @@
 - [x] **Share / print summary** (Web Share API + clipboard fallback + print CSS).
 - [x] `npm test` + GitHub Actions CI (`.github/workflows/test.yml`).
 
+- [x] **More than one tube of the same colour.**
+      (a) VOLUME — each volume-limited tube has a conservative `maxTests` capacity;
+          `tubeQty()` splits large panels (citrate splits soonest). Researched: test count
+          rarely forces a 2nd serum tube; it's volume/tube-type driven. Numbers are tunable.
+      (b) SEND-AWAY — a test marked "send-away to reference lab" (toggle in the picker)
+          gets its own tube of its colour, separate from local tests. `tubeGroupsFor()`
+          splits local vs referral. Per-test (no site-specific list baked in).
+
 ## Parked for later (agreed with user)
 - [ ] **Clinical test-list sweep** — go through the tests actually ordered on the ward
       (paste a list / photograph a request form) and add every missing abbreviation,
       mapping each to the right tube in one pass. EUC was the first such gap found.
-- [ ] **More than one tube of the same colour.** Today the app always consolidates to
-      one tube per colour (×1). Real life needs a 2nd sometimes, for (a) draw VOLUME and
-      (b) dedicated/split tubes (lab-specific). Needs per-test volume data + split rules;
-      capture these during the sweep above.
+- [ ] Tune the `maxTests` capacities + decide a default send-away set with a clinician /
+      the target lab (currently per-test, no defaults).
 - [ ] **Optional: native one-shot camera** — offered as a more private/clearer capture
       (system Camera app, no held live stream). Not yet decided; current live-preview
       multi-page capture stays for now.

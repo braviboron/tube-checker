@@ -15,8 +15,8 @@ if (start === -1 || end === -1) throw new Error('Could not locate logic block ma
 const block = html.slice(start, end);
 
 // Evaluate the block and expose the matcher, tubes, and the canonical test list.
-const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty };`);
-const { matchTests, TUBES, TESTS, searchTests, tubeQty } = factory();
+const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor };`);
+const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────
 let pass = 0, fail = 0;
@@ -171,6 +171,22 @@ expectQty('blue', 6, 2, 'citrate: 6 coag tests -> 2 tubes (splits sooner)');
 expectQty('pink', 50, 1, 'blood bank: always 1 regardless of count');
 expectQty('bc_aerobic', 10, 1, 'blood culture: always 1');
 expectQty('purple', 0, 1, 'never less than 1');
+
+// — Send-away (referral) tests split a colour into a separate tube —
+function groupsFor(tests, refArr) {
+  const { groups } = tubeGroupsFor(tests, new Set((refArr || []).map(s => s.toLowerCase())));
+  return groups.map(g => `${g.key}${g.referral ? '#ref' : ''}x${g.qty}`);
+}
+function expectGroups(tests, refArr, want, msg) {
+  const got = groupsFor(tests, refArr);
+  const ok = got.length === want.length && got.every((g, i) => g === want[i]);
+  if (ok) pass++; else { fail++; fails.push(`✗ ${msg}\n    got:  [${got}]\n    want: [${want}]`); }
+}
+expectGroups(['UEC', 'immunoglobulins'], [], ['goldx1'], 'both local → one gold tube');
+expectGroups(['UEC', 'immunoglobulins'], ['immunoglobulins'], ['goldx1', 'gold#refx1'],
+  'send-away immunoglobulins → its own gold tube, local first');
+expectGroups(['FBC', 'UEC'], ['UEC'], ['gold#refx1', 'purplex1'],
+  'referral keeps draw order (gold before purple)');
 
 // ─── Report ─────────────────────────────────────────────────────────────────
 console.log(`\nTube Checker matching tests: ${pass} passed, ${fail} failed\n`);
