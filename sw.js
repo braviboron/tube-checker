@@ -1,6 +1,6 @@
 /* Tube Checker service worker — precache the whole app for fully offline use.
  * Bump CACHE when any precached asset changes to force an update. */
-const CACHE = 'tube-checker-v2';
+const CACHE = 'tube-checker-v3';
 
 const ASSETS = [
   './',

@@ -101,6 +101,14 @@
   .btn-filled:active { opacity: 0.8; }
   .btn-filled:disabled { background: var(--tertiary); cursor: not-allowed; }
 
+  .btn-scan {
+    width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center;
+    gap: 8px; background: var(--card); color: var(--blue); border: 1.5px solid var(--blue);
+    border-radius: 12px; padding: 12px; font-family: var(--font); font-size: 16px; font-weight: 600; cursor: pointer;
+  }
+  .btn-scan:active { background: var(--blue-tint); }
+  .btn-scan svg { flex: none; }
+
   .btn-link {
     display: block; width: 100%; margin-top: 12px; background: none; border: none;
     color: var(--blue); font-family: var(--font); font-size: 15px; cursor: pointer; text-align: center;
@@ -207,12 +215,14 @@
   <!-- Primary input: type, or the phone's own Scan Text -->
   <p class="group-header">Requested tests</p>
   <div class="input-card">
-    <textarea id="manual-input" placeholder="Type tests here — or on a phone, tap and choose “Scan Text”.&#10;e.g. FBC, UEC, CRP, LFT, coags, group &amp; hold, blood cultures"></textarea>
+    <textarea id="manual-input" placeholder="Type tests here — or on a phone, use “Scan the form” below.&#10;e.g. FBC, UEC, CRP, LFT, coags, group &amp; hold, blood cultures"></textarea>
   </div>
+  <button class="btn-scan" id="scan-text-btn" hidden>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>
+    Scan the form with my camera
+  </button>
   <p class="hint" id="scan-tip">
-    <strong>Best accuracy on a phone:</strong> tap in the box above, choose
-    <strong>Scan Text</strong>, and point at the form. Your phone’s own camera text
-    recognition types it in — then check the words and tap <em>Check tubes</em>.
+    Uses your phone’s own <strong>Scan Text</strong> — far more accurate than the image reader below.
   </p>
   <button class="btn-filled" id="manual-btn">Check tubes</button>
 
@@ -595,6 +605,37 @@ document.getElementById('manual-btn').addEventListener('click', () => {
   if (!text.trim()) return;
   renderResults(text);
 });
+
+// ─── "Scan the form" helper ───────────────────────────────────────────────────
+// A web page can't launch the OS text scanner directly, but focusing the field opens
+// the keyboard so the native "Scan Text" control is one tap away. We tailor the copy
+// to the device and only show this on touch devices (on desktop, people just type).
+(() => {
+  const btn = document.getElementById('scan-text-btn');
+  const tip = document.getElementById('scan-tip');
+  const ta = document.getElementById('manual-input');
+  const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  if (!isTouch) { btn.hidden = true; tip.hidden = true; return; }
+  btn.hidden = false;
+
+  if (isIOS) {
+    tip.innerHTML = 'Opens your keyboard — then tap <strong>Scan Text</strong> (the document-camera icon), ' +
+                    'or press &amp; hold the box and choose <strong>Scan Text</strong>. This uses your iPhone’s own OCR.';
+  } else {
+    btn.lastChild.textContent = ' Type or scan the form';
+    tip.innerHTML = 'Opens your keyboard — use its built-in text scan (e.g. Gboard’s camera / Google Lens) ' +
+                    'to read the form into the box, or paste text in.';
+  }
+
+  btn.addEventListener('click', () => {
+    ta.focus();
+    try { ta.setSelectionRange(ta.value.length, ta.value.length); } catch (e) {}
+    ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+})();
 
 document.getElementById('clear-btn').addEventListener('click', () => {
   document.getElementById('manual-input').value = '';
