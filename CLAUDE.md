@@ -11,8 +11,15 @@ blood collection tube colours. OCR via Tesseract.js runs entirely client-side.
 - **No network calls after load, no data persistence.** This is a privacy guarantee
   shown to the user in the UI ("All processing is local. Nothing leaves your device.").
   Do not add analytics, telemetry, remote APIs, localStorage of patient data, etc.
-- The only external resources are the Tesseract.js CDN script and Google Fonts, loaded
-  at page load. Prefer not to add more; ideally vendor Tesseract locally eventually.
+- The only external resource is the Tesseract.js CDN script, loaded at page load.
+  (Google Fonts were removed — the UI uses the system font stack.) Prefer not to add
+  more; ideally vendor Tesseract locally eventually for a fully offline app.
+
+## Visual design
+- Conservative, clinical look: light theme, system sans-serif, restrained navy accent
+  (`--accent`), neutral borders. **No emoji** — use simple inline line-SVG icons or text.
+- Tube cap-colour dots ARE meaningful (they represent the physical tube) — keep them
+  vivid; they are the one place colour is allowed to be strong.
 
 ## Code map (all inside `index.html`)
 - `TUBES` — object: tube key → display metadata (name, additive, colour).

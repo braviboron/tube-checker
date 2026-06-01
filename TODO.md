@@ -8,7 +8,10 @@
 - [x] Fixed clinical bugs: ESR no longer double-maps to gold; ammonia → green;
       trace elements (zinc/copper/etc) → royal blue; blood cultures → both bottles.
 - [x] Sources & references section (NSW Health Pathology, CEC, RCPA) + formal disclaimer.
-- [x] Tap-to-scan live camera (no photo saved) — tap the preview to read instantly.
+- [x] Camera capture (no photo saved to device); tap the preview to capture pages.
+- [x] Multi-page forms — add several pages (upload or camera), OCR'd together.
+- [x] Conservative clinical redesign: light theme, system font, no emoji, line icons.
+- [x] Removed Google Fonts dependency (system font stack) — one fewer network call.
 - [x] Test harness (`tests/match.test.mjs`) running against the real rules in index.html.
 
 ## Clinical accuracy (ongoing)
