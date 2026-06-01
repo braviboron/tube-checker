@@ -67,6 +67,32 @@ expectTubes('ammonia', ['green'], 'ammonia → green (Li-heparin)');
 // — Blood cultures produce BOTH bottles —
 expectTubes('blood cultures', ['bc_aerobic', 'bc_anaerobic'], 'blood cultures → aerobic + anaerobic');
 
+// — Regression: specific multi-token terms must win over generic short ones —
+// All distinct recognised labels for an input.
+function labelsFor(input) {
+  const { tubeMap } = matchTests(input);
+  return [...new Set(Object.values(tubeMap).flatMap(s => [...s]))];
+}
+function expectLabelContains(input, substr, msg) {
+  const got = labelsFor(input);
+  if (got.some(l => l.includes(substr))) { pass++; }
+  else { fail++; fails.push(`✗ ${msg || input}\n    want a label containing: ${substr}\n    got labels: [${got}]`); }
+}
+function expectNoExactLabel(input, label, msg) {
+  const got = labelsFor(input);
+  if (!got.includes(label)) { pass++; }
+  else { fail++; fails.push(`✗ ${msg || input}\n    label must not be exactly: ${label}\n    got labels: [${got}]`); }
+}
+// "hb a1c" must read as HbA1c, not bare Hb (the reported bug)
+expectLabelContains('hb a1c', 'A1C', 'hb a1c → HbA1c label');
+expectNoExactLabel('hb a1c', 'HB', 'hb a1c must not collapse to bare HB');
+expectLabelContains('HbA1c', 'A1C', 'HbA1c → A1C label');
+expectTubes('hb a1c', ['purple'], 'hb a1c → purple (EDTA)');
+expectTubes('Hb', ['purple'], 'bare Hb still → purple');
+// "ck-mb" must read as CK-MB, not bare CK
+expectLabelContains('ck-mb', 'MB', 'ck-mb → CK-MB label');
+expectNoExactLabel('ck-mb', 'CK', 'ck-mb must not collapse to bare CK');
+
 // — Regression: ESR must NOT double-map to gold (was a bug) —
 expectIncludes('ESR', 'purple', 'ESR → purple');
 expectExcludes('ESR', 'gold', 'ESR must NOT map to gold');
