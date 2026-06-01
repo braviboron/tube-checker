@@ -95,6 +95,8 @@
   .chip.unmatched .chip-x { background: rgba(168,83,11,0.14); color: var(--note); }
   .chip-add { border: 1px dashed var(--tertiary); background: none; color: var(--blue); min-width: 30px; height: 27px; border-radius: 999px; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
   .chip-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #6b4d00; background: #ffe9a8; border-radius: 4px; padding: 1px 5px; }
+  .chip-hint { font-size: 10px; font-weight: 600; color: var(--secondary); background: rgba(60,60,67,0.08); border-radius: 4px; padding: 1px 5px; }
+  .refer-note { font-size: 12.5px; color: var(--note); background: var(--note-bg); border-radius: 8px; padding: 8px 11px; margin-top: 10px; line-height: 1.45; }
   .ref-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #6b4d00; background: #ffe9a8; border-radius: 4px; padding: 2px 6px; vertical-align: middle; }
 
   .btn-filled {
@@ -620,6 +622,19 @@ function searchTests(query, limit = 8) {
 // tubes carry a conservative `maxTests` capacity (usable volume ÷ typical per-test
 // volume); blood-culture and blood-bank tubes have none and are always 1. This is a
 // guide only — one serum tube covers a big panel; small citrate tubes split sooner.
+// Specialised / niche tests that regional labs commonly refer to a reference lab.
+// Conservative default — used only to FLAG (soft hint), never to auto-split. The user
+// confirms by toggling send-away. Editable.
+const NICHE_NAMES = new Set([
+  'Protein Electrophoresis', 'Immunoglobulins', 'ANCA', 'ENA', 'dsDNA', 'Anti-CCP',
+  'Complement (C3/C4)', 'Zinc', 'Copper', 'Manganese', 'Selenium', 'Trace Elements',
+  'Homocysteine', 'Haemochromatosis (HFE)', 'Thalassaemia', 'Chromosome Studies',
+  'Factor Assay', 'Lupus Anticoagulant', 'C-Peptide', 'Insulin'
+]);
+const nicheKeys = new Set();
+for (const t of TESTS) if (NICHE_NAMES.has(t.name)) for (const a of [t.name, ...(t.aliases || [])]) nicheKeys.add(normTest(a));
+function isNicheTest(s) { return nicheKeys.has(normTest(s)); }
+
 function tubeQty(key, n) {
   const cap = TUBES[key] && TUBES[key].maxTests;
   return cap ? Math.max(1, Math.ceil(n / cap)) : 1;
@@ -756,12 +771,19 @@ async function shareSummary() {
 
 function renderChips(unmatched) {
   const wrap = document.getElementById('recognised-wrap');
+  const niche = [];
   const chipsHtml = selectedTests.map((t, i) => {
     const flag = unmatched.has(t) ? ' unmatched' : '';
-    const ref = referral.has(t.toLowerCase()) ? '<span class="chip-tag">send-away</span>' : '';
-    return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>${ref}` +
+    const isRef = referral.has(t.toLowerCase());
+    const ref = isRef ? '<span class="chip-tag">send-away</span>' : '';
+    let hint = '';
+    if (!isRef && isNicheTest(t)) { hint = '<span class="chip-hint">refer?</span>'; niche.push(t); }
+    return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>${ref}${hint}` +
            `<button class="chip-x" data-i="${i}" aria-label="Remove">&times;</button></span>`;
   }).join('');
+  const referNote = niche.length
+    ? `<div class="refer-note">Possibly referred to a reference lab (each may need its own tube): ${niche.map(escapeHtml).join(', ')}. Tap one and turn on Send-away to split it.</div>`
+    : '';
   const rawHtml = lastRawText ? `
       <button class="raw-toggle" id="raw-toggle">${rawShown ? 'Hide' : 'Show'} extracted text</button>
       <div id="raw-text"${rawShown ? '' : ' style="display:none"'}>${escapeHtml(lastRawText)}</div>` : '';
@@ -769,6 +791,7 @@ function renderChips(unmatched) {
     <div class="recognised">
       <div class="recognised-head">Detected tests · tap to edit, × to remove</div>
       <div class="chips">${chipsHtml}<button class="chip-add" id="chip-add" aria-label="Add a test">+</button></div>
+      ${referNote}
       ${rawHtml}
     </div>`;
   wrap.querySelectorAll('.chip-x').forEach(b =>

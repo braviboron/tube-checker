@@ -15,8 +15,8 @@ if (start === -1 || end === -1) throw new Error('Could not locate logic block ma
 const block = html.slice(start, end);
 
 // Evaluate the block and expose the matcher, tubes, and the canonical test list.
-const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor };`);
-const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor } = factory();
+const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest };`);
+const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────
 let pass = 0, fail = 0;
@@ -187,6 +187,21 @@ expectGroups(['UEC', 'immunoglobulins'], ['immunoglobulins'], ['goldx1', 'gold#r
   'send-away immunoglobulins → its own gold tube, local first');
 expectGroups(['FBC', 'UEC'], ['UEC'], ['gold#refx1', 'purplex1'],
   'referral keeps draw order (gold before purple)');
+
+// — Niche / commonly-referred test auto-flagging —
+function expectNiche(s, want, msg) {
+  const got = !!isNicheTest(s);
+  if (got === want) pass++;
+  else { fail++; fails.push(`✗ ${msg}\n    isNicheTest(${JSON.stringify(s)}) = ${got}, want ${want}`); }
+}
+expectNiche('immunoglobulins', true, 'immunoglobulins is niche');
+expectNiche('IgG', true, 'IgG (alias) is niche');
+expectNiche('ANCA', true, 'ANCA is niche');
+expectNiche('zinc', true, 'zinc is niche');
+expectNiche('lupus anticoagulant', true, 'lupus anticoagulant is niche');
+expectNiche('UEC', false, 'UEC is not niche');
+expectNiche('FBC', false, 'FBC is not niche');
+expectNiche('CRP', false, 'CRP is not niche');
 
 // ─── Report ─────────────────────────────────────────────────────────────────
 console.log(`\nTube Checker matching tests: ${pass} passed, ${fail} failed\n`);
