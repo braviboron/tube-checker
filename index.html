@@ -101,13 +101,6 @@
   .btn-filled:active { opacity: 0.8; }
   .btn-filled:disabled { background: var(--tertiary); cursor: not-allowed; }
 
-  .btn-scan {
-    width: 100%; margin-top: 10px; display: flex; align-items: center; justify-content: center;
-    gap: 8px; background: var(--card); color: var(--blue); border: 1.5px solid var(--blue);
-    border-radius: 12px; padding: 12px; font-family: var(--font); font-size: 16px; font-weight: 600; cursor: pointer;
-  }
-  .btn-scan:active { background: var(--blue-tint); }
-  .btn-scan svg { flex: none; }
 
   .btn-link {
     display: block; width: 100%; margin-top: 12px; background: none; border: none;
@@ -217,13 +210,7 @@
   <div class="input-card">
     <textarea id="manual-input" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests, or press &amp; hold the box to scan.&#10;e.g. FBC, UEC, CRP, coags, group &amp; hold, blood cultures"></textarea>
   </div>
-  <button type="button" class="btn-scan" id="scan-text-btn" hidden>
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 12h10"/></svg>
-    Scan the form with my camera
-  </button>
-  <p class="hint" id="scan-tip">
-    Uses your phone’s own <strong>Scan Text</strong> — far more accurate than the image reader below.
-  </p>
+  <p class="hint" id="scan-tip" hidden></p>
   <button class="btn-filled" id="manual-btn">Check tubes</button>
 
   <!-- Secondary: built-in offline image reader (less accurate) -->
@@ -546,18 +533,86 @@ function removePage(i) {
 // worker from a blob URL, and importScripts() inside it cannot resolve relative paths.
 const TESS_VENDOR = new URL('vendor/tesseract/', document.baseURI).href;
 
-async function runOCR(source, onProgress) {
-  const result = await Tesseract.recognize(source, 'eng', {
+// Load a Blob/File into an <img>.
+function blobToImage(blob) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = e => { URL.revokeObjectURL(url); reject(e); };
+    img.src = url;
+  });
+}
+
+// Pre-process a photo for OCR: scale to a legible size, convert to greyscale, and
+// stretch contrast. This makes a big difference on phone snaps of request forms.
+// Returns a <canvas>; falls back to the original blob if anything goes wrong.
+async function preprocess(blob) {
+  const img = await blobToImage(blob);
+  const MIN_W = 1200, MAX_W = 2200;
+  let scale = 1;
+  if (img.width < MIN_W) scale = MIN_W / img.width;
+  else if (img.width > MAX_W) scale = MAX_W / img.width;
+  const w = Math.max(1, Math.round(img.width * scale));
+  const h = Math.max(1, Math.round(img.height * scale));
+
+  const canvas = document.createElement('canvas');
+  canvas.width = w; canvas.height = h;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  ctx.drawImage(img, 0, 0, w, h);
+
+  const imageData = ctx.getImageData(0, 0, w, h);
+  const d = imageData.data;
+  const CONTRAST = 1.45, MID = 128;
+  for (let i = 0; i < d.length; i += 4) {
+    let lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+    lum = (lum - MID) * CONTRAST + MID;          // contrast stretch
+    lum = lum < 0 ? 0 : lum > 255 ? 255 : lum;
+    d[i] = d[i + 1] = d[i + 2] = lum;            // greyscale
+  }
+  ctx.putImageData(imageData, 0, 0);
+  return canvas;
+}
+
+// One reusable Tesseract worker (faster across multi-page) with tuned parameters.
+let _ocrWorker = null;
+let _ocrProgress = null;
+async function getOCRWorker() {
+  if (_ocrWorker) return _ocrWorker;
+  _ocrWorker = await Tesseract.createWorker('eng', 1, {
     // All assets served locally — no network access required.
-    // workerBlobURL:false loads the worker from a same-origin URL (not a blob), so its
-    // sub-requests are intercepted by the service worker and work fully offline.
     workerBlobURL: false,
     workerPath: TESS_VENDOR + 'worker.min.js',
     corePath: TESS_VENDOR,
     langPath: TESS_VENDOR,
-    logger: m => { if (onProgress && m.status === 'recognizing text') onProgress(m.progress); }
+    logger: m => { if (_ocrProgress && m.status === 'recognizing text') _ocrProgress(m.progress); }
   });
-  return result.data.text;
+  await _ocrWorker.setParameters({
+    user_defined_dpi: '300',            // avoids bad auto-DPI guesses on photos
+    preserve_interword_spaces: '1'
+  });
+  return _ocrWorker;
+}
+
+async function runOCR(source, onProgress) {
+  let image = source;
+  try { image = await preprocess(source); } catch (e) { image = source; }  // fall back to raw
+  try {
+    _ocrProgress = onProgress;
+    const worker = await getOCRWorker();
+    const { data } = await worker.recognize(image);
+    return data.text;
+  } catch (e) {
+    // Fallback if the persistent-worker API isn't available — still uses preprocessing.
+    const { data } = await Tesseract.recognize(image, 'eng', {
+      workerBlobURL: false,
+      workerPath: TESS_VENDOR + 'worker.min.js',
+      corePath: TESS_VENDOR,
+      langPath: TESS_VENDOR,
+      logger: m => { if (onProgress && m.status === 'recognizing text') onProgress(m.progress); }
+    });
+    return data.text;
+  }
 }
 
 async function readPages() {
@@ -608,34 +663,18 @@ document.getElementById('manual-btn').addEventListener('click', () => {
   renderResults(text);
 });
 
-// ─── "Scan the form" helper ───────────────────────────────────────────────────
-// A web page can't launch the OS text scanner directly, but focusing the field opens
-// the keyboard so the native "Scan Text" control is one tap away. We tailor the copy
-// to the device and only show this on touch devices (on desktop, people just type).
+// ─── iOS Scan Text tip ────────────────────────────────────────────────────────
+// On iPhone/iPad, point users at Apple's Scan Text (its Live Text camera OCR) — the
+// most accurate input. It lives in the box's press-and-hold AutoFill menu.
 (() => {
-  const btn = document.getElementById('scan-text-btn');
   const tip = document.getElementById('scan-tip');
-  const ta = document.getElementById('manual-input');
-  const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+  if (!tip) return;
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
                 (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-
-  if (!isTouch) { btn.hidden = true; tip.hidden = true; return; }
-  btn.hidden = false;
-
-  if (isIOS) {
-    tip.innerHTML = 'To scan a form: <strong>press &amp; hold</strong> the box, tap <strong>AutoFill</strong>, then ' +
-                    '<strong>Scan Text</strong> — your iPhone’s camera reads it straight in. ' +
-                    '(Scan Text lives <em>inside</em> the AutoFill menu.)';
-  } else {
-    btn.lastChild.textContent = ' Type or scan the form';
-    tip.innerHTML = 'To scan: press &amp; hold the box above and use your keyboard’s text scan ' +
-                    '(e.g. Gboard’s camera / Google Lens), or paste text in.';
-  }
-
-  // The button focuses the box (opens the keyboard). The actual scan is the OS "Scan Text"
-  // option in the box's press-and-hold menu — a page can't trigger that directly.
-  btn.addEventListener('click', () => { ta.focus(); });
+  if (!isIOS) return;
+  tip.hidden = false;
+  tip.innerHTML = 'Tip: <strong>press &amp; hold</strong> the box → <strong>AutoFill</strong> → ' +
+                  '<strong>Scan Text</strong> to read a form with your camera (your iPhone’s own OCR).';
 })();
 
 document.getElementById('clear-btn').addEventListener('click', () => {
