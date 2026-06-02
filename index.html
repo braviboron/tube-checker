@@ -117,6 +117,15 @@
   .btn-filled:active { opacity: 0.8; }
   .btn-filled:disabled { background: var(--tertiary); cursor: not-allowed; }
 
+  /* Camera/upload review actions: add another page + Done (process) */
+  .page-actions { display: flex; gap: 10px; margin-top: 12px; }
+  .page-actions .btn-filled, .page-actions .btn-outline { flex: 1; margin-top: 0; }
+  .btn-outline {
+    background: var(--card); color: var(--blue); border: 1px solid var(--blue);
+    border-radius: 12px; padding: 13px; font-family: var(--font); font-size: 16px; font-weight: 600;
+    cursor: pointer; transition: opacity 0.15s;
+  }
+  .btn-outline:active { opacity: 0.6; }
 
   .btn-box {
     display: block; width: 100%; margin-top: 12px; background: var(--card);
@@ -216,7 +225,7 @@
 
   /* Print: just the detected tests + tube list, cleanly */
   @media print {
-    header, .group-header, .add-field, .group.option, #read-btn, .pages, #progress-wrap,
+    header, .group-header, .add-field, .group.option, .page-actions, .pages, #progress-wrap,
     #clear-btn, .fineprint, footer, #share-btn, .raw-toggle, #raw-text, .chip-x, .chip-add, .chip-tag, .chip-hint {
       display: none !important;
     }
@@ -273,7 +282,10 @@
   </div>
 
   <div class="pages" id="pages"></div>
-  <button class="btn-filled" id="read-btn" disabled style="display:none">Read pages</button>
+  <div class="page-actions" id="page-actions" style="display:none">
+    <button class="btn-outline" id="add-page-btn">Add another page</button>
+    <button class="btn-filled" id="read-btn" disabled>Done</button>
+  </div>
 
   <div id="progress-wrap">
     <div class="progress-label" id="progress-label">Preparing…</div>
@@ -1054,11 +1066,11 @@ function renderPages() {
   el.querySelectorAll('.page-remove').forEach(btn =>
     btn.addEventListener('click', () => removePage(+btn.dataset.i)));
 
+  document.getElementById('page-actions').style.display = pages.length ? 'flex' : 'none';
   const readBtn = document.getElementById('read-btn');
-  readBtn.style.display = pages.length ? 'block' : 'none';
   readBtn.disabled = pages.length === 0;
-  readBtn.textContent = pages.length === 0 ? 'Read pages'
-    : `Read ${pages.length} page${pages.length === 1 ? '' : 's'}`;
+  readBtn.textContent = pages.length <= 1 ? 'Done'
+    : `Done · ${pages.length} pages`;
 }
 
 function addPage(blob) {
@@ -1233,6 +1245,13 @@ document.getElementById('clear-btn').addEventListener('click', () => {
 document.getElementById('camera-input').addEventListener('change', e => {
   [...e.target.files].forEach(addPage);
   e.target.value = '';   // allow re-capturing another page with the same input
+  // Bring the 'Add another page / Done' bar into view after returning from camera.
+  if (pages.length) document.getElementById('page-actions').scrollIntoView({ block: 'center', behavior: 'smooth' });
+});
+
+// 'Add another page' reopens the system camera for the next page.
+document.getElementById('add-page-btn').addEventListener('click', () => {
+  document.getElementById('camera-input').click();
 });
 
 // ─── PICKER wiring ────────────────────────────────────────────────────────────
