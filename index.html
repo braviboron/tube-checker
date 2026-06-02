@@ -95,7 +95,8 @@
   .chips { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
   .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; padding: 4px 5px 4px 11px; border-radius: 999px; background: var(--blue-tint); color: #0b5cab; border: 1px solid #cfe2fb; }
   .chip-label { cursor: pointer; }
-  .chip-x { border: none; background: rgba(11,92,171,0.14); color: #0b5cab; width: 19px; height: 19px; border-radius: 50%; font-size: 14px; line-height: 1; cursor: pointer; padding: 0; display: flex; align-items: center; justify-content: center; }
+  .chip-x { border: none; background: rgba(11,92,171,0.14); color: #0b5cab; width: 19px; height: 19px; border-radius: 50%; cursor: pointer; padding: 0; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+  .chip-x svg { display: block; }
   .chip.unmatched { background: var(--note-bg); color: var(--note); border-color: #e7d8a4; }
   .chip.unmatched .chip-x { background: rgba(168,83,11,0.14); color: var(--note); }
   .chip-add { border: 1px dashed var(--tertiary); background: none; color: var(--blue); min-width: 30px; height: 27px; border-radius: 999px; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
@@ -117,13 +118,15 @@
   .btn-filled:disabled { background: var(--tertiary); cursor: not-allowed; }
 
 
-  .btn-link {
-    display: block; width: 100%; margin-top: 12px; background: none; border: none;
-    color: var(--blue); font-family: var(--font); font-size: 15px; cursor: pointer; text-align: center;
+  .btn-box {
+    display: block; width: 100%; margin-top: 12px; background: var(--card);
+    border: 1px solid var(--sep-strong); border-radius: 12px; padding: 13px;
+    font-family: var(--font); font-size: 16px; font-weight: 600; cursor: pointer; text-align: center;
+    transition: opacity 0.15s;
   }
-  .btn-link:active { opacity: 0.6; }
-
-  #share-btn { margin-top: 18px; }   /* space from the mL total above */
+  .btn-box:active { opacity: 0.6; }
+  #share-btn { color: var(--blue); margin-top: 18px; }   /* space from the mL total above */
+  #clear-btn { color: var(--secondary); }
 
   /* Pages strip */
   .pages { display: flex; gap: 10px; flex-wrap: wrap; padding: 0 2px; }
@@ -209,29 +212,6 @@
   #install-btn { background: var(--blue); color: #fff; border: none; border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; }
   .install-dismiss { background: none; border: none; color: var(--secondary); font-size: 18px; line-height: 1; cursor: pointer; padding: 2px 4px; }
 
-  /* Camera modal (dark, native capture convention) */
-  #camera-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
-  #camera-modal.active { display: flex; }
-  .cam-stage { flex: 1; position: relative; overflow: hidden; cursor: pointer; }
-  #camera-video { width: 100%; height: 100%; object-fit: cover; }
-  .scan-frame { position: absolute; inset: 12% 8%; border: 2px solid rgba(255,255,255,0.8); border-radius: 12px; pointer-events: none; box-shadow: 0 0 0 100vmax rgba(0,0,0,0.35); }
-  .scan-instruction { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: #fff; font-size: 15px; pointer-events: none; text-shadow: 0 1px 4px rgba(0,0,0,0.85); }
-  .cam-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
-  .cam-flash.fire { animation: flash 0.35s ease-out; }
-  @keyframes flash { 0% { opacity: 0.85; } 100% { opacity: 0; } }
-  .cam-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.78); display: none; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #fff; }
-  .cam-overlay.active { display: flex; }
-  .cam-spinner { width: 30px; height: 30px; border: 3px solid rgba(255,255,255,0.25); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .camera-bar { background: #000; padding: 16px 20px calc(16px + env(safe-area-inset-bottom)); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .camera-bar button { background: transparent; border: none; color: #fff; font-family: var(--font); font-size: 16px; cursor: pointer; padding: 8px 4px; }
-  .camera-bar button.primary { font-weight: 600; color: var(--blue); }
-  /* Done lights up green once at least one page is captured */
-  .camera-bar button#cam-done.ready { background: #34c759; color: #fff; border-radius: 9px; padding: 9px 18px; }
-  .camera-bar button#cam-done.pulse { animation: donepulse 0.45s ease; }
-  @keyframes donepulse { 0% { transform: scale(1); } 45% { transform: scale(1.12); } 100% { transform: scale(1); } }
-  .cam-count { color: #fff; font-size: 13px; text-align: center; min-width: 90px; opacity: 0.9; }
-
   canvas { display: none; }
 
   /* Print: just the detected tests + tube list, cleanly */
@@ -270,14 +250,15 @@
 
   <!-- Image input: camera or upload (built-in offline reader) -->
   <div class="group option">
-    <div class="row" id="camera-btn">
+    <label class="row" for="camera-input">
       <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
       <div class="row-main">
         <div class="row-title">Scan with camera</div>
-        <div class="row-sub">Point and tap, capture multi-page forms</div>
+        <div class="row-sub">Uses your camera; re-tap to add more pages</div>
       </div>
       <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
-    </div>
+      <input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
+    </label>
   </div>
   <div class="group option">
     <label class="row" for="file-input">
@@ -307,10 +288,10 @@
     <div class="group" id="tubes-needed"></div>
     <p id="syringe-total" class="syringe-total"></p>
     <div id="refer-advisory"></div>
-    <button class="btn-link" id="share-btn">Share tubes required</button>
+    <button class="btn-box" id="share-btn">Share summary</button>
   </div>
 
-  <button class="btn-link" id="clear-btn">Clear</button>
+  <button class="btn-box" id="clear-btn">Clear</button>
 
   <!-- Disclaimer, privacy and sources (consolidated fine print) -->
   <section class="fineprint">
@@ -329,28 +310,8 @@
       <input id="picker-input" type="text" placeholder="Search, type, or paste a list" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       <button id="picker-done" class="picker-done">Done</button>
     </div>
-    <label class="picker-toggle" id="picker-ref-row" hidden><span>Send-away to reference lab (own tube)</span><input type="checkbox" id="picker-ref"></label>
+    <label class="picker-toggle" id="picker-ref-row" hidden><span>Send separately to reference lab (own tube)</span><input type="checkbox" id="picker-ref"></label>
     <div id="picker-list" class="picker-list"></div>
-  </div>
-</div>
-
-<!-- Camera modal -->
-<div id="camera-modal">
-  <div class="cam-stage" id="cam-stage">
-    <video id="camera-video" autoplay playsinline muted></video>
-    <div class="scan-frame"></div>
-    <div class="cam-flash" id="cam-flash"></div>
-    <div class="scan-instruction" id="cam-instruction">Point at the form and tap to capture a page</div>
-    <div class="cam-overlay" id="cam-overlay">
-      <div class="cam-spinner"></div>
-      <div id="cam-overlay-label">Reading…</div>
-    </div>
-  </div>
-  <canvas id="camera-canvas"></canvas>
-  <div class="camera-bar">
-    <button id="cam-cancel">Cancel</button>
-    <div class="cam-count" id="cam-count">No pages yet</div>
-    <button class="primary" id="cam-done">Done</button>
   </div>
 </div>
 
@@ -642,10 +603,24 @@ function searchTests(query, limit = 8) {
   return scored.slice(0, limit).map(s => s.t);
 }
 
-// Estimated number of tubes of a colour needed for `n` tests on it. Volume-limited
-// tubes carry a conservative `maxTests` capacity (usable volume ÷ typical per-test
-// volume); blood-culture and blood-bank tubes have none and are always 1. This is a
-// guide only — one serum tube covers a big panel; small citrate tubes split sooner.
+// Snap an OCR/typo'd token to a canonical test name if it's a very close match
+// (tight edit distance). Catches things like 'Coaqulation Profile' -> 'Coagulation
+// Profile'. Returns the canonical name or null. Pure.
+function fuzzyCanonical(s) {
+  const q = normTest(s);
+  if (q.length < 5) return null;
+  let best = null, bestD = Infinity;
+  for (const t of TESTS) {
+    for (const a of [t.name, ...(t.aliases || [])]) {
+      const n = normTest(a);
+      if (!n || Math.abs(n.length - q.length) > 3) continue;
+      const d = levenshtein(q, n);
+      if (d < bestD) { bestD = d; best = t; }
+    }
+  }
+  return (best && bestD <= Math.max(1, Math.floor(q.length / 8))) ? best.name : null;
+}
+
 // Specialised / niche tests that regional labs commonly refer to a reference lab.
 // Conservative default — used only to FLAG (soft hint), never to auto-split. The user
 // confirms by toggling send-away. Editable.
@@ -659,6 +634,10 @@ const nicheKeys = new Set();
 for (const t of TESTS) if (NICHE_NAMES.has(t.name)) for (const a of [t.name, ...(t.aliases || [])]) nicheKeys.add(normTest(a));
 function isNicheTest(s) { return nicheKeys.has(normTest(s)); }
 
+// Estimated number of tubes of a colour needed for `n` tests on it. Volume-limited
+// tubes carry a conservative `maxTests` capacity (usable volume / typical per-test
+// volume); blood-culture and blood-bank tubes have none and are always 1. This is a
+// guide only: one serum tube covers a big panel; small citrate tubes split sooner.
 function tubeQty(key, n) {
   const cap = TUBES[key] && TUBES[key].maxTests;
   return cap ? Math.max(1, Math.ceil(n / cap)) : 1;
@@ -729,7 +708,7 @@ function detectOrdered(text) {
     if (found.length) { found.sort((a, b) => a.pos - b.pos); found.forEach(f => push(f.label)); }
     else if (line.length >= 2 && line.length <= 50 &&
              /^[A-Za-z][A-Za-z0-9\s\/&\-()+.]{1,48}$/.test(line) && !NOISE_RE.test(line)) {
-      push(line);   // test-like line that matched no rule
+      push(fuzzyCanonical(line) || line);   // snap OCR typos to a known test, else keep
     }
   }
   return out;
@@ -738,6 +717,7 @@ function detectOrdered(text) {
 // Entry point from "Check tubes" and scanning: detect tests (in order) and MERGE.
 function renderResults(text) {
   lastRawText = text || '';
+  rawShown = false;          // start collapsed each time new text is read
   mergeTests(detectOrdered(text));
   showResults();
 }
@@ -814,14 +794,14 @@ function renderChips(unmatched) {
   const chipsHtml = selectedTests.map((t, i) => {
     const flag = unmatched.has(t) ? ' unmatched' : '';
     const isRef = referral.has(t.toLowerCase());
-    const ref = isRef ? '<span class="chip-tag">send-away</span>' : '';
-    const hint = (!isRef && isNicheTest(t)) ? '<span class="chip-hint">refer?</span>' : '';
+    const ref = isRef ? '<span class="chip-tag">Send separately</span>' : '';
+    const hint = (!isRef && isNicheTest(t)) ? '<span class="chip-hint">Off site?</span>' : '';
     return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>${ref}${hint}` +
-           `<button class="chip-x" data-i="${i}" aria-label="Remove">&times;</button></span>`;
+           `<button class="chip-x" data-i="${i}" aria-label="Remove"><svg viewBox="0 0 12 12" width="9" height="9" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></span>`;
   }).join('');
   const rawHtml = lastRawText ? `
       <button class="raw-toggle" id="raw-toggle">${rawShown ? 'Hide' : 'Show'} extracted text</button>
-      <div id="raw-text"${rawShown ? '' : ' style="display:none"'}>${escapeHtml(lastRawText)}</div>` : '';
+      <div id="raw-text" style="display:${rawShown ? 'block' : 'none'}">${escapeHtml(lastRawText)}</div>` : '';
   wrap.innerHTML = `
     <div class="recognised">
       <div class="recognised-head">${selectedTests.length} detected test${selectedTests.length === 1 ? '' : 's'} · tap to edit, × to remove</div>
@@ -1242,74 +1222,17 @@ document.getElementById('clear-btn').addEventListener('click', () => {
   document.getElementById('results').style.display = 'none';
   selectedTests = [];
   referral.clear();
+  lastRawText = '';
+  rawShown = false;
   while (pages.length) removePage(0);
 });
 
-// ─── CAMERA: capture pages (no photo saved to device) ─────────────────────────
-let cameraStream = null;
-let sessionStart = 0;
-
-function updateCamCount() {
-  const el = document.getElementById('cam-count');
-  const done = document.getElementById('cam-done');
-  el.textContent = pages.length === 0 ? 'No pages yet'
-    : `${pages.length} page${pages.length === 1 ? '' : 's'} captured`;
-  document.getElementById('cam-instruction').textContent = pages.length > sessionStart
-    ? 'Tap for another page, or press Done'
-    : 'Point at the form and tap to capture a page';
-  if (pages.length > 0) { done.classList.add('ready'); done.textContent = `Done (${pages.length})`; }
-  else { done.classList.remove('ready'); done.textContent = 'Done'; }
-}
-
-async function openCamera() {
-  try {
-    cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-    document.getElementById('camera-video').srcObject = cameraStream;
-    sessionStart = pages.length;
-    updateCamCount();
-    document.getElementById('camera-modal').classList.add('active');
-  } catch (e) {
-    alert('Camera not available. Please upload a photo instead.');
-  }
-}
-
-function stopCamera() {
-  if (cameraStream) { cameraStream.getTracks().forEach(t => t.stop()); cameraStream = null; }
-  document.getElementById('camera-modal').classList.remove('active');
-  document.getElementById('cam-overlay').classList.remove('active');
-}
-
-function capturePage() {
-  const video = document.getElementById('camera-video');
-  if (!video.videoWidth) return;
-  const canvas = document.getElementById('camera-canvas');
-  // Crop to the on-screen scan frame (inset 8% sides / 12% top-bottom) so we only
-  // capture what's inside the guide box, not the whole frame.
-  const vw = video.videoWidth, vh = video.videoHeight;
-  const cx = vw * 0.08, cy = vh * 0.12, cw = vw * 0.84, ch = vh * 0.76;
-  canvas.width = cw;
-  canvas.height = ch;
-  canvas.getContext('2d').drawImage(video, cx, cy, cw, ch, 0, 0, cw, ch);
-  const flash = document.getElementById('cam-flash');
-  flash.classList.remove('fire'); void flash.offsetWidth; flash.classList.add('fire');
-  canvas.toBlob(blob => {
-    addPage(blob);
-    updateCamCount();
-    // Clear "captured" confirmation + draw the eye to the Done button.
-    const done = document.getElementById('cam-done');
-    done.classList.remove('pulse'); void done.offsetWidth; done.classList.add('pulse');
-    document.getElementById('cam-instruction').textContent =
-      `Page ${pages.length} captured. Tap for another, or press Done.`;
-  }, 'image/jpeg', 0.95);
-}
-
-document.getElementById('camera-btn').addEventListener('click', openCamera);
-document.getElementById('cam-stage').addEventListener('click', capturePage);
-document.getElementById('cam-cancel').addEventListener('click', e => { e.stopPropagation(); stopCamera(); });
-document.getElementById('cam-done').addEventListener('click', e => {
-  e.stopPropagation();
-  stopCamera();
-  if (pages.length) readPages();
+// ─── CAMERA: native one-shot capture (clearer photo than a held live stream).
+// Each tap takes one full-resolution photo via the system camera; re-tap to add
+// more pages. No photo is saved to the device. ────────────────────────────────
+document.getElementById('camera-input').addEventListener('change', e => {
+  [...e.target.files].forEach(addPage);
+  e.target.value = '';   // allow re-capturing another page with the same input
 });
 
 // ─── PICKER wiring ────────────────────────────────────────────────────────────

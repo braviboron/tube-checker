@@ -15,8 +15,8 @@ if (start === -1 || end === -1) throw new Error('Could not locate logic block ma
 const block = html.slice(start, end);
 
 // Evaluate the block and expose the matcher, tubes, and the canonical test list.
-const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl };`);
-const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl } = factory();
+const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical };`);
+const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────
 let pass = 0, fail = 0;
@@ -155,6 +155,18 @@ expectTopHit('gent', 'Gentamicin', 'partial gent → Gentamicin');
     else { fail++; fails.push(`✗ searchTests("${t.name}")[0] = ${top ? top.name : 'none'}, want itself`); }
   }
 }
+
+// — Fuzzy OCR typo correction (snap a near-miss token to a canonical name) —
+function expectFuzzy(input, want, msg) {
+  const got = fuzzyCanonical(input);
+  if (got === want) pass++;
+  else { fail++; fails.push(`✗ ${msg}\n    fuzzyCanonical(${JSON.stringify(input)}) = ${JSON.stringify(got)}, want ${JSON.stringify(want)}`); }
+}
+expectFuzzy('Coaqulation Profile', 'Coagulation Profile', 'OCR q->g typo snaps to Coagulation Profile');
+expectFuzzy('Magneslum', 'Magnesium', 'OCR i->l typo snaps to Magnesium');
+expectFuzzy('Full Blood Count', 'Full Blood Count', 'exact name returns itself');
+expectFuzzy('xyzzy', null, 'unrelated token returns null (no false snap)');
+expectFuzzy('LFT', null, 'short token (<5) returns null, left to the rules');
 
 // — Multi-tube quantity (volume-limited tubes split for large panels) —
 function expectQty(key, n, want, msg) {
