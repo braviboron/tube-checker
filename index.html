@@ -74,7 +74,11 @@
   .tile { width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; flex: none; }
   .tile.blue { background: var(--blue-tint); color: var(--blue); }
 
-  /* Input card */
+  /* Primary input: a field that opens the picker */
+  .add-field { width: 100%; text-align: left; background: var(--card); border: 1px solid var(--sep); border-radius: 12px; padding: 14px; font-family: var(--font); font-size: 16px; color: var(--secondary); cursor: pointer; }
+  .add-field:active { background: #f7f7fa; }
+
+  /* Input card (legacy) */
   .input-card { background: var(--card); border-radius: 12px; padding: 4px 6px; }
   textarea {
     width: 100%; border: none; outline: none; resize: vertical; min-height: 88px;
@@ -183,17 +187,21 @@
   .picker-bar { display: flex; gap: 10px; align-items: center; }
   #picker-input { flex: 1; background: var(--card); border: 1px solid var(--sep-strong); border-radius: 10px; padding: 11px 13px; font-size: 16px; font-family: var(--font); color: var(--label); outline: none; }
   #picker-input:focus { border-color: var(--blue); }
-  .picker-cancel { background: none; border: none; color: var(--blue); font-size: 16px; font-family: var(--font); cursor: pointer; padding: 8px 2px; }
+  .picker-done { background: none; border: none; color: var(--blue); font-size: 16px; font-weight: 600; font-family: var(--font); cursor: pointer; padding: 8px 2px; }
   .picker-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding: 10px 12px; background: var(--card); border-radius: 10px; font-size: 14px; color: var(--label); cursor: pointer; }
+  .picker-toggle[hidden] { display: none; }
   .picker-toggle input { width: 20px; height: 20px; accent-color: var(--blue); flex: none; }
   .picker-list { margin-top: 10px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
   .picker-item { display: flex; align-items: center; gap: 12px; padding: 12px 4px; cursor: pointer; border-bottom: 1px solid var(--sep); }
   .picker-item:active { background: var(--card); }
   .picker-dot { width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.14); }
-  .picker-text { min-width: 0; }
+  .picker-text { flex: 1; min-width: 0; }
   .picker-name { font-size: 15px; color: var(--label); }
   .picker-name.picker-free { color: var(--blue); }
   .picker-sub { font-size: 12px; color: var(--secondary); margin-top: 1px; }
+  .picker-tick { flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--tertiary); color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .picker-item.selected .picker-tick { background: var(--blue); border-color: var(--blue); }
+  .picker-section { font-size: 11px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.03em; padding: 12px 4px 4px; }
 
   /* Install (add to home screen) banner */
   .install-banner { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--blue-tint); color: var(--label); padding: 9px 16px; font-size: 13px; }
@@ -229,8 +237,8 @@
 
   /* Print: just the detected tests + tube list, cleanly */
   @media print {
-    header, .input-card, .group.option, #manual-btn, #read-btn, .pages, #progress-wrap,
-    #clear-btn, .fineprint, footer, #share-btn, .raw-toggle, #raw-text, .chip-x, .chip-add {
+    header, .group-header, .add-field, .group.option, #read-btn, .pages, #progress-wrap,
+    #clear-btn, .fineprint, footer, #share-btn, .raw-toggle, #raw-text, .chip-x, .chip-add, .chip-tag, .chip-hint {
       display: none !important;
     }
     body { background: #fff; }
@@ -260,11 +268,9 @@
 </header>
 
 <main>
-  <!-- Primary input: type, or the phone's own Scan Text -->
+  <!-- Primary input: opens the multi-select picker (search / type / paste a list) -->
   <p class="group-header">Requested tests</p>
-  <div class="input-card">
-    <textarea id="manual-input" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type tests here, e.g. FBC, EUC, CRP&#10;Or, on iPhone: press &amp; hold the box → AutoFill → Scan Text"></textarea>
-  </div>
+  <button class="add-field" id="open-picker">Add or search tests, or paste a list…</button>
 
   <!-- Image input: camera or upload (built-in offline reader) -->
   <div class="group option">
@@ -291,8 +297,6 @@
 
   <div class="pages" id="pages"></div>
   <button class="btn-filled" id="read-btn" disabled style="display:none">Read pages</button>
-
-  <button class="btn-filled" id="manual-btn">Check tubes</button>
 
   <div id="progress-wrap">
     <div class="progress-label" id="progress-label">Preparing…</div>
@@ -326,10 +330,10 @@
 <div id="picker-modal" class="picker-modal">
   <div class="picker-sheet">
     <div class="picker-bar">
-      <input id="picker-input" type="text" placeholder="Search tests, e.g. magnesium, FBC" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
-      <button id="picker-cancel" class="picker-cancel">Cancel</button>
+      <input id="picker-input" type="text" placeholder="Search, type, or paste a list" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <button id="picker-done" class="picker-done">Done</button>
     </div>
-    <label class="picker-toggle"><span>Send-away to reference lab (own tube)</span><input type="checkbox" id="picker-ref"></label>
+    <label class="picker-toggle" id="picker-ref-row" hidden><span>Send-away to reference lab (own tube)</span><input type="checkbox" id="picker-ref"></label>
     <div id="picker-list" class="picker-list"></div>
   </div>
 </div>
@@ -906,73 +910,127 @@ function removeTest(i) { selectedTests.splice(i, 1); update(); }
 function editTest(i) { openPicker(i); }
 function addTest() { openPicker('add'); }
 
-// ─── TEST PICKER (search canonical tests with aliases + typo tolerance) ────────
-let pickerMode = null;   // 'add', or the index being edited
+// ─── TEST PICKER (multi-select: search, type, or paste a list) ────────────────
+let pickerEditIndex = null;   // index being edited, or null for add/multi-select mode
 
 function openPicker(modeOrIndex) {
-  pickerMode = modeOrIndex;
+  pickerEditIndex = (typeof modeOrIndex === 'number') ? modeOrIndex : null;
   const input = document.getElementById('picker-input');
-  input.value = (typeof modeOrIndex === 'number') ? selectedTests[modeOrIndex] : '';
-  document.getElementById('picker-ref').checked =
-    (typeof modeOrIndex === 'number') && referral.has((selectedTests[modeOrIndex] || '').toLowerCase());
+  input.value = pickerEditIndex !== null ? selectedTests[pickerEditIndex] : '';
+  syncRefToggle();
   document.getElementById('picker-modal').classList.add('active');
-  renderPickerList(input.value);
-  setTimeout(() => { input.focus(); input.select(); }, 40);
+  renderPickerList();
+  setTimeout(() => { input.focus(); if (pickerEditIndex !== null) input.select(); }, 40);
 }
 
 function closePicker() {
   document.getElementById('picker-modal').classList.remove('active');
-  pickerMode = null;
+  pickerEditIndex = null;
+  syncRefToggle();
 }
 
-function renderPickerList(query) {
+// Send-away toggle is only meaningful when editing one specific test.
+function syncRefToggle() {
+  const row = document.getElementById('picker-ref-row');
+  const cb = document.getElementById('picker-ref');
+  if (pickerEditIndex !== null) {
+    row.hidden = false;
+    cb.checked = referral.has((selectedTests[pickerEditIndex] || '').toLowerCase());
+  } else { row.hidden = true; cb.checked = false; }
+}
+
+function isSelectedTest(name) {
+  return selectedTests.some(t => t.toLowerCase() === name.toLowerCase());
+}
+
+function tubeKeyFor(name) {
+  const c = TESTS.find(x => x.name.toLowerCase() === name.toLowerCase());
+  if (c) return c.tube;
+  return Object.keys(matchTests(name).tubeMap)[0] || null;
+}
+
+function pickerRow(name, selected, index, tubeKey, isFree) {
+  const key = tubeKey || tubeKeyFor(name);
+  const tube = key ? TUBES[key] : null;
+  const color = tube ? tube.color : 'var(--tertiary)';
+  const sub = tube ? tube.name : (isFree ? 'add as typed' : 'unrecognised');
+  const label = isFree ? `Use “${escapeHtml(name)}”` : escapeHtml(name);
+  return `<div class="picker-item${selected ? ' selected' : ''}" data-name="${escapeHtml(name)}"${index != null ? ` data-index="${index}"` : ''}>
+      <span class="picker-dot" style="background:${color}"></span>
+      <div class="picker-text"><div class="picker-name${isFree ? ' picker-free' : ''}">${label}</div><div class="picker-sub">${escapeHtml(sub)}</div></div>
+      <span class="picker-tick" data-tick="1">${selected ? '✓' : ''}</span>
+    </div>`;
+}
+
+function renderPickerList() {
   const list = document.getElementById('picker-list');
-  const results = searchTests(query, 12);
-  let html = results.map(t => {
-    const tube = TUBES[t.tube] || {};
-    return `<div class="picker-item" data-name="${escapeHtml(t.name)}">
-        <span class="picker-dot" style="background:${tube.color || 'var(--tertiary)'}"></span>
-        <div class="picker-text"><div class="picker-name">${escapeHtml(t.name)}</div>
-          <div class="picker-sub">${escapeHtml(tube.name || '')}</div></div>
-      </div>`;
-  }).join('');
-  // Offer the typed text ONLY if it actually maps to a tube (don't let people add a
-  // test that wouldn't be recognised) AND no canonical result already covers it
-  // (by name or alias). Show the tube it maps to.
-  const q = query.trim();
-  const qn = normTest(q);
-  const covered = results.some(t => [t.name, ...(t.aliases || [])].some(a => normTest(a) === qn));
-  if (q && !covered) {
-    const keys = Object.keys(matchTests(q).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
-    if (keys.length) {
-      const tube = TUBES[keys[0]];
-      html = `<div class="picker-item" data-name="${escapeHtml(q)}">
-          <span class="picker-dot" style="background:${tube.color}"></span>
-          <div class="picker-text"><div class="picker-name picker-free">Use “${escapeHtml(q)}”</div>
-            <div class="picker-sub">${escapeHtml(tube.name)}</div></div>
-        </div>` + html;
+  const q = document.getElementById('picker-input').value.trim();
+  let html = '';
+  if (!q) {
+    if (selectedTests.length) {
+      html = `<div class="picker-section">Selected (${selectedTests.length}) · tap to edit, ✓ to remove</div>`
+           + selectedTests.map((t, i) => pickerRow(t, true, i)).join('');
+    } else {
+      html = `<div class="picker-sub" style="padding:16px 6px">Search a test, type one, or paste a list (commas or new lines).</div>`;
     }
+  } else {
+    const results = searchTests(q, 12);
+    html = results.map(t => pickerRow(t.name, isSelectedTest(t.name), null, t.tube)).join('');
+    const qn = normTest(q);
+    const covered = results.some(t => [t.name, ...(t.aliases || [])].some(a => normTest(a) === qn));
+    if (!covered) {
+      const keys = Object.keys(matchTests(q).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
+      if (keys.length) html = pickerRow(q, isSelectedTest(q), null, keys[0], true) + html;
+    }
+    if (!html) html = `<div class="picker-sub" style="padding:16px 6px">No match. Press Enter to add “${escapeHtml(q)}” as typed.</div>`;
   }
-  list.innerHTML = html || `<div class="picker-sub" style="padding:16px 6px">No matching tests</div>`;
-  list.querySelectorAll('.picker-item').forEach(it =>
-    it.addEventListener('click', () => commitPicker(it.dataset.name)));
+  list.innerHTML = html;
 }
 
-function commitPicker(name) {
+function removeSelectedByName(name) {
+  const i = selectedTests.findIndex(x => x.toLowerCase() === name.toLowerCase());
+  if (i >= 0) { referral.delete(selectedTests[i].toLowerCase()); selectedTests.splice(i, 1); }
+}
+
+// Choose a result: replace if editing, else toggle in the multi-select.
+function chooseTest(name) {
   const t = (name || '').trim();
-  const sendAway = document.getElementById('picker-ref').checked;
-  if (t) {
-    if (typeof pickerMode === 'number') {
-      if (selectedTests.some((x, j) => j !== pickerMode && x.toLowerCase() === t.toLowerCase())) selectedTests.splice(pickerMode, 1);
-      else selectedTests[pickerMode] = t;
-    } else if (!selectedTests.some(x => x.toLowerCase() === t.toLowerCase())) {
-      selectedTests.push(t);
-    }
-    if (sendAway) referral.add(t.toLowerCase()); else referral.delete(t.toLowerCase());
+  if (!t) return;
+  if (pickerEditIndex !== null) {
+    const dup = selectedTests.findIndex((x, j) => j !== pickerEditIndex && x.toLowerCase() === t.toLowerCase());
+    if (dup >= 0) selectedTests.splice(pickerEditIndex, 1); else selectedTests[pickerEditIndex] = t;
+    if (document.getElementById('picker-ref').checked) referral.add(t.toLowerCase()); else referral.delete(t.toLowerCase());
+    pickerEditIndex = null;
+    document.getElementById('picker-input').value = '';
+    syncRefToggle();
+  } else if (isSelectedTest(t)) {
+    removeSelectedByName(t);
+  } else {
+    selectedTests.push(t);
   }
-  closePicker();
-  update();
+  update(); showResults(); renderPickerList();
+  document.getElementById('picker-input').focus();
+}
+
+function editFromManage(index) {
+  pickerEditIndex = index;
+  document.getElementById('picker-input').value = selectedTests[index];
+  syncRefToggle();
+  renderPickerList();
+  document.getElementById('picker-input').focus();
+}
+
+// Bulk: parse typed/pasted text (commas / new lines) like a scan and add all.
+function bulkAdd(text) {
+  const parsed = detectOrdered(text);
+  if (parsed.length) mergeTests(parsed);                 // mergeTests() calls update()
+  else if (text.trim()) { selectedTests.push(text.trim()); update(); }
+  document.getElementById('picker-input').value = '';
+  pickerEditIndex = null;
+  syncRefToggle();
   showResults();
+  renderPickerList();
+  document.getElementById('picker-input').focus();
 }
 
 // ─── MULTI-PAGE OCR PIPELINE ──────────────────────────────────────────────────
@@ -1151,16 +1209,8 @@ document.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer.
 document.getElementById('read-btn').addEventListener('click', readPages);
 document.getElementById('share-btn').addEventListener('click', shareSummary);
 
-// ─── MANUAL ENTRY ─────────────────────────────────────────────────────────────
-document.getElementById('manual-btn').addEventListener('click', () => {
-  const input = document.getElementById('manual-input');
-  if (!input.value.trim()) return;
-  renderResults(input.value);   // adds the typed tests to the editable list
-  input.value = '';             // they're now chips, so clear the box
-});
-
+// ─── CLEAR ────────────────────────────────────────────────────────────────────
 document.getElementById('clear-btn').addEventListener('click', () => {
-  document.getElementById('manual-input').value = '';
   document.getElementById('results').style.display = 'none';
   selectedTests = [];
   referral.clear();
@@ -1235,18 +1285,56 @@ document.getElementById('cam-done').addEventListener('click', e => {
 });
 
 // ─── PICKER wiring ────────────────────────────────────────────────────────────
+document.getElementById('open-picker').addEventListener('click', () => openPicker('add'));
 (() => {
   const input = document.getElementById('picker-input');
   const modal = document.getElementById('picker-modal');
-  input.addEventListener('input', () => renderPickerList(input.value));
+  const list = document.getElementById('picker-list');
+
+  input.addEventListener('input', () => renderPickerList());
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      const first = document.querySelector('#picker-list .picker-item');
-      commitPicker(first ? first.dataset.name : input.value);
+      const v = input.value.trim();
+      if (!v) return;
+      if (pickerEditIndex !== null) {
+        const top = searchTests(v, 1)[0];
+        chooseTest(top ? top.name : v);
+      } else if (/[,;\n]/.test(v)) {
+        bulkAdd(v);                                   // a list
+      } else {
+        const top = searchTests(v, 1)[0];
+        if (top) chooseTest(top.name); else bulkAdd(v);
+      }
     } else if (e.key === 'Escape') { closePicker(); }
   });
-  document.getElementById('picker-cancel').addEventListener('click', closePicker);
+  // Pasting a list parses immediately.
+  input.addEventListener('paste', e => {
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    if (text && /[,;\n]/.test(text)) { e.preventDefault(); bulkAdd(text); }
+  });
+  // Row interactions (delegated): manage view = tick removes / row edits; search view = choose.
+  list.addEventListener('click', e => {
+    const item = e.target.closest('.picker-item');
+    if (!item) return;
+    const name = item.dataset.name;
+    const idx = item.dataset.index != null ? +item.dataset.index : null;
+    if (!input.value.trim()) {
+      if (e.target.closest('[data-tick]')) { removeSelectedByName(name); update(); showResults(); renderPickerList(); }
+      else editFromManage(idx);
+    } else {
+      chooseTest(name);
+    }
+  });
+  // Live send-away toggle while editing one test.
+  document.getElementById('picker-ref').addEventListener('change', e => {
+    if (pickerEditIndex === null) return;
+    const t = selectedTests[pickerEditIndex];
+    if (!t) return;
+    if (e.target.checked) referral.add(t.toLowerCase()); else referral.delete(t.toLowerCase());
+    update();
+  });
+  document.getElementById('picker-done').addEventListener('click', closePicker);
   modal.addEventListener('click', e => { if (e.target === modal) closePicker(); });
 })();
 
