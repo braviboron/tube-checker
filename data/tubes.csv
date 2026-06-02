@@ -1,0 +1,10 @@
+key,name,color,draw,ml,maxTests,additive,note
+bc_aerobic,"Blood Culture, Aerobic",#3b82f6,1,10,,Aerobic culture medium,Aseptic technique. Fill to the mark. Collect BEFORE the anaerobic bottle.
+bc_anaerobic,"Blood Culture, Anaerobic",#f97316,2,10,,Anaerobic culture medium,Collect AFTER the aerobic bottle.
+blue,Light Blue (Sodium Citrate),#60a5fa,3,2.7,5,"3.2% sodium citrate, coagulation","Fill exactly to the line, the blood:anticoagulant ratio is critical."
+gold,Gold / SST (Serum),#d4af37,4,5,15,"Clot activator + separator gel, serum",
+green,Green (Lithium Heparin),#34d399,5,4,15,"Lithium heparin, plasma",
+purple,Purple / Lavender (EDTA),#a78bfa,6,4,12,"EDTA anticoagulant, whole blood",
+pink,"Pink (EDTA, Blood Bank)",#f472b6,7,6,,"EDTA, group & hold / crossmatch",Strict patient-ID and labelling rules apply for transfusion samples.
+grey,Grey (Fluoride Oxalate),#9ca3af,8,2,8,"Sodium fluoride / potassium oxalate, glycolysis inhibitor",
+royalblue,Royal Blue (Trace Elements),#1d4ed8,9,6,6,Trace-element-free tube,"Draw-order position for trace-element tubes varies, check local policy."

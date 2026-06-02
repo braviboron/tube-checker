@@ -6,16 +6,19 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+// Data now lives in catalogue.js (generated from /data/*.csv). The matching logic
+// (RULES + functions) stays in index.html. Load both, in that order.
+const catalogue = readFileSync(join(__dirname, '..', 'catalogue.js'), 'utf8');
 const html = readFileSync(join(__dirname, '..', 'index.html'), 'utf8');
 
-// Slice the pure (DOM-free) logic block: from the tube DB to just before render.
-const start = html.indexOf('const TUBES = {');
+// Slice the pure (DOM-free) logic block: from the matching rules to just before render.
+const start = html.indexOf('const RULES = [');
 const end = html.indexOf('// ─── RENDER');
 if (start === -1 || end === -1) throw new Error('Could not locate logic block markers in index.html');
 const block = html.slice(start, end);
 
-// Evaluate the block and expose the matcher, tubes, and the canonical test list.
-const factory = new Function(`${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical };`);
+// Evaluate catalogue + logic together and expose the matcher, tubes, and test list.
+const factory = new Function(`${catalogue}\n${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical };`);
 const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────

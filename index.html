@@ -191,6 +191,9 @@
   .footer-link:hover { text-decoration: underline; }
   .footer-dot { font-size: 12.5px; color: var(--tertiary); }
   .footer-dot[hidden] { display: none; }
+  .footer-site { display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 13px; font-size: 12px; color: var(--secondary); }
+  .footer-site[hidden] { display: none; }
+  .footer-site select { font-family: var(--font); font-size: 13px; color: var(--label); background: var(--card); border: 1px solid var(--sep-strong); border-radius: 8px; padding: 5px 9px; cursor: pointer; }
 
   /* Test picker (bottom sheet) */
   .picker-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: flex-end; }
@@ -315,6 +318,10 @@
 </main>
 
 <footer>
+  <div class="footer-site" id="footer-site" hidden>
+    <label for="site-select">Your site</label>
+    <select id="site-select" aria-label="Your site"></select>
+  </div>
   <div class="footer-name">Tube Checker</div>
   <div class="footer-links">
     <a class="footer-link" id="feedback-link" target="_blank" rel="noopener noreferrer" hidden>Glitches/suggestions</a>
@@ -335,57 +342,10 @@
   </div>
 </div>
 
+<script src="catalogue.js"></script>
 <script>
-// ─── TUBE DATABASE ────────────────────────────────────────────────────────────
-// AU / NSW conventions. `draw` = position in the standard order of draw
-// (lower = drawn first). See "Sources & references" in the UI.
-const TUBES = {
-  bc_aerobic: {
-    name: 'Blood Culture, Aerobic', color: '#3b82f6', draw: 1, ml: 10,
-    additive: 'Aerobic culture medium',
-    note: 'Aseptic technique. Fill to the mark. Collect BEFORE the anaerobic bottle.'
-  },
-  bc_anaerobic: {
-    name: 'Blood Culture, Anaerobic', color: '#f97316', draw: 2, ml: 10,
-    additive: 'Anaerobic culture medium',
-    note: 'Collect AFTER the aerobic bottle.'
-  },
-  blue: {
-    name: 'Light Blue (Sodium Citrate)', color: '#60a5fa', draw: 3, maxTests: 5, ml: 2.7,
-    additive: '3.2% sodium citrate, coagulation',
-    note: 'Fill exactly to the line, the blood:anticoagulant ratio is critical.'
-  },
-  gold: {
-    name: 'Gold / SST (Serum)', color: '#d4af37', draw: 4, maxTests: 15, ml: 5,
-    additive: 'Clot activator + separator gel, serum',
-    note: ''
-  },
-  green: {
-    name: 'Green (Lithium Heparin)', color: '#34d399', draw: 5, maxTests: 15, ml: 4,
-    additive: 'Lithium heparin, plasma',
-    note: ''
-  },
-  purple: {
-    name: 'Purple / Lavender (EDTA)', color: '#a78bfa', draw: 6, maxTests: 12, ml: 4,
-    additive: 'EDTA anticoagulant, whole blood',
-    note: ''
-  },
-  pink: {
-    name: 'Pink (EDTA, Blood Bank)', color: '#f472b6', draw: 7, ml: 6,
-    additive: 'EDTA, group & hold / crossmatch',
-    note: 'Strict patient-ID and labelling rules apply for transfusion samples.'
-  },
-  grey: {
-    name: 'Grey (Fluoride Oxalate)', color: '#9ca3af', draw: 8, maxTests: 8, ml: 2,
-    additive: 'Sodium fluoride / potassium oxalate, glycolysis inhibitor',
-    note: ''
-  },
-  royalblue: {
-    name: 'Royal Blue (Trace Elements)', color: '#1d4ed8', draw: 9, maxTests: 6, ml: 6,
-    additive: 'Trace-element-free tube',
-    note: 'Draw-order position for trace-element tubes varies, check local policy.'
-  },
-};
+// Data (TUBES, TESTS, LABS, STATES, SITES, OVERRIDES) is generated into
+// catalogue.js from /data/*.csv by tools/build-data.mjs. Edit the CSVs, not here.
 
 // ─── MATCHING RULES ───────────────────────────────────────────────────────────
 // Each rule maps a keyword regex to one or more tubes. Order: specific → general.
@@ -459,122 +419,6 @@ function matchTests(text) {
 // Each entry: a canonical display name, the tube it maps to, and aliases/acronyms
 // for searching. The `tube` here is for the picker's colour dot; the actual tube
 // mapping still goes through matchTests(name) — a test asserts they agree.
-const TESTS = [
-  // Haematology / EDTA (purple)
-  { name: 'Full Blood Count', tube: 'purple', aliases: ['FBC', 'FBE', 'CBC', 'full blood exam', 'complete blood count', 'blood count'] },
-  { name: 'White Cell Count', tube: 'purple', aliases: ['WCC', 'white cell count', 'white blood cells'] },
-  { name: 'Platelet Count', tube: 'purple', aliases: ['platelets', 'PLT', 'platelet count'] },
-  { name: 'Blood Film', tube: 'purple', aliases: ['film', 'blood film', 'peripheral smear'] },
-  { name: 'Reticulocytes', tube: 'purple', aliases: ['retics', 'reticulocyte count'] },
-  { name: 'ESR', tube: 'purple', aliases: ['erythrocyte sedimentation rate', 'sed rate'] },
-  { name: 'HbA1c', tube: 'purple', aliases: ['glycated haemoglobin', 'glycated hemoglobin', 'glycosylated haemoglobin', 'hba1c'] },
-  { name: 'Coombs / DCT', tube: 'purple', aliases: ['coombs', 'direct coombs', 'DCT', 'direct antiglobulin test'] },
-  { name: 'Malaria', tube: 'purple', aliases: ['malaria parasites', 'thick and thin', 'malaria film'] },
-  { name: 'Haemochromatosis (HFE)', tube: 'purple', aliases: ['haemochromatosis', 'HFE', 'hereditary haemochromatosis'] },
-  { name: 'Thalassaemia', tube: 'purple', aliases: ['thalassaemia', 'thalassemia'] },
-  { name: 'Parathyroid Hormone', tube: 'purple', aliases: ['PTH', 'parathyroid hormone', 'parathyroid'] },
-  { name: 'Homocysteine', tube: 'purple', aliases: ['homocysteine'] },
-  { name: 'Ciclosporin', tube: 'purple', aliases: ['ciclosporin', 'cyclosporin', 'cyclosporine'] },
-  { name: 'Tacrolimus', tube: 'purple', aliases: ['tacrolimus', 'FK506'] },
-
-  // Coagulation (light blue citrate)
-  { name: 'INR', tube: 'blue', aliases: ['INR', 'international normalised ratio'] },
-  { name: 'APTT', tube: 'blue', aliases: ['APTT', 'aptt', 'activated partial thromboplastin time'] },
-  { name: 'Prothrombin Time', tube: 'blue', aliases: ['PT', 'prothrombin', 'prothrombin time'] },
-  { name: 'Coagulation Profile', tube: 'blue', aliases: ['coags', 'coag', 'coagulation profile', 'clotting screen', 'coagulation screen'] },
-  { name: 'D-Dimer', tube: 'blue', aliases: ['d-dimer', 'ddimer', 'd dimer'] },
-  { name: 'Fibrinogen', tube: 'blue', aliases: ['fibrinogen'] },
-  { name: 'Factor Assay', tube: 'blue', aliases: ['factor assay', 'factor V', 'factor VIII', 'factor IX'] },
-  { name: 'Lupus Anticoagulant', tube: 'blue', aliases: ['lupus anticoagulant'] },
-  { name: 'Anti-Xa', tube: 'blue', aliases: ['anti-xa', 'antixa', 'heparin assay', 'heparin level'] },
-
-  // Blood bank (pink EDTA)
-  { name: 'Group & Hold', tube: 'pink', aliases: ['group and hold', 'G&H', 'group & hold', 'GH'] },
-  { name: 'Group & Screen', tube: 'pink', aliases: ['group and screen', 'group & screen', 'type and screen'] },
-  { name: 'Crossmatch', tube: 'pink', aliases: ['crossmatch', 'cross match', 'XM', 'GXM'] },
-  { name: 'Antibody Screen', tube: 'pink', aliases: ['antibody screen', 'red cell antibodies'] },
-
-  // Glucose / lactate (grey fluoride)
-  { name: 'Glucose', tube: 'grey', aliases: ['glucose', 'BSL', 'BGL', 'fasting glucose', 'random glucose', 'blood sugar'] },
-  { name: 'Oral Glucose Tolerance Test', tube: 'grey', aliases: ['OGTT', 'GTT', 'glucose tolerance test'] },
-  { name: 'Lactate', tube: 'grey', aliases: ['lactate', 'lactic acid'] },
-
-  // Trace elements (royal blue)
-  { name: 'Zinc', tube: 'royalblue', aliases: ['zinc', 'Zn'] },
-  { name: 'Copper', tube: 'royalblue', aliases: ['copper', 'Cu'] },
-  { name: 'Manganese', tube: 'royalblue', aliases: ['manganese', 'Mn'] },
-  { name: 'Selenium', tube: 'royalblue', aliases: ['selenium', 'Se'] },
-  { name: 'Trace Elements', tube: 'royalblue', aliases: ['trace elements', 'trace metals'] },
-
-  // Heparin / cytogenetics (green)
-  { name: 'Ammonia', tube: 'green', aliases: ['ammonia', 'NH3'] },
-  { name: 'Chromosome Studies', tube: 'green', aliases: ['chromosome studies', 'karyotype', 'cytogenetics'] },
-
-  // Blood cultures
-  { name: 'Blood Cultures', tube: 'bc_aerobic', aliases: ['blood culture', 'blood cultures', 'BC', 'BCx'] },
-
-  // Biochemistry / serum (gold)
-  { name: 'Urea, Electrolytes & Creatinine', tube: 'gold', aliases: ['UEC', 'EUC', 'U&E', 'urea', 'electrolytes', 'creatinine', 'renal function', 'EUCs'] },
-  { name: 'eGFR', tube: 'gold', aliases: ['eGFR', 'GFR'] },
-  { name: 'Liver Function Tests', tube: 'gold', aliases: ['LFT', 'LFTs', 'liver function'] },
-  { name: 'C-Reactive Protein', tube: 'gold', aliases: ['CRP', 'c-reactive protein'] },
-  { name: 'Thyroid Function', tube: 'gold', aliases: ['TSH', 'TFT', 'TFTs', 'thyroid function', 'T4', 'FT4', 'T3', 'FT3'] },
-  { name: 'Calcium', tube: 'gold', aliases: ['calcium', 'Ca', 'corrected calcium'] },
-  { name: 'Phosphate', tube: 'gold', aliases: ['phosphate', 'PO4'] },
-  { name: 'Magnesium', tube: 'gold', aliases: ['magnesium', 'Mg'] },
-  { name: 'Urate', tube: 'gold', aliases: ['urate', 'uric acid'] },
-  { name: 'Creatine Kinase', tube: 'gold', aliases: ['CK', 'creatine kinase'] },
-  { name: 'CK-MB', tube: 'gold', aliases: ['CK-MB', 'CKMB'] },
-  { name: 'Amylase', tube: 'gold', aliases: ['amylase'] },
-  { name: 'Lipase', tube: 'gold', aliases: ['lipase'] },
-  { name: 'Lipids', tube: 'gold', aliases: ['lipids', 'cholesterol', 'triglycerides', 'HDL', 'LDL', 'lipid profile'] },
-  { name: 'Iron Studies', tube: 'gold', aliases: ['iron studies', 'iron', 'transferrin', 'transferrin saturation'] },
-  { name: 'Ferritin', tube: 'gold', aliases: ['ferritin'] },
-  { name: 'Vitamin B12', tube: 'gold', aliases: ['B12', 'vitamin B12', 'cobalamin'] },
-  { name: 'Folate', tube: 'gold', aliases: ['folate', 'folic acid'] },
-  { name: 'Vitamin D', tube: 'gold', aliases: ['vitamin D', '25-OH vitamin D', '25 OH'] },
-  { name: 'Beta-hCG', tube: 'gold', aliases: ['beta hcg', 'bhcg', 'hcg', 'pregnancy test', 'quantitative hcg'] },
-  { name: 'Troponin', tube: 'gold', aliases: ['troponin', 'trop', 'troponin I', 'troponin T', 'hs-troponin'] },
-  { name: 'BNP / NT-proBNP', tube: 'gold', aliases: ['BNP', 'NT-proBNP', 'nt pro bnp', 'natriuretic peptide'] },
-  { name: 'Procalcitonin', tube: 'gold', aliases: ['procalcitonin', 'PCT'] },
-  { name: 'Immunoglobulins', tube: 'gold', aliases: ['immunoglobulins', 'IgG', 'IgA', 'IgM', 'IgE'] },
-  { name: 'Complement (C3/C4)', tube: 'gold', aliases: ['complement', 'C3', 'C4'] },
-  { name: 'ANA', tube: 'gold', aliases: ['ANA', 'antinuclear antibody'] },
-  { name: 'ANCA', tube: 'gold', aliases: ['ANCA'] },
-  { name: 'dsDNA', tube: 'gold', aliases: ['dsDNA', 'anti-dsDNA', 'double stranded DNA'] },
-  { name: 'ENA', tube: 'gold', aliases: ['ENA', 'extractable nuclear antigen'] },
-  { name: 'Rheumatoid Factor', tube: 'gold', aliases: ['rheumatoid factor', 'RF'] },
-  { name: 'Anti-CCP', tube: 'gold', aliases: ['anti-CCP', 'CCP'] },
-  { name: 'Digoxin', tube: 'gold', aliases: ['digoxin', 'dig level'] },
-  { name: 'Phenytoin', tube: 'gold', aliases: ['phenytoin', 'dilantin'] },
-  { name: 'Valproate', tube: 'gold', aliases: ['valproate', 'sodium valproate', 'epilim'] },
-  { name: 'Carbamazepine', tube: 'gold', aliases: ['carbamazepine', 'tegretol'] },
-  { name: 'Lithium', tube: 'gold', aliases: ['lithium', 'lithium level'] },
-  { name: 'Vancomycin', tube: 'gold', aliases: ['vancomycin', 'vanc level'] },
-  { name: 'Gentamicin', tube: 'gold', aliases: ['gentamicin', 'gent level'] },
-  { name: 'Paracetamol', tube: 'gold', aliases: ['paracetamol', 'acetaminophen', 'panadol level'] },
-  { name: 'Cortisol', tube: 'gold', aliases: ['cortisol'] },
-  { name: 'Testosterone', tube: 'gold', aliases: ['testosterone'] },
-  { name: 'Oestradiol', tube: 'gold', aliases: ['oestradiol', 'estradiol'] },
-  { name: 'Progesterone', tube: 'gold', aliases: ['progesterone'] },
-  { name: 'Prolactin', tube: 'gold', aliases: ['prolactin'] },
-  { name: 'FSH', tube: 'gold', aliases: ['FSH', 'follicle stimulating hormone'] },
-  { name: 'LH', tube: 'gold', aliases: ['LH', 'luteinising hormone'] },
-  { name: 'Insulin', tube: 'gold', aliases: ['insulin'] },
-  { name: 'C-Peptide', tube: 'gold', aliases: ['c-peptide', 'c peptide'] },
-  { name: 'PSA', tube: 'gold', aliases: ['PSA', 'prostate specific antigen'] },
-  { name: 'CEA', tube: 'gold', aliases: ['CEA', 'carcinoembryonic antigen'] },
-  { name: 'CA-125', tube: 'gold', aliases: ['CA 125', 'CA-125', 'ca125'] },
-  { name: 'AFP', tube: 'gold', aliases: ['AFP', 'alpha fetoprotein'] },
-  { name: 'Coeliac Serology', tube: 'gold', aliases: ['coeliac', 'celiac', 'tTG', 'gliadin', 'coeliac serology'] },
-  { name: 'HIV Serology', tube: 'gold', aliases: ['HIV', 'hiv serology'] },
-  { name: 'Hepatitis Serology', tube: 'gold', aliases: ['hepatitis', 'hep B', 'hep C', 'HBsAg', 'HCV'] },
-  { name: 'Syphilis Serology', tube: 'gold', aliases: ['syphilis', 'RPR', 'TPHA'] },
-  { name: 'EBV Serology', tube: 'gold', aliases: ['EBV', 'epstein barr', 'monospot'] },
-  { name: 'CMV Serology', tube: 'gold', aliases: ['CMV', 'cytomegalovirus'] },
-  { name: 'Protein Electrophoresis', tube: 'gold', aliases: ['SPEP', 'protein electrophoresis', 'EPP', 'protein studies'] },
-  { name: 'Albumin', tube: 'gold', aliases: ['albumin'] },
-];
 
 // normalise for fuzzy comparison (drop case + non-alphanumerics)
 function normTest(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ''); }
@@ -641,18 +485,10 @@ function fuzzyCanonical(s) {
   return (best && bestD <= Math.max(1, Math.floor(q.length / 8))) ? best.name : null;
 }
 
-// Specialised / niche tests that regional labs commonly refer to a reference lab.
-// Conservative default — used only to FLAG (soft hint), never to auto-split. The user
-// confirms by toggling send-away. Editable.
-const NICHE_NAMES = new Set([
-  'Protein Electrophoresis', 'Immunoglobulins', 'ANCA', 'ENA', 'dsDNA', 'Anti-CCP',
-  'Complement (C3/C4)', 'Zinc', 'Copper', 'Manganese', 'Selenium', 'Trace Elements',
-  'Homocysteine', 'Haemochromatosis (HFE)', 'Thalassaemia', 'Chromosome Studies',
-  'Factor Assay', 'Lupus Anticoagulant', 'C-Peptide', 'Insulin'
-]);
-const nicheKeys = new Set();
-for (const t of TESTS) if (NICHE_NAMES.has(t.name)) for (const a of [t.name, ...(t.aliases || [])]) nicheKeys.add(normTest(a));
-function isNicheTest(s) { return nicheKeys.has(normTest(s)); }
+// A test that may need to be sent off-site (offsite flag maybe|usually) gets a soft hint.
+const _offsiteKeys = new Set();
+for (const t of TESTS) if (t.offsite && t.offsite !== 'none') for (const a of [t.name, ...(t.aliases || [])]) _offsiteKeys.add(normTest(a));
+function isNicheTest(s) { return _offsiteKeys.has(normTest(s)); }
 
 // Estimated number of tubes of a colour needed for `n` tests on it. Volume-limited
 // tubes carry a conservative `maxTests` capacity (usable volume / typical per-test
@@ -1410,6 +1246,34 @@ const FOOTER_LINKS = {
   if (dl && FOOTER_LINKS.donate) { dl.href = FOOTER_LINKS.donate; dl.hidden = false; }
   const dot = document.getElementById('footer-dot');   // separator only when both links show
   if (dot && fb && dl) dot.hidden = fb.hidden || dl.hidden;
+})();
+
+// ─── Site / state selection (INFRASTRUCTURE — currently inactive) ─────────────
+// Lets the user pick their hospital; the choice is saved on the device so it
+// survives Add to Home Screen (localStorage persists for an installed PWA). It is
+// stored in `currentSite` for the engine to use later (Phase 3 overrides); it does
+// NOT change any tube output yet.
+let currentSite = 'default';
+(() => {
+  const wrap = document.getElementById('footer-site');
+  const sel = document.getElementById('site-select');
+  if (!wrap || !sel || typeof SITES === 'undefined' || !SITES.length) return;
+  const stateName = id => (typeof STATES !== 'undefined' ? STATES : []).find(s => s.id === id)?.name || id;
+  const byState = {};
+  for (const s of SITES) (byState[s.state] = byState[s.state] || []).push(s);
+  sel.innerHTML = Object.keys(byState).map(st =>
+    `<optgroup label="${escapeHtml(stateName(st))}">` +
+    byState[st].map(s => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}</option>`).join('') +
+    `</optgroup>`).join('');
+  let saved = '';
+  try { saved = localStorage.getItem('tc-site') || ''; } catch (e) {}
+  if (saved && [...sel.options].some(o => o.value === saved)) sel.value = saved;
+  currentSite = sel.value;
+  wrap.hidden = false;
+  sel.addEventListener('change', () => {
+    currentSite = sel.value;
+    try { localStorage.setItem('tc-site', sel.value); } catch (e) {}
+  });
 })();
 
 // ─── Add-to-home-screen prompt ────────────────────────────────────────────────

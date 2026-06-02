@@ -5,11 +5,12 @@
  *   - Big immutable assets (Tesseract lib/worker/core, language model, icons):
  *     CACHE-FIRST, so they load instantly and work offline.
  * Bump CACHE when precached assets change. */
-const CACHE = 'tube-checker-v48';
+const CACHE = 'tube-checker-v49';
 
 const ASSETS = [
   './',
   'index.html',
+  'catalogue.js',
   'terms.html',
   'manifest.json',
   'icons/icon-192.png',

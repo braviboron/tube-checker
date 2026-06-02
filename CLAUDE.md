@@ -5,12 +5,16 @@ A single-file offline web app (`index.html`) that maps pathology test orders to 
 blood collection tube colours. OCR via Tesseract.js runs entirely client-side.
 
 ## Hard design constraints (do not break without asking)
-- **Single file.** The whole app is `index.html` — HTML, CSS, and JS inlined. Keep it
-  that way unless the user explicitly opts into a build step. The offline/single-file
-  property is a feature, not an accident.
-- **Zero network calls, no data persistence.** This is a privacy guarantee shown in the
-  UI. Do not add analytics, telemetry, remote APIs, web fonts, CDNs, or localStorage of
-  patient data. The app must work fully offline.
+- **App logic in `index.html`; clinical data in CSVs.** HTML/CSS/JS (incl. the regex
+  `RULES`) stay inlined in `index.html`. The catalogue DATA (`TUBES`, `TESTS`, `LABS`,
+  `STATES`, `SITES`, `OVERRIDES`) lives in `/data/*.csv`, compiled by
+  `node tools/build-data.mjs` into `catalogue.js`, which `index.html` loads via
+  `<script src>` (no fetch, still offline). **Edit the CSVs, never `catalogue.js`**, then
+  rebuild. See `PLAN.md` for the layered Base->State->Site model and roadmap.
+- **Zero network calls, no patient-data persistence.** This is a privacy guarantee shown
+  in the UI. Do not add analytics, telemetry, remote APIs, web fonts, CDNs, or
+  localStorage of patient data. (Config-only localStorage is fine: the install-dismiss
+  flag and the chosen site `tc-site`.) The app must work fully offline.
 - **Tesseract.js is vendored** under `vendor/tesseract/` (library, worker, WASM core,
   and `eng.traineddata.gz`). `runOCR()` points `workerPath`/`corePath`/`langPath` at
   `TESS_VENDOR` — an ABSOLUTE URL built from `document.baseURI` (the blob-URL worker's
