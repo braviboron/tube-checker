@@ -41,9 +41,9 @@
       mapping each to the right tube in one pass. EUC was the first such gap found.
 - [ ] Tune the `maxTests` capacities + decide a default send-away set with a clinician /
       the target lab (currently per-test, no defaults).
-- [ ] **Optional: native one-shot camera** — offered as a more private/clearer capture
-      (system Camera app, no held live stream). Not yet decided; current live-preview
-      multi-page capture stays for now.
+- [x] **Native one-shot camera** — switched to system camera capture (`<input
+      capture>`); re-tap to add more pages. Clearer full-res photos than the old held
+      live-stream modal (which gave disappointing OCR on real forms). Modal removed.
 
 ## Clinical accuracy (ongoing)
 - [ ] Have a second clinician sanity-check the full `RULES` set against the NSW catalogue.
@@ -60,6 +60,8 @@
       manufacturer; needs the user to confirm values (clinical), so not added blind.
 
 ## OCR / input
+- [x] **Fuzzy typo correction** — `fuzzyCanonical()` snaps a near-miss OCR token to a
+      known canonical test by tight edit distance (e.g. 'Coaqulation'->'Coagulation').
 - [x] Image pre-processing (upscale, greyscale, contrast) + tuned worker.
 - [ ] Further pre-processing (deskew, adaptive threshold) if accuracy needs it.
 - [ ] Optional auto-scan when the form is held steady in frame.
