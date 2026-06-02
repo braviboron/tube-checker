@@ -178,6 +178,16 @@
   .syringe-total { font-size: 12.5px; color: var(--secondary); margin: 10px 6px 0; }
   .syringe-total:empty { display: none; }
 
+  /* Per-test source links (RCPA + NSW catalogue) */
+  #sources-wrap { margin-top: 24px; }
+  #sources-wrap .group-header { margin-top: 0; }
+  .src-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 8px 4px; font-size: 14px; }
+  .src-row + .src-row { border-top: 1px solid var(--sep); }
+  .src-name { color: var(--label); min-width: 0; word-break: break-word; }
+  .src-links { display: flex; gap: 14px; flex: none; }
+  .src-links a { color: var(--blue); text-decoration: none; font-size: 13px; white-space: nowrap; }
+  .src-links a:active { opacity: 0.6; }
+
   .raw-toggle { display: block; margin: 11px 0 0; background: none; border: none; color: var(--blue); font-family: var(--font); font-size: 13px; cursor: pointer; }
   #raw-text {
     display: none; margin: 8px 0 0; background: var(--card); border-radius: 12px; padding: 13px;
@@ -242,7 +252,7 @@
   /* Print: just the detected tests + tube list, cleanly */
   @media print {
     header, .group-header, .add-field, .group.option, #read-btn, .pages, #progress-wrap,
-    #clear-btn, .fineprint, footer, #share-btn, .raw-toggle, #raw-text, .chip-x, .chip-add, .chip-tag, .chip-hint {
+    #clear-btn, .fineprint, footer, #share-btn, #sources-wrap, .raw-toggle, #raw-text, .chip-x, .chip-add, .chip-tag, .chip-hint {
       display: none !important;
     }
     body { background: #fff; }
@@ -318,6 +328,7 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
     <p id="syringe-total" class="syringe-total"></p>
     <div id="refer-advisory"></div>
     <button class="btn-box" id="share-btn">Share summary</button>
+    <div id="sources-wrap"></div>
   </div>
 
   <button class="btn-box" id="clear-btn">Clear</button>
@@ -387,10 +398,10 @@ const RULES = [
   // Haematology / EDTA-specific → purple
   // NB: specific multi-token terms (hb a1c) MUST precede the generic short ones (\bhb\b),
   // because regex alternation prefers the earliest matching branch at a given position.
-  { re: /\b(fbc|fbe|cbc|full\s*blood\s*(?:count|exam)|complete\s*blood\s*count|blood\s*film|\bfilm\b|wcc|white\s*cell\s*count|differential|\bdiff\b|platelets?|\bplt\b|hb\s*a1c|hba1c|glycated\s*h(?:a)?emoglobin|haemoglobin|\bhb\b|reticulocytes?|retics?|esr|coombs|\bdct\b|malaria|thick\s*(?:and|&)?\s*thin|haemochromatosis|\bhfe\b|thalassaemia|parathyroid|\bpth\b|homocysteine|ciclosporin|cyclosporin|tacrolimus|sirolimus|everolimus|\brenin\b|\bacth\b|adrenocorticotrop|corticotropin|g6pd|glucose[\s-]?6[\s-]?phosphate|jak[\s-]?2)\b/i, tube: 'purple' },
+  { re: /\b(fbc|fbe|cbc|full\s*blood\s*(?:count|exam)|complete\s*blood\s*count|blood\s*film|\bfilm\b|wcc|white\s*cell\s*count|differential|\bdiff\b|platelets?|\bplt\b|hb\s*a1c|hba1c|glycated\s*h(?:a)?emoglobin|haemoglobin|\bhb\b|reticulocytes?|retics?|esr|coombs|\bdct\b|malaria|thick\s*(?:and|&)?\s*thin|haemochromatosis|\bhfe\b|thalassaemia|parathyroid|\bpth\b|homocysteine|ciclosporin|cyclosporin|tacrolimus|sirolimus|everolimus|\brenin\b|\bacth\b|adrenocorticotrop|corticotropin|g6pd|glucose[\s-]?6[\s-]?phosphate|jak[\s-]?2|hla[\s-]?b27|\bb27\b|thiamine|vitamin\s*b1)\b/i, tube: 'purple' },
 
   // Biochemistry / serology / hormones / drug levels / serum → gold (broad; last)
-  { re: /\b(euc|uec|u\s*&\s*e|ue\b|urea|creatinine|egfr|electrolytes?|sodium|potassium|chloride|bicarb(?:onate)?|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein\s*(?:studies|electrophoresis)|spep|crp|c[\s-]?reactive\s*protein|tsh|t4|ft4|free\s*t4|t3|ft3|thyroid\s*function|tfts?|calcium|phosphate|po4|magnesium|mg\b|urate|uric\s*acid|ldh|creatine\s*kinase|ck[\s-]?mb|\bck\b|amylase|lipase|cholesterol|triglycerides?|hdl|ldl|lipids?|iron\s*studies|\biron\b|transferrin|ferritin|\bb12\b|vitamin\s*b12|folate|vitamin\s*d|25[\s-]?oh|\bhcg\b|beta[\s-]?hcg|bhcg|troponin|trop\b|\bbnp\b|nt[\s-]?pro[\s-]?bnp|procalcitonin|immunoglobulins?|ig[gam]\b|\bige\b|complement|\bc3\b|\bc4\b|\bana\b|\banca\b|anti[\s-]?ds[\s-]?dna|dsdna|\bena\b|rheumatoid|\brf\b|anti[\s-]?ccp|digoxin|phenytoin|valproate|carbamazepine|lithium|vancomycin|gentamicin|tobramycin|theophylline|paracetamol|salicylate|clonazepam|clozapine|drug\s*levels?|cortisol|dheas?|testosterone|oestradiol|estradiol|progesterone|prolactin|\bfsh\b|\blh\b|insulin|c[\s-]?peptide|psa|\bcea\b|\bca[\s-]*125\b|ca[\s-]*19[\s-]?9|ca[\s-]*15[\s-]?3|afp|alpha\s*fetoprotein|osmolality|ethanol|coeliac|\bttg\b|gliadin|hiv|hepatitis|hbsag|hcv|syphilis|rpr|tpha|ebv|\bcmv\b|toxoplasma|rubella|varicella|\bvzv\b|measles|mumps|aldosterone|\bigf|insulin[\s-]?like\s*growth|somatomedin|growth\s*hormone|somatotropin|anticardiolipin|cardiolipin|beta[\s-]?2\s*glycoprotein|b2[\s-]?gpi?|17[\s-]?ohp|thyroid\s*antibod(?:y|ies)|anti[\s-]?tpo|\btpo\b|anti[\s-]?thyroglobulin|\btrab\b|tsh\s*receptor|cryoglobulins?|serology)\b/i, tube: 'gold' },
+  { re: /\b(euc|uec|u\s*&\s*e|ue\b|urea|creatinine|egfr|electrolytes?|sodium|potassium|chloride|bicarb(?:onate)?|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein\s*(?:studies|electrophoresis)|spep|crp|c[\s-]?reactive\s*protein|tsh|t4|ft4|free\s*t4|t3|ft3|thyroid\s*function|tfts?|calcium|phosphate|po4|magnesium|mg\b|urate|uric\s*acid|ldh|creatine\s*kinase|ck[\s-]?mb|\bck\b|amylase|lipase|cholesterol|triglycerides?|hdl|ldl|lipids?|iron\s*studies|\biron\b|transferrin|ferritin|\bb12\b|vitamin\s*b12|folate|vitamin\s*d|25[\s-]?oh|\bhcg\b|beta[\s-]?hcg|bhcg|troponin|trop\b|\bbnp\b|nt[\s-]?pro[\s-]?bnp|procalcitonin|immunoglobulins?|ig[gam]\b|\bige\b|complement|\bc3\b|\bc4\b|\bana\b|\banca\b|anti[\s-]?ds[\s-]?dna|dsdna|\bena\b|rheumatoid|\brf\b|anti[\s-]?ccp|digoxin|phenytoin|valproate|carbamazepine|lithium|vancomycin|gentamicin|tobramycin|theophylline|paracetamol|salicylate|clonazepam|clozapine|drug\s*levels?|cortisol|dheas?|testosterone|oestradiol|estradiol|progesterone|prolactin|\bfsh\b|\blh\b|insulin|c[\s-]?peptide|psa|\bcea\b|\bca[\s-]*125\b|ca[\s-]*19[\s-]?9|ca[\s-]*15[\s-]?3|afp|alpha\s*fetoprotein|osmolality|ethanol|coeliac|\bttg\b|gliadin|hiv|hepatitis|hbsag|hcv|syphilis|rpr|tpha|ebv|\bcmv\b|toxoplasma|rubella|varicella|\bvzv\b|measles|mumps|aldosterone|\bigf|insulin[\s-]?like\s*growth|somatomedin|growth\s*hormone|somatotropin|anticardiolipin|cardiolipin|beta[\s-]?2\s*glycoprotein|b2[\s-]?gpi?|17[\s-]?ohp|thyroid\s*antibod(?:y|ies)|anti[\s-]?tpo|\btpo\b|anti[\s-]?thyroglobulin|\btrab\b|tsh\s*receptor|cryoglobulins?|haptoglobin|microglobulin|\bb2m\b|free\s*light\s*chains?|\bflc\b|sflc|immunofixation|\bife\b|tryptase|caeruloplasmin|ceruloplasmin|shbg|sex\s*hormone\s*binding|\bamh\b|anti[\s-]?mullerian|serology)\b/i, tube: 'gold' },
 ];
 
 // Phrases to ignore when scanning for "unrecognised" candidate lines (form noise).
@@ -723,6 +734,34 @@ function update() {
   const { groups, unmatched } = tubeGroupsFor(selectedTests, referral);
   renderChips(new Set(unmatched));
   renderTubes(groups);
+  renderSources();
+}
+
+// Per-test source links. Uses the test's own rcpa/nsw columns if set, else builds a
+// search link: NSW Health Pathology catalogue (state-specific) and the RCPA manual.
+function sourceLinks(name) {
+  const t = (typeof findTest === 'function') ? findTest(name) : null;
+  const enc = encodeURIComponent(t ? t.name : name);
+  const st = (typeof STATES !== 'undefined' && STATES[0]) ? STATES[0] : null;
+  const nswBase = (st && st.catalogueSearch) ? st.catalogueSearch : 'https://catalogue.pathology.health.nsw.gov.au/search?searchValue=';
+  const nsw = (t && t.sources && t.sources.nsw) ? t.sources.nsw : nswBase + enc;
+  const rcpa = (t && t.sources && t.sources.rcpa) ? t.sources.rcpa : 'https://www.rcpa.edu.au/Search-Results?q=' + enc;
+  return { rcpa, nsw };
+}
+
+// List each requested test with links to its RCPA and NSW catalogue entries.
+function renderSources() {
+  const el = document.getElementById('sources-wrap');
+  if (!el) return;
+  if (!selectedTests.length) { el.innerHTML = ''; return; }
+  const rows = selectedTests.map(t => {
+    const { rcpa, nsw } = sourceLinks(t);
+    return `<div class="src-row"><span class="src-name">${escapeHtml(t)}</span>` +
+      `<span class="src-links"><a href="${escapeHtml(rcpa)}" target="_blank" rel="noopener noreferrer">RCPA</a>` +
+      `<a href="${escapeHtml(nsw)}" target="_blank" rel="noopener noreferrer">NSW catalogue</a></span></div>`;
+  }).join('');
+  el.innerHTML = `<p class="group-header">Test references</p>` +
+    `<p class="group-caption">Check each test against its source for tube and handling details.</p>${rows}`;
 }
 
 // Plain-text collection summary for sharing / printing.

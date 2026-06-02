@@ -1217,6 +1217,170 @@ const TESTS = [
       "aluminium level"
     ],
     "offsite": "usually"
+  },
+  {
+    "name": "LDH",
+    "tube": "gold",
+    "aliases": [
+      "lactate dehydrogenase",
+      "ldh level"
+    ],
+    "offsite": "none"
+  },
+  {
+    "name": "Osmolality",
+    "tube": "gold",
+    "aliases": [
+      "serum osmolality",
+      "plasma osmolality",
+      "osmol"
+    ],
+    "offsite": "none"
+  },
+  {
+    "name": "Haptoglobin",
+    "tube": "gold",
+    "aliases": [
+      "hapto"
+    ],
+    "offsite": "maybe"
+  },
+  {
+    "name": "Ethanol",
+    "tube": "gold",
+    "aliases": [
+      "blood alcohol",
+      "alcohol level",
+      "etoh",
+      "bac"
+    ],
+    "offsite": "none"
+  },
+  {
+    "name": "Salicylate",
+    "tube": "gold",
+    "aliases": [
+      "aspirin level",
+      "salicylate level"
+    ],
+    "offsite": "none"
+  },
+  {
+    "name": "Theophylline",
+    "tube": "gold",
+    "aliases": [
+      "theophylline level"
+    ],
+    "offsite": "none"
+  },
+  {
+    "name": "Tobramycin",
+    "tube": "gold",
+    "aliases": [
+      "tobramycin level",
+      "tobra"
+    ],
+    "offsite": "none"
+  },
+  {
+    "name": "Clozapine",
+    "tube": "gold",
+    "aliases": [
+      "clozapine level",
+      "norclozapine"
+    ],
+    "offsite": "none"
+  },
+  {
+    "name": "SHBG",
+    "tube": "gold",
+    "aliases": [
+      "sex hormone binding globulin"
+    ],
+    "offsite": "maybe"
+  },
+  {
+    "name": "DHEAS",
+    "tube": "gold",
+    "aliases": [
+      "dhea-s",
+      "dhea sulphate",
+      "dheas level"
+    ],
+    "offsite": "maybe"
+  },
+  {
+    "name": "Anti-Mullerian Hormone",
+    "tube": "gold",
+    "aliases": [
+      "amh",
+      "anti-mullerian hormone"
+    ],
+    "offsite": "maybe"
+  },
+  {
+    "name": "Beta-2 Microglobulin",
+    "tube": "gold",
+    "aliases": [
+      "b2m",
+      "beta 2 microglobulin"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Serum Free Light Chains",
+    "tube": "gold",
+    "aliases": [
+      "free light chains",
+      "flc",
+      "sflc",
+      "kappa lambda ratio"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Immunofixation",
+    "tube": "gold",
+    "aliases": [
+      "ife",
+      "immunofixation electrophoresis"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Tryptase",
+    "tube": "gold",
+    "aliases": [
+      "mast cell tryptase",
+      "serum tryptase"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Caeruloplasmin",
+    "tube": "gold",
+    "aliases": [
+      "ceruloplasmin"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "HLA-B27",
+    "tube": "purple",
+    "aliases": [
+      "hlab27",
+      "b27"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Vitamin B1",
+    "tube": "purple",
+    "aliases": [
+      "thiamine",
+      "thiamine level"
+    ],
+    "offsite": "usually"
   }
 ];
 const LABS = [
