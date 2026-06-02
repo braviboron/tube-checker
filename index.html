@@ -183,7 +183,11 @@
   .fineprint a { color: var(--blue); text-decoration: none; word-break: break-word; }
   .fineprint a:hover { text-decoration: underline; }
 
-  footer { text-align: center; font-size: 11px; color: var(--tertiary); padding: 10px 18px 20px; }
+  footer { text-align: center; padding: 10px 18px calc(20px + env(safe-area-inset-bottom)); }
+  .footer-feedback { display: inline-block; font-size: 12.5px; color: var(--blue); text-decoration: none; margin-bottom: 9px; }
+  .footer-base { font-size: 11px; color: var(--tertiary); }
+  .footer-base a { color: var(--secondary); text-decoration: none; }
+  .footer-base a:hover, .footer-feedback:hover { text-decoration: underline; }
 
   /* Test picker (bottom sheet) */
   .picker-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: flex-end; }
@@ -307,7 +311,10 @@
   </section>
 </main>
 
-<footer>Tube Checker</footer>
+<footer>
+  <a class="footer-feedback" id="feedback-link" target="_blank" rel="noopener noreferrer" hidden>Report a glitch or suggest a change</a>
+  <div class="footer-base">Tube Checker<span id="donate-wrap" hidden> &middot; <a id="donate-link" target="_blank" rel="noopener noreferrer">buy me a coffee</a></span></div>
+</footer>
 
 <!-- Test picker -->
 <div id="picker-modal" class="picker-modal">
@@ -1378,6 +1385,24 @@ if ('serviceWorker' in navigator) {
       .catch(() => { /* offline-first still works on next load */ });
   });
 }
+
+// ─── Footer links: feedback form + donation ───────────────────────────────────
+// EDIT THESE: paste your two URLs to switch the links on. Each link stays hidden
+// until its URL is set, so the app never shows a dead link.
+//  - feedback: a hosted form (e.g. Tally, Google Forms). Because the form is hosted,
+//    your email lives in the form service and NEVER appears in this page's HTML.
+//  - donate:   your tip-jar page (e.g. Ko-fi, Buy Me a Coffee, GitHub Sponsors).
+const FOOTER_LINKS = {
+  feedback: '',                          // e.g. 'https://tally.so/r/abc123'
+  donate: 'https://ko-fi.com/braviboron' // tip jar (Ko-fi, 0% fee)
+};
+(() => {
+  const fb = document.getElementById('feedback-link');
+  if (fb && FOOTER_LINKS.feedback) { fb.href = FOOTER_LINKS.feedback; fb.hidden = false; }
+  const dl = document.getElementById('donate-link');
+  const dw = document.getElementById('donate-wrap');
+  if (dl && dw && FOOTER_LINKS.donate) { dl.href = FOOTER_LINKS.donate; dw.hidden = false; }
+})();
 
 // ─── Add-to-home-screen prompt ────────────────────────────────────────────────
 (() => {
