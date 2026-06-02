@@ -806,7 +806,7 @@ function renderChips(unmatched) {
       <div id="raw-text"${rawShown ? '' : ' style="display:none"'}>${escapeHtml(lastRawText)}</div>` : '';
   wrap.innerHTML = `
     <div class="recognised">
-      <div class="recognised-head">Detected tests · tap to edit, × to remove</div>
+      <div class="recognised-head">${selectedTests.length} detected test${selectedTests.length === 1 ? '' : 's'} · tap to edit, × to remove</div>
       <div class="chips">${chipsHtml}<button class="chip-add" id="chip-add" aria-label="Add a test">+</button></div>
       ${rawHtml}
     </div>`;
