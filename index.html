@@ -7,7 +7,7 @@
 
 <!-- PWA: installable, offline, no app store -->
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#007aff">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -48,7 +48,8 @@
   }
 
   /* Large-title header (iOS) */
-  header { background: var(--card); border-bottom: 1px solid var(--sep); padding: 16px 18px 14px; }
+  /* Header fills the top safe area (status bar / notch) with its own colour on iPhone. */
+  header { background: var(--card); border-bottom: 1px solid var(--sep); padding: calc(16px + env(safe-area-inset-top)) 18px 14px; }
   .header-inner { max-width: 620px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .app-logo { width: 46px; height: 46px; border-radius: 10px; flex: none; }
   h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
@@ -202,6 +203,9 @@
   .picker-tick { flex: none; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--tertiary); color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: center; }
   .picker-item.selected .picker-tick { background: var(--blue); border-color: var(--blue); }
   .picker-section { font-size: 11px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.03em; padding: 12px 4px 4px; }
+  .picker-help { font-size: 13px; color: var(--secondary); padding: 14px 6px; line-height: 1.5; }
+  .picker-help strong { color: var(--label); }
+  .picker-note { font-size: 13.5px; color: var(--label); background: var(--blue-tint); border-radius: 10px; padding: 12px 14px; margin-top: 8px; line-height: 1.45; }
 
   /* Install (add to home screen) banner */
   .install-banner { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--blue-tint); color: var(--label); padding: 9px 16px; font-size: 13px; }
@@ -259,10 +263,7 @@
 
 <header>
   <div class="header-inner">
-    <div>
-      <h1>Tube Checker</h1>
-      <p class="subtitle">Blood tubes and order of the draw</p>
-    </div>
+    <h1>Tube Checker</h1>
     <img class="app-logo" src="icons/icon-192.png" alt="" width="46" height="46">
   </div>
 </header>
@@ -762,7 +763,10 @@ function mergeTests(tests) {
 function showResults() {
   const r = document.getElementById('results');
   r.style.display = 'block';
-  r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  // Don't yank the page while the picker is open (it sits over the results).
+  if (!document.getElementById('picker-modal').classList.contains('active')) {
+    r.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // Recompute tube groups from selectedTests, then re-render the chips and tube cards.
@@ -920,7 +924,9 @@ function openPicker(modeOrIndex) {
   syncRefToggle();
   document.getElementById('picker-modal').classList.add('active');
   renderPickerList();
-  setTimeout(() => { input.focus(); if (pickerEditIndex !== null) input.select(); }, 40);
+  // Focus synchronously (within the tap) so the keyboard pops up immediately.
+  input.focus();
+  if (pickerEditIndex !== null) input.select();
 }
 
 function closePicker() {
@@ -965,26 +971,32 @@ function pickerRow(name, selected, index, tubeKey, isFree) {
 function renderPickerList() {
   const list = document.getElementById('picker-list');
   const q = document.getElementById('picker-input').value.trim();
-  let html = '';
   if (!q) {
     if (selectedTests.length) {
-      html = `<div class="picker-section">Selected (${selectedTests.length}) · tap to edit, ✓ to remove</div>`
-           + selectedTests.map((t, i) => pickerRow(t, true, i)).join('');
+      list.innerHTML = `<div class="picker-section">Selected (${selectedTests.length}) · tap to edit, ✓ to remove</div>`
+        + selectedTests.map((t, i) => pickerRow(t, true, i)).join('');
     } else {
-      html = `<div class="picker-sub" style="padding:16px 6px">Search a test, type one, or paste a list (commas or new lines).</div>`;
+      list.innerHTML = `<div class="picker-help">Search and select tests individually, type or paste a set of tests, or on an iPhone press &amp; hold the box → <strong>AutoFill</strong> → <strong>Scan Text</strong>.</div>`;
     }
-  } else {
-    const results = searchTests(q, 12);
-    html = results.map(t => pickerRow(t.name, isSelectedTest(t.name), null, t.tube)).join('');
-    const qn = normTest(q);
-    const covered = results.some(t => [t.name, ...(t.aliases || [])].some(a => normTest(a) === qn));
-    if (!covered) {
-      const keys = Object.keys(matchTests(q).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
-      if (keys.length) html = pickerRow(q, isSelectedTest(q), null, keys[0], true) + html;
-    }
-    if (!html) html = `<div class="picker-sub" style="padding:16px 6px">No match. Press Enter to add “${escapeHtml(q)}” as typed.</div>`;
+    return;
   }
-  list.innerHTML = html;
+  // A set of tests typed/pasted at once: don't offer "Use ..."; confirm with Done, which
+  // scans the box like a paste.
+  const parsed = detectOrdered(q);
+  if (parsed.length > 1) {
+    list.innerHTML = `<div class="picker-note">Adding ${parsed.length} tests: ${parsed.map(escapeHtml).join(', ')}. Press <strong>Done</strong> when finished.</div>`;
+    return;
+  }
+  // Single search.
+  const results = searchTests(q, 12);
+  let html = results.map(t => pickerRow(t.name, isSelectedTest(t.name), null, t.tube)).join('');
+  const qn = normTest(q);
+  const covered = results.some(t => [t.name, ...(t.aliases || [])].some(a => normTest(a) === qn));
+  if (!covered) {
+    const keys = Object.keys(matchTests(q).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
+    if (keys.length) html = pickerRow(q, isSelectedTest(q), null, keys[0], true) + html;
+  }
+  list.innerHTML = html || `<div class="picker-sub" style="padding:16px 6px">No match. Press Enter to add “${escapeHtml(q)}” as typed.</div>`;
 }
 
 function removeSelectedByName(name) {
@@ -1008,6 +1020,7 @@ function chooseTest(name) {
   } else {
     selectedTests.push(t);
   }
+  document.getElementById('picker-input').value = '';   // reset the box -> manage view (all added)
   update(); showResults(); renderPickerList();
   document.getElementById('picker-input').focus();
 }
@@ -1020,7 +1033,7 @@ function editFromManage(index) {
   document.getElementById('picker-input').focus();
 }
 
-// Bulk: parse typed/pasted text (commas / new lines) like a scan and add all.
+// Bulk: parse typed/pasted text like a scan and add all (commas/new lines not required).
 function bulkAdd(text) {
   const parsed = detectOrdered(text);
   if (parsed.length) mergeTests(parsed);                 // mergeTests() calls update()
@@ -1031,6 +1044,13 @@ function bulkAdd(text) {
   showResults();
   renderPickerList();
   document.getElementById('picker-input').focus();
+}
+
+// Done: scan any recognised tests still typed in the box, then close.
+function pickerDone() {
+  const v = document.getElementById('picker-input').value.trim();
+  if (v && detectOrdered(v).length >= 1) bulkAdd(v);
+  closePicker();
 }
 
 // ─── MULTI-PAGE OCR PIPELINE ──────────────────────────────────────────────────
@@ -1334,7 +1354,7 @@ document.getElementById('open-picker').addEventListener('click', () => openPicke
     if (e.target.checked) referral.add(t.toLowerCase()); else referral.delete(t.toLowerCase());
     update();
   });
-  document.getElementById('picker-done').addEventListener('click', closePicker);
+  document.getElementById('picker-done').addEventListener('click', pickerDone);
   modal.addEventListener('click', e => { if (e.target === modal) closePicker(); });
 })();
 
