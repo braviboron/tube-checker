@@ -184,10 +184,11 @@
   .fineprint a:hover { text-decoration: underline; }
 
   footer { text-align: center; padding: 10px 18px calc(20px + env(safe-area-inset-bottom)); }
-  .footer-feedback { display: inline-block; font-size: 12.5px; color: var(--blue); text-decoration: none; margin-bottom: 9px; }
-  .footer-base { font-size: 11px; color: var(--tertiary); }
-  .footer-base a { color: var(--secondary); text-decoration: none; }
-  .footer-base a:hover, .footer-feedback:hover { text-decoration: underline; }
+  .footer-name { font-size: 11px; color: var(--tertiary); }
+  .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px 16px; margin-top: 8px; }
+  .footer-link { font-size: 12.5px; color: var(--blue); text-decoration: none; }
+  .footer-link[hidden] { display: none; }
+  .footer-link:hover { text-decoration: underline; }
 
   /* Test picker (bottom sheet) */
   .picker-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: flex-end; }
@@ -312,8 +313,11 @@
 </main>
 
 <footer>
-  <a class="footer-feedback" id="feedback-link" target="_blank" rel="noopener noreferrer" hidden>Report a glitch or suggest a change</a>
-  <div class="footer-base">Tube Checker<span id="donate-wrap" hidden> &middot; <a id="donate-link" target="_blank" rel="noopener noreferrer">buy me a coffee</a></span></div>
+  <div class="footer-name">Tube Checker</div>
+  <div class="footer-links">
+    <a class="footer-link" id="feedback-link" target="_blank" rel="noopener noreferrer" hidden>Report a glitch or suggest a change</a>
+    <a class="footer-link" id="donate-link" target="_blank" rel="noopener noreferrer" hidden>buy me a coffee</a>
+  </div>
 </footer>
 
 <!-- Test picker -->
@@ -1400,8 +1404,7 @@ const FOOTER_LINKS = {
   const fb = document.getElementById('feedback-link');
   if (fb && FOOTER_LINKS.feedback) { fb.href = FOOTER_LINKS.feedback; fb.hidden = false; }
   const dl = document.getElementById('donate-link');
-  const dw = document.getElementById('donate-wrap');
-  if (dl && dw && FOOTER_LINKS.donate) { dl.href = FOOTER_LINKS.donate; dw.hidden = false; }
+  if (dl && FOOTER_LINKS.donate) { dl.href = FOOTER_LINKS.donate; dl.hidden = false; }
 })();
 
 // ─── Add-to-home-screen prompt ────────────────────────────────────────────────
