@@ -123,12 +123,7 @@
   }
   .btn-link:active { opacity: 0.6; }
 
-  .btn-outline {
-    width: 100%; margin-top: 4px; background: var(--card); color: var(--blue);
-    border: 1px solid var(--sep-strong); border-radius: 12px; padding: 12px;
-    font-family: var(--font); font-size: 15px; font-weight: 500; cursor: pointer;
-  }
-  .btn-outline:active { background: var(--surface-2, var(--bg)); }
+  #share-btn { margin-top: 18px; }   /* space from the mL total above */
 
   /* Pages strip */
   .pages { display: flex; gap: 10px; flex-wrap: wrap; padding: 0 2px; }
@@ -312,7 +307,7 @@
     <div class="group" id="tubes-needed"></div>
     <p id="syringe-total" class="syringe-total"></p>
     <div id="refer-advisory"></div>
-    <button class="btn-outline" id="share-btn">Share / print summary</button>
+    <button class="btn-link" id="share-btn">Share tubes required</button>
   </div>
 
   <button class="btn-link" id="clear-btn">Clear</button>
@@ -916,9 +911,13 @@ function addTest() { openPicker('add'); }
 
 // ─── TEST PICKER (multi-select: search, type, or paste a list) ────────────────
 let pickerEditIndex = null;   // index being edited, or null for add/multi-select mode
+let manageList = [];          // rows shown in the manage view (kept so an untick is undoable)
+let prevQueryEmpty = false;   // was the last render the manage (empty-search) view?
 
 function openPicker(modeOrIndex) {
   pickerEditIndex = (typeof modeOrIndex === 'number') ? modeOrIndex : null;
+  prevQueryEmpty = false;     // force a fresh manage list on open
+  manageList = [];
   const input = document.getElementById('picker-input');
   input.value = pickerEditIndex !== null ? selectedTests[pickerEditIndex] : '';
   syncRefToggle();
@@ -932,6 +931,8 @@ function openPicker(modeOrIndex) {
 function closePicker() {
   document.getElementById('picker-modal').classList.remove('active');
   pickerEditIndex = null;
+  manageList = [];
+  prevQueryEmpty = false;
   syncRefToggle();
 }
 
@@ -960,7 +961,7 @@ function pickerRow(name, selected, index, tubeKey, isFree) {
   const tube = key ? TUBES[key] : null;
   const color = tube ? tube.color : 'var(--tertiary)';
   const sub = tube ? tube.name : (isFree ? 'add as typed' : 'unrecognised');
-  const label = isFree ? `Use “${escapeHtml(name)}”` : escapeHtml(name);
+  const label = isFree ? `Use '${escapeHtml(name)}'` : escapeHtml(name);
   return `<div class="picker-item${selected ? ' selected' : ''}" data-name="${escapeHtml(name)}"${index != null ? ` data-index="${index}"` : ''}>
       <span class="picker-dot" style="background:${color}"></span>
       <div class="picker-text"><div class="picker-name${isFree ? ' picker-free' : ''}">${label}</div><div class="picker-sub">${escapeHtml(sub)}</div></div>
@@ -972,14 +973,20 @@ function renderPickerList() {
   const list = document.getElementById('picker-list');
   const q = document.getElementById('picker-input').value.trim();
   if (!q) {
-    if (selectedTests.length) {
-      list.innerHTML = `<div class="picker-section">Selected (${selectedTests.length}) · tap to edit, ✓ to remove</div>`
-        + selectedTests.map((t, i) => pickerRow(t, true, i)).join('');
+    // Manage view. Keep recently-unticked rows visible (undoable) until a change; a fresh
+    // entry (open, or returning from a search) rebuilds the list from the selected tests.
+    if (!prevQueryEmpty) manageList = [...selectedTests];
+    else selectedTests.forEach(t => { if (!manageList.some(x => x.toLowerCase() === t.toLowerCase())) manageList.push(t); });
+    prevQueryEmpty = true;
+    if (manageList.length) {
+      list.innerHTML = `<div class="picker-section">Selected (${selectedTests.length}) · tap to edit, ✓ to add/remove</div>`
+        + manageList.map(t => pickerRow(t, isSelectedTest(t), null)).join('');
     } else {
-      list.innerHTML = `<div class="picker-help">Search and select tests individually, type or paste a set of tests, or on an iPhone press &amp; hold the box → <strong>AutoFill</strong> → <strong>Scan Text</strong>.</div>`;
+      list.innerHTML = `<div class="picker-help">Search and select tests individually, type or paste a set of tests, or on an iPhone press &amp; hold the box → AutoFill → Scan Text.</div>`;
     }
     return;
   }
+  prevQueryEmpty = false;
   // A set of tests typed/pasted at once: don't offer "Use ..."; confirm with Done, which
   // scans the box like a paste.
   const parsed = detectOrdered(q);
@@ -996,7 +1003,7 @@ function renderPickerList() {
     const keys = Object.keys(matchTests(q).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
     if (keys.length) html = pickerRow(q, isSelectedTest(q), null, keys[0], true) + html;
   }
-  list.innerHTML = html || `<div class="picker-sub" style="padding:16px 6px">No match. Press Enter to add “${escapeHtml(q)}” as typed.</div>`;
+  list.innerHTML = html || `<div class="picker-sub" style="padding:16px 6px">No match. Press Enter to add '${escapeHtml(q)}' as typed.</div>`;
 }
 
 function removeSelectedByName(name) {
@@ -1333,15 +1340,21 @@ document.getElementById('open-picker').addEventListener('click', () => openPicke
     const text = (e.clipboardData || window.clipboardData).getData('text');
     if (text && /[,;\n]/.test(text)) { e.preventDefault(); bulkAdd(text); }
   });
-  // Row interactions (delegated): manage view = tick removes / row edits; search view = choose.
+  // Row interactions (delegated). Manage view: tick toggles (untick keeps the row so it
+  // can be re-ticked if a mistake); row body edits. Search view: choose toggles/replaces.
   list.addEventListener('click', e => {
     const item = e.target.closest('.picker-item');
     if (!item) return;
     const name = item.dataset.name;
-    const idx = item.dataset.index != null ? +item.dataset.index : null;
     if (!input.value.trim()) {
-      if (e.target.closest('[data-tick]')) { removeSelectedByName(name); update(); showResults(); renderPickerList(); }
-      else editFromManage(idx);
+      if (e.target.closest('[data-tick]')) {
+        if (isSelectedTest(name)) removeSelectedByName(name); else selectedTests.push(name);
+        update(); showResults(); renderPickerList();
+      } else {
+        const idx = selectedTests.findIndex(x => x.toLowerCase() === name.toLowerCase());
+        if (idx >= 0) editFromManage(idx);
+        else { selectedTests.push(name); update(); showResults(); renderPickerList(); }
+      }
     } else {
       chooseTest(name);
     }
@@ -1395,7 +1408,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault();
     deferred = e;
-    text.textContent = 'Add Tube Checker to your home screen for one-tap, offline use.';
+    text.textContent = 'To install as an app for one-tap, offline use, tap Add.';
     btn.hidden = false;
     banner.hidden = false;
   });
@@ -1409,7 +1422,7 @@ if ('serviceWorker' in navigator) {
 
   // iOS Safari can't auto-prompt — show the manual steps.
   if (isIOS) {
-    text.innerHTML = 'Install: tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>.';
+    text.innerHTML = 'To install as an app, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>.';
     banner.hidden = false;
   }
 
