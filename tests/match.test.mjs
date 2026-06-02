@@ -18,8 +18,8 @@ if (start === -1 || end === -1) throw new Error('Could not locate logic block ma
 const block = html.slice(start, end);
 
 // Evaluate catalogue + logic together and expose the matcher, tubes, and test list.
-const factory = new Function(`${catalogue}\n${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical };`);
-const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical } = factory();
+const factory = new Function(`${catalogue}\n${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical, resolveLab, planTubes, findTest, AVAILABILITY, SITES };`);
+const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical, resolveLab, planTubes, findTest, AVAILABILITY, SITES } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────
 let pass = 0, fail = 0;
@@ -234,6 +234,38 @@ expectEq(mlFor(['blood cultures']), 20, 'blood cultures = 20 mL (two 10 mL bottl
 // send-away doubles the gold tube: UEC + immunoglobulins (send-away) -> gold x2 = 10
 expectEq(mlFor(['UEC', 'immunoglobulins'], ['immunoglobulins']), 10, 'gold x2 = 10 mL');
 expectEq(mlFor([]), 0, 'no tests = 0 mL');
+
+// ─── PHASE 2 + 3 (dormant): site-aware routing + overrides ───────────────────
+function expectEq2(got, want, msg) {
+  if (got === want) pass++;
+  else { fail++; fails.push(`✗ ${msg}\n    got ${JSON.stringify(got)}, want ${JSON.stringify(want)}`); }
+}
+// Routine tests are local everywhere.
+expectEq2(resolveLab('Full Blood Count', 'nepean').dest, 'local', 'FBC is local at Nepean');
+// Nepean does not perform Tacrolimus (perf: ICPMR, WESTMEAD) -> referred to ICPMR.
+expectEq2(resolveLab('Tacrolimus', 'nepean').dest, 'ICPMR', 'Tacrolimus refers to ICPMR at Nepean');
+// Nepean does not perform ANCA (perf: RPA, ICPMR) -> first performing lab RPA.
+expectEq2(resolveLab('ANCA', 'nepean').dest, 'RPA', 'ANCA refers to RPA at Nepean');
+// Westmead performs Tacrolimus -> local.
+expectEq2(resolveLab('Tacrolimus', 'westmead').dest, 'local', 'Tacrolimus is local at Westmead');
+// Aliases resolve too.
+expectEq2(resolveLab('FK506', 'nepean').dest, 'ICPMR', 'alias FK506 resolves like Tacrolimus');
+// The headline scenario: Tacrolimus and ANCA go to DIFFERENT labs => two separate tubes.
+{
+  const plan = planTubes(['Full Blood Count', 'Tacrolimus', 'ANCA'], 'nepean');
+  expectEq2(plan.local.length, 1, 'Nepean plan: 1 local group (FBC)');
+  expectEq2(plan.labs.length, 2, 'Nepean plan: 2 send-away tubes (different labs)');
+  expectEq2(plan.labs.map(g => g.dest).sort().join(','), 'ICPMR,RPA', 'send-aways go to ICPMR and RPA');
+}
+// Phase 3: a site quantity override (Nepean Group & Hold x2) is applied.
+{
+  const plan = planTubes(['Group & Hold'], 'nepean');
+  const pink = plan.local.find(g => g.key === 'pink');
+  expectEq2(pink ? pink.qty : 0, 2, 'Phase 3 override: Group & Hold = 2 pink tubes at Nepean');
+  const planDefault = planTubes(['Group & Hold'], 'default');
+  const pinkD = planDefault.local.find(g => g.key === 'pink');
+  expectEq2(pinkD ? pinkD.qty : 0, 1, 'no override at the generic site: Group & Hold = 1 tube');
+}
 
 // ─── Report ─────────────────────────────────────────────────────────────────
 console.log(`\nTube Checker matching tests: ${pass} passed, ${fail} failed\n`);

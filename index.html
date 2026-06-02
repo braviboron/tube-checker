@@ -38,6 +38,15 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
+  html { background: #f2f2f7; }   /* light base so a cold start is never black */
+
+  /* Loading screen: paints with the first frame and fades out once the app is ready */
+  #splash { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; transition: opacity 0.3s ease; }
+  #splash.hide { opacity: 0; pointer-events: none; }
+  #splash .s-spin { width: 26px; height: 26px; border: 3px solid rgba(60,60,67,0.14); border-top-color: var(--blue); border-radius: 50%; animation: s-spin 0.8s linear infinite; }
+  #splash .s-title { font-family: var(--font); font-size: 21px; font-weight: 700; letter-spacing: -0.02em; color: var(--label); }
+  @keyframes s-spin { to { transform: rotate(360deg); } }
+
   body {
     background: var(--bg);
     color: var(--label);
@@ -244,6 +253,10 @@
 </head>
 <body>
 
+<div id="splash"><div class="s-spin"></div><div class="s-title">Tube Checker</div></div>
+<script>/* safety net: never let the splash trap the user if the app script fails */
+setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.add('hide');setTimeout(function(){if(s)s.remove();},400);}},6000);</script>
+
 <div id="install-banner" class="install-banner" hidden>
   <span id="install-text"></span>
   <span class="install-actions">
@@ -292,7 +305,7 @@
   <button class="btn-filled" id="read-btn" disabled style="display:none">Done</button>
 
   <div id="progress-wrap">
-    <div class="progress-label" id="progress-label">Preparing…</div>
+    <div class="progress-label" id="progress-label">Preparing...</div>
     <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
   </div>
 
@@ -418,7 +431,7 @@ function matchTests(text) {
 // ─── CANONICAL TEST LIST (for the add/edit picker) ────────────────────────────
 // Each entry: a canonical display name, the tube it maps to, and aliases/acronyms
 // for searching. The `tube` here is for the picker's colour dot; the actual tube
-// mapping still goes through matchTests(name) — a test asserts they agree.
+// mapping still goes through matchTests(name) - a test asserts they agree.
 
 // normalise for fuzzy comparison (drop case + non-alphanumerics)
 function normTest(s) { return String(s).toLowerCase().replace(/[^a-z0-9]+/g, ''); }
@@ -499,7 +512,7 @@ function tubeQty(key, n) {
   return cap ? Math.max(1, Math.ceil(n / cap)) : 1;
 }
 
-// Map a list of test strings to tube GROUPS — one group per colour. The quantity
+// Map a list of test strings to tube GROUPS - one group per colour. The quantity
 // accounts for BOTH volume (large panels split) AND send-away tests (each referral
 // batch needs its own tube of that colour). Returns ordered groups (draw order) with a
 // quantity, the send-away tests, and the unmatched tests. Pure (inputs as arguments).
@@ -528,11 +541,112 @@ function tubeGroupsFor(tests, referralSet) {
   return { groups, unmatched };
 }
 
-// Approximate total blood volume (mL) across all tubes (× quantity) — for a syringe draw.
+// Approximate total blood volume (mL) across all tubes (× quantity) - for a syringe draw.
 // Tube fill volumes are nominal adult values; they vary by brand/size.
 function tubesMl(groups) {
   return groups.reduce((s, g) => s + ((TUBES[g.key] && TUBES[g.key].ml) || 0) * g.qty, 0);
 }
+
+// ─── PHASE 2 + 3 (DORMANT): site-aware routing and overrides ──────────────────
+// NOT wired into the live UI. The live app still uses tubeGroupsFor() with the
+// manual `referral` Set. This block is the next-generation engine: given the
+// selected site, it works out which tests are collected locally vs referred, and to
+// WHICH reference lab (Phase 2), then applies that site's overrides (Phase 3). It is
+// pure and unit-tested; activation is a future step (see PLAN.md). Data is in
+// catalogue.js: TESTS.offsite/defaultLab, AVAILABILITY (test to performing labs),
+// SITES[].lab (a site's own lab), LABS, OVERRIDES.
+
+// A test name or alias, resolved to its canonical TESTS entry (or null).
+function findTest(name) {
+  const k = normTest(name);
+  return TESTS.find(t => normTest(t.name) === k || (t.aliases || []).some(a => normTest(a) === k)) || null;
+}
+// Lookup: canonical test name -> the labs known to perform it (from AVAILABILITY).
+const _availByTest = {};
+for (const a of (typeof AVAILABILITY !== 'undefined' ? AVAILABILITY : [])) {
+  const t = findTest(a.test); const key = normTest(t ? t.name : a.test);
+  (_availByTest[key] = _availByTest[key] || []).push(a.lab);
+}
+// The overrides that apply at a site: its own site-scope rows plus its state-scope rows.
+function overridesFor(siteId) {
+  const site = SITES.find(s => s.id === siteId);
+  const stateId = site ? site.state : '';
+  return OVERRIDES.filter(o =>
+    (o.scope === 'site' && o.scopeId === siteId) ||
+    (o.scope === 'state' && o.scopeId === stateId));
+}
+function _override(siteId, name, field) {
+  const k = normTest(name);
+  return overridesFor(siteId).find(o => o.field === field && normTest(o.test) === k) || null;
+}
+// PHASE 3: effective tube key(s) for a test at a site (a 'tube' override wins).
+function effectiveTubeKeys(name, siteId) {
+  const ov = _override(siteId, name, 'tube');
+  if (ov && TUBES[ov.value]) return [ov.value];
+  return Object.keys(matchTests(name).tubeMap);
+}
+// PHASE 3: a forced tube quantity for a test at a site, else null.
+function qtyOverrideFor(name, siteId) {
+  const ov = _override(siteId, name, 'quantity');
+  if (!ov) return null;
+  const n = parseInt(ov.value, 10);
+  return Number.isFinite(n) && n > 0 ? n : null;
+}
+// PHASE 3: does the site hide this test (a 'remove' override)?
+function siteHidesTest(name, siteId) { return !!_override(siteId, name, 'remove'); }
+// PHASE 2: decide where a single test is performed for a given site.
+// Returns { dest: 'local' | <labId>, certain }. certain=false means we believe it
+// may be off-site but lack performing-lab data to route it (so flag, do not guess).
+function resolveLab(name, siteId) {
+  const t = findTest(name);
+  if (!t || t.offsite === 'none') return { dest: 'local', certain: true };
+  if (_override(siteId, name, 'add')) return { dest: 'local', certain: true };   // Phase 3: site offers it locally
+  const labOv = _override(siteId, name, 'lab');
+  if (labOv) return { dest: labOv.value, certain: true };                         // Phase 3: forced routing
+  const perf = _availByTest[normTest(t.name)] || [];
+  const siteLab = (SITES.find(s => s.id === siteId) || {}).lab || '';
+  if (!perf.length) return { dest: t.defaultLab || 'refer', certain: !!t.defaultLab };
+  if (siteLab && perf.includes(siteLab)) return { dest: 'local', certain: true };
+  const dest = (t.defaultLab && perf.includes(t.defaultLab)) ? t.defaultLab : perf[0];
+  return { dest, certain: true };
+}
+// PHASE 2 + 3: full tube plan for a list of tests at a site. Local tests consolidate
+// by colour (as today). Referred tests are bucketed per destination lab; within a
+// (lab, colour) bucket they are kept SEPARATE by default (safer), with couldConsolidate
+// flagged so the UI can later offer combining when the lab is the same. Different labs
+// are always separate. Quantity / tube / remove overrides are applied. Pure.
+function planTubes(tests, siteId) {
+  const local = new Map(), byLab = new Map(), unmatched = [], uncertain = [];
+  const push = (bucket, key, name, force) => {
+    if (!bucket.has(key)) bucket.set(key, { tests: [], force: 0 });
+    const g = bucket.get(key); g.tests.push(name); if (force) g.force = Math.max(g.force, force);
+  };
+  for (const name of tests) {
+    if (siteHidesTest(name, siteId)) continue;                  // Phase 3: not offered here
+    const keys = effectiveTubeKeys(name, siteId);               // Phase 3: tube override
+    if (!keys.length) { unmatched.push(name); continue; }
+    const r = resolveLab(name, siteId);                         // Phase 2: local vs which lab
+    if (!r.certain) uncertain.push(name);
+    const force = qtyOverrideFor(name, siteId);                 // Phase 3: quantity override
+    for (const k of keys) {
+      if (r.dest === 'local') push(local, k, name, force);
+      else { if (!byLab.has(r.dest)) byLab.set(r.dest, new Map()); push(byLab.get(r.dest), k, name, force); }
+    }
+  }
+  const draw = k => (TUBES[k] ? TUBES[k].draw : 99);
+  const localGroups = [...local.entries()].sort((a, b) => draw(a[0]) - draw(b[0]))
+    .map(([key, g]) => ({ dest: 'local', key, tests: g.tests, qty: Math.max(tubeQty(key, g.tests.length), g.force || 1) }));
+  const labGroups = [];
+  for (const [labId, m] of byLab)
+    for (const [key, g] of m.entries())
+      labGroups.push({ dest: labId, key, tests: g.tests,
+        qty: Math.max(g.tests.length, g.force || 1),            // safer default: one tube per referred test
+        couldConsolidate: g.tests.length > 1 });
+  labGroups.sort((a, b) => a.dest.localeCompare(b.dest) || draw(a.key) - draw(b.key));
+  return { local: localGroups, labs: labGroups, unmatched, uncertain };
+}
+// A lab id resolved to its display name.
+function labName(id) { const l = LABS.find(x => x.id === id); return l ? l.name : id; }
 
 // ─── RENDER (editable detected-tests model) ───────────────────────────────────
 // `selectedTests` is the single source of truth. Typing or scanning ADDS to it; the
@@ -1040,7 +1154,7 @@ function getOCRWorker() {
 // worker already caches the engine + language model offline, so this is local-only
 // work. We warm the moment the user touches Scan/Upload (the worker initialises
 // while they frame the shot), and also on idle for the installed home-screen app,
-// since those users clearly intend to scan. Failures are ignored — a real scan
+// since those users clearly intend to scan. Failures are ignored - a real scan
 // still initialises on demand.
 (function warmUpOCR() {
   let started = false;
@@ -1098,8 +1212,8 @@ async function readPages() {
         pending[i].text = await runOCR(pending[i].blob, pr => {
           bar.style.width = Math.round(pr * 100) + '%';
           label.textContent = total > 1
-            ? `Reading page ${n} of ${total}… ${Math.round(pr * 100)}%`
-            : `Reading text… ${Math.round(pr * 100)}%`;
+            ? `Reading page ${n} of ${total}... ${Math.round(pr * 100)}%`
+            : `Reading text... ${Math.round(pr * 100)}%`;
         });
       }
       prog.style.display = 'none';
@@ -1254,7 +1368,7 @@ const FOOTER_LINKS = {
   }
 })();
 
-// ─── Site / state selection (INFRASTRUCTURE — currently inactive) ─────────────
+// ─── Site / state selection (INFRASTRUCTURE - currently inactive) ─────────────
 // Lets the user pick their hospital; the choice is saved on the device so it
 // survives Add to Home Screen (localStorage persists for an installed PWA). It is
 // stored in `currentSite` for the engine to use later (Phase 3 overrides); it does
@@ -1315,7 +1429,7 @@ const SITE_PICKER_ENABLED = false;   // unwired for now; flip to true to show th
     banner.hidden = true;
   });
 
-  // iOS Safari can't auto-prompt — show the manual steps.
+  // iOS Safari can't auto-prompt - show the manual steps.
   if (isIOS) {
     text.innerHTML = 'To install as an app, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>.';
     banner.hidden = false;
@@ -1325,6 +1439,13 @@ const SITE_PICKER_ENABLED = false;   // unwired for now; flip to true to show th
     banner.hidden = true;
     try { localStorage.setItem('tc-install-dismissed', '1'); } catch (e) {}
   });
+})();
+
+// App is initialised: fade out the loading screen.
+(() => {
+  const sp = document.getElementById('splash');
+  if (!sp) return;
+  requestAnimationFrame(() => { sp.classList.add('hide'); setTimeout(() => sp.remove(), 320); });
 })();
 </script>
 </body>

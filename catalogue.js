@@ -1051,6 +1051,21 @@ const LABS = [
     "id": "ICPMR",
     "name": "ICPMR Westmead (statewide reference)",
     "state": "NSW"
+  },
+  {
+    "id": "RPA",
+    "name": "Royal Prince Alfred (specialised)",
+    "state": "NSW"
+  },
+  {
+    "id": "NEPEAN",
+    "name": "Nepean Hospital Laboratory",
+    "state": "NSW"
+  },
+  {
+    "id": "WESTMEAD",
+    "name": "Westmead Hospital Laboratory",
+    "state": "NSW"
   }
 ];
 const STATES = [
@@ -1065,17 +1080,20 @@ const SITES = [
   {
     "id": "default",
     "name": "Generic (NSW default)",
-    "state": "NSW"
+    "state": "NSW",
+    "lab": ""
   },
   {
     "id": "nepean",
     "name": "Nepean Hospital",
-    "state": "NSW"
+    "state": "NSW",
+    "lab": "NEPEAN"
   },
   {
     "id": "westmead",
     "name": "Westmead Hospital",
-    "state": "NSW"
+    "state": "NSW",
+    "lab": "WESTMEAD"
   }
 ];
 const OVERRIDES = [
@@ -1085,5 +1103,43 @@ const OVERRIDES = [
     "test": "Group & Hold",
     "field": "quantity",
     "value": "2"
+  }
+];
+const AVAILABILITY = [
+  {
+    "test": "Tacrolimus",
+    "lab": "ICPMR"
+  },
+  {
+    "test": "Tacrolimus",
+    "lab": "WESTMEAD"
+  },
+  {
+    "test": "Ciclosporin",
+    "lab": "ICPMR"
+  },
+  {
+    "test": "ANCA",
+    "lab": "RPA"
+  },
+  {
+    "test": "ANCA",
+    "lab": "ICPMR"
+  },
+  {
+    "test": "dsDNA",
+    "lab": "RPA"
+  },
+  {
+    "test": "ENA",
+    "lab": "RPA"
+  },
+  {
+    "test": "Protein Electrophoresis",
+    "lab": "ICPMR"
+  },
+  {
+    "test": "Protein Electrophoresis",
+    "lab": "WESTMEAD"
   }
 ];

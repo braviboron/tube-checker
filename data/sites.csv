@@ -1,4 +1,4 @@
-id,name,state
-default,Generic (NSW default),NSW
-nepean,Nepean Hospital,NSW
-westmead,Westmead Hospital,NSW
+id,name,state,lab
+default,Generic (NSW default),NSW,
+nepean,Nepean Hospital,NSW,NEPEAN
+westmead,Westmead Hospital,NSW,WESTMEAD

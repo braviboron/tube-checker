@@ -5,7 +5,7 @@
  *   - Big immutable assets (Tesseract lib/worker/core, language model, icons):
  *     CACHE-FIRST, so they load instantly and work offline.
  * Bump CACHE when precached assets change. */
-const CACHE = 'tube-checker-v51';
+const CACHE = 'tube-checker-v52';
 
 const ASSETS = [
   './',
@@ -45,20 +45,21 @@ self.addEventListener('fetch', event => {
   const isNavigation = req.mode === 'navigate' || req.destination === 'document';
 
   if (isNavigation) {
-    // Network-first: always try to get the freshest app shell when online.
-    event.respondWith(
-      fetch(req)
-        .then(res => {
-          if (res.ok) {   // never cache an error/redirect page as the app shell
-            const copy = res.clone();
-            caches.open(CACHE).then(c => { c.put('index.html', copy); c.put('./', copy.clone()); });
-          }
-          return res;
-        })
-        .catch(async () =>
-          (await caches.match(req)) || (await caches.match('index.html')) || (await caches.match('./'))
-        )
-    );
+    // Stale-while-revalidate: serve the cached shell INSTANTLY (no waiting on the
+    // network, so no black screen on launch), then refresh the cache in the
+    // background for next time. The bumped CACHE version + precache on SW update
+    // means a new deploy is in place on the next launch.
+    event.respondWith((async () => {
+      const cached = (await caches.match('index.html')) || (await caches.match('./'));
+      const network = fetch(req).then(res => {
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => { c.put('index.html', copy); c.put('./', copy.clone()); });
+        }
+        return res;
+      }).catch(() => null);
+      return cached || (await network) || (await caches.match(req));
+    })());
     return;
   }
 

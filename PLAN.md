@@ -26,7 +26,8 @@ file. Fully offline (a `<script src>`, no fetch).
   tests.csv      name,tube,aliases,offsite,defaultLab,rcpa,nsw
   labs.csv       id,name,state
   states.csv     id,name,catalogueHome,catalogueSearch
-  sites.csv      id,name,state
+  sites.csv      id,name,state,lab        (lab = the site's own performing lab)
+  availability.csv  test,lab              (which labs perform each test; many-to-many)
   overrides.csv  scope,scopeId,test,field,value      (scope = site|state)
 /tools/
   build-data.mjs        CSV  ->  catalogue.js   (run after editing)
@@ -54,14 +55,27 @@ index.html       loads catalogue.js; keeps the regex matching layer (RULES) in c
 ## Phases
 - **Phase 1 (done): editable catalogue.** CSV -> catalogue.js, `offsite` flag + source
   columns. No behaviour change.
-- **Phase 1b (done): site/state selection infrastructure.** A site picker at the
-  bottom of the page that persists the choice on the device (survives Add to Home
-  Screen). Currently INACTIVE — it stores the choice but does not yet change tubes.
-- **Phase 2 (next): multi-lab send-away.** Labs + per-lab tube grouping + a safety
-  prompt: when 2+ off-site tests could share a tube, ask "can X and Y go to the same
-  lab together?" — unsure => separate tubes. Different labs => separate automatically.
-- **Phase 3: activate overrides.** Apply the selected site's overrides (quantity,
-  lab, tube, add/remove). Nepean Group & Hold x2 becomes one override row.
+- **Phase 1b (done, currently unwired): site/state selection infrastructure.** A site
+  picker at the bottom of the page that persists the choice on the device (survives Add
+  to Home Screen). Behind `SITE_PICKER_ENABLED` (false for now): the code + data exist but
+  the picker is hidden and inert.
+- **Phase 2 (BUILT, dormant): multi-lab send-away routing.** `resolveLab(test, site)` and
+  `planTubes(tests, site)` in index.html (pure, unit-tested), fed by `availability.csv`
+  (test to performing labs) and `sites.csv` `lab`. Local tests consolidate by colour;
+  referred tests bucket per destination lab; within a (lab, colour) bucket they stay
+  SEPARATE by default (safer) with `couldConsolidate` flagged for a future 'can X and Y go
+  to the same lab together?' prompt. Different labs are always separate. NOT wired into the
+  live UI yet (the app still uses `tubeGroupsFor` + the manual `referral` Set).
+- **Phase 3 (BUILT, dormant): site/state overrides.** `planTubes` applies `overrides.csv`:
+  `quantity` (e.g. Nepean Group & Hold x2), `lab` (force routing), `tube` (remap), `remove`
+  (hide a test at a site), `add` (offer it locally). State-scope overrides apply to all the
+  state's sites.
+- **Activation (remaining): wire it up.** Swap the live render from `tubeGroupsFor` to
+  `planTubes(selectedTests, currentSite)`, render local + per-lab groups, add the
+  consolidation prompt, and set `SITE_PICKER_ENABLED = true`.
+- **Phase 1 likelihood (site-independent):** the `offsite` flag already conveys, with no
+  site selected, how likely a test is to be referred (`none|maybe|usually`) and drives the
+  'Off site?' chip hint. The site-aware routing only refines this once a site is set.
 
 ## Off-site flags (important caveat)
 The initial `offsite` values are a **clinical best-effort estimate** (which tests are

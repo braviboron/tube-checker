@@ -33,6 +33,9 @@ blood collection tube colours. OCR via Tesseract.js runs entirely client-side.
   on a canvas; regenerate similarly if the brand changes.
 
 ## Visual design
+- **Copy / formatting rules live in `FORMATTING.md`** (no em dashes, no curly quotes, no
+  ellipsis char, no emoji, no double quotes in visible text, Australian spelling). Read it
+  before writing any user-visible text.
 - **iOS-style "sterile" clinical look** (reference: UCLH directory app): light grouped
   background (`--bg`), white grouped cards (`.group`), hairline separators (`.row::before`,
   inset), uppercase grey section headers (`.group-header`), rounded-square tinted leading
@@ -60,7 +63,12 @@ blood collection tube colours. OCR via Tesseract.js runs entirely client-side.
   (`openPicker`/`renderPickerList`/`commitPicker`), `buildSummary`/`shareSummary`, and
   OCR/camera handlers follow.
 - The bottom **fine print** (`.fineprint`) consolidates disclaimer + privacy + sources.
-  No em dashes anywhere on the page (use commas/colons).
+  No em dashes anywhere on the page (use commas/colons); see `FORMATTING.md`.
+- **DORMANT next-gen engine** (built, NOT wired): `resolveLab(test, site)` and
+  `planTubes(tests, site)` do site-aware local-vs-referred routing (Phase 2) and apply
+  per-site `OVERRIDES` (Phase 3), fed by `AVAILABILITY`/`SITES.lab` from catalogue.js. The
+  live app still uses `tubeGroupsFor` + the manual `referral` Set. The site picker is gated
+  by `SITE_PICKER_ENABLED` (false). Activation plan: see `PLAN.md`.
 
 ## Clinical-safety norms
 - This is decision support, not authority. Keep the disclaimer visible.

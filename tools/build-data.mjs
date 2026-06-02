@@ -52,6 +52,7 @@ const LABS = readTable('labs');
 const STATES = readTable('states');
 const SITES = readTable('sites');
 const OVERRIDES = readTable('overrides');
+const AVAILABILITY = readTable('availability');   // test -> lab that performs it (many-to-many)
 
 // --- validate references so a bad CSV fails the build, not the app ---
 const errs = [];
@@ -64,10 +65,19 @@ for (const t of TESTS) {
   if (t.defaultLab && !labIds.has(t.defaultLab)) errs.push(`test "${t.name}" -> unknown lab "${t.defaultLab}"`);
   if (!['none', 'maybe', 'usually'].includes(t.offsite)) errs.push(`test "${t.name}" -> bad offsite "${t.offsite}"`);
 }
-for (const s of SITES) if (!stateIds.has(s.state)) errs.push(`site "${s.id}" -> unknown state "${s.state}"`);
+for (const s of SITES) {
+  if (!stateIds.has(s.state)) errs.push(`site "${s.id}" -> unknown state "${s.state}"`);
+  if (s.lab && !labIds.has(s.lab)) errs.push(`site "${s.id}" -> unknown lab "${s.lab}"`);
+}
+for (const a of AVAILABILITY) {
+  if (!testNames.has(a.test)) errs.push(`availability -> unknown test "${a.test}"`);
+  if (!labIds.has(a.lab)) errs.push(`availability "${a.test}" -> unknown lab "${a.lab}"`);
+}
 for (const o of OVERRIDES) {
   if (!testNames.has(o.test)) errs.push(`override -> unknown test "${o.test}"`);
   if (!['quantity', 'lab', 'tube', 'add', 'remove'].includes(o.field)) errs.push(`override "${o.test}" -> bad field "${o.field}"`);
+  if (o.field === 'lab' && !labIds.has(o.value)) errs.push(`override "${o.test}" -> unknown lab "${o.value}"`);
+  if (o.field === 'tube' && !tubeKeys.has(o.value)) errs.push(`override "${o.test}" -> unknown tube "${o.value}"`);
 }
 if (errs.length) { console.error('build-data: validation failed:\n  ' + errs.join('\n  ')); process.exit(1); }
 
@@ -81,7 +91,9 @@ const LABS = ${j(LABS)};
 const STATES = ${j(STATES)};
 const SITES = ${j(SITES)};
 const OVERRIDES = ${j(OVERRIDES)};
+const AVAILABILITY = ${j(AVAILABILITY)};
 `;
 writeFileSync('catalogue.js', out);
 console.log(`catalogue.js written: ${Object.keys(TUBES).length} tubes, ${TESTS.length} tests, ` +
-  `${LABS.length} labs, ${STATES.length} states, ${SITES.length} sites, ${OVERRIDES.length} overrides.`);
+  `${LABS.length} labs, ${STATES.length} states, ${SITES.length} sites, ${OVERRIDES.length} overrides, ` +
+  `${AVAILABILITY.length} availability rows.`);
