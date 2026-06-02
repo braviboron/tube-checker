@@ -15,8 +15,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Tube Checker">
 
-<!-- Tesseract.js is vendored locally (no CDN, zero network) and loaded lazily on the
-     first scan via ensureTesseract(), so the app opens fast. -->
+<!-- Tesseract.js is vendored locally (no CDN, zero network). The library is not in
+     the initial page load (so the app opens fast); it is warmed up in the background
+     the moment the user reaches for Scan/Upload, and on idle for the installed app. -->
 <style>
   :root {
     /* iOS-style system palette */
@@ -1142,26 +1143,57 @@ async function preprocess(blob) {
 }
 
 // One reusable Tesseract worker (faster across multi-page) with tuned parameters.
+// Created once and kept warm; a promise guard means a warm-up and a real scan that
+// start together share the SAME worker instead of racing to build two.
 let _ocrWorker = null;
+let _ocrWorkerPromise = null;
 let _ocrProgress = null;
-async function getOCRWorker() {
-  if (_ocrWorker) return _ocrWorker;
-  await ensureTesseract();
-  _ocrWorker = await Tesseract.createWorker('eng', 1, {
-    // All assets served locally, no network access required.
-    workerBlobURL: false,
-    workerPath: TESS_VENDOR + 'worker.min.js',
-    corePath: TESS_VENDOR,
-    langPath: TESS_VENDOR,
-    logger: m => { if (_ocrProgress && m.status === 'recognizing text') _ocrProgress(m.progress); }
-  });
-  await _ocrWorker.setParameters({
-    user_defined_dpi: '300',            // avoids bad auto-DPI guesses on photos
-    preserve_interword_spaces: '1',
-    tessedit_pageseg_mode: '4'          // single column of text of variable sizes (forms)
-  });
-  return _ocrWorker;
+function getOCRWorker() {
+  if (_ocrWorker) return Promise.resolve(_ocrWorker);
+  if (_ocrWorkerPromise) return _ocrWorkerPromise;
+  _ocrWorkerPromise = (async () => {
+    await ensureTesseract();
+    const worker = await Tesseract.createWorker('eng', 1, {
+      // All assets served locally, no network access required.
+      workerBlobURL: false,
+      workerPath: TESS_VENDOR + 'worker.min.js',
+      corePath: TESS_VENDOR,
+      langPath: TESS_VENDOR,
+      logger: m => { if (_ocrProgress && m.status === 'recognizing text') _ocrProgress(m.progress); }
+    });
+    try {
+      await worker.setParameters({
+        user_defined_dpi: '300',            // avoids bad auto-DPI guesses on photos
+        preserve_interword_spaces: '1',
+        tessedit_pageseg_mode: '4'          // single column of text of variable sizes (forms)
+      });
+    } catch (e) { /* tuning only; a worker without it still reads text */ }
+    _ocrWorker = worker;
+    return worker;
+  })();
+  _ocrWorkerPromise.catch(() => { _ocrWorkerPromise = null; });   // allow a retry on failure
+  return _ocrWorkerPromise;
 }
+
+// Warm up the OCR engine ahead of the first scan so it feels instant. The service
+// worker already caches the engine + 11 MB model offline, so this is local-only
+// work. We warm the moment the user touches Scan/Upload (the worker initialises
+// while they frame the shot), and also on idle for the installed home-screen app,
+// since those users clearly intend to scan. Failures are ignored — a real scan
+// still initialises on demand.
+(function warmUpOCR() {
+  let started = false;
+  const warm = () => { if (started) return; started = true; getOCRWorker().catch(() => {}); };
+  const cam = document.querySelector('label[for="camera-input"]');
+  const up = document.querySelector('label[for="file-input"]');
+  if (cam) cam.addEventListener('pointerdown', warm, { once: true });
+  if (up) up.addEventListener('pointerdown', warm, { once: true });
+  const installed = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  if (installed) {
+    if ('requestIdleCallback' in window) requestIdleCallback(warm, { timeout: 3000 });
+    else setTimeout(warm, 1200);
+  }
+})();
 
 async function runOCR(source, onProgress) {
   let image = source;
