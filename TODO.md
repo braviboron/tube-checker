@@ -16,7 +16,7 @@
 - [x] **Fully offline — vendored Tesseract.js** (library, worker, WASM core, eng model)
       under `vendor/tesseract/`; zero network calls. `fetch-assets.sh` to re-fetch.
 - [x] **PWA** — installable to home screen, full-screen, service worker precaches the
-      whole app (incl. 11 MB model) for true offline. Free, no App Store. (`manifest.json`,
+      whole app (incl. ~2 MB model) for true offline. Free, no App Store. (`manifest.json`,
       `sw.js`, `icons/`). Direction decided: web-only, no paid native/App Store route.
 - [x] Test harness (`tests/match.test.mjs`) running against the real rules in index.html.
 - [x] **Editable detected-tests** — chips you can add (+), edit (tap), remove (×); typing
@@ -60,6 +60,10 @@
       manufacturer; needs the user to confirm values (clinical), so not added blind.
 
 ## OCR / input
+- [x] **Slimmer/faster model (tessdata_fast)** — swapped the 11 MB standard `tessdata`
+      eng model for the ~1.9 MB `tessdata_fast` one. A/B tested via Node (real OCR) on
+      clean + degraded form samples: identical tests detected, equal/higher confidence.
+      ~5.8x smaller download, faster load + recognition.
 - [x] **Fuzzy typo correction** — `fuzzyCanonical()` snaps a near-miss OCR token to a
       known canonical test by tight edit distance (e.g. 'Coaqulation'->'Coagulation').
 - [x] Image pre-processing (upscale, greyscale, contrast) + tuned worker.

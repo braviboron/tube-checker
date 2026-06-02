@@ -1187,7 +1187,7 @@ function getOCRWorker() {
 }
 
 // Warm up the OCR engine ahead of the first scan so it feels instant. The service
-// worker already caches the engine + 11 MB model offline, so this is local-only
+// worker already caches the engine + language model offline, so this is local-only
 // work. We warm the moment the user touches Scan/Upload (the worker initialises
 // while they frame the shot), and also on idle for the installed home-screen app,
 // since those users clearly intend to scan. Failures are ignored — a real scan
