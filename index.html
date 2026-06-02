@@ -323,9 +323,9 @@
     <select id="site-select" aria-label="Your site"></select>
   </div>
   <div class="footer-name">Tube Checker</div>
-  <div class="footer-links">
+  <div class="footer-links" id="footer-links">
+    <a class="footer-link" href="help.html">How to use</a>
     <a class="footer-link" id="feedback-link" target="_blank" rel="noopener noreferrer" hidden>Glitches/suggestions</a>
-    <span class="footer-dot" id="footer-dot" hidden>&middot;</span>
     <a class="footer-link" id="donate-link" target="_blank" rel="noopener noreferrer" hidden>Buy me a coffee</a>
   </div>
 </footer>
@@ -1244,8 +1244,14 @@ const FOOTER_LINKS = {
   if (fb && FOOTER_LINKS.feedback) { fb.href = FOOTER_LINKS.feedback; fb.hidden = false; }
   const dl = document.getElementById('donate-link');
   if (dl && FOOTER_LINKS.donate) { dl.href = FOOTER_LINKS.donate; dl.hidden = false; }
-  const dot = document.getElementById('footer-dot');   // separator only when both links show
-  if (dot && fb && dl) dot.hidden = fb.hidden || dl.hidden;
+  // Insert a dot separator between each pair of visible footer links.
+  const fl = document.getElementById('footer-links');
+  let first = true;
+  for (const a of [...fl.querySelectorAll('.footer-link')]) {
+    if (a.hidden) continue;
+    if (!first) { const d = document.createElement('span'); d.className = 'footer-dot'; d.textContent = '·'; fl.insertBefore(d, a); }
+    first = false;
+  }
 })();
 
 // ─── Site / state selection (INFRASTRUCTURE — currently inactive) ─────────────
