@@ -1260,7 +1260,9 @@ const FOOTER_LINKS = {
 // stored in `currentSite` for the engine to use later (Phase 3 overrides); it does
 // NOT change any tube output yet.
 let currentSite = 'default';
+const SITE_PICKER_ENABLED = false;   // unwired for now; flip to true to show the picker
 (() => {
+  if (!SITE_PICKER_ENABLED) return;
   const wrap = document.getElementById('footer-site');
   const sel = document.getElementById('site-select');
   if (!wrap || !sel || typeof SITES === 'undefined' || !SITES.length) return;
