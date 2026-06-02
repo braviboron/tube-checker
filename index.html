@@ -15,8 +15,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Tube Checker">
 
-<!-- Tesseract.js vendored locally, no CDN, zero network calls. See vendor/tesseract/. -->
-<script src="vendor/tesseract/tesseract.min.js"></script>
+<!-- Tesseract.js is vendored locally (no CDN, zero network) and loaded lazily on the
+     first scan via ensureTesseract(), so the app opens fast. -->
 <style>
   :root {
     /* iOS-style system palette */
@@ -195,6 +195,13 @@
   .picker-name.picker-free { color: var(--blue); }
   .picker-sub { font-size: 12px; color: var(--secondary); margin-top: 1px; }
 
+  /* Install (add to home screen) banner */
+  .install-banner { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--blue-tint); color: var(--label); padding: 9px 16px; font-size: 13px; }
+  .install-banner[hidden] { display: none; }
+  .install-actions { display: flex; align-items: center; gap: 8px; flex: none; }
+  #install-btn { background: var(--blue); color: #fff; border: none; border-radius: 8px; padding: 6px 12px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; }
+  .install-dismiss { background: none; border: none; color: var(--secondary); font-size: 18px; line-height: 1; cursor: pointer; padding: 2px 4px; }
+
   /* Camera modal (dark, native capture convention) */
   #camera-modal { display: none; position: fixed; inset: 0; background: #000; z-index: 100; flex-direction: column; }
   #camera-modal.active { display: flex; }
@@ -233,6 +240,14 @@
 </style>
 </head>
 <body>
+
+<div id="install-banner" class="install-banner" hidden>
+  <span id="install-text"></span>
+  <span class="install-actions">
+    <button id="install-btn" hidden>Add</button>
+    <button id="install-dismiss" class="install-dismiss" aria-label="Dismiss">&times;</button>
+  </span>
+</div>
 
 <header>
   <div class="header-inner">
@@ -360,7 +375,7 @@ const TUBES = {
     note: 'Fill exactly to the line, the blood:anticoagulant ratio is critical.'
   },
   gold: {
-    name: 'Gold / SST (Serum)', color: '#f59e0b', draw: 4, maxTests: 15, ml: 5,
+    name: 'Gold / SST (Serum)', color: '#d4af37', draw: 4, maxTests: 15, ml: 5,
     additive: 'Clot activator + separator gel, serum',
     note: ''
   },
@@ -995,6 +1010,21 @@ function removePage(i) {
 // worker from a blob URL, and importScripts() inside it cannot resolve relative paths.
 const TESS_VENDOR = new URL('vendor/tesseract/', document.baseURI).href;
 
+// Load the Tesseract library on first use (kept out of initial page load for speed).
+let _tessLoading = null;
+function ensureTesseract() {
+  if (window.Tesseract) return Promise.resolve();
+  if (_tessLoading) return _tessLoading;
+  _tessLoading = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'vendor/tesseract/tesseract.min.js';
+    s.onload = () => resolve();
+    s.onerror = reject;
+    document.head.appendChild(s);
+  });
+  return _tessLoading;
+}
+
 // Load a Blob/File into an <img>.
 function blobToImage(blob) {
   return new Promise((resolve, reject) => {
@@ -1011,7 +1041,7 @@ function blobToImage(blob) {
 // Returns a <canvas>; falls back to the original blob if anything goes wrong.
 async function preprocess(blob) {
   const img = await blobToImage(blob);
-  const MIN_W = 1200, MAX_W = 2200;
+  const MIN_W = 1100, MAX_W = 1700;   // smaller = faster OCR, still legible for forms
   let scale = 1;
   if (img.width < MIN_W) scale = MIN_W / img.width;
   else if (img.width > MAX_W) scale = MAX_W / img.width;
@@ -1041,6 +1071,7 @@ let _ocrWorker = null;
 let _ocrProgress = null;
 async function getOCRWorker() {
   if (_ocrWorker) return _ocrWorker;
+  await ensureTesseract();
   _ocrWorker = await Tesseract.createWorker('eng', 1, {
     // All assets served locally, no network access required.
     workerBlobURL: false,
@@ -1066,6 +1097,7 @@ async function runOCR(source, onProgress) {
     return data.text;
   } catch (e) {
     // Fallback if the persistent-worker API isn't available, still uses preprocessing.
+    await ensureTesseract();
     const { data } = await Tesseract.recognize(image, 'eng', {
       workerBlobURL: false,
       workerPath: TESS_VENDOR + 'worker.min.js',
@@ -1173,9 +1205,13 @@ function capturePage() {
   const video = document.getElementById('camera-video');
   if (!video.videoWidth) return;
   const canvas = document.getElementById('camera-canvas');
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-  canvas.getContext('2d').drawImage(video, 0, 0);
+  // Crop to the on-screen scan frame (inset 8% sides / 12% top-bottom) so we only
+  // capture what's inside the guide box, not the whole frame.
+  const vw = video.videoWidth, vh = video.videoHeight;
+  const cx = vw * 0.08, cy = vh * 0.12, cw = vw * 0.84, ch = vh * 0.76;
+  canvas.width = cw;
+  canvas.height = ch;
+  canvas.getContext('2d').drawImage(video, cx, cy, cw, ch, 0, 0, cw, ch);
   const flash = document.getElementById('cam-flash');
   flash.classList.remove('fire'); void flash.offsetWidth; flash.classList.add('fire');
   canvas.toBlob(blob => {
@@ -1231,6 +1267,49 @@ if ('serviceWorker' in navigator) {
       .catch(() => { /* offline-first still works on next load */ });
   });
 }
+
+// ─── Add-to-home-screen prompt ────────────────────────────────────────────────
+(() => {
+  const banner = document.getElementById('install-banner');
+  const text = document.getElementById('install-text');
+  const btn = document.getElementById('install-btn');
+  const dismiss = document.getElementById('install-dismiss');
+  const standalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+  let dismissed = false;
+  try { dismissed = localStorage.getItem('tc-install-dismissed') === '1'; } catch (e) {}
+  if (standalone || dismissed) return;
+
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  let deferred = null;
+
+  // Android / Chromium: capture the native prompt and offer an Add button.
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferred = e;
+    text.textContent = 'Add Tube Checker to your home screen for one-tap, offline use.';
+    btn.hidden = false;
+    banner.hidden = false;
+  });
+  btn.addEventListener('click', async () => {
+    if (!deferred) return;
+    deferred.prompt();
+    try { await deferred.userChoice; } catch (e) {}
+    deferred = null;
+    banner.hidden = true;
+  });
+
+  // iOS Safari can't auto-prompt — show the manual steps.
+  if (isIOS) {
+    text.innerHTML = 'Install: tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>.';
+    banner.hidden = false;
+  }
+
+  dismiss.addEventListener('click', () => {
+    banner.hidden = true;
+    try { localStorage.setItem('tc-install-dismissed', '1'); } catch (e) {}
+  });
+})();
 </script>
 </body>
 </html>
