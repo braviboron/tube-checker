@@ -5,7 +5,7 @@
  *   - Big immutable assets (Tesseract lib/worker/core, language model, icons):
  *     CACHE-FIRST, so they load instantly and work offline.
  * Bump CACHE when precached assets change. */
-const CACHE = 'tube-checker-v47';
+const CACHE = 'tube-checker-v48';
 
 const ASSETS = [
   './',
@@ -47,8 +47,10 @@ self.addEventListener('fetch', event => {
     event.respondWith(
       fetch(req)
         .then(res => {
-          const copy = res.clone();
-          caches.open(CACHE).then(c => { c.put('index.html', copy); c.put('./', copy.clone()); });
+          if (res.ok) {   // never cache an error/redirect page as the app shell
+            const copy = res.clone();
+            caches.open(CACHE).then(c => { c.put('index.html', copy); c.put('./', copy.clone()); });
+          }
           return res;
         })
         .catch(async () =>
