@@ -444,7 +444,7 @@ const TESTS = [
       "ammonia",
       "NH3"
     ],
-    "offsite": "none"
+    "offsite": "maybe"
   },
   {
     "name": "Chromosome Studies",
@@ -578,7 +578,7 @@ const TESTS = [
       "CK-MB",
       "CKMB"
     ],
-    "offsite": "none"
+    "offsite": "maybe"
   },
   {
     "name": "Amylase",
@@ -690,7 +690,7 @@ const TESTS = [
       "nt pro bnp",
       "natriuretic peptide"
     ],
-    "offsite": "none"
+    "offsite": "maybe"
   },
   {
     "name": "Procalcitonin",
@@ -983,7 +983,7 @@ const TESTS = [
       "HIV",
       "hiv serology"
     ],
-    "offsite": "none"
+    "offsite": "maybe"
   },
   {
     "name": "Hepatitis Serology",
@@ -1005,7 +1005,7 @@ const TESTS = [
       "RPR",
       "TPHA"
     ],
-    "offsite": "none"
+    "offsite": "maybe"
   },
   {
     "name": "EBV Serology",
@@ -1015,7 +1015,7 @@ const TESTS = [
       "epstein barr",
       "monospot"
     ],
-    "offsite": "none"
+    "offsite": "maybe"
   },
   {
     "name": "CMV Serology",
@@ -1024,7 +1024,7 @@ const TESTS = [
       "CMV",
       "cytomegalovirus"
     ],
-    "offsite": "none"
+    "offsite": "maybe"
   },
   {
     "name": "Protein Electrophoresis",
@@ -1044,6 +1044,179 @@ const TESTS = [
       "albumin"
     ],
     "offsite": "none"
+  },
+  {
+    "name": "Sirolimus",
+    "tube": "purple",
+    "aliases": [
+      "rapamycin",
+      "sirolimus level",
+      "rapamune"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Everolimus",
+    "tube": "purple",
+    "aliases": [
+      "everolimus level",
+      "certican",
+      "afinitor",
+      "votubia"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Aldosterone",
+    "tube": "gold",
+    "aliases": [
+      "aldosterone level",
+      "aldosterone renin ratio",
+      "arr"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Renin",
+    "tube": "purple",
+    "aliases": [
+      "plasma renin",
+      "direct renin",
+      "renin activity",
+      "pra",
+      "renin concentration"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "ACTH",
+    "tube": "purple",
+    "aliases": [
+      "adrenocorticotropic hormone",
+      "corticotropin",
+      "acth level"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "IGF-1",
+    "tube": "gold",
+    "aliases": [
+      "igf1",
+      "insulin-like growth factor",
+      "somatomedin c"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Growth Hormone",
+    "tube": "gold",
+    "aliases": [
+      "gh level",
+      "somatotropin",
+      "growth hormone level"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "17-OH-Progesterone",
+    "tube": "gold",
+    "aliases": [
+      "17-ohp",
+      "17 hydroxyprogesterone",
+      "17-oh progesterone"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Anticardiolipin Antibodies",
+    "tube": "gold",
+    "aliases": [
+      "anticardiolipin",
+      "acl antibodies",
+      "cardiolipin antibodies"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Beta-2 Glycoprotein Antibodies",
+    "tube": "gold",
+    "aliases": [
+      "beta-2 glycoprotein",
+      "b2gpi",
+      "beta 2 glycoprotein 1"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Thyroid Antibodies",
+    "tube": "gold",
+    "aliases": [
+      "anti-tpo",
+      "tpo antibodies",
+      "thyroid peroxidase antibodies",
+      "anti-thyroglobulin",
+      "trab",
+      "tsh receptor antibodies"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "G6PD",
+    "tube": "purple",
+    "aliases": [
+      "glucose-6-phosphate dehydrogenase",
+      "g6pd screen"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "JAK2",
+    "tube": "purple",
+    "aliases": [
+      "jak2 v617f",
+      "jak2 mutation",
+      "jak-2"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Cryoglobulins",
+    "tube": "gold",
+    "aliases": [
+      "cryoglobulin",
+      "cryoglobulin screen"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Lead",
+    "tube": "royalblue",
+    "aliases": [
+      "blood lead",
+      "pb level",
+      "lead level"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Mercury",
+    "tube": "royalblue",
+    "aliases": [
+      "hg level",
+      "mercury level"
+    ],
+    "offsite": "usually"
+  },
+  {
+    "name": "Aluminium",
+    "tube": "royalblue",
+    "aliases": [
+      "aluminum",
+      "al level",
+      "aluminium level"
+    ],
+    "offsite": "usually"
   }
 ];
 const LABS = [
