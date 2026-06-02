@@ -61,7 +61,7 @@
   .group-header { font-size: 13px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.01em; font-weight: 500; margin: 26px 6px 7px; }
   .group-caption { font-size: 13px; color: var(--secondary); margin: -2px 6px 9px; }
   .group { background: var(--card); border-radius: 12px; overflow: hidden; }
-  .group.option { margin-top: 10px; }   /* small gap between the three input options */
+  .group.option { margin-top: 10px; border: 1px solid var(--sep); }   /* distinct box per input option */
 
   .row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--card); position: relative; cursor: pointer; }
   .row + .row::before { content: ''; position: absolute; top: 0; left: 56px; right: 0; height: 1px; background: var(--sep); }
@@ -248,7 +248,7 @@
 <main>
   <!-- Primary input: opens the multi-select picker (search / type / paste a list) -->
   <p class="group-header">Requested tests</p>
-  <button class="add-field" id="open-picker">Add or search tests, or paste a list
+  <button class="add-field" id="open-picker">Add or search tests, or paste a list</button>
 
   <!-- Image input: camera or upload (built-in offline reader) -->
   <div class="group option">
@@ -1064,15 +1064,16 @@ function renderPages() {
   const addTileEl = document.getElementById('add-page-tile');
   if (addTileEl) addTileEl.addEventListener('click', () => document.getElementById('camera-input').click());
 
+  const pending = pages.filter(p => p.text == null).length;
   const readBtn = document.getElementById('read-btn');
-  readBtn.style.display = pages.length ? 'block' : 'none';
-  readBtn.disabled = pages.length === 0;
-  readBtn.textContent = pages.length <= 1 ? 'Done' : `Done · ${pages.length} pages`;
+  readBtn.style.display = pending ? 'block' : 'none';
+  readBtn.disabled = pending === 0;
+  readBtn.textContent = pending <= 1 ? 'Done' : `Done · ${pending} pages`;
 }
 
 function addPage(blob) {
   if (!blob) return;
-  pages.push({ blob, url: URL.createObjectURL(blob) });
+  pages.push({ blob, url: URL.createObjectURL(blob), text: null });
   renderPages();
 }
 
@@ -1190,28 +1191,39 @@ async function readPages() {
   const label = document.getElementById('progress-label');
   const bar = document.getElementById('progress-bar');
   const readBtn = document.getElementById('read-btn');
-  prog.style.display = 'block';
-  readBtn.disabled = true;
 
-  try {
-    const parts = [];
-    for (let i = 0; i < pages.length; i++) {
-      const n = i + 1, total = pages.length;
-      bar.style.width = '0%';
-      const text = await runOCR(pages[i].blob, p => {
-        bar.style.width = Math.round(p * 100) + '%';
-        label.textContent = total > 1
-          ? `Reading page ${n} of ${total}… ${Math.round(p * 100)}%`
-          : `Reading text… ${Math.round(p * 100)}%`;
-      });
-      parts.push(total > 1 ? `--- Page ${n} ---\n${text}` : text);
+  // Only OCR pages we have not read yet (so adding a page never re-reads old ones).
+  const pending = pages.filter(p => p.text == null);
+  if (pending.length) {
+    prog.style.display = 'block';
+    prog.scrollIntoView({ block: 'center', behavior: 'smooth' });   // make processing visible
+    readBtn.disabled = true;
+    try {
+      for (let i = 0; i < pending.length; i++) {
+        const n = i + 1, total = pending.length;
+        bar.style.width = '0%';
+        pending[i].text = await runOCR(pending[i].blob, pr => {
+          bar.style.width = Math.round(pr * 100) + '%';
+          label.textContent = total > 1
+            ? `Reading page ${n} of ${total}… ${Math.round(pr * 100)}%`
+            : `Reading text… ${Math.round(pr * 100)}%`;
+        });
+      }
+      prog.style.display = 'none';
+    } catch (e) {
+      label.textContent = 'Reading failed, try a clearer image, or type the tests above.';
+      readBtn.disabled = false;
+      return;
     }
-    prog.style.display = 'none';
-    renderResults(parts.join('\n\n'));
-  } catch (e) {
-    label.textContent = 'Reading failed, try a clearer image, or type the tests above.';
   }
-  readBtn.disabled = pages.length === 0;
+
+  // Merge the text from every page (in order) into the detected-tests list.
+  const total = pages.length;
+  const combined = pages
+    .map((p, i) => total > 1 ? `--- Page ${i + 1} ---\n${p.text || ''}` : (p.text || ''))
+    .join('\n\n');
+  renderResults(combined);
+  renderPages();   // refresh: nothing pending now, so hide the Done button
 }
 
 document.getElementById('file-input').addEventListener('change', e => {
@@ -1240,8 +1252,10 @@ document.getElementById('clear-btn').addEventListener('click', () => {
 // Each tap takes one full-resolution photo via the system camera; re-tap to add
 // more pages. No photo is saved to the device. ────────────────────────────────
 document.getElementById('camera-input').addEventListener('change', e => {
-  [...e.target.files].forEach(addPage);
+  const files = [...e.target.files];
+  files.forEach(addPage);
   e.target.value = '';   // allow re-capturing another page with the same input
+  if (files.length) readPages();   // a captured photo processes automatically
 });
 
 // ─── PICKER wiring ────────────────────────────────────────────────────────────
