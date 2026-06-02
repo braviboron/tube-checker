@@ -1418,19 +1418,22 @@ const SITES = [
     "id": "default",
     "name": "Generic (NSW default)",
     "state": "NSW",
-    "lab": ""
+    "lab": "",
+    "region": ""
   },
   {
     "id": "nepean",
     "name": "Nepean Hospital",
     "state": "NSW",
-    "lab": "NEPEAN"
+    "lab": "NEPEAN",
+    "region": "nbmlhd"
   },
   {
     "id": "westmead",
     "name": "Westmead Hospital",
     "state": "NSW",
-    "lab": "WESTMEAD"
+    "lab": "WESTMEAD",
+    "region": "wslhd"
   }
 ];
 const OVERRIDES = [
@@ -1478,5 +1481,38 @@ const AVAILABILITY = [
   {
     "test": "Protein Electrophoresis",
     "lab": "WESTMEAD"
+  }
+];
+const REGIONS = [
+  {
+    "id": "wnswlhd",
+    "name": "Western NSW LHD",
+    "state": "NSW"
+  },
+  {
+    "id": "nbmlhd",
+    "name": "Nepean Blue Mountains LHD",
+    "state": "NSW"
+  },
+  {
+    "id": "wslhd",
+    "name": "Western Sydney LHD",
+    "state": "NSW"
+  }
+];
+const RESOURCES = [
+  {
+    "level": "national",
+    "scope": "",
+    "key": "rcpa",
+    "label": "RCPA",
+    "url": "https://www.rcpa.edu.au/Search-Results?q={q}"
+  },
+  {
+    "level": "state",
+    "scope": "NSW",
+    "key": "nsw",
+    "label": "NSW catalogue",
+    "url": "https://catalogue.pathology.health.nsw.gov.au/search?searchValue={q}"
   }
 ];

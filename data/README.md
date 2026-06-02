@@ -29,9 +29,23 @@ Reference and hospital laboratories. `state` references `states.csv`.
 One row per state/territory profile (NSW for now). The catalogue links follow the selected
 state.
 
-### sites.csv  `id,name,state,lab`
+### regions.csv  `id,name,state`
+A region within a state (e.g. a Local Health District). `state` references `states.csv`.
+Used to scope regional reference resources.
+
+### sites.csv  `id,name,state,lab,region`
 Hospitals the user can pick. `lab` is the site's OWN performing laboratory (a `labs.csv` id),
-used to decide whether a test is done locally. Blank `lab` = generic / unknown.
+used to decide whether a test is done locally. `region` is a `regions.csv` id (or blank).
+Blank `lab`/`region` = generic / unknown.
+
+### resources.csv  `level,scope,key,label,url`
+Reference links shown per test (the 'Test references' section). `level` is
+`national | state | regional`. `scope` is blank for national, a `states.csv` id for state,
+or a `regions.csv` id for regional. `key` is an optional stable id (e.g. `rcpa`, `nsw`) that
+lets a test override the link via its `tests.csv` `rcpa`/`nsw` column. `url` is a template
+containing `{q}` (replaced by the URL-encoded test name) and optionally `{name}` (raw name).
+Resolution for a test at a site = all `national` rows + the `state` rows for the site's state
++ the `regional` rows for the site's region, in that order. Add a level by adding a row.
 
 ### availability.csv  `test,lab`  (many-to-many)
 Which labs perform each test. One row per (test, lab) pair. Only specialised / referred

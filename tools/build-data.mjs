@@ -53,6 +53,8 @@ const STATES = readTable('states');
 const SITES = readTable('sites');
 const OVERRIDES = readTable('overrides');
 const AVAILABILITY = readTable('availability');   // test -> lab that performs it (many-to-many)
+const REGIONS = readTable('regions');             // a region within a state (e.g. an LHD)
+const RESOURCES = readTable('resources');         // reference links, by level national|state|regional
 
 // --- validate references so a bad CSV fails the build, not the app ---
 const errs = [];
@@ -65,9 +67,18 @@ for (const t of TESTS) {
   if (t.defaultLab && !labIds.has(t.defaultLab)) errs.push(`test "${t.name}" -> unknown lab "${t.defaultLab}"`);
   if (!['none', 'maybe', 'usually'].includes(t.offsite)) errs.push(`test "${t.name}" -> bad offsite "${t.offsite}"`);
 }
+const regionIds = new Set(REGIONS.map(r => r.id));
+for (const r of REGIONS) if (!stateIds.has(r.state)) errs.push(`region "${r.id}" -> unknown state "${r.state}"`);
 for (const s of SITES) {
   if (!stateIds.has(s.state)) errs.push(`site "${s.id}" -> unknown state "${s.state}"`);
   if (s.lab && !labIds.has(s.lab)) errs.push(`site "${s.id}" -> unknown lab "${s.lab}"`);
+  if (s.region && !regionIds.has(s.region)) errs.push(`site "${s.id}" -> unknown region "${s.region}"`);
+}
+for (const r of RESOURCES) {
+  if (!['national', 'state', 'regional'].includes(r.level)) errs.push(`resource "${r.label}" -> bad level "${r.level}"`);
+  if (r.level === 'state' && !stateIds.has(r.scope)) errs.push(`resource "${r.label}" -> unknown state scope "${r.scope}"`);
+  if (r.level === 'regional' && !regionIds.has(r.scope)) errs.push(`resource "${r.label}" -> unknown region scope "${r.scope}"`);
+  if (!/\{q\}/.test(r.url)) errs.push(`resource "${r.label}" -> url missing {q} placeholder`);
 }
 for (const a of AVAILABILITY) {
   if (!testNames.has(a.test)) errs.push(`availability -> unknown test "${a.test}"`);
@@ -92,8 +103,10 @@ const STATES = ${j(STATES)};
 const SITES = ${j(SITES)};
 const OVERRIDES = ${j(OVERRIDES)};
 const AVAILABILITY = ${j(AVAILABILITY)};
+const REGIONS = ${j(REGIONS)};
+const RESOURCES = ${j(RESOURCES)};
 `;
 writeFileSync('catalogue.js', out);
 console.log(`catalogue.js written: ${Object.keys(TUBES).length} tubes, ${TESTS.length} tests, ` +
-  `${LABS.length} labs, ${STATES.length} states, ${SITES.length} sites, ${OVERRIDES.length} overrides, ` +
-  `${AVAILABILITY.length} availability rows.`);
+  `${LABS.length} labs, ${STATES.length} states, ${REGIONS.length} regions, ${SITES.length} sites, ` +
+  `${OVERRIDES.length} overrides, ${AVAILABILITY.length} availability, ${RESOURCES.length} resources.`);

@@ -26,9 +26,11 @@ file. Fully offline (a `<script src>`, no fetch).
   tests.csv      name,tube,aliases,offsite,defaultLab,rcpa,nsw
   labs.csv       id,name,state
   states.csv     id,name,catalogueHome,catalogueSearch
-  sites.csv      id,name,state,lab        (lab = the site's own performing lab)
+  regions.csv    id,name,state            (a region within a state, e.g. an LHD)
+  sites.csv      id,name,state,lab,region (lab = the site's own performing lab)
   availability.csv  test,lab              (which labs perform each test; many-to-many)
   overrides.csv  scope,scopeId,test,field,value      (scope = site|state)
+  resources.csv  level,scope,key,label,url (reference links: national|state|regional)
 /tools/
   build-data.mjs        CSV  ->  catalogue.js   (run after editing)
   extract-catalogue.mjs one-time bootstrap (generated the first CSVs from index.html)
