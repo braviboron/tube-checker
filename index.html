@@ -101,8 +101,10 @@
   .chip.unmatched { background: var(--note-bg); color: var(--note); border-color: #e7d8a4; }
   .chip.unmatched .chip-x { background: rgba(168,83,11,0.14); color: var(--note); }
   .chip-add { border: 1px dashed var(--tertiary); background: none; color: var(--blue); min-width: 30px; height: 27px; border-radius: 999px; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
-  .chip-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #6b4d00; background: #ffe9a8; border-radius: 4px; padding: 1px 5px; }
-  .chip-hint { font-size: 10px; font-weight: 600; color: var(--secondary); background: rgba(60,60,67,0.08); border-radius: 4px; padding: 1px 5px; }
+  .chip-tag, .chip-hint { border: none; font-family: var(--font); cursor: pointer; }
+  .chip-tag:active, .chip-hint:active { opacity: 0.6; }
+  .chip-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #6b4d00; background: #ffe9a8; border-radius: 4px; padding: 2px 6px; }
+  .chip-hint { font-size: 10px; font-weight: 600; color: var(--secondary); background: rgba(60,60,67,0.08); border-radius: 4px; padding: 2px 6px; }
 
   /* Bottom-of-results referral advisory */
   .advisory { background: var(--note-bg); border-radius: 12px; padding: 13px 16px; margin-top: 16px; }
@@ -797,8 +799,8 @@ function renderChips(unmatched) {
   const chipsHtml = selectedTests.map((t, i) => {
     const flag = unmatched.has(t) ? ' unmatched' : '';
     const isRef = referral.has(t.toLowerCase());
-    const ref = isRef ? '<span class="chip-tag">Send separately</span>' : '';
-    const hint = (!isRef && isNicheTest(t)) ? '<span class="chip-hint">Off site?</span>' : '';
+    const ref = isRef ? `<button class="chip-tag" data-ref="${i}" title="Tap to collect on site">Send separately</button>` : '';
+    const hint = (!isRef && isNicheTest(t)) ? `<button class="chip-hint" data-ref="${i}" title="Tap to send separately">Off site?</button>` : '';
     return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>${ref}${hint}` +
            `<button class="chip-x" data-i="${i}" aria-label="Remove"><svg viewBox="0 0 12 12" width="9" height="9" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></span>`;
   }).join('');
@@ -815,6 +817,8 @@ function renderChips(unmatched) {
     b.addEventListener('click', e => { e.stopPropagation(); removeTest(+b.dataset.i); }));
   wrap.querySelectorAll('.chip-label').forEach(l =>
     l.addEventListener('click', () => editTest(+l.dataset.i)));
+  wrap.querySelectorAll('[data-ref]').forEach(b =>
+    b.addEventListener('click', e => { e.stopPropagation(); toggleReferral(+b.dataset.ref); }));
   document.getElementById('chip-add').addEventListener('click', addTest);
   const rt = document.getElementById('raw-toggle');
   if (rt) rt.addEventListener('click', () => {
@@ -890,6 +894,12 @@ function renderReferAdvisory() {
 // Chip actions. Add/edit open the searchable test picker; remove is immediate.
 function removeTest(i) { selectedTests.splice(i, 1); update(); }
 function editTest(i) { openPicker(i); }
+// Tap the 'Off site? / Send separately' chip badge to toggle a test's send-away state.
+function toggleReferral(i) {
+  const key = selectedTests[i].toLowerCase();
+  if (referral.has(key)) referral.delete(key); else referral.add(key);
+  update();
+}
 function addTest() { openPicker('add'); }
 
 // ─── TEST PICKER (multi-select: search, type, or paste a list) ────────────────
