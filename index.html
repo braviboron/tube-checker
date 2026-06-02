@@ -1126,7 +1126,7 @@ function blobToImage(blob) {
 // Returns a <canvas>; falls back to the original blob if anything goes wrong.
 async function preprocess(blob) {
   const img = await blobToImage(blob);
-  const MIN_W = 1100, MAX_W = 1700;   // smaller = faster OCR, still legible for forms
+  const MIN_W = 1400, MAX_W = 2400;   // higher resolution = better OCR accuracy on forms
   let scale = 1;
   if (img.width < MIN_W) scale = MIN_W / img.width;
   else if (img.width > MAX_W) scale = MAX_W / img.width;
@@ -1167,7 +1167,8 @@ async function getOCRWorker() {
   });
   await _ocrWorker.setParameters({
     user_defined_dpi: '300',            // avoids bad auto-DPI guesses on photos
-    preserve_interword_spaces: '1'
+    preserve_interword_spaces: '1',
+    tessedit_pageseg_mode: '4'          // single column of text of variable sizes (forms)
   });
   return _ocrWorker;
 }
