@@ -404,9 +404,14 @@ const TESTS = [
       "group and hold",
       "G&H",
       "group & hold",
-      "GH"
+      "GH",
+      "group and save",
+      "group save"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-and-antibody-screen"
+    }
   },
   {
     "name": "Group & Screen",
@@ -414,9 +419,13 @@ const TESTS = [
     "aliases": [
       "group and screen",
       "group & screen",
-      "type and screen"
+      "type and screen",
+      "blood group and antibody screen"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-and-antibody-screen"
+    }
   },
   {
     "name": "Crossmatch",
@@ -425,7 +434,9 @@ const TESTS = [
       "crossmatch",
       "cross match",
       "XM",
-      "GXM"
+      "GXM",
+      "group and crossmatch",
+      "G&X"
     ],
     "offsite": "none",
     "sources": {
@@ -437,9 +448,13 @@ const TESTS = [
     "tube": "pink",
     "aliases": [
       "antibody screen",
-      "red cell antibodies"
+      "red cell antibodies",
+      "red cell antibody screen"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-and-antibody-screen"
+    }
   },
   {
     "name": "Glucose",
@@ -2242,15 +2257,6 @@ const TESTS = [
     "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-ABO-and-RhD"
-    }
-  },
-  {
-    "name": "Blood group and antibody screen",
-    "tube": "pink",
-    "aliases": [],
-    "offsite": "none",
-    "sources": {
-      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-and-antibody-screen"
     }
   },
   {
