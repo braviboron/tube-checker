@@ -223,9 +223,12 @@
   .footer-site select { font-family: var(--font); font-size: 13px; color: var(--label); background: var(--card); border: 1px solid var(--sep-strong); border-radius: 8px; padding: 5px 9px; cursor: pointer; }
 
   /* Test picker (bottom sheet) */
-  .picker-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: flex-end; }
+  /* The dimmed backdrop is purely visual (pointer-events:none): a tap outside the sheet
+     passes through to the page AND closes the picker (handled in JS), so it never costs a
+     wasted first click. Only the sheet itself captures pointer events. */
+  .picker-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 200; align-items: flex-end; pointer-events: none; }
   .picker-modal.active { display: flex; }
-  .picker-sheet { background: var(--bg); width: 100%; max-width: 620px; margin: 0 auto; border-radius: 16px 16px 0 0; height: 72vh; display: flex; flex-direction: column; padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); }
+  .picker-sheet { background: var(--bg); width: 100%; max-width: 620px; margin: 0 auto; border-radius: 16px 16px 0 0; height: 72vh; display: flex; flex-direction: column; padding: 14px 16px calc(14px + env(safe-area-inset-bottom)); pointer-events: auto; }
   .picker-bar { display: flex; gap: 10px; align-items: center; }
   #picker-input { flex: 1; background: var(--card); border: 1px solid var(--sep-strong); border-radius: 10px; padding: 11px 13px; font-size: 16px; font-family: var(--font); color: var(--label); outline: none; }
   #picker-input:focus { border-color: var(--blue); }
@@ -1532,7 +1535,15 @@ document.getElementById('open-picker').addEventListener('click', () => openPicke
     update();
   });
   document.getElementById('picker-done').addEventListener('click', pickerDone);
-  modal.addEventListener('click', e => { if (e.target === modal) closePicker(); });
+  // A tap/click outside the sheet closes the picker. Because the backdrop is
+  // pointer-events:none, the SAME tap also reaches whatever is under it (a link, a chip),
+  // so dismissing the picker never costs a wasted first click (the old bug, on phone and
+  // computer). The sheet and the open-picker button are excluded.
+  document.addEventListener('pointerdown', e => {
+    if (!modal.classList.contains('active')) return;
+    if (e.target.closest('.picker-sheet') || e.target.closest('#open-picker')) return;
+    closePicker();
+  });
 })();
 
 // ─── PWA: register service worker (installable + fully offline) ────────────────
