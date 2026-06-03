@@ -62,6 +62,14 @@ CSV model is built to absorb it:
    not the app. References in `availability.csv` / `overrides.csv` are by test name, so update
    them too if a name changes (the build will flag any that dangle).
 
+### groups.csv  `name,members,aliases,short,note`
+PANELS: a named bundle of RCPA tests, kept SEPARATE from `tests.csv` so the test list stays
+one-to-one with the RCPA index. `members` is a pipe-separated list of test names (each MUST
+exist in `tests.csv`; the build validates this). When a group is searched it shows badged
+('group of N') with its members; when added it EXPANDS into its member tests (the group
+itself is never stored), and a `note` warning is shown that the make-up varies by lab. Add a
+panel by adding a row here, not by adding a test with members.
+
 ### labs.csv  `id,name,state`
 Reference and hospital laboratories. `state` references `states.csv`.
 

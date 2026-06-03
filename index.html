@@ -247,6 +247,9 @@
   .picker-item:active { background: var(--card); }
   .picker-item.kbd-active { background: rgba(0,122,255,0.10); border-radius: 8px; }   /* keyboard highlight (computer) */
   .picker-shorthint { color: var(--secondary); font-weight: 400; }
+  .picker-group-tag { font-size: 10.5px; color: var(--blue); border: 1px solid var(--blue); border-radius: 5px; padding: 0 4px; font-weight: 600; vertical-align: middle; white-space: nowrap; }
+  .picker-dot-group { background: repeating-linear-gradient(45deg, var(--blue), var(--blue) 2px, #fff 2px, #fff 4px) !important; }
+  .panel-note { font-size: 12.5px; color: var(--secondary); margin-top: 8px; padding: 7px 10px; background: rgba(0,122,255,0.06); border-radius: 8px; }
   .picker-dot { width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.14); }
   .picker-text { flex: 1; min-width: 0; }
   .picker-name { font-size: 15px; color: var(--label); }
@@ -603,6 +606,26 @@ function findTest(name) {
   const k = normTest(name);
   return TESTS.find(t => [t.name, t.short, ...(t.aliases || [])].filter(Boolean).some(a => normTest(a) === k)) || null;
 }
+
+// ─── GROUPS (panels): named bundles of RCPA tests that expand into members on add ──
+const _GROUPS = (typeof GROUPS !== 'undefined') ? GROUPS : [];
+const expandedPanels = new Set();   // panels expanded this session (drives the make-up warning)
+function findGroup(name) {
+  const k = normTest(name);
+  return _GROUPS.find(g => [g.name, g.short, ...(g.aliases || [])].filter(Boolean).some(a => normTest(a) === k)) || null;
+}
+function searchGroups(query) {
+  const q = normTest(query);
+  if (!q) return [];
+  return _GROUPS.filter(g => [g.name, g.short, ...(g.aliases || [])].filter(Boolean)
+    .some(a => { const n = normTest(a); return n.includes(q) || q.includes(n); }));
+}
+// Expand a name to its member tests if it is a group; else return it unchanged.
+function expandName(name) {
+  const g = findGroup(name);
+  if (g && g.members && g.members.length) { expandedPanels.add(g.name); return g.members.slice(); }
+  return [name];
+}
 // Lookup: canonical test name -> the labs known to perform it (from AVAILABILITY).
 const _availByTest = {};
 for (const a of (typeof AVAILABILITY !== 'undefined' ? AVAILABILITY : [])) {
@@ -759,13 +782,15 @@ function renderResults(text) {
 
 function mergeTests(tests) {
   const have = new Set(selectedTests.map(t => canonicalName(t).toLowerCase()));
-  for (let t of tests) {
-    t = canonicalName(t);
-    if (!t) continue;
-    const k = t.toLowerCase();
-    if (have.has(k)) continue;
-    have.add(k);
-    selectedTests.push(t);
+  for (const raw of tests) {
+    for (let t of expandName(raw)) {     // a group expands into its member tests
+      t = canonicalName(t);
+      if (!t) continue;
+      const k = t.toLowerCase();
+      if (have.has(k)) continue;
+      have.add(k);
+      selectedTests.push(t);
+    }
   }
   update();
 }
@@ -786,6 +811,7 @@ function update() {
   // prune referral flags for tests no longer present
   const present = new Set(selectedTests.map(t => t.toLowerCase()));
   for (const k of [...referral]) if (!present.has(k)) referral.delete(k);
+  if (!selectedTests.length) expandedPanels.clear();
 
   const { groups, unmatched } = tubeGroupsFor(selectedTests, referral);
   renderChips(new Set(unmatched));
@@ -904,10 +930,13 @@ function renderChips(unmatched) {
   const rawHtml = lastRawText ? `
       <button class="raw-toggle" id="raw-toggle">${rawShown ? 'Hide' : 'Show'} extracted text</button>
       <div id="raw-text" style="display:${rawShown ? 'block' : 'none'}">${escapeHtml(lastRawText)}</div>` : '';
+  const panelWarn = expandedPanels.size
+    ? `<div class="panel-note">Panels were expanded to their usual tests (${[...expandedPanels].map(escapeHtml).join(', ')}). The make-up varies by laboratory; confirm locally.</div>` : '';
   wrap.innerHTML = `
     <div class="recognised">
       <div class="recognised-head">${selectedTests.length} detected test${selectedTests.length === 1 ? '' : 's'} · tap to edit, × to remove</div>
       <div class="chips">${chipsHtml}<button class="chip-add" id="chip-add" aria-label="Add a test"><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
+      ${panelWarn}
       ${rawHtml}
     </div>`;
   wrap.querySelectorAll('.chip-x').forEach(b =>
@@ -1117,6 +1146,17 @@ function pickerRow(name, selected, index, tubeKey, isFree) {
     </div>`;
 }
 
+// A group/panel result row: badged, with its member tests listed. Clicking it expands.
+function groupRow(g) {
+  const short = g.short ? ` <span class="picker-shorthint">(${escapeHtml(g.short)})</span>` : '';
+  return `<div class="picker-item" data-name="${escapeHtml(g.name)}" data-group="1">
+      <span class="picker-dot picker-dot-group"></span>
+      <div class="picker-text"><div class="picker-name">${escapeHtml(g.name)}${short} <span class="picker-group-tag">group of ${g.members.length}</span></div>
+        <div class="picker-sub">${escapeHtml(g.members.join(', '))}</div></div>
+      <span class="picker-tick"></span>
+    </div>`;
+}
+
 function renderPickerList() {
   const list = document.getElementById('picker-list');
   const q = document.getElementById('picker-input').value.trim();
@@ -1142,9 +1182,10 @@ function renderPickerList() {
     list.innerHTML = `<div class="picker-note">Adding ${parsed.length} tests: ${parsed.map(escapeHtml).join(', ')}. Press <strong>Done</strong> when finished.</div>`;
     return;
   }
-  // Single search.
+  // Single search. Matching GROUPS (panels) show first, badged and listing their members.
   const results = searchTests(q, 12);
-  let html = results.map(t => pickerRow(t.name, isSelectedTest(t.name), null, t.tube)).join('');
+  let html = searchGroups(q).map(groupRow).join('')
+    + results.map(t => pickerRow(t.name, isSelectedTest(t.name), null, t.tube)).join('');
   const qn = normTest(q);
   const covered = results.some(t => [t.name, t.short, ...(t.aliases || [])].filter(Boolean).some(a => normTest(a) === qn));
   if (!covered) {
@@ -1174,7 +1215,8 @@ function chooseTest(name) {
   } else if (isSelectedTest(t)) {
     removeSelectedByName(t);
   } else {
-    selectedTests.push(t);
+    // a group expands into its member tests; a normal test adds itself
+    for (const m of expandName(t)) { const mc = canonicalName(m); if (!isSelectedTest(mc)) selectedTests.push(mc); }
   }
   document.getElementById('picker-input').value = '';   // reset the box -> manage view (all added)
   update(); showResults(); renderPickerList();
@@ -1502,6 +1544,8 @@ document.getElementById('open-picker').addEventListener('click', () => openPicke
         chooseTest(top ? top.name : v);
       } else if (/[,;\n]/.test(v)) {
         bulkAdd(v);                                   // a list
+      } else if (findGroup(v)) {
+        chooseTest(findGroup(v).name);                // an exact group/panel match -> expand
       } else {
         const top = searchTests(v, 1)[0];
         if (top) chooseTest(top.name); else bulkAdd(v);

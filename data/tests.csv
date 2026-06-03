@@ -29,12 +29,10 @@ Zinc,royalblue,zinc|Zn,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Path
 Copper,royalblue,copper|Cu,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copper,,estimate,,rcpa
 Manganese,royalblue,manganese|Mn,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Manganese,,estimate,,rcpa
 Selenium,royalblue,selenium|Se,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Selenium,,estimate,,rcpa
-Trace Elements,royalblue,trace elements|trace metals,usually,,,,estimate,,local
 Ammonia,green,ammonia|NH3,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Ammonia,,estimate,,rcpa
 Blood culture,bc_aerobic|bc_anaerobic,Blood Cultures|BC|BCx,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-culture,,estimate,,rcpa
 "Urea, Electrolytes & Creatinine",gold,UEC|EUC|U&E|urea|electrolytes|creatinine|renal function|EUCs,none,,,,estimate,UEC,local
 eGFR,gold,eGFR|GFR,none,,,,estimate,,local
-Liver Function Tests,gold,LFT|LFTs|liver function,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Liver-Function-Tests,,estimate,LFT,rcpa
 C-Reactive Protein,gold,CRP|c-reactive protein,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/C-Reactive-Protein,,estimate,CRP,rcpa
 Thyroid Function,gold,TSH|TFT|TFTs|thyroid function|T4|FT4|T3|FT3,none,,,,estimate,TFTs,local
 Calcium,gold,calcium|Ca|corrected calcium,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Calcium,,estimate,,rcpa
@@ -82,9 +80,7 @@ Prostate specific antigen,gold,PSA,none,,https://www.rcpa.edu.au/Manuals/RCPA-Ma
 Carcinoembryonic antigen,gold,CEA,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carcinoembryonic-antigen,,estimate,CEA,rcpa
 CA-125,gold,CA 125|CA-125|ca125,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/CA-125,,estimate,,rcpa
 AFP,gold,AFP|alpha fetoprotein,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/AFP,,estimate,,rcpa
-Coeliac Serology,gold,coeliac|celiac|tTG|gliadin|coeliac serology,maybe,,,,estimate,,local
 HIV Serology,gold,HIV|hiv serology,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HIV-Serology,,estimate,,rcpa
-Hepatitis Serology,gold,hepatitis|hep B|hep C|HBsAg|HCV,none,,,,estimate,,local
 Syphilis Serology,gold,syphilis|RPR|TPHA,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Syphilis-Serology,,estimate,,rcpa
 Epstein-Barr virus serology,gold,EBV Serology|EBV|epstein barr|monospot,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Epstein-Barr-virus-serology,,estimate,EBV serology,rcpa
 Protein Electrophoresis,gold,SPEP|protein electrophoresis|EPP|protein studies,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Protein-Electrophoresis,,estimate,EPG,rcpa

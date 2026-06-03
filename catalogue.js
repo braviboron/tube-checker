@@ -493,15 +493,6 @@ const TESTS = [
     }
   },
   {
-    "name": "Trace Elements",
-    "tube": "royalblue",
-    "aliases": [
-      "trace elements",
-      "trace metals"
-    ],
-    "offsite": "usually"
-  },
-  {
     "name": "Ammonia",
     "tube": "green",
     "aliases": [
@@ -550,20 +541,6 @@ const TESTS = [
       "GFR"
     ],
     "offsite": "none"
-  },
-  {
-    "name": "Liver Function Tests",
-    "tube": "gold",
-    "aliases": [
-      "LFT",
-      "LFTs",
-      "liver function"
-    ],
-    "offsite": "none",
-    "short": "LFT",
-    "sources": {
-      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Liver-Function-Tests"
-    }
   },
   {
     "name": "C-Reactive Protein",
@@ -1154,18 +1131,6 @@ const TESTS = [
     }
   },
   {
-    "name": "Coeliac Serology",
-    "tube": "gold",
-    "aliases": [
-      "coeliac",
-      "celiac",
-      "tTG",
-      "gliadin",
-      "coeliac serology"
-    ],
-    "offsite": "maybe"
-  },
-  {
     "name": "HIV Serology",
     "tube": "gold",
     "aliases": [
@@ -1176,18 +1141,6 @@ const TESTS = [
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HIV-Serology"
     }
-  },
-  {
-    "name": "Hepatitis Serology",
-    "tube": "gold",
-    "aliases": [
-      "hepatitis",
-      "hep B",
-      "hep C",
-      "HBsAg",
-      "HCV"
-    ],
-    "offsite": "none"
   },
   {
     "name": "Syphilis Serology",
@@ -6226,5 +6179,70 @@ const RESOURCES = [
     "key": "nsw",
     "label": "NSW catalogue",
     "url": "https://catalogue.pathology.health.nsw.gov.au/search?searchValue={q}"
+  }
+];
+const GROUPS = [
+  {
+    "name": "Liver Function Tests",
+    "members": [
+      "Bilirubin",
+      "Alanine aminotransferase",
+      "Aspartate aminotransferase",
+      "Alkaline phosphatase",
+      "Gamma glutamyltransferase",
+      "Albumin"
+    ],
+    "aliases": [
+      "LFT",
+      "LFTs",
+      "liver function"
+    ],
+    "note": "Panel make-up is indicative and varies by laboratory; confirm locally.",
+    "short": "LFT"
+  },
+  {
+    "name": "Coeliac Serology",
+    "members": [
+      "Transglutaminase Ab",
+      "Gliadin Ab",
+      "Endomysial Ab"
+    ],
+    "aliases": [
+      "coeliac",
+      "celiac",
+      "tTG",
+      "gliadin",
+      "coeliac serology"
+    ],
+    "note": "Panel make-up is indicative and varies by laboratory; confirm locally."
+  },
+  {
+    "name": "Trace Elements",
+    "members": [
+      "Zinc",
+      "Copper",
+      "Selenium"
+    ],
+    "aliases": [
+      "trace elements",
+      "trace metals"
+    ],
+    "note": "Panel make-up is indicative and varies by laboratory; confirm locally."
+  },
+  {
+    "name": "Hepatitis Serology",
+    "members": [
+      "Hepatitis A total Ab",
+      "Hepatitis B serology",
+      "Hepatitis C"
+    ],
+    "aliases": [
+      "hepatitis",
+      "hep B",
+      "hep C",
+      "HBsAg",
+      "HCV"
+    ],
+    "note": "Panel make-up is indicative and varies by laboratory; confirm locally."
   }
 ];

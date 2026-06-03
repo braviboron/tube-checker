@@ -56,6 +56,14 @@ const OVERRIDES = readTable('overrides');
 const AVAILABILITY = readTable('availability');   // test -> lab that performs it (many-to-many)
 const REGIONS = readTable('regions');             // a region within a state (e.g. an LHD)
 const RESOURCES = readTable('resources');         // reference links, by level national|state|regional
+// GROUPS: named bundles of RCPA tests (panels) that expand into their members on add.
+// Separate from TESTS so the test list stays one-to-one with the RCPA index.
+const GROUPS = readTable('groups').map(g => {
+  const o = { name: g.name, members: g.members.split('|').map(s => s.trim()).filter(Boolean),
+    aliases: g.aliases ? g.aliases.split('|').map(s => s.trim()).filter(Boolean) : [], note: g.note || '' };
+  if (blank(g.short)) o.short = g.short;
+  return o;
+});
 
 // --- validate references so a bad CSV fails the build, not the app ---
 const errs = [];
@@ -85,6 +93,10 @@ for (const a of AVAILABILITY) {
   if (!testNames.has(a.test)) errs.push(`availability -> unknown test "${a.test}"`);
   if (!labIds.has(a.lab)) errs.push(`availability "${a.test}" -> unknown lab "${a.lab}"`);
 }
+for (const g of GROUPS) {
+  if (!g.members.length) errs.push(`group "${g.name}" -> has no members`);
+  for (const m of g.members) if (!testNames.has(m)) errs.push(`group "${g.name}" -> member is not a test: "${m}"`);
+}
 for (const o of OVERRIDES) {
   if (!testNames.has(o.test)) errs.push(`override -> unknown test "${o.test}"`);
   if (!['quantity', 'lab', 'tube', 'add', 'remove'].includes(o.field)) errs.push(`override "${o.test}" -> bad field "${o.field}"`);
@@ -106,8 +118,9 @@ const OVERRIDES = ${j(OVERRIDES)};
 const AVAILABILITY = ${j(AVAILABILITY)};
 const REGIONS = ${j(REGIONS)};
 const RESOURCES = ${j(RESOURCES)};
+const GROUPS = ${j(GROUPS)};
 `;
 writeFileSync('catalogue.js', out);
 console.log(`catalogue.js written: ${Object.keys(TUBES).length} tubes, ${TESTS.length} tests, ` +
   `${LABS.length} labs, ${STATES.length} states, ${REGIONS.length} regions, ${SITES.length} sites, ` +
-  `${OVERRIDES.length} overrides, ${AVAILABILITY.length} availability, ${RESOURCES.length} resources.`);
+  `${OVERRIDES.length} overrides, ${AVAILABILITY.length} availability, ${RESOURCES.length} resources, ${GROUPS.length} groups.`);
