@@ -101,7 +101,7 @@ const TUBES = {
     "draw": 92,
     "ml": 0,
     "additive": "Balanced heparin, arterial",
-    "note": "Collected into a pre-heparinised blood-gas syringe and analysed immediately, not a cap-colour tube."
+    "note": "Collected into a pre-heparinised blood-gas syringe and measured immediately, not a cap-colour tube."
   }
 };
 const TESTS = [
@@ -690,7 +690,7 @@ const TESTS = [
     "tube": "abg",
     "aliases": [],
     "offsite": "maybe",
-    "note": "Arterial blood-gas syringe; analyse immediately.",
+    "note": "Arterial blood-gas syringe; measure immediately.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Base-excess-arterial"
     }
@@ -830,7 +830,7 @@ const TESTS = [
     "tube": "abg",
     "aliases": [],
     "offsite": "maybe",
-    "note": "Arterial blood-gas syringe; analyse immediately.",
+    "note": "Arterial blood-gas syringe; measure immediately.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-gas-arterial"
     }

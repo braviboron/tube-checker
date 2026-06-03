@@ -1016,7 +1016,7 @@ function renderTubes(groups) {
   for (const g of special) {
     const header = SPECIAL[g.key];
     const cap = g.key === 'abg'
-      ? 'Collected in an arterial blood-gas syringe and analysed immediately, not a cap-colour tube. Click a test for its RCPA entry.'
+      ? 'Collected in an arterial blood-gas syringe and measured immediately, not a cap-colour tube. Click a test for its RCPA entry.'
       : 'Click a test to open the RCPA website and confirm the correct collection type.';
     const links = g.tests.map(t =>
       `<a class="nb-link" href="${escapeHtml(rcpaLinkFor(t))}" target="_blank" rel="noopener noreferrer">${escapeHtml(displayName(t))}</a>`).join('');

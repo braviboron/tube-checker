@@ -56,7 +56,7 @@ Aspartate aminotransferase,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manu
 B-Type natriuretic peptide,gold,BNP / NT-proBNP|BNP|NT-proBNP|nt pro bnp|natriuretic peptide,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/B-Type-natriuretic-peptide,,estimate,BNP,rcpa,
 Bacterial antigen detection,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bacterial-antigen-detection,,rcpa-index,,rcpa,
 Bartonella henselae detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bartonella-henselae-detection,,rcpa-index,,rcpa,
-Base excess arterial,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Base-excess-arterial,,confirmed,,rcpa,Arterial blood-gas syringe; analyse immediately.
+Base excess arterial,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Base-excess-arterial,,confirmed,,rcpa,Arterial blood-gas syringe; measure immediately.
 Bence Jones protein,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bence-Jones-protein,,rcpa-index,,rcpa,
 Beta 2 microglobulin CSF,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-2-microglobulin-CSF,,rcpa-index,,rcpa,
 Beta 2 microglobulin urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-2-microglobulin-urine,,rcpa-index,,rcpa,
@@ -70,7 +70,7 @@ Bilirubin,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Test
 Bilirubin amniotic fluid,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bilirubin-amniotic-fluid,,rcpa-index,,rcpa,
 Blood culture,bc_aerobic|bc_anaerobic,Blood Cultures|BC|BCx,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-culture,,estimate,,rcpa,
 Blood Film,purple,film|blood film|peripheral smear,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-Film,,estimate,,rcpa,
-Blood gas arterial,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-gas-arterial,,confirmed,,rcpa,Arterial blood-gas syringe; analyse immediately.
+Blood gas arterial,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-gas-arterial,,confirmed,,rcpa,Arterial blood-gas syringe; measure immediately.
 Blood group ABO and RhD,pink,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-ABO-and-RhD,,rcpa-index,,rcpa,
 Blood group and antibody screen,pink,group and screen|group & screen|type and screen|blood group and antibody screen|group and hold|G&H|group & hold|GH|group and save|group save|Group & Hold|antibody screen|red cell antibodies|red cell antibody screen|Antibody Screen,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-and-antibody-screen,,estimate,,rcpa,
 Blood group Other,pink,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-Other,,rcpa-index,,rcpa,
