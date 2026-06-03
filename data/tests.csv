@@ -62,7 +62,7 @@ Beta 2 microglobulin CSF,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Ma
 Beta 2 microglobulin urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-2-microglobulin-urine,,rcpa-index,,rcpa
 Beta hydroxybutyrate,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-hydroxybutyrate,,rcpa-index,,rcpa
 Beta Trace Protein Fluid,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-Trace-Protein-Fluid,,rcpa-index,,rcpa
-Beta-2 Glycoprotein Antibodies,gold,beta-2 glycoprotein|b2gpi|beta 2 glycoprotein 1,usually,,,,estimate,,rcpa
+Beta-2 Glycoprotein Antibodies,gold,beta-2 glycoprotein|b2gpi|beta 2 glycoprotein 1,usually,,,,estimate,,local
 Beta-2 Microglobulin,gold,b2m|beta 2 microglobulin,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-2-Microglobulin,,estimate,B2M,rcpa
 Bicarbonate,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bicarbonate,,rcpa-index,,rcpa
 Bile Acids,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bile-Acids,,rcpa-index,,rcpa
@@ -319,7 +319,7 @@ Intrinsic factor Ab,gold,Intrinsic factor antibody,none,,https://www.rcpa.edu.au
 Iodine urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Iodine-urine,,rcpa-index,,rcpa
 Iron Studies,gold,iron studies|iron|transferrin|transferrin saturation,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Iron-Studies,,estimate,,rcpa
 Isohaemagglutinin titre,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Isohaemagglutinin-titre,,rcpa-index,,rcpa
-JAK2,purple,jak2 v617f|jak2 mutation|jak-2,usually,,,,estimate,,rcpa
+JAK2,purple,jak2 v617f|jak2 mutation|jak-2,usually,,,,estimate,,local
 Japanese Encephalitis (JEV) detection,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/J/Japanese-Encephalitis-(JEV)-detection,,rcpa-index,,rcpa
 Jo 1 Ab,gold,Jo 1 antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/J/Jo-1-Ab,,rcpa-index,,rcpa
 Karyotype analysis,green,chromosome studies|karyotype|cytogenetics|Chromosome Studies,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/K/Karyotype-analysis,,estimate,,rcpa
@@ -369,7 +369,7 @@ Mean cell haemoglobin,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manua
 Mean cell haemoglobin concentration,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mean-cell-haemoglobin-concentration,,rcpa-index,,rcpa
 Mean cell volume,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mean-cell-volume,,rcpa-index,,rcpa
 Measles virus,confirm,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Measles-virus,,rcpa-index,,rcpa
-Mercury,royalblue,hg level|mercury level,usually,,,,estimate,,rcpa
+Mercury,royalblue,hg level|mercury level,usually,,,,estimate,,local
 Mercury urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mercury-urine,,rcpa-index,,rcpa
 Metanephrines urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Metanephrines-urine,,rcpa-index,,rcpa
 Methaemoglobin,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Methaemoglobin,,rcpa-index,,rcpa
