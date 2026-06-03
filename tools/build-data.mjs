@@ -62,6 +62,7 @@ const GROUPS = readTable('groups').map(g => {
   const o = { name: g.name, members: g.members.split('|').map(s => s.trim()).filter(Boolean),
     aliases: g.aliases ? g.aliases.split('|').map(s => s.trim()).filter(Boolean) : [], note: g.note || '' };
   if (blank(g.short)) o.short = g.short;
+  if (blank(g.source)) o.source = g.source;   // a panel-level source link (e.g. NSW Health), optional
   return o;
 });
 

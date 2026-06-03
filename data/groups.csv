@@ -1,5 +1,7 @@
-name,members,aliases,short,note
-Liver Function Tests,Bilirubin|Alanine aminotransferase|Aspartate aminotransferase|Alkaline phosphatase|Gamma glutamyltransferase|Albumin,LFT|LFTs|liver function,LFT,Panel make-up is indicative and varies by laboratory; confirm locally.
-Coeliac Serology,Transglutaminase Ab|Gliadin Ab|Endomysial Ab,coeliac|celiac|tTG|gliadin|coeliac serology,,Panel make-up is indicative and varies by laboratory; confirm locally.
-Trace Elements,Zinc|Copper|Selenium,trace elements|trace metals,,Panel make-up is indicative and varies by laboratory; confirm locally.
-Hepatitis Serology,Hepatitis A total Ab|Hepatitis B serology|Hepatitis C,hepatitis|hep B|hep C|HBsAg|HCV,,Panel make-up is indicative and varies by laboratory; confirm locally.
+name,members,aliases,short,note,source
+Liver Function Tests,Bilirubin|Alanine aminotransferase|Aspartate aminotransferase|Alkaline phosphatase|Gamma glutamyltransferase|Albumin,LFT|LFTs|liver function,LFT,Panel make-up is indicative and varies by laboratory; confirm locally.,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Liver-function-tests
+Coeliac Serology,Transglutaminase Ab|Gliadin Ab|Endomysial Ab,coeliac|celiac|tTG|gliadin|coeliac serology,,Panel make-up is indicative and varies by laboratory; confirm locally.,
+Trace Elements,Zinc|Copper|Selenium,trace elements|trace metals,,Panel make-up is indicative and varies by laboratory; confirm locally.,
+Hepatitis Serology,Hepatitis A total Ab|Hepatitis B serology|Hepatitis C,hepatitis|hep B|hep C|HBsAg|HCV,,Panel make-up is indicative and varies by laboratory; confirm locally.,
+Electrolytes Urea Creatinine,Sodium|Potassium|Chloride|Bicarbonate|Urea|Creatinine,EUC|UEC|U&E|UE|EUCs|urea electrolytes creatinine|electrolytes urea creatinine|renal function|renal panel,EUC,Panel make-up is indicative and varies by laboratory; confirm locally.,https://pathology.health.nsw.gov.au/test_information/electrolytes-urea-creatinine/
+Calcium Magnesium Phosphate,Calcium|Magnesium|Phosphate,CMP|calcium magnesium phosphate|bone profile|bone chemistry,CMP,Panel make-up is indicative and varies by laboratory; confirm locally.,

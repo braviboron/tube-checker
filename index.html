@@ -250,6 +250,8 @@
   .picker-group-tag { font-size: 10.5px; color: var(--blue); border: 1px solid var(--blue); border-radius: 5px; padding: 0 4px; font-weight: 600; vertical-align: middle; white-space: nowrap; }
   .picker-dot-group { background: repeating-linear-gradient(45deg, var(--blue), var(--blue) 2px, #fff 2px, #fff 4px) !important; }
   .panel-note { font-size: 12.5px; color: var(--secondary); margin-top: 8px; padding: 7px 10px; background: rgba(0,122,255,0.06); border-radius: 8px; }
+  .panel-note a { color: var(--blue); }
+  .picker-src { color: var(--blue); text-decoration: none; }
   .picker-dot { width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.14); }
   .picker-text { flex: 1; min-width: 0; }
   .picker-name { font-size: 15px; color: var(--label); }
@@ -931,7 +933,10 @@ function renderChips(unmatched) {
       <button class="raw-toggle" id="raw-toggle">${rawShown ? 'Hide' : 'Show'} extracted text</button>
       <div id="raw-text" style="display:${rawShown ? 'block' : 'none'}">${escapeHtml(lastRawText)}</div>` : '';
   const panelWarn = expandedPanels.size
-    ? `<div class="panel-note">Panels were expanded to their usual tests (${[...expandedPanels].map(escapeHtml).join(', ')}). The make-up varies by laboratory; confirm locally.</div>` : '';
+    ? `<div class="panel-note">Panels were expanded to their usual tests (${[...expandedPanels].map(n => {
+        const g = findGroup(n);
+        return (g && g.source) ? `<a href="${escapeHtml(g.source)}" target="_blank" rel="noopener noreferrer">${escapeHtml(n)}</a>` : escapeHtml(n);
+      }).join(', ')}). The make-up varies by laboratory; confirm locally.</div>` : '';
   wrap.innerHTML = `
     <div class="recognised">
       <div class="recognised-head">${selectedTests.length} detected test${selectedTests.length === 1 ? '' : 's'} · tap to edit, × to remove</div>
@@ -1152,7 +1157,7 @@ function groupRow(g) {
   return `<div class="picker-item" data-name="${escapeHtml(g.name)}" data-group="1">
       <span class="picker-dot picker-dot-group"></span>
       <div class="picker-text"><div class="picker-name">${escapeHtml(g.name)}${short} <span class="picker-group-tag">group of ${g.members.length}</span></div>
-        <div class="picker-sub">${escapeHtml(g.members.join(', '))}</div></div>
+        <div class="picker-sub">${escapeHtml(g.members.join(', '))}${g.source ? ` · <a class="picker-src" href="${escapeHtml(g.source)}" target="_blank" rel="noopener noreferrer">source</a>` : ''}</div></div>
       <span class="picker-tick"></span>
     </div>`;
 }
@@ -1560,6 +1565,7 @@ document.getElementById('open-picker').addEventListener('click', () => openPicke
   // Row interactions (delegated). Manage view: tick toggles (untick keeps the row so it
   // can be re-ticked if a mistake); row body edits. Search view: choose toggles/replaces.
   list.addEventListener('click', e => {
+    if (e.target.closest('a')) return;   // let a 'source' link open without also choosing the row
     const item = e.target.closest('.picker-item');
     if (!item) return;
     const name = item.dataset.name;

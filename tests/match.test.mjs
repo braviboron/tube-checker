@@ -18,8 +18,8 @@ if (start === -1 || end === -1) throw new Error('Could not locate logic block ma
 const block = html.slice(start, end);
 
 // Evaluate catalogue + logic together and expose the matcher, tubes, and test list.
-const factory = new Function(`${catalogue}\n${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical, resolveLab, planTubes, findTest, AVAILABILITY, SITES };`);
-const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical, resolveLab, planTubes, findTest, AVAILABILITY, SITES } = factory();
+const factory = new Function(`${catalogue}\n${block}\n return { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical, resolveLab, planTubes, findTest, AVAILABILITY, SITES, GROUPS, searchGroups, findGroup, expandName };`);
+const { matchTests, TUBES, TESTS, searchTests, tubeQty, tubeGroupsFor, isNicheTest, tubesMl, fuzzyCanonical, resolveLab, planTubes, findTest, AVAILABILITY, SITES, GROUPS, searchGroups, findGroup, expandName } = factory();
 
 // ─── Assertions ───────────────────────────────────────────────────────────────
 let pass = 0, fail = 0;
@@ -142,7 +142,14 @@ function expectTopHit(query, name, msg) {
   else { fail++; fails.push(`✗ ${msg}\n    search(${JSON.stringify(query)})[0] = ${r[0] ? r[0].name : 'none'}, want ${name}`); }
 }
 expectTopHit('FBE', 'Full Blood Count', 'alias FBE → Full Blood Count');
-expectTopHit('EUC', 'Urea, Electrolytes & Creatinine', 'acronym EUC → UEC entry');
+// EUC / UEC is now a GROUP (panel), not a single test: it expands into its serum members.
+{
+  const g = searchGroups('EUC')[0];
+  expectEq2(g ? g.name : 'none', 'Electrolytes Urea Creatinine', 'acronym EUC → EUC group');
+  const expanded = expandName('EUC');
+  const tubes = new Set(expanded.flatMap(m => Object.keys(matchTests(m).tubeMap)));
+  expectEq2([...tubes].join(','), 'gold', 'EUC expands to serum (gold) members');
+}
 expectTopHit('magnesum', 'Magnesium', 'typo magnesum → Magnesium');
 expectTopHit('troponni', 'Troponin I', 'typo troponni → Troponin I');
 expectTopHit('gent', 'Gentamicin', 'partial gent → Gentamicin');
