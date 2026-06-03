@@ -209,16 +209,6 @@ const TESTS = [
     }
   },
   {
-    "name": "Malaria",
-    "tube": "purple",
-    "aliases": [
-      "malaria parasites",
-      "thick and thin",
-      "malaria film"
-    ],
-    "offsite": "none"
-  },
-  {
     "name": "Haemochromatosis (HFE)",
     "tube": "purple",
     "aliases": [
@@ -776,16 +766,21 @@ const TESTS = [
     }
   },
   {
-    "name": "Beta-hCG",
+    "name": "HCG",
     "tube": "gold",
     "aliases": [
       "beta hcg",
       "bhcg",
       "hcg",
       "pregnancy test",
-      "quantitative hcg"
+      "quantitative hcg",
+      "human chorionic gonadotrophin"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "short": "Beta-hCG",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HCG"
+    }
   },
   {
     "name": "Troponin I",
@@ -868,16 +863,6 @@ const TESTS = [
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Antineutrophil-cytoplasmic-Ab"
     }
-  },
-  {
-    "name": "dsDNA",
-    "tube": "gold",
-    "aliases": [
-      "dsDNA",
-      "anti-dsDNA",
-      "double stranded DNA"
-    ],
-    "offsite": "usually"
   },
   {
     "name": "Extractable nuclear antigen Ab",
@@ -1600,15 +1585,6 @@ const TESTS = [
     }
   },
   {
-    "name": "Immunofixation",
-    "tube": "gold",
-    "aliases": [
-      "ife",
-      "immunofixation electrophoresis"
-    ],
-    "offsite": "usually"
-  },
-  {
     "name": "Tryptase",
     "tube": "gold",
     "aliases": [
@@ -1630,15 +1606,6 @@ const TESTS = [
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Caeruloplasmin"
     }
-  },
-  {
-    "name": "HLA-B27",
-    "tube": "purple",
-    "aliases": [
-      "hlab27",
-      "b27"
-    ],
-    "offsite": "usually"
   },
   {
     "name": "Vitamin B1",
@@ -2983,7 +2950,14 @@ const TESTS = [
     "name": "DNA Ab",
     "tube": "gold",
     "aliases": [
-      "DNA antibody"
+      "DNA antibody",
+      "dsDNA",
+      "anti-dsDNA",
+      "double stranded DNA",
+      "dsdna",
+      "anti-dsdna",
+      "double stranded dna",
+      "anti-dna"
     ],
     "offsite": "none",
     "sources": {
@@ -3818,8 +3792,13 @@ const TESTS = [
   },
   {
     "name": "HLA typing",
-    "tube": "confirm",
-    "aliases": [],
+    "tube": "purple",
+    "aliases": [
+      "HLA-B27",
+      "hlab27",
+      "b27",
+      "hla-b27"
+    ],
     "offsite": "maybe",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HLA-typing"
@@ -4298,8 +4277,14 @@ const TESTS = [
   },
   {
     "name": "Malaria thick film",
-    "tube": "confirm",
-    "aliases": [],
+    "tube": "purple",
+    "aliases": [
+      "Malaria",
+      "malaria parasites",
+      "thick and thin",
+      "malaria film",
+      "malaria"
+    ],
     "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Malaria-thick-film"
@@ -4867,8 +4852,13 @@ const TESTS = [
   },
   {
     "name": "Paraprotein typing",
-    "tube": "confirm",
-    "aliases": [],
+    "tube": "gold",
+    "aliases": [
+      "Immunofixation",
+      "ife",
+      "immunofixation electrophoresis",
+      "immunofixation"
+    ],
     "offsite": "maybe",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Paraprotein-typing"
@@ -6189,7 +6179,7 @@ const AVAILABILITY = [
     "lab": "ICPMR"
   },
   {
-    "test": "dsDNA",
+    "test": "DNA Ab",
     "lab": "RPA"
   },
   {
