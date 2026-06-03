@@ -191,6 +191,8 @@
   #sources-wrap { margin-top: 24px; }
   #sources-wrap .group-header { margin-top: 0; }
   .src-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 8px 4px; font-size: 14px; }
+  .src-main { min-width: 0; }
+  .src-note { font-size: 12px; color: var(--secondary); margin-top: 2px; }
   .src-row + .src-row { border-top: 1px solid var(--sep); }
   .src-name { color: var(--label); min-width: 0; word-break: break-word; }
   .src-links { display: flex; gap: 14px; flex: none; }
@@ -877,7 +879,9 @@ function renderSources() {
     const links = sourceLinks(t, site)
       .map(l => `<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)}</a>`)
       .join('');
-    return `<div class="src-row"><span class="src-name">${escapeHtml(t)}</span><span class="src-links">${links}</span></div>`;
+    const ft = (typeof findTest === 'function') ? findTest(t) : null;
+    const note = (ft && ft.note) ? `<div class="src-note">${escapeHtml(ft.note)}</div>` : '';
+    return `<div class="src-row"><div class="src-main"><span class="src-name">${escapeHtml(t)}</span>${note}</div><span class="src-links">${links}</span></div>`;
   }).join('');
   el.innerHTML = `<p class="group-header">Test references</p>` +
     `<p class="group-caption">Check each test against its source for tube and handling details.</p>${rows}`;
@@ -887,8 +891,9 @@ function renderSources() {
 function buildSummary() {
   const { groups } = tubeGroupsFor(selectedTests, referral);
   const lines = ['Tube Checker collection summary', ''];
-  const blood = groups.filter(g => g.key !== 'confirm' && g.key !== 'nonblood');
-  const special = groups.filter(g => g.key === 'confirm' || g.key === 'nonblood');
+  const SPECIAL = { confirm: 'Confirm collection type (no verified tube yet)', nonblood: 'Non-blood specimen (confirm collection type)', abg: 'Arterial blood gas (syringe)' };
+  const blood = groups.filter(g => !SPECIAL[g.key]);
+  const special = groups.filter(g => SPECIAL[g.key]);
   if (!blood.length && !special.length) { lines.push('No tubes.'); }
   else {
     if (blood.length) {
@@ -904,8 +909,7 @@ function buildSummary() {
       if (ml > 0) lines.push('', `Total approx ${Math.ceil(ml)} mL if drawing with a syringe.`);
     }
     for (const g of special) {
-      const head = g.key === 'nonblood' ? 'Non-blood specimen (confirm collection type)' : 'Confirm collection type (no verified tube yet)';
-      lines.push('', `${head}: ${g.tests.map(displayName).join(', ')}`);
+      lines.push('', `${SPECIAL[g.key]}: ${g.tests.map(displayName).join(', ')}`);
     }
   }
   lines.push('', 'Verify against your local pathology service before collection.');
@@ -975,10 +979,12 @@ function renderTubes(groups) {
     tubesEl.innerHTML = `<div class="empty">No tubes yet. Type or scan tests, or tap + to add one.</div>`;
     return;
   }
-  // Split: real blood tubes (numbered, cap-colour tiles) vs 'confirm'/'nonblood' (no
-  // colour, no number) which render as a separate block below, each test a link to RCPA.
-  const blood = groups.filter(g => g.key !== 'confirm' && g.key !== 'nonblood');
-  const special = groups.filter(g => g.key === 'confirm' || g.key === 'nonblood');
+  // Split: real blood tubes (numbered, cap-colour tiles) vs special specimens (confirm /
+  // non-blood / arterial blood gas) which render as a separate block below, each test a
+  // link to RCPA.
+  const SPECIAL = { confirm: 'Confirm collection type', nonblood: 'Non-blood tests', abg: 'Arterial blood gas (syringe)' };
+  const blood = groups.filter(g => !SPECIAL[g.key]);
+  const special = groups.filter(g => SPECIAL[g.key]);
 
   let total = 0;
   blood.forEach((g, i) => {
@@ -1008,14 +1014,17 @@ function renderTubes(groups) {
   });
 
   for (const g of special) {
-    const header = g.key === 'nonblood' ? 'Non-blood tests' : 'Confirm collection type';
+    const header = SPECIAL[g.key];
+    const cap = g.key === 'abg'
+      ? 'Collected in an arterial blood-gas syringe and analysed immediately, not a cap-colour tube. Click a test for its RCPA entry.'
+      : 'Click a test to open the RCPA website and confirm the correct collection type.';
     const links = g.tests.map(t =>
       `<a class="nb-link" href="${escapeHtml(rcpaLinkFor(t))}" target="_blank" rel="noopener noreferrer">${escapeHtml(displayName(t))}</a>`).join('');
     const block = document.createElement('div');
     block.className = 'nb-block';
     block.innerHTML = `
       <div class="nb-head">${header}</div>
-      <div class="nb-cap">Click a test to open the RCPA website and confirm the correct collection type.</div>
+      <div class="nb-cap">${cap}</div>
       <div class="nb-list">${links}</div>`;
     tubesEl.appendChild(block);
   }
@@ -1041,7 +1050,7 @@ function renderReferAdvisory() {
   selectedTests.forEach(t => {
     if (referral.has(t.toLowerCase()) || !isNicheTest(t)) return;
     const keys = Object.keys(matchTests(t).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
-    if (!keys.length || keys[0] === 'confirm' || keys[0] === 'nonblood') return;
+    if (!keys.length || ['confirm', 'nonblood', 'abg'].includes(keys[0])) return;
     items.push(`<li>${escapeHtml(t)} may need referral off-site at some centres; consider a separate ${escapeHtml(TUBES[keys[0]].name)} tube.</li>`);
   });
   el.innerHTML = items.length

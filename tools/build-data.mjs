@@ -40,6 +40,7 @@ const TESTS = readTable('tests').map(t => {
     aliases: t.aliases ? t.aliases.split('|').map(s => s.trim()).filter(Boolean) : [],
     offsite: t.offsite || 'none' };
   if (blank(t.short)) o.short = t.short;        // compact display label (canonical name unchanged)
+  if (blank(t.note)) o.note = t.note;           // per-test handling note (specimen / transport)
   if (blank(t.defaultLab)) o.defaultLab = t.defaultLab;
   const sources = {};
   if (blank(t.rcpa)) sources.rcpa = t.rcpa;

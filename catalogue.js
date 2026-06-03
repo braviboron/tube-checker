@@ -94,6 +94,14 @@ const TUBES = {
     "ml": 0,
     "additive": "Not a blood tube",
     "note": "Collected as a non-blood specimen (e.g. urine, swab, fluid, tissue). Open the RCPA entry to confirm requirements."
+  },
+  "abg": {
+    "name": "Arterial blood gas (syringe)",
+    "color": "#ef4444",
+    "draw": 92,
+    "ml": 0,
+    "additive": "Balanced heparin, arterial",
+    "note": "Collected into a pre-heparinised blood-gas syringe and analysed immediately, not a cap-colour tube."
   }
 };
 const TESTS = [
@@ -369,9 +377,10 @@ const TESTS = [
   },
   {
     "name": "Amino acids",
-    "tube": "confirm",
+    "tube": "green",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Plasma; collect on ice and deliver promptly (some labs use EDTA).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amino-acids"
     }
@@ -428,9 +437,10 @@ const TESTS = [
   },
   {
     "name": "Anabolic steroids",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Usually a urine screen; serum only for some confirmatory assays.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anabolic-steroids"
     }
@@ -464,9 +474,10 @@ const TESTS = [
   },
   {
     "name": "Anion gap",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Calculated from the electrolytes and collected with the U&E sample.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anion-gap"
     }
@@ -676,9 +687,10 @@ const TESTS = [
   },
   {
     "name": "Base excess arterial",
-    "tube": "confirm",
+    "tube": "abg",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Arterial blood-gas syringe; analyse immediately.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Base-excess-arterial"
     }
@@ -815,9 +827,10 @@ const TESTS = [
   },
   {
     "name": "Blood gas arterial",
-    "tube": "confirm",
+    "tube": "abg",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Arterial blood-gas syringe; analyse immediately.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-gas-arterial"
     }
@@ -1147,9 +1160,10 @@ const TESTS = [
   },
   {
     "name": "Carboxyhaemoglobin",
-    "tube": "confirm",
+    "tube": "abg",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Measured on a blood-gas analyser (arterial or venous sample).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carboxyhaemoglobin"
     }
@@ -1447,9 +1461,10 @@ const TESTS = [
   },
   {
     "name": "Cold agglutinins",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Collect and transport warm at 37C (pre-warmed tube).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cold-agglutinins"
     }
@@ -1524,9 +1539,10 @@ const TESTS = [
   },
   {
     "name": "Copeptin",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "note": "EDTA plasma; send frozen.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copeptin"
     }
@@ -1572,9 +1588,10 @@ const TESTS = [
   },
   {
     "name": "Corticosteroids",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Serum (blood). Urinary free cortisol is a separate urine test (see RCPA).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Corticosteroids"
     }
@@ -1695,9 +1712,10 @@ const TESTS = [
   },
   {
     "name": "Cryptococcal Ag",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Serum (blood). Also performed on CSF (see RCPA).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cryptococcal-Ag"
     }

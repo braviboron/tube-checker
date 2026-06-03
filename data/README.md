@@ -14,7 +14,7 @@ One row per collection tube. `key` is the internal id used elsewhere. `color` is
 colour. `draw` is the order-of-draw position (lower = drawn first). `ml` is the nominal
 fill volume. `maxTests` is a conservative capacity (blank = unlimited / always 1 tube).
 
-### tests.csv  `name,tube,aliases,offsite,defaultLab,rcpa,nsw,verified,short,source`
+### tests.csv  `name,tube,aliases,offsite,defaultLab,rcpa,nsw,verified,short,source,note`
 The catalogue. `name` is the **canonical** name (aligned to the RCPA Manual where possible);
 it is what is stored, matched, and linked. `tube` references a `tubes.csv` key. `aliases` are
 pipe-separated (`FBC|FBE`) and are for SEARCH/DETECTION (the old name is kept here whenever a
@@ -25,9 +25,13 @@ back to a catalogue search link; `rcpa` holds a verified RCPA deep link where kn
   shown in chips, tube cards, the summary and references; the canonical `name` is unchanged
   and is still what links/data use. This is distinct from `aliases` (search only).
 - `verified` is provenance: `rcpa-index` (name + RCPA link authoritative, but the TUBE is a
-  heuristic guess from `tools/rebuild-from-rcpa.mjs`), `estimate` (clinical best-effort), up
-  to `official` once confirmed against an authoritative extract. Lets a repass target the
-  least-verified rows first.
+  heuristic guess from `tools/rebuild-from-rcpa.mjs`), `estimate` (clinical best-effort),
+  `confirmed` (tube checked against the RCPA page one-by-one), up to `official` once
+  confirmed against an authoritative extract. Lets a repass target the least-verified rows.
+- `note` is an optional per-test handling note (specimen / transport, e.g. 'collect on ice',
+  'serum, also done on CSF'); it renders in the Test references section.
+- two more special tube keys exist alongside `confirm` / `nonblood`: `abg` (arterial blood
+  gas, a heparinised syringe, not a cap-colour tube) renders in the same separated block.
 - `tube` may list MORE than one tube, pipe-separated (e.g. `bc_aerobic|bc_anaerobic` for a
   blood culture set). Two special keys exist for the RCPA import: `confirm` (no verified tube
   yet) and `nonblood` (collected as a non-blood specimen) - both render as a separate
