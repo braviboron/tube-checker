@@ -222,10 +222,10 @@
   #picker-input { flex: 1; background: var(--card); border: 1px solid var(--sep-strong); border-radius: 10px; padding: 11px 13px; font-size: 16px; font-family: var(--font); color: var(--label); outline: none; }
   #picker-input:focus { border-color: var(--blue); }
   .picker-done { background: none; border: none; color: var(--blue); font-size: 16px; font-weight: 600; font-family: var(--font); cursor: pointer; padding: 8px 2px; }
-  /* On a computer the picker behaves like a dropdown panel near the top, not a bottom sheet */
+  /* On a computer the picker drops down from the search bar (positioned by JS), not a sheet */
   @media (min-width: 720px) {
-    .picker-modal { align-items: flex-start; background: rgba(0,0,0,0.10); }
-    .picker-sheet { margin-top: 60px; height: auto; max-height: 72vh; border-radius: 14px; box-shadow: 0 16px 48px rgba(0,0,0,0.22); }
+    .picker-modal { background: rgba(0,0,0,0.04); }
+    .picker-sheet { height: auto; max-height: 68vh; border-radius: 12px; box-shadow: 0 14px 40px rgba(0,0,0,0.22); }
   }
   .picker-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding: 10px 12px; background: var(--card); border-radius: 10px; font-size: 14px; color: var(--label); cursor: pointer; }
   .picker-toggle[hidden] { display: none; }
@@ -949,11 +949,35 @@ function openPicker(modeOrIndex) {
   input.value = pickerEditIndex !== null ? selectedTests[pickerEditIndex] : '';
   syncRefToggle();
   document.getElementById('picker-modal').classList.add('active');
+  positionPicker();
   renderPickerList();
   // Focus synchronously (within the tap) so the keyboard pops up immediately.
   input.focus();
   if (pickerEditIndex !== null) input.select();
 }
+
+// On a computer, drop the picker panel down directly from the search bar (the
+// add-field), same width, so it reads as a dropdown. On phones, leave the CSS
+// bottom-sheet (clear any inline styles).
+function positionPicker() {
+  const sheet = document.querySelector('.picker-sheet');
+  const anchor = document.getElementById('open-picker');
+  if (!sheet) return;
+  if (window.innerWidth >= 720 && anchor) {
+    const r = anchor.getBoundingClientRect();
+    sheet.style.position = 'fixed';
+    sheet.style.top = (r.bottom + 6) + 'px';
+    sheet.style.left = r.left + 'px';
+    sheet.style.width = r.width + 'px';
+    sheet.style.maxWidth = 'none';
+    sheet.style.margin = '0';
+  } else {
+    for (const p of ['position', 'top', 'left', 'width', 'maxWidth', 'margin']) sheet.style[p] = '';
+  }
+}
+window.addEventListener('resize', () => {
+  if (document.getElementById('picker-modal').classList.contains('active')) positionPicker();
+});
 
 function closePicker() {
   document.getElementById('picker-modal').classList.remove('active');

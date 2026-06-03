@@ -1,11 +1,13 @@
 # RCPA Manual coverage (TODO)
 
-Generated once from the RCPA Manual Pathology Tests index (586 tests). A coverage
-checklist only (not RCPA content). Non-blood is a heuristic from the name, so verify before
-excluding. Our catalogue currently has 134 tests.
+Generated once from the RCPA Manual Pathology Tests index (587 tests; all letter
+folders, complete). A coverage checklist only (not RCPA content). Non-blood is a heuristic
+from the name (specimen often is not in the name), so verify before excluding. Many gap
+items are sub-analytes of panels we already cover (e.g. ALT/ALP roll up into LFT) or
+alternative names, so the true distinct gap is smaller. Our catalogue currently has 134 tests.
 
 - Covered by us: 110
-- To consider adding (blood-likely, not yet covered): 350
+- To consider adding (blood-likely, not yet covered): 351
 - Likely non-blood / out of scope: 126
 
 ## To consider adding (blood-likely)
@@ -93,7 +95,7 @@ excluding. Our catalogue currently has 134 tests.
 - [ ] [Complement C3 and Complement C4](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-C3-and-Complement-C4)
 - [ ] [Complement Total Complement Activity](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-Total-Complement-Activity)
 - [ ] [Complement component C4 allotypes](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-component-C4-allotypes)
-- [ ] [Complement components C5](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-components-C5)
+- [ ] [Complement components C5, C6, C7, C8, C9](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-components-C5,-C6,-C7,-C8,-C9)
 - [ ] [Copeptin](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copeptin)
 - [ ] [Corneal scraping](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Corneal-scraping)
 - [ ] [Corticosteroids](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Corticosteroids)
@@ -283,9 +285,10 @@ excluding. Our catalogue currently has 134 tests.
 - [ ] [Porphobilinogen](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphobilinogen)
 - [ ] [Porphyrin red cell](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphyrin-red-cell)
 - [ ] [Potassium](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium)
-- [ ] [Precipitins (Includes Aspergillus](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Precipitins-(Includes-Aspergillus)
+- [ ] [Precipitins (Includes Aspergillus, Avian, Fungal](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Precipitins-(Includes-Aspergillus,-Avian,-Fungal)
 - [ ] [Primidone](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Primidone)
 - [ ] [Procollagen type 1 N propeptide (P1NP)](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Procollagen-type-1-N-propeptide-(P1NP))
+- [ ] [Prostate specific antigen, free](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Prostate-specific-antigen,-free)
 - [ ] [Protein C](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Protein-C)
 - [ ] [Protein S](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Protein-S)
 - [ ] [Proteinase 3 Ab](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Proteinase-3-Ab)
@@ -295,7 +298,7 @@ excluding. Our catalogue currently has 134 tests.
 - [ ] [Q Fever detection](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/Q/Q-Fever-detection)
 - [ ] [Rabies virus Ab](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Rabies-virus-Ab)
 - [ ] [Red cell distribution width](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Red-cell-distribution-width)
-- [ ] [Reproductive genetic carrier screening (CF](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Reproductive-genetic-carrier-screening-(CF)
+- [ ] [Reproductive genetic carrier screening (CF, SMA, F](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Reproductive-genetic-carrier-screening-(CF,-SMA,-F)
 - [ ] [Reptilase time](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Reptilase-time)
 - [ ] [Respiratory syncytial virus detection](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Respiratory-syncytial-virus-detection)
 - [ ] [Rickettsial infection](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Rickettsial-infection)
@@ -350,7 +353,7 @@ excluding. Our catalogue currently has 134 tests.
 - [ ] [Vitamin A](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-A)
 - [ ] [Vitamin B6](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-B6)
 - [ ] [Vitamin C](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-C)
-- [ ] [Vitamin D 1](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-D-1)
+- [ ] [Vitamin D 1,25 dihydroxy](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-D-1,25-dihydroxy)
 - [ ] [Vitamin E](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-E)
 - [ ] [von Willebrand factor Ag](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/von-Willebrand-factor-Ag)
 - [ ] [von Willebrand factor activity](https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/von-Willebrand-factor-activity)
