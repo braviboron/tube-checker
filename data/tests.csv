@@ -26,17 +26,17 @@ Alpha fetoprotein amniotic fluid,nonblood,,none,,https://www.rcpa.edu.au/Manuals
 Alpha subunit Glycoprotein,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Alpha-subunit-Glycoprotein,,rcpa-index,,rcpa,
 Alpha thalassaemia genetic testing,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Alpha-thalassaemia-genetic-testing,,rcpa-index,,rcpa,
 Aluminium,royalblue,aluminum|al level|aluminium level,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Aluminium,,estimate,,rcpa,
-Amino acids,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amino-acids,,confirmed,,rcpa,Plasma; collect on ice and deliver promptly (some labs use EDTA).
+Amino acids,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amino-acids,,review,,rcpa,Plasma; collect on ice and deliver promptly (some labs use EDTA).
 Amino acids urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amino-acids-urine,,rcpa-index,,rcpa,
-Amiodarone,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amiodarone,,rcpa-index,,rcpa,
+Amiodarone,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amiodarone,,review,,rcpa,
 Ammonia,green,ammonia|NH3,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Ammonia,,estimate,,rcpa,
 Amylase,gold,amylase,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amylase,,estimate,,rcpa,
 Amylase urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amylase-urine,,rcpa-index,,rcpa,
-Anabolic steroids,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anabolic-steroids,,confirmed,,rcpa,Usually a urine screen; serum only for some confirmatory assays.
+Anabolic steroids,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anabolic-steroids,,estimate,,rcpa,Usually a urine screen; serum only for some confirmatory assays.
 Androstenedione,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Androstenedione,,rcpa-index,,rcpa,
 Angiostrongylus detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Angiostrongylus-detection,,rcpa-index,,rcpa,
 Angiotensin converting enzyme,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Angiotensin-converting-enzyme,,rcpa-index,,rcpa,
-Anion gap,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anion-gap,,confirmed,,rcpa,Calculated from the electrolytes and collected with the U&E sample.
+Anion gap,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anion-gap,,estimate,,rcpa,Calculated from the electrolytes and collected with the U&E sample.
 Antenatal screen,pink,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Antenatal-screen,,rcpa-index,,rcpa,
 Anti factor Xa,blue,anti-xa|antixa|heparin assay|heparin level|Anti-Xa,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anti-factor-Xa,,estimate,,rcpa,
 Anti immunoglobulin A Ab,gold,Anti immunoglobulin A antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anti-immunoglobulin-A-Ab,,rcpa-index,,rcpa,
@@ -56,7 +56,7 @@ Aspartate aminotransferase,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manu
 B-Type natriuretic peptide,gold,BNP / NT-proBNP|BNP|NT-proBNP|nt pro bnp|natriuretic peptide,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/B-Type-natriuretic-peptide,,estimate,BNP,rcpa,
 Bacterial antigen detection,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bacterial-antigen-detection,,rcpa-index,,rcpa,
 Bartonella henselae detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bartonella-henselae-detection,,rcpa-index,,rcpa,
-Base excess arterial,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Base-excess-arterial,,confirmed,,rcpa,Arterial blood-gas syringe; measure immediately.
+Base excess arterial,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Base-excess-arterial,,estimate,,rcpa,Arterial blood-gas syringe; measure immediately.
 Bence Jones protein,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bence-Jones-protein,,rcpa-index,,rcpa,
 Beta 2 microglobulin CSF,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-2-microglobulin-CSF,,rcpa-index,,rcpa,
 Beta 2 microglobulin urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-2-microglobulin-urine,,rcpa-index,,rcpa,
@@ -70,7 +70,7 @@ Bilirubin,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Test
 Bilirubin amniotic fluid,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bilirubin-amniotic-fluid,,rcpa-index,,rcpa,
 Blood culture,bc_aerobic|bc_anaerobic,Blood Cultures|BC|BCx,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-culture,,estimate,,rcpa,
 Blood Film,purple,film|blood film|peripheral smear,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-Film,,estimate,,rcpa,
-Blood gas arterial,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-gas-arterial,,confirmed,,rcpa,Arterial blood-gas syringe; measure immediately.
+Blood gas arterial,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-gas-arterial,,estimate,,rcpa,Arterial blood-gas syringe; measure immediately.
 Blood group ABO and RhD,pink,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-ABO-and-RhD,,rcpa-index,,rcpa,
 Blood group and antibody screen,pink,group and screen|group & screen|type and screen|blood group and antibody screen|group and hold|G&H|group & hold|GH|group and save|group save|Group & Hold|antibody screen|red cell antibodies|red cell antibody screen|Antibody Screen,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-and-antibody-screen,,estimate,,rcpa,
 Blood group Other,pink,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-Other,,rcpa-index,,rcpa,
@@ -102,7 +102,7 @@ Calculi urinary tract,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manua
 Calprotectin Faecal,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Calprotectin-Faecal,,rcpa-index,,rcpa,
 Carbamazepine,gold,carbamazepine|tegretol,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carbamazepine,,estimate,,rcpa,
 Carbohydrate deficient transferrin,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carbohydrate-deficient-transferrin,,rcpa-index,,rcpa,
-Carboxyhaemoglobin,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carboxyhaemoglobin,,confirmed,,rcpa,Measured on a blood-gas analyser (arterial or venous sample).
+Carboxyhaemoglobin,abg,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carboxyhaemoglobin,,estimate,,rcpa,Measured on a blood-gas analyser (arterial or venous sample).
 Carcinoembryonic antigen,gold,CEA,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carcinoembryonic-antigen,,estimate,CEA,rcpa,
 Cardiac biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cardiac-biopsy,,rcpa-index,,rcpa,
 Cardiolipin Ab,gold,Cardiolipin antibody|anticardiolipin|acl antibodies|cardiolipin antibodies|Anticardiolipin Antibodies,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cardiolipin-Ab,,estimate,,rcpa,
@@ -127,13 +127,13 @@ Chromogranin A,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Patholog
 Chromosomal microarray analysis,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chromosomal-microarray-analysis,,rcpa-index,,rcpa,
 Citrate urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Citrate-urine,,rcpa-index,,rcpa,
 CK-MB,gold,CK-MB|CKMB,maybe,,,,estimate,,local,
-Clonazepam,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Clonazepam,,rcpa-index,,rcpa,
+Clonazepam,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Clonazepam,,review,,rcpa,
 Clostridium difficile detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Clostridium-difficile-detection,,rcpa-index,,rcpa,
 Clozapine,gold,clozapine level|norclozapine,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Clozapine,,estimate,,rcpa,
 Coagulation factor inhibitors,blue,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Coagulation-factor-inhibitors,,rcpa-index,,rcpa,
 Coagulation factor levels,blue,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Coagulation-factor-levels,,rcpa-index,,rcpa,
 Coagulation Profile,blue,coags|coag|coagulation profile|clotting screen|coagulation screen,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Coagulation-Profile,,estimate,Coags,rcpa,
-Cold agglutinins,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cold-agglutinins,,confirmed,,rcpa,Collect and transport warm at 37C (pre-warmed tube).
+Cold agglutinins,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cold-agglutinins,,review,,rcpa,Collect and transport warm at 37C (pre-warmed tube).
 Collagen binding assay,blue,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Collagen-binding-assay,,rcpa-index,,rcpa,
 Colorectal biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Colorectal-biopsy,,rcpa-index,,rcpa,
 Complement C3 and Complement C4,gold,complement|C3|C4|Complement (C3/C4),maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-C3-and-Complement-C4,,estimate,,rcpa,
@@ -141,12 +141,12 @@ Complement component C4 allotypes,gold,,none,,https://www.rcpa.edu.au/Manuals/RC
 "Complement components C5, C6, C7, C8, C9",gold,,none,,"https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-components-C5,-C6,-C7,-C8,-C9",,rcpa-index,,rcpa,
 Complement Total Complement Activity,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-Total-Complement-Activity,,rcpa-index,,rcpa,
 Conjunctival swab fluid,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Conjunctival-swab-fluid,,rcpa-index,,rcpa,
-Copeptin,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copeptin,,confirmed,,rcpa,EDTA plasma; send frozen.
+Copeptin,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copeptin,,review,,rcpa,EDTA plasma; send frozen.
 Copper,royalblue,copper|Cu,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copper,,estimate,,rcpa,
 Copper urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copper-urine,,rcpa-index,,rcpa,
 Corneal biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Corneal-biopsy,,rcpa-index,,rcpa,
 Corneal scraping,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Corneal-scraping,,rcpa-index,,rcpa,
-Corticosteroids,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Corticosteroids,,confirmed,,rcpa,Serum (blood). Urinary free cortisol is a separate urine test (see RCPA).
+Corticosteroids,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Corticosteroids,,review,,rcpa,Serum (blood). Urinary free cortisol is a separate urine test (see RCPA).
 Cortisol,gold,cortisol,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cortisol,,estimate,,rcpa,
 Cortisol salivary,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cortisol-salivary,,rcpa-index,,rcpa,
 Cortisol urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cortisol-urine,,rcpa-index,,rcpa,
@@ -158,7 +158,7 @@ Creatinine clearance estimated eGFR,gold,,none,,https://www.rcpa.edu.au/Manuals/
 Creatinine urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Creatinine-urine,,rcpa-index,,rcpa,
 Crossmatch,pink,crossmatch|cross match|XM|GXM|group and crossmatch|G&X,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Crossmatch,,estimate,,rcpa,
 Cryoglobulins,gold,cryoglobulin|cryoglobulin screen,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cryoglobulins,,estimate,,rcpa,
-Cryptococcal Ag,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cryptococcal-Ag,,confirmed,,rcpa,Serum (blood). Also performed on CSF (see RCPA).
+Cryptococcal Ag,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cryptococcal-Ag,,estimate,,rcpa,Serum (blood). Also performed on CSF (see RCPA).
 Cyclic citrullinated peptide Ab,gold,Anti-CCP|CCP,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cyclic-citrullinated-peptide-Ab,,estimate,Anti-CCP,rcpa,
 Cyclosporin,purple,Ciclosporin|cyclosporine,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cyclosporin,,estimate,,rcpa,
 Cyst fluid cytology,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cyst-fluid-cytology,,rcpa-index,,rcpa,
@@ -167,7 +167,7 @@ Cystic Fibrosis genetic testing,purple,,maybe,,https://www.rcpa.edu.au/Manuals/R
 Cytochemistry,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytochemistry,,rcpa-index,,rcpa,
 Cytogenetics oncology,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytogenetics-oncology,,rcpa-index,,rcpa,
 Cytogenetics prenatal and fetal,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytogenetics-prenatal-and-fetal,,rcpa-index,,rcpa,
-Cytokine receptors,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytokine-receptors,,confirmed,,rcpa,"Soluble cytokine receptors, serum."
+Cytokine receptors,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytokine-receptors,,estimate,,rcpa,"Soluble cytokine receptors, serum."
 Cytomegalovirus Ab,gold,Cytomegalovirus antibody|CMV|cytomegalovirus|CMV Serology,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytomegalovirus-Ab,,estimate,,rcpa,
 Cytomegalovirus nucleic acid detection,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytomegalovirus-nucleic-acid-detection,,rcpa-index,,rcpa,
 D-Dimer,blue,d-dimer|ddimer|d dimer,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/D-Dimer,,estimate,,rcpa,
@@ -175,7 +175,7 @@ Deaminated gliadin Ab,gold,Deaminated gliadin antibody,none,,https://www.rcpa.ed
 Dehydroepiandrosterone sulfate,gold,dhea-s|dhea sulphate|dheas level|DHEAS,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Dehydroepiandrosterone-sulfate,,estimate,,rcpa,
 Delayed hypersensitivity skin test,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Delayed-hypersensitivity-skin-test,,rcpa-index,,rcpa,
 Desmoglein 1 Ab and Desmoglein 3 Ab,gold,Desmoglein 1 antibody and Desmoglein 3 antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Desmoglein-1-Ab-and-Desmoglein-3-Ab,,rcpa-index,,rcpa,
-Dexamethasone suppression test overnight,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Dexamethasone-suppression-test-overnight,,confirmed,,rcpa,Dynamic test: serum cortisol at set times (see RCPA for the protocol).
+Dexamethasone suppression test overnight,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Dexamethasone-suppression-test-overnight,,estimate,,rcpa,Dynamic test: serum cortisol at set times (see RCPA for the protocol).
 Digoxin,gold,digoxin|dig level,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Digoxin,,estimate,,rcpa,
 Dilute Russell viper venom ratio,blue,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Dilute-Russell-viper-venom-ratio,,rcpa-index,,rcpa,
 Diphtheria detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Diphtheria-detection,,rcpa-index,,rcpa,
@@ -183,8 +183,8 @@ Direct antiglobulin test,purple,Coombs / DCT|coombs|direct coombs|DCT,none,,http
 DNA Ab,gold,DNA antibody|dsDNA|anti-dsDNA|double stranded DNA|dsdna|anti-dsdna|double stranded dna|anti-dna,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/DNA-Ab,,estimate,,rcpa,
 DNA ploidy,purple,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/DNA-ploidy,,rcpa-index,,rcpa,
 Donath Landsteiner Ab,gold,Donath Landsteiner antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Donath-Landsteiner-Ab,,rcpa-index,,rcpa,
-Down syndrome prenatal risk test,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Down-syndrome-prenatal-risk-test,,confirmed,,rcpa,Maternal serum screen.
-Drug assays therapeutic drug monitoring,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Drug-assays-therapeutic-drug-monitoring,,confirmed,,rcpa,"Umbrella for therapeutic drug levels: serum for most, but some need EDTA (e.g. tacrolimus). Check the specific drug."
+Down syndrome prenatal risk test,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Down-syndrome-prenatal-risk-test,,estimate,,rcpa,Maternal serum screen.
+Drug assays therapeutic drug monitoring,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Drug-assays-therapeutic-drug-monitoring,,review,,rcpa,"Umbrella for therapeutic drug levels: serum for most, but some need EDTA (e.g. tacrolimus). Check the specific drug."
 Drugs of abuse screen,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Drugs-of-abuse-screen,,rcpa-index,,rcpa,
 Duchenne and Becker muscular dystrophy,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Duchenne-and-Becker-muscular-dystrophy,,rcpa-index,,rcpa,
 Ear swab,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Ear-swab,,rcpa-index,,rcpa,
@@ -216,7 +216,7 @@ Familial polyposis coli test,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA
 Fasciola hepatica Ab,gold,Fasciola hepatica antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Fasciola-hepatica-Ab,,rcpa-index,,rcpa,
 Ferritin,gold,ferritin,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Ferritin,,estimate,,rcpa,
 Feto maternal haemorrhage estimation,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Feto-maternal-haemorrhage-estimation,,rcpa-index,,rcpa,
-FIB 4,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/FIB-4,,confirmed,,rcpa,"Calculated from AST, ALT, platelets and age; no separate sample (reported from routine bloods)."
+FIB 4,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/FIB-4,,estimate,,rcpa,"Calculated from AST, ALT, platelets and age; no separate sample (reported from routine bloods)."
 Fibrinogen,blue,fibrinogen,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Fibrinogen,,estimate,,rcpa,
 Filaria,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Filaria,,rcpa-index,,rcpa,
 Filaria Ab,gold,Filaria antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Filaria-Ab,,rcpa-index,,rcpa,
@@ -241,13 +241,13 @@ Gastric cytology,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pat
 Gastrin,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gastrin,,rcpa-index,,rcpa,
 Genital swab,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Genital-swab,,rcpa-index,,rcpa,
 Gentamicin,gold,gentamicin|gent level,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gentamicin,,estimate,,rcpa,
-GFR estimated,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/GFR-estimated,,confirmed,,rcpa,Calculated from serum creatinine; reported with the creatinine result.
+GFR estimated,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/GFR-estimated,,estimate,,rcpa,Calculated from serum creatinine; reported with the creatinine result.
 GI brushing cytology including pancreato bile duc,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/GI-brushing-cytology-including-pancreato-bile-duc,,rcpa-index,,rcpa,
 Gliadin Ab,gold,Gliadin antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gliadin-Ab,,rcpa-index,,rcpa,
 Globulin,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Globulin,,rcpa-index,,rcpa,
 Glomerular basement membrane Ab,nonblood,Glomerular basement membrane antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glomerular-basement-membrane-Ab,,rcpa-index,,rcpa,
-Glomerular filtration rate,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glomerular-filtration-rate,,confirmed,,rcpa,Calculated from serum creatinine.
-Glucagon,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucagon,,confirmed,,rcpa,"EDTA with aprotinin, collect on ice and send frozen."
+Glomerular filtration rate,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glomerular-filtration-rate,,estimate,,rcpa,Calculated from serum creatinine.
+Glucagon,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucagon,,review,,rcpa,"EDTA with aprotinin, collect on ice and send frozen."
 Glucose,grey,glucose|BSL|BGL|fasting glucose|random glucose|blood sugar,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucose,,estimate,,rcpa,
 Glucose urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucose-urine,,rcpa-index,,rcpa,
 Glucose-6-phosphate dehydrogenase,purple,G6PD|g6pd screen,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucose-6-phosphate-dehydrogenase,,estimate,G6PD,rcpa,
@@ -279,10 +279,10 @@ Helicobacter pylori Ab,gold,Helicobacter pylori antibody,none,,https://www.rcpa.
 Helicobacter pylori Ag faeces,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Helicobacter-pylori-Ag-faeces,,rcpa-index,,rcpa,
 Helicobacter pylori breath test,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Helicobacter-pylori-breath-test,,rcpa-index,,rcpa,
 Hendra virus Ab,gold,Hendra virus antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hendra-virus-Ab,,rcpa-index,,rcpa,
-Heparin induced thrombocytopenia screen,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Heparin-induced-thrombocytopenia-screen,,confirmed,,rcpa,"PF4 / heparin antibody, serum."
+Heparin induced thrombocytopenia screen,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Heparin-induced-thrombocytopenia-screen,,review,,rcpa,"PF4 / heparin antibody, serum."
 Hepatitis A total Ab,gold,Hepatitis A total antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hepatitis-A-total-Ab,,rcpa-index,,rcpa,
 Hepatitis B serology,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hepatitis-B-serology,,rcpa-index,,rcpa,
-Hepatitis C,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hepatitis-C,,confirmed,,rcpa,HCV antibody serology (serum); HCV RNA viral load uses EDTA.
+Hepatitis C,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hepatitis-C,,estimate,,rcpa,HCV antibody serology (serum); HCV RNA viral load uses EDTA.
 Hepatitis D Ab,gold,Hepatitis D antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hepatitis-D-Ab,,rcpa-index,,rcpa,
 Hepatitis E Ab,gold,Hepatitis E antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hepatitis-E-Ab,,rcpa-index,,rcpa,
 Herpes simplex virus Ab,gold,Herpes simplex virus antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Herpes-simplex-virus-Ab,,rcpa-index,,rcpa,
@@ -296,7 +296,7 @@ Holotranscobalamin,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Path
 Homocysteine,purple,homocysteine,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Homocysteine,,estimate,,rcpa,
 Homogentisic acid urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Homogentisic-acid-urine,,rcpa-index,,rcpa,
 Homovanillic acid urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Homovanillic-acid-urine,,rcpa-index,,rcpa,
-HTLV detection,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HTLV-detection,,confirmed,,rcpa,"HTLV I/II serology, serum."
+HTLV detection,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HTLV-detection,,estimate,,rcpa,"HTLV I/II serology, serum."
 Human epidermal growth factor receptor 2,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Human-epidermal-growth-factor-receptor-2,,rcpa-index,,rcpa,
 Human papillomavirus DNA,purple,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Human-papillomavirus-DNA,,rcpa-index,,rcpa,
 Huntington disease genetic test,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Huntington-disease-genetic-test,,rcpa-index,,rcpa,
@@ -318,7 +318,7 @@ Intradermal allergen,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manua
 Intrinsic factor Ab,gold,Intrinsic factor antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Intrinsic-factor-Ab,,rcpa-index,,rcpa,
 Iodine urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Iodine-urine,,rcpa-index,,rcpa,
 Iron Studies,gold,iron studies|iron|transferrin|transferrin saturation,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Iron-Studies,,estimate,,rcpa,
-Isohaemagglutinin titre,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Isohaemagglutinin-titre,,confirmed,,rcpa,"Anti-A and anti-B titres, serum."
+Isohaemagglutinin titre,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Isohaemagglutinin-titre,,estimate,,rcpa,"Anti-A and anti-B titres, serum."
 JAK2,purple,jak2 v617f|jak2 mutation|jak-2,usually,,,,estimate,,local,
 Japanese Encephalitis (JEV) detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/J/Japanese-Encephalitis-(JEV)-detection,,rcpa-index,,rcpa,
 Jo 1 Ab,gold,Jo 1 antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/J/Jo-1-Ab,,rcpa-index,,rcpa,
@@ -329,7 +329,7 @@ Lactase small bowel mucosa,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA
 Lactate dehydrogenase,gold,LDH|ldh level,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactate-dehydrogenase,,estimate,LDH,rcpa,
 Lactate dehydrogenase isoenzymes,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactate-dehydrogenase-isoenzymes,,rcpa-index,,rcpa,
 Lactose intolerance breath test,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactose-intolerance-breath-test,,rcpa-index,,rcpa,
-Lactose tolerance test,grey,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactose-tolerance-test,,confirmed,,rcpa,Timed blood glucose after a lactose load (fluoride tube).
+Lactose tolerance test,grey,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactose-tolerance-test,,estimate,,rcpa,Timed blood glucose after a lactose load (fluoride tube).
 LDL cholesterol,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/LDL-cholesterol,,rcpa-index,,rcpa,
 Lead,royalblue,blood lead|pb level|lead level,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lead,,estimate,,rcpa,
 Lead urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lead-urine,,rcpa-index,,rcpa,
@@ -350,9 +350,9 @@ Lupus Anticoagulant,blue,lupus anticoagulant,usually,,https://www.rcpa.edu.au/Ma
 Lupus band test,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lupus-band-test,,rcpa-index,,rcpa,
 Luteinising hormone,gold,LH,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Luteinising-hormone,,estimate,LH,rcpa,
 Lymph node biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymph-node-biopsy,,rcpa-index,,rcpa,
-Lymphocyte function test,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymphocyte-function-test,,confirmed,,rcpa,"Viable lymphocytes, lithium heparin; deliver promptly and check local handling."
+Lymphocyte function test,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymphocyte-function-test,,estimate,,rcpa,"Viable lymphocytes, lithium heparin; deliver promptly and check local handling."
 Lymphocyte immunophenotyping,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymphocyte-immunophenotyping,,rcpa-index,,rcpa,
-Lymphocyte proliferative response,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymphocyte-proliferative-response,,confirmed,,rcpa,"Viable lymphocytes, lithium heparin; deliver fresh."
+Lymphocyte proliferative response,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymphocyte-proliferative-response,,estimate,,rcpa,"Viable lymphocytes, lithium heparin; deliver fresh."
 Magnesium,gold,magnesium|Mg,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Magnesium,,estimate,,rcpa,
 Magnesium faeces,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Magnesium-faeces,,rcpa-index,,rcpa,
 Magnesium urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Magnesium-urine,,rcpa-index,,rcpa,
@@ -368,12 +368,12 @@ MCS wound,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology
 Mean cell haemoglobin,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mean-cell-haemoglobin,,rcpa-index,,rcpa,
 Mean cell haemoglobin concentration,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mean-cell-haemoglobin-concentration,,rcpa-index,,rcpa,
 Mean cell volume,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mean-cell-volume,,rcpa-index,,rcpa,
-Measles virus,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Measles-virus,,confirmed,,rcpa,Serology (serum); viral detection is a swab.
+Measles virus,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Measles-virus,,estimate,,rcpa,Serology (serum); viral detection is a swab.
 Mercury,royalblue,hg level|mercury level,usually,,,,estimate,,local,
 Mercury urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mercury-urine,,rcpa-index,,rcpa,
 Metanephrines urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Metanephrines-urine,,rcpa-index,,rcpa,
 Methaemoglobin,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Methaemoglobin,,rcpa-index,,rcpa,
-Methotrexate,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Methotrexate,,rcpa-index,,rcpa,
+Methotrexate,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Methotrexate,,review,,rcpa,
 Methylhistamine urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Methylhistamine-urine,,rcpa-index,,rcpa,
 MIC susceptibility,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/MIC-susceptibility,,rcpa-index,,rcpa,
 Mitochondrial Ab,gold,Mitochondrial antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mitochondrial-Ab,,rcpa-index,,rcpa,
@@ -384,12 +384,12 @@ Molecular genetics microbial,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA
 Molecular genetics neoplasia,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Molecular-genetics-neoplasia,,rcpa-index,,rcpa,
 Mpox detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mpox-detection,,rcpa-index,,rcpa,
 Multiple endocrine neoplasia type 2,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Multiple-endocrine-neoplasia-type-2,,rcpa-index,,rcpa,
-Mumps,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mumps,,confirmed,,rcpa,Serology (serum); viral detection is a swab.
+Mumps,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mumps,,estimate,,rcpa,Serology (serum); viral detection is a swab.
 Murray Valley Encephalitis (MVE) detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Murray-Valley-Encephalitis-(MVE)-detection,,rcpa-index,,rcpa,
 Muscle biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Muscle-biopsy,,rcpa-index,,rcpa,
 MUSK Ab,gold,MUSK antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/MUSK-Ab,,rcpa-index,,rcpa,
 Mycobacteria testing,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mycobacteria-testing,,rcpa-index,,rcpa,
-Mycobacterium tuberculosis IGRA,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mycobacterium-tuberculosis-IGRA,,confirmed,,rcpa,IGRA (e.g. QuantiFERON-TB): use the dedicated IGRA collection tubes per local protocol.
+Mycobacterium tuberculosis IGRA,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mycobacterium-tuberculosis-IGRA,,review,,rcpa,IGRA (e.g. QuantiFERON-TB): use the dedicated IGRA collection tubes per local protocol.
 Mycobacterium ulcerans detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mycobacterium-ulcerans-detection,,rcpa-index,,rcpa,
 Mycoplasma pneumoniae Ab,gold,Mycoplasma pneumoniae antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mycoplasma-pneumoniae-Ab,,rcpa-index,,rcpa,
 Myelin Ab,gold,Myelin antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Myelin-Ab,,rcpa-index,,rcpa,
@@ -402,7 +402,7 @@ Nerve biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Patholo
 Neuron specific enolase,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Neuron-specific-enolase,,rcpa-index,,rcpa,
 Neuronal Ab,gold,Neuronal antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Neuronal-Ab,,rcpa-index,,rcpa,
 Neutrophil Ab,gold,Neutrophil antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Neutrophil-Ab,,rcpa-index,,rcpa,
-Neutrophil function studies,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Neutrophil-function-studies,,confirmed,,rcpa,"Viable neutrophils, lithium heparin; deliver fresh."
+Neutrophil function studies,green,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Neutrophil-function-studies,,estimate,,rcpa,"Viable neutrophils, lithium heparin; deliver fresh."
 Newborn screening,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Newborn-screening,,rcpa-index,,rcpa,
 NMDA receptor Ab,gold,NMDA receptor antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/NMDA-receptor-Ab,,rcpa-index,,rcpa,
 Non HDL cholesterol,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Non-HDL-cholesterol,,rcpa-index,,rcpa,
@@ -429,17 +429,17 @@ Parathyroid Hormone,purple,PTH|parathyroid hormone|parathyroid,maybe,,https://ww
 Parathyroid hormone related protein,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Parathyroid-hormone-related-protein,,rcpa-index,,rcpa,
 Parietal cell Ab,gold,Parietal cell antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Parietal-cell-Ab,,rcpa-index,,rcpa,
 Paroxysmal nocturnal haemoglobinuria,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Paroxysmal-nocturnal-haemoglobinuria,,rcpa-index,,rcpa,
-Parvovirus B19,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Parvovirus-B19,,confirmed,,rcpa,Serology (serum).
+Parvovirus B19,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Parvovirus-B19,,estimate,,rcpa,Serology (serum).
 Paternity testing,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Paternity-testing,,rcpa-index,,rcpa,
 Peritoneal fluid examination,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Peritoneal-fluid-examination,,rcpa-index,,rcpa,
 pH urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/pH-urine,,rcpa-index,,rcpa,
-Phenobarbitone,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phenobarbitone,,rcpa-index,,rcpa,
+Phenobarbitone,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phenobarbitone,,review,,rcpa,
 Phenytoin,gold,phenytoin|dilantin,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phenytoin,,estimate,,rcpa,
 Phosphate,gold,phosphate|PO4,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phosphate,,estimate,,rcpa,
 Phosphate urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phosphate-urine,,rcpa-index,,rcpa,
 Phosphatidylethanol,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phosphatidylethanol,,rcpa-index,,rcpa,
 Phospholipase A2 receptor 1 Ab,gold,Phospholipase A2 receptor 1 antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phospholipase-A2-receptor-1-Ab,,rcpa-index,,rcpa,
-Plasma Free Metanephrines,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Plasma-Free-Metanephrines,,confirmed,,rcpa,"EDTA, chilled; patient supine and rested before collection."
+Plasma Free Metanephrines,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Plasma-Free-Metanephrines,,review,,rcpa,"EDTA, chilled; patient supine and rested before collection."
 Plasminogen,blue,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Plasminogen,,rcpa-index,,rcpa,
 Plasminogen activator inhibitor,blue,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Plasminogen-activator-inhibitor,,rcpa-index,,rcpa,
 Platelet Ab,gold,Platelet antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Platelet-Ab,,rcpa-index,,rcpa,
@@ -457,8 +457,8 @@ Porphyrin urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Path
 Potassium,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium,,rcpa-index,,rcpa,
 Potassium faeces,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium-faeces,,rcpa-index,,rcpa,
 Potassium urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium-urine,,rcpa-index,,rcpa,
-"Precipitins (Includes Aspergillus, Avian, Fungal",gold,,maybe,,"https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Precipitins-(Includes-Aspergillus,-Avian,-Fungal",,confirmed,,rcpa,Precipitating antibodies (serum).
-Primidone,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Primidone,,rcpa-index,,rcpa,
+"Precipitins (Includes Aspergillus, Avian, Fungal",gold,,maybe,,"https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Precipitins-(Includes-Aspergillus,-Avian,-Fungal",,estimate,,rcpa,Precipitating antibodies (serum).
+Primidone,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Primidone,,review,,rcpa,
 Procalcitonin,gold,procalcitonin|PCT,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Procalcitonin,,estimate,,rcpa,
 Procollagen type 1 N propeptide (P1NP),gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Procollagen-type-1-N-propeptide-(P1NP),,rcpa-index,,rcpa,
 Progesterone,gold,progesterone,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Progesterone,,estimate,,rcpa,
@@ -474,7 +474,7 @@ Protein urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathol
 Proteinase 3 Ab,gold,Proteinase 3 antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Proteinase-3-Ab,,rcpa-index,,rcpa,
 Prothrombin Time,blue,PT|prothrombin|prothrombin time,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Prothrombin-Time,,estimate,,rcpa,
 Pubic lice (Pediculosis pubis) detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Pubic-lice-(Pediculosis-pubis)-detection,,rcpa-index,,rcpa,
-Pyruvate,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Pyruvate,,confirmed,,rcpa,Discuss with the laboratory. Tourniquet use should be avoided.
+Pyruvate,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Pyruvate,,review,,rcpa,Discuss with the laboratory. Tourniquet use should be avoided.
 Pyruvate kinase,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Pyruvate-kinase,,rcpa-index,,rcpa,
 Q Fever detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/Q/Q-Fever-detection,,rcpa-index,,rcpa,
 Rabies virus Ab,gold,Rabies virus antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Rabies-virus-Ab,,rcpa-index,,rcpa,
@@ -497,9 +497,9 @@ Schistosomiasis Ab,gold,Schistosomiasis antibody,none,,https://www.rcpa.edu.au/M
 Selenium,royalblue,selenium|Se,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Selenium,,estimate,,rcpa,
 Semen analysis fertility,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Semen-analysis-fertility,,rcpa-index,,rcpa,
 Semen analysis post vasectomy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Semen-analysis-post-vasectomy,,rcpa-index,,rcpa,
-Serotonin platelets,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Serotonin-platelets,,confirmed,,rcpa,Whole-blood EDTA (platelet serotonin).
+Serotonin platelets,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Serotonin-platelets,,review,,rcpa,Whole-blood EDTA (platelet serotonin).
 SHBG Sex Hormone Binding Globulin,gold,sex hormone binding globulin|SHBG,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/SHBG-Sex-Hormone-Binding-Globulin,,estimate,,rcpa,
-Short Synacthen test,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Short-Synacthen-test,,confirmed,,rcpa,Dynamic: serum cortisol before and after Synacthen.
+Short Synacthen test,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Short-Synacthen-test,,estimate,,rcpa,Dynamic: serum cortisol before and after Synacthen.
 Sirolimus,purple,rapamycin|sirolimus level|rapamune,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sirolimus,,estimate,,rcpa,
 Skin biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Skin-biopsy,,rcpa-index,,rcpa,
 Skin prick allergen,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Skin-prick-allergen,,rcpa-index,,rcpa,
@@ -514,7 +514,7 @@ Sparganosis detection,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manu
 specific IgE,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/specific-IgE,,rcpa-index,,rcpa,
 Sperm Ab,gold,Sperm antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sperm-Ab,,rcpa-index,,rcpa,
 Spinal muscular atrophy test,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Spinal-muscular-atrophy-test,,rcpa-index,,rcpa,
-Steroids,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Steroids,,confirmed,,rcpa,Serum; a urinary steroid profile is a separate urine test.
+Steroids,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Steroids,,review,,rcpa,Serum; a urinary steroid profile is a separate urine test.
 Streptococcal serology,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Streptococcal-serology,,rcpa-index,,rcpa,
 Streptococcus agalactiae (group B streptococcus GB,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Streptococcus-agalactiae-(group-B-streptococcus-GB,,rcpa-index,,rcpa,
 Streptococcus pneumoniae Ag,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Streptococcus-pneumoniae-Ag,,rcpa-index,,rcpa,
@@ -525,7 +525,7 @@ Syphilis Serology,gold,syphilis|RPR|TPHA,maybe,,https://www.rcpa.edu.au/Manuals/
 Syphilis test mucocutaneous ulcer,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Syphilis-test-mucocutaneous-ulcer,,rcpa-index,,rcpa,
 Tacrolimus,purple,tacrolimus|FK506,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tacrolimus,,estimate,,rcpa,
 Taenia solium IgG,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Taenia-solium-IgG,,rcpa-index,,rcpa,
-TCA screen,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/TCA-screen,,confirmed,,rcpa,Tricyclic antidepressants (serum).
+TCA screen,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/TCA-screen,,review,,rcpa,Tricyclic antidepressants (serum).
 Temporal artery biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Temporal-artery-biopsy,,rcpa-index,,rcpa,
 Testicular biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Testicular-biopsy,,rcpa-index,,rcpa,
 Testicular IgG,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Testicular-IgG,,rcpa-index,,rcpa,
@@ -551,7 +551,7 @@ Trypanosome identification,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA
 Tryptase,gold,mast cell tryptase|serum tryptase,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tryptase,,estimate,,rcpa,
 TSH receptor Ab,gold,TSH receptor antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/TSH-receptor-Ab,,rcpa-index,,rcpa,
 Tuberculin sensitivity test,nonblood,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tuberculin-sensitivity-test,,rcpa-index,,rcpa,
-Tumour markers,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tumour-markers,,confirmed,,rcpa,"Umbrella for serum tumour markers (e.g. CEA, CA-125); check the specific marker."
+Tumour markers,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tumour-markers,,estimate,,rcpa,"Umbrella for serum tumour markers (e.g. CEA, CA-125); check the specific marker."
 Typhoid Ab,gold,Typhoid antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Typhoid-Ab,,rcpa-index,,rcpa,
 Unstable haemoglobin screening test,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/U/Unstable-haemoglobin-screening-test,,rcpa-index,,rcpa,
 Upper respiratory tract virus detection,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/U/Upper-respiratory-tract-virus-detection,,rcpa-index,,rcpa,
@@ -565,7 +565,7 @@ Urine dipstick,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Patho
 Uterine cervix biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/U/Uterine-cervix-biopsy,,rcpa-index,,rcpa,
 Valproate,gold,valproate|sodium valproate|epilim,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Valproate,,estimate,,rcpa,
 Vancomycin,gold,vancomycin|vanc level,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vancomycin,,estimate,,rcpa,
-Varicella zoster,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Varicella-zoster,,confirmed,,rcpa,Serology (serum); viral detection is a swab.
+Varicella zoster,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Varicella-zoster,,estimate,,rcpa,Serology (serum); viral detection is a swab.
 Vasoactive intestinal polypeptide,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vasoactive-intestinal-polypeptide,,rcpa-index,,rcpa,
 Very long chain fatty acids,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Very-long-chain-fatty-acids,,rcpa-index,,rcpa,
 VGKC Ab,gold,VGKC antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/VGKC-Ab,,rcpa-index,,rcpa,
@@ -583,7 +583,7 @@ von Willebrand factor Ag,blue,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual
 von Willebrand factor multimer,blue,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/von-Willebrand-factor-multimer,,rcpa-index,,rcpa,
 von Willebrand studies,blue,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/von-Willebrand-studies,,rcpa-index,,rcpa,
 Vulvar cytology,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vulvar-cytology,,rcpa-index,,rcpa,
-Warfarin,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/W/Warfarin,,confirmed,,rcpa,5 mL blood in EDTA (lithium heparin tube also acceptable). Routine warfarin monitoring is by INR (citrate).
+Warfarin,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/W/Warfarin,,estimate,,rcpa,5 mL blood in EDTA (lithium heparin tube also acceptable). Routine warfarin monitoring is by INR (citrate).
 White Cell Count,purple,WCC|white cell count|white blood cells,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/W/White-Cell-Count,,estimate,WCC,rcpa,
 White cell count differential,purple,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/W/White-cell-count-differential,,rcpa-index,,rcpa,
 Yersinia sp Ab,gold,Yersinia sp antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/Y/Yersinia-sp-Ab,,rcpa-index,,rcpa,

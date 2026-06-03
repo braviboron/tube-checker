@@ -24,10 +24,14 @@ back to a catalogue search link; `rcpa` holds a verified RCPA deep link where kn
 - `short` is a compact DISPLAY label (e.g. `ESR` for `Erythrocyte sedimentation rate`). It is
   shown in chips, tube cards, the summary and references; the canonical `name` is unchanged
   and is still what links/data use. This is distinct from `aliases` (search only).
-- `verified` is provenance: `rcpa-index` (name + RCPA link authoritative, but the TUBE is a
-  heuristic guess from `tools/rebuild-from-rcpa.mjs`), `estimate` (clinical best-effort),
-  `confirmed` (tube checked against the RCPA page one-by-one), up to `official` once
-  confirmed against an authoritative extract. Lets a repass target the least-verified rows.
+- `verified` is provenance / confidence: `rcpa-index` (name + RCPA link authoritative, but
+  the TUBE is a heuristic guess from `tools/rebuild-from-rcpa.mjs`), `estimate` (a clinical
+  determination, reviewed but NOT read from the source), `review` (tube genuinely uncertain
+  - serum vs EDTA vs special handling - explicitly flagged to verify against the source), up
+  to `official` once confirmed against an authoritative RCPA / NSW export.
+  IMPORTANT: nothing is page-verified by us yet - RCPA hard-blocks automated page reads (403),
+  so even reviewed rows are best-effort tube conventions until the real export lands. The
+  `review` rows are the highest priority for that repass.
 - `note` is an optional per-test handling note (specimen / transport, e.g. 'collect on ice',
   'serum, also done on CSF'); it renders in the Test references section.
 - two more special tube keys exist alongside `confirm` / `nonblood`: `abg` (arterial blood

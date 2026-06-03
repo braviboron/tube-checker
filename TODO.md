@@ -58,6 +58,13 @@
       a NSW link per test. Precedence: RCPA owns naming/definition; NSW owns availability /
       routing; on a tube conflict show both and flag 'confirm locally'. See PLAN.md.
 - [ ] Add a verified link for the 3 sourceless locals (JAK2, Mercury, Beta-2 glycoprotein).
+- [x] **Confirm-tube sweep** done: 201 -> resolved; tubes assigned by RCPA/CLSI convention.
+- [ ] **Source-verify the tube choices** against the real RCPA/NSW export. NOTE: RCPA blocks
+      automated page reads (403), so no tube is page-verified yet - all are best-effort
+      conventions. The `verified=review` rows (~18: drug levels, special analytes like
+      glucagon/metanephrines/serotonin, IGRA, cold agglutinins, pyruvate) are highest
+      priority. Warfarin was a caught example (guessed serum, actually EDTA). Upgrade rows
+      to `official` as the export confirms them.
 
 ## Parked for later (agreed with user)
 - [ ] **Clinical test-list sweep** — go through the tests actually ordered on the ward
