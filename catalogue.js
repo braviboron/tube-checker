@@ -2322,9 +2322,10 @@ const TESTS = [
   },
   {
     "name": "FIB 4",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Calculated from AST, ALT, platelets and age; no separate sample (reported from routine bloods).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/FIB-4"
     }
@@ -2574,9 +2575,10 @@ const TESTS = [
   },
   {
     "name": "GFR estimated",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Calculated from serum creatinine; reported with the creatinine result.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/GFR-estimated"
     }
@@ -2623,9 +2625,10 @@ const TESTS = [
   },
   {
     "name": "Glomerular filtration rate",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Calculated from serum creatinine.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glomerular-filtration-rate"
     }
@@ -2988,9 +2991,10 @@ const TESTS = [
   },
   {
     "name": "Hepatitis C",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "HCV antibody serology (serum); HCV RNA viral load uses EDTA.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hepatitis-C"
     }
@@ -3707,9 +3711,10 @@ const TESTS = [
   },
   {
     "name": "Lymphocyte proliferative response",
-    "tube": "confirm",
+    "tube": "green",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Viable lymphocytes, lithium heparin; deliver fresh.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymphocyte-proliferative-response"
     }
@@ -3863,9 +3868,10 @@ const TESTS = [
   },
   {
     "name": "Measles virus",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "Serology (serum); viral detection is a swab.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Measles-virus"
     }
@@ -4009,9 +4015,10 @@ const TESTS = [
   },
   {
     "name": "Mumps",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Serology (serum); viral detection is a swab.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mumps"
     }
@@ -4056,9 +4063,10 @@ const TESTS = [
   },
   {
     "name": "Mycobacterium tuberculosis IGRA",
-    "tube": "confirm",
+    "tube": "green",
     "aliases": [],
     "offsite": "maybe",
+    "note": "IGRA (e.g. QuantiFERON-TB): use the dedicated IGRA collection tubes per local protocol.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Mycobacterium-tuberculosis-IGRA"
     }
@@ -4185,9 +4193,10 @@ const TESTS = [
   },
   {
     "name": "Neutrophil function studies",
-    "tube": "confirm",
+    "tube": "green",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Viable neutrophils, lithium heparin; deliver fresh.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Neutrophil-function-studies"
     }
@@ -4457,9 +4466,10 @@ const TESTS = [
   },
   {
     "name": "Parvovirus B19",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "Serology (serum).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Parvovirus-B19"
     }
@@ -4555,9 +4565,10 @@ const TESTS = [
   },
   {
     "name": "Plasma Free Metanephrines",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "note": "EDTA, chilled; patient supine and rested before collection.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Plasma-Free-Metanephrines"
     }
@@ -4723,9 +4734,10 @@ const TESTS = [
   },
   {
     "name": "Precipitins (Includes Aspergillus, Avian, Fungal",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Precipitating antibodies (serum).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Precipitins-(Includes-Aspergillus,-Avian,-Fungal"
     }
@@ -4901,6 +4913,7 @@ const TESTS = [
     "tube": "confirm",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Discuss with the laboratory. Tourniquet use should be avoided.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Pyruvate"
     }
@@ -5129,9 +5142,10 @@ const TESTS = [
   },
   {
     "name": "Serotonin platelets",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Whole-blood EDTA (platelet serotonin).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Serotonin-platelets"
     }
@@ -5150,9 +5164,10 @@ const TESTS = [
   },
   {
     "name": "Short Synacthen test",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Dynamic: serum cortisol before and after Synacthen.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Short-Synacthen-test"
     }
@@ -5293,9 +5308,10 @@ const TESTS = [
   },
   {
     "name": "Steroids",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Serum; a urinary steroid profile is a separate urine test.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Steroids"
     }
@@ -5401,9 +5417,10 @@ const TESTS = [
   },
   {
     "name": "TCA screen",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Tricyclic antidepressants (serum).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/TCA-screen"
     }
@@ -5663,9 +5680,10 @@ const TESTS = [
   },
   {
     "name": "Tumour markers",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "Umbrella for serum tumour markers (e.g. CEA, CA-125); check the specific marker.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tumour-markers"
     }
@@ -5801,9 +5819,10 @@ const TESTS = [
   },
   {
     "name": "Varicella zoster",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Serology (serum); viral detection is a swab.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Varicella-zoster"
     }
@@ -5976,9 +5995,10 @@ const TESTS = [
   },
   {
     "name": "Warfarin",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Warfarin drug level (serum); routine monitoring is by INR (citrate).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/W/Warfarin"
     }

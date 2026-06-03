@@ -7,16 +7,26 @@ const cell=v=>{v=(v??'').toString();return /[",\n]/.test(v)?'"'+v.replace(/"/g,'
 
 // name -> { tube, note }
 const BATCH = {
-  'Cytokine receptors': { tube:'gold', note:'Soluble cytokine receptors, serum.' },
-  'Dexamethasone suppression test overnight': { tube:'gold', note:'Dynamic test: serum cortisol at set times (see RCPA for the protocol).' },
-  'Down syndrome prenatal risk test': { tube:'gold', note:'Maternal serum screen.' },
-  'Drug assays therapeutic drug monitoring': { tube:'gold', note:'Umbrella for therapeutic drug levels: serum for most, but some need EDTA (e.g. tacrolimus). Check the specific drug.' },
-  'Glucagon': { tube:'purple', note:'EDTA with aprotinin, collect on ice and send frozen.' },
-  'Heparin induced thrombocytopenia screen': { tube:'gold', note:'PF4 / heparin antibody, serum.' },
-  'HTLV detection': { tube:'gold', note:'HTLV I/II serology, serum.' },
-  'Isohaemagglutinin titre': { tube:'gold', note:'Anti-A and anti-B titres, serum.' },
-  'Lactose tolerance test': { tube:'grey', note:'Timed blood glucose after a lactose load (fluoride tube).' },
-  'Lymphocyte function test': { tube:'green', note:'Viable lymphocytes, lithium heparin; deliver promptly and check local handling.' },
+  'FIB 4': { tube:'gold', note:'Calculated from AST, ALT, platelets and age; no separate sample (reported from routine bloods).' },
+  'GFR estimated': { tube:'gold', note:'Calculated from serum creatinine; reported with the creatinine result.' },
+  'Glomerular filtration rate': { tube:'gold', note:'Calculated from serum creatinine.' },
+  'Hepatitis C': { tube:'gold', note:'HCV antibody serology (serum); HCV RNA viral load uses EDTA.' },
+  'Lymphocyte proliferative response': { tube:'green', note:'Viable lymphocytes, lithium heparin; deliver fresh.' },
+  'Measles virus': { tube:'gold', note:'Serology (serum); viral detection is a swab.' },
+  'Mumps': { tube:'gold', note:'Serology (serum); viral detection is a swab.' },
+  'Mycobacterium tuberculosis IGRA': { tube:'green', note:'IGRA (e.g. QuantiFERON-TB): use the dedicated IGRA collection tubes per local protocol.' },
+  'Neutrophil function studies': { tube:'green', note:'Viable neutrophils, lithium heparin; deliver fresh.' },
+  'Parvovirus B19': { tube:'gold', note:'Serology (serum).' },
+  'Plasma Free Metanephrines': { tube:'purple', note:'EDTA, chilled; patient supine and rested before collection.' },
+  'Precipitins (Includes Aspergillus, Avian, Fungal': { tube:'gold', note:'Precipitating antibodies (serum).' },
+  'Pyruvate': { tube:'confirm', note:'Discuss with the laboratory. Tourniquet use should be avoided.' },
+  'Serotonin platelets': { tube:'purple', note:'Whole-blood EDTA (platelet serotonin).' },
+  'Short Synacthen test': { tube:'gold', note:'Dynamic: serum cortisol before and after Synacthen.' },
+  'Steroids': { tube:'gold', note:'Serum; a urinary steroid profile is a separate urine test.' },
+  'TCA screen': { tube:'gold', note:'Tricyclic antidepressants (serum).' },
+  'Tumour markers': { tube:'gold', note:'Umbrella for serum tumour markers (e.g. CEA, CA-125); check the specific marker.' },
+  'Varicella zoster': { tube:'gold', note:'Serology (serum); viral detection is a swab.' },
+  'Warfarin': { tube:'gold', note:'Warfarin drug level (serum); routine monitoring is by INR (citrate).' },
 };
 
 const raw=parseCsv(readFileSync('data/tests.csv','utf8')).filter(r=>r.some(c=>c.trim()!==''));
