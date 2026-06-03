@@ -5995,10 +5995,10 @@ const TESTS = [
   },
   {
     "name": "Warfarin",
-    "tube": "gold",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
-    "note": "Warfarin drug level (serum); routine monitoring is by INR (citrate).",
+    "note": "5 mL blood in EDTA (lithium heparin tube also acceptable). Routine warfarin monitoring is by INR (citrate).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/W/Warfarin"
     }
