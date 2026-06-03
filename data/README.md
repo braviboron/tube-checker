@@ -24,8 +24,21 @@ back to a catalogue search link; `rcpa` holds a verified RCPA deep link where kn
 - `short` is a compact DISPLAY label (e.g. `ESR` for `Erythrocyte sedimentation rate`). It is
   shown in chips, tube cards, the summary and references; the canonical `name` is unchanged
   and is still what links/data use. This is distinct from `aliases` (search only).
-- `verified` is provenance: `estimate` (clinical best-effort, the default) up to `official`
-  once confirmed against an authoritative extract. Lets a repass target unverified rows.
+- `verified` is provenance: `rcpa-index` (name + RCPA link authoritative, but the TUBE is a
+  heuristic guess from `tools/rebuild-from-rcpa.mjs`), `estimate` (clinical best-effort), up
+  to `official` once confirmed against an authoritative extract. Lets a repass target the
+  least-verified rows first.
+- `tube` may list MORE than one tube, pipe-separated (e.g. `bc_aerobic|bc_anaerobic` for a
+  blood culture set). Two special keys exist for the RCPA import: `confirm` (no verified tube
+  yet) and `nonblood` (collected as a non-blood specimen) - both render as advisory cards
+  after the blood tubes and do not count toward the tube total.
+
+## Rebuilding from the RCPA index
+`node tools/rebuild-from-rcpa.mjs` regenerates `tests.csv` using the RCPA Manual index (in
+`docs/rcpa-coverage.md`) as the spine: it keeps every existing curated row (correct tubes,
+aliases, short labels), refreshes their RCPA links, and adds any RCPA test we do not yet have
+with a best-guess `tube` (or `confirm` / `nonblood`). It dedupes by normalised name / short /
+alias, so re-running is safe. Then `node tools/build-data.mjs` and the test suite.
 
 **Invariant:** every `name` must map through the app's `RULES` to its `tube` (a test asserts
 this). Renaming a test therefore usually needs a matching `RULES` term added in index.html.

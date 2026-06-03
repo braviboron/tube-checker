@@ -8,3 +8,5 @@ purple,Purple / Lavender (EDTA),#a78bfa,6,4,12,"EDTA anticoagulant, whole blood"
 pink,"Pink (EDTA, Blood Bank)",#f472b6,7,6,,"EDTA, group & hold / crossmatch",Strict patient-ID and labelling rules apply for transfusion samples.
 grey,Grey (Fluoride Oxalate),#9ca3af,8,2,8,"Sodium fluoride / potassium oxalate, glycolysis inhibitor",
 royalblue,Royal Blue (Trace Elements),#1d4ed8,9,6,6,Trace-element-free tube,"Draw-order position for trace-element tubes varies, check local policy."
+confirm,Confirm collection type,#8e8e93,90,0,,Specimen and tube not yet confirmed,"Tube Checker does not yet have a verified tube for this test. Open the RCPA entry to confirm the correct specimen and tube."
+nonblood,Non-blood specimen,#6b7280,95,0,,Not a blood tube,"Collected as a non-blood specimen (e.g. urine, swab, fluid, tissue). Open the RCPA entry to confirm requirements."

@@ -1,11 +1,6 @@
 {
   "version": "0.0.1",
   "configurations": [
-    {
-      "name": "tube-checker",
-      "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765"],
-      "port": 8765
-    }
+    { "name": "tubes", "runtimeExecutable": "python", "runtimeArgs": ["-m", "http.server", "8753"], "port": 8753 }
   ]
 }

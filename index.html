@@ -110,7 +110,7 @@
   .chip-x svg { display: block; }
   .chip.unmatched { background: var(--note-bg); color: var(--note); border-color: #e7d8a4; }
   .chip.unmatched .chip-x { background: rgba(168,83,11,0.14); color: var(--note); }
-  .chip-add { border: 1px dashed var(--tertiary); background: none; color: var(--blue); min-width: 30px; height: 27px; border-radius: 999px; font-size: 18px; line-height: 1; cursor: pointer; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
+  .chip-add { border: 1px dashed var(--tertiary); background: none; color: var(--blue); min-width: 30px; height: 27px; border-radius: 999px; cursor: pointer; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; }
   .chip-tag, .chip-hint { border: none; font-family: var(--font); cursor: pointer; }
   .chip-tag:active, .chip-hint:active { opacity: 0.6; }
   .chip-tag { font-size: 10px; font-weight: 600; letter-spacing: 0.03em; text-transform: uppercase; color: #6b4d00; background: #ffe9a8; border-radius: 4px; padding: 2px 6px; }
@@ -164,6 +164,10 @@
   .tube-row { display: flex; align-items: flex-start; gap: 13px; padding: 13px 16px; background: var(--card); position: relative; }
   .tube-row + .tube-row::before { content: ''; position: absolute; top: 0; left: 60px; right: 0; height: 1px; background: var(--sep); }
   .tube-ord { width: 19px; flex: none; font-size: 13px; color: var(--secondary); font-weight: 600; text-align: center; margin-top: 9px; }
+  .tube-special { opacity: 0.92; }
+  .tube-ord-q { color: var(--blue); }
+  .tube-special .tube-tests a { color: var(--blue); text-decoration: none; }
+  .tube-special .tube-tests a:hover { text-decoration: underline; }
   .tube-tile { width: 34px; height: 34px; border-radius: 8px; flex: none; margin-top: 2px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
   .tube-main { flex: 1; min-width: 0; }
   .tube-name-row { display: flex; align-items: baseline; gap: 8px; }
@@ -421,6 +425,18 @@ function matchTests(text) {
     if (!tubeMap[key]) tubeMap[key] = new Set();
     tubeMap[key].add(label);
   };
+
+  // Catalogue-first: if the WHOLE input is a known test (by canonical name, short label,
+  // or alias), use its declared tube straight from the catalogue. This lets the full
+  // catalogue (hundreds of tests, most without a bespoke regex) map correctly. RULES
+  // below remain the fallback for free-text / multi-test / OCR input (where the input is
+  // a sentence or a list, not a single catalogue name).
+  const direct = (typeof findTest === 'function') ? findTest(text) : null;
+  if (direct && direct.tube) {
+    const label = String(text).trim().toUpperCase().replace(/\s+/g, ' ');
+    for (const k of String(direct.tube).split('|')) add(k, label);   // a test may need >1 tube
+    return { tubeMap, unmatched: [] };
+  }
 
   for (const rule of RULES) {
     const re = new RegExp(rule.re.source, 'gi');
@@ -788,6 +804,18 @@ function sourceLinks(name, siteId) {
     });
 }
 
+// The RCPA Manual link for a test: its own verified deep link if known, else the
+// national RCPA search template from RESOURCES. Used by the 'confirm collection type'
+// and 'non-blood' cards so the user can jump straight to the authoritative entry.
+function rcpaLinkFor(name) {
+  const t = (typeof findTest === 'function') ? findTest(name) : null;
+  if (t && t.sources && t.sources.rcpa) return t.sources.rcpa;
+  const r = (typeof RESOURCES !== 'undefined' ? RESOURCES : []).find(x => x.key === 'rcpa');
+  const enc = encodeURIComponent(t ? t.name : name);
+  return r ? r.url.replace(/\{q\}/g, enc).replace(/\{name\}/g, t ? t.name : name)
+           : 'https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests';
+}
+
 // List each requested test with its resolved reference links.
 function renderSources() {
   const el = document.getElementById('sources-wrap');
@@ -808,18 +836,26 @@ function renderSources() {
 function buildSummary() {
   const { groups } = tubeGroupsFor(selectedTests, referral);
   const lines = ['Tube Checker collection summary', ''];
-  if (!groups.length) { lines.push('No tubes.'); }
+  const blood = groups.filter(g => g.key !== 'confirm' && g.key !== 'nonblood');
+  const special = groups.filter(g => g.key === 'confirm' || g.key === 'nonblood');
+  if (!blood.length && !special.length) { lines.push('No tubes.'); }
   else {
-    let total = 0;
-    const body = groups.map((g, i) => {
-      total += g.qty;
-      const q = g.qty > 1 ? ` (x${g.qty})` : '';
-      const ref = g.referral ? ' [send-away]' : '';
-      return `${i + 1}. ${TUBES[g.key].name}${ref}${q}: ${g.tests.map(displayName).join(', ')}`;
-    });
-    lines.push(`${total} tube${total === 1 ? '' : 's'}, in order of draw:`, '', ...body);
-    const ml = tubesMl(groups);
-    if (ml > 0) lines.push('', `Total approx ${Math.ceil(ml)} mL if drawing with a syringe.`);
+    if (blood.length) {
+      let total = 0;
+      const body = blood.map((g, i) => {
+        total += g.qty;
+        const q = g.qty > 1 ? ` (x${g.qty})` : '';
+        const ref = g.referral ? ' [send-away]' : '';
+        return `${i + 1}. ${TUBES[g.key].name}${ref}${q}: ${g.tests.map(displayName).join(', ')}`;
+      });
+      lines.push(`${total} tube${total === 1 ? '' : 's'}, in order of draw:`, '', ...body);
+      const ml = tubesMl(blood);
+      if (ml > 0) lines.push('', `Total approx ${Math.ceil(ml)} mL if drawing with a syringe.`);
+    }
+    for (const g of special) {
+      const head = g.key === 'nonblood' ? 'Non-blood specimen (confirm collection type)' : 'Confirm collection type (no verified tube yet)';
+      lines.push('', `${head}: ${g.tests.map(displayName).join(', ')}`);
+    }
   }
   lines.push('', 'Verify against your local pathology service before collection.');
   return lines.join('\n');
@@ -854,7 +890,7 @@ function renderChips(unmatched) {
   wrap.innerHTML = `
     <div class="recognised">
       <div class="recognised-head">${selectedTests.length} detected test${selectedTests.length === 1 ? '' : 's'} · tap to edit, × to remove</div>
-      <div class="chips">${chipsHtml}<button class="chip-add" id="chip-add" aria-label="Add a test">+</button></div>
+      <div class="chips">${chipsHtml}<button class="chip-add" id="chip-add" aria-label="Add a test"><svg viewBox="0 0 12 12" width="11" height="11" aria-hidden="true"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
       ${rawHtml}
     </div>`;
   wrap.querySelectorAll('.chip-x').forEach(b =>
@@ -882,20 +918,42 @@ function renderTubes(groups) {
     tubesEl.innerHTML = `<div class="empty">No tubes yet. Type or scan tests, or tap + to add one.</div>`;
     return;
   }
-  let total = 0;
-  groups.forEach((g, i) => {
+  // 'confirm' (tube not yet known) and 'nonblood' are not real draw-order tubes: render
+  // them as advisory cards AFTER the blood tubes, each test linking to its RCPA entry,
+  // and do not count them in the blood-tube total or the draw numbering.
+  let total = 0, ord = 0;
+  groups.forEach((g) => {
     const tube = TUBES[g.key];
-    total += g.qty;
+    const special = g.key === 'confirm' || g.key === 'nonblood';
     const notes = [];
     if (g.refTests.length) notes.push(`Includes a send-away tube for: ${g.refTests.map(t => escapeHtml(displayName(t))).join(', ')}.`);
     if (g.localQty > 1) notes.push(`Large local panel: about ${g.localQty} tubes estimated for volume; confirm with your lab.`);
     if (tube.note) notes.push(tube.note);
     const noteHtml = notes.length ? `<div class="tube-note">${notes.join(' ')}</div>` : '';
-    const qtyHtml = `<span class="tube-qty${g.qty > 1 ? ' multi' : ''}">&times;${g.qty}</span>`;
+    const testsHtml = special
+      ? g.tests.map(t => `<a href="${escapeHtml(rcpaLinkFor(t))}" target="_blank" rel="noopener noreferrer">${escapeHtml(displayName(t))}</a>`).join(', ')
+      : g.tests.map(t => escapeHtml(displayName(t))).join(', ');
     const row = document.createElement('div');
+    if (special) {
+      row.className = 'tube-row tube-special';
+      row.innerHTML = `
+        <div class="tube-ord tube-ord-q">?</div>
+        <div class="tube-tile" style="background:${tube.color}"></div>
+        <div class="tube-main">
+          <div class="tube-name-row"><span class="tube-name">${tube.name}</span></div>
+          <div class="tube-sub">${tube.additive}</div>
+          <div class="tube-tests"><span>${g.key === 'nonblood' ? 'Tests' : 'Confirm'}:</span> ${testsHtml}</div>
+          ${noteHtml}
+        </div>`;
+      tubesEl.appendChild(row);
+      return;
+    }
+    total += g.qty;
+    ord += 1;
+    const qtyHtml = `<span class="tube-qty${g.qty > 1 ? ' multi' : ''}">&times;${g.qty}</span>`;
     row.className = 'tube-row';
     row.innerHTML = `
-      <div class="tube-ord">${i + 1}</div>
+      <div class="tube-ord">${ord}</div>
       <div class="tube-tile" style="background:${tube.color}"></div>
       <div class="tube-main">
         <div class="tube-name-row">
@@ -903,12 +961,14 @@ function renderTubes(groups) {
           ${qtyHtml}
         </div>
         <div class="tube-sub">${tube.additive}</div>
-        <div class="tube-tests"><span>Tests:</span> ${g.tests.map(t => escapeHtml(displayName(t))).join(', ')}</div>
+        <div class="tube-tests"><span>Tests:</span> ${testsHtml}</div>
         ${noteHtml}
       </div>`;
     tubesEl.appendChild(row);
   });
-  summaryEl.textContent = total === 1 ? '1 tube.' : `${total} tubes · collect in the order shown.`;
+  summaryEl.textContent = total === 0
+    ? 'No blood tubes. Confirm the collection type for the tests below.'
+    : (total === 1 ? '1 tube.' : `${total} tubes · collect in the order shown.`);
   const mlEl = document.getElementById('syringe-total');
   if (mlEl) {
     const ml = tubesMl(groups);
@@ -927,7 +987,7 @@ function renderReferAdvisory() {
   selectedTests.forEach(t => {
     if (referral.has(t.toLowerCase()) || !isNicheTest(t)) return;
     const keys = Object.keys(matchTests(t).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
-    if (!keys.length) return;
+    if (!keys.length || keys[0] === 'confirm' || keys[0] === 'nonblood') return;
     items.push(`<li>${escapeHtml(t)} may need referral off-site at some centres; consider a separate ${escapeHtml(TUBES[keys[0]].name)} tube.</li>`);
   });
   el.innerHTML = items.length
@@ -975,12 +1035,20 @@ function positionPicker() {
   if (!sheet) return;
   if (window.innerWidth >= 720 && anchor) {
     const r = anchor.getBoundingClientRect();
+    const margin = 8;
     sheet.style.position = 'fixed';
-    sheet.style.top = (r.bottom + 6) + 'px';
-    sheet.style.left = r.left + 'px';
+    sheet.style.left = Math.max(margin, r.left) + 'px';
     sheet.style.width = r.width + 'px';
     sheet.style.maxWidth = 'none';
     sheet.style.margin = '0';
+    sheet.style.top = (r.bottom + 6) + 'px';
+    // Clamp into the viewport: if the page is scrolled down (editing a chip far below),
+    // the anchor may be near/above the top, so keep the whole panel on screen.
+    const h = sheet.getBoundingClientRect().height;
+    let top = r.bottom + 6;
+    if (top + h > window.innerHeight - margin) top = window.innerHeight - h - margin;
+    if (top < margin) top = margin;
+    sheet.style.top = top + 'px';
   } else {
     for (const p of ['position', 'top', 'left', 'width', 'maxWidth', 'margin']) sheet.style[p] = '';
   }
@@ -1014,12 +1082,12 @@ function isSelectedTest(name) {
 
 function tubeKeyFor(name) {
   const c = TESTS.find(x => x.name.toLowerCase() === name.toLowerCase());
-  if (c) return c.tube;
+  if (c) return String(c.tube).split('|')[0];
   return Object.keys(matchTests(name).tubeMap)[0] || null;
 }
 
 function pickerRow(name, selected, index, tubeKey, isFree) {
-  const key = tubeKey || tubeKeyFor(name);
+  const key = String(tubeKey || tubeKeyFor(name) || '').split('|')[0];
   const tube = key ? TUBES[key] : null;
   const color = tube ? tube.color : 'var(--tertiary)';
   const sub = tube ? tube.name : (isFree ? 'add as typed' : 'unrecognised');

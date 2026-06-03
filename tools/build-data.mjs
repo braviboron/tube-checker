@@ -64,7 +64,7 @@ const labIds = new Set(LABS.map(l => l.id));
 const stateIds = new Set(STATES.map(s => s.id));
 const testNames = new Set(TESTS.map(t => t.name));
 for (const t of TESTS) {
-  if (!tubeKeys.has(t.tube)) errs.push(`test "${t.name}" -> unknown tube "${t.tube}"`);
+  for (const k of String(t.tube).split('|')) if (!tubeKeys.has(k)) errs.push(`test "${t.name}" -> unknown tube "${k}"`);
   if (t.defaultLab && !labIds.has(t.defaultLab)) errs.push(`test "${t.name}" -> unknown lab "${t.defaultLab}"`);
   if (!['none', 'maybe', 'usually'].includes(t.offsite)) errs.push(`test "${t.name}" -> bad offsite "${t.offsite}"`);
 }

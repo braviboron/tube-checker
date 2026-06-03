@@ -130,7 +130,8 @@ expectTubes('hello world banana', [], 'non-test text → no tubes');
 //   its declared tube. Keeps the picker list and the matcher in sync. —
 for (const t of TESTS) {
   const keys = tubesFor(t.name);
-  if (keys.includes(t.tube)) pass++;
+  const want = String(t.tube).split('|');   // a test may declare more than one tube (e.g. blood culture)
+  if (want.every(k => keys.includes(k))) pass++;
   else { fail++; fails.push(`✗ canonical "${t.name}" should map to ${t.tube}\n    got: [${keys}]`); }
 }
 
