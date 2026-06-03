@@ -5,16 +5,25 @@ Keep the clinical catalogue **editable in spreadsheets**, support **per-state an
 per-hospital differences** without forking the data, and support **multiple
 reference labs** for send-away tests — while the app stays a fully offline PWA.
 
-## The layered model (resolve in order: Base -> State -> Site)
+## The layered model (resolve in order: Base -> Groups -> State -> Site)
 | Layer | Owns | Example |
 |-------|------|---------|
-| **Base** (national, RCPA/CLSI) | tubes, test->tube, aliases, order of draw, `offsite` flag, source links | Group & Hold -> pink, x1 |
-| **State** (NSW, VIC, ...) | the state pathology catalogue + source links, its reference labs, state-wide deviations | NSW catalogue authority |
-| **Site** (a hospital) | thin overrides only | Nepean: Group & Hold x2; ANA -> Lab 2 |
+| **Base / RCPA** (national) | the canonical atomic test list: ONE row per RCPA Manual test, with its deep link, default tube, aliases, `offsite` flag. `source=rcpa`. | Creatinine -> gold; Crossmatch -> pink |
+| **Groups** (panels) | named bundles of RCPA tests in `groups.csv`; expand into their members on add; optional panel `source` (e.g. NSW Health) | EUC -> Na/K/Cl/HCO3/Urea/Creatinine |
+| **State** (NSW, VIC, ...) | the state pathology catalogue: orderable panels, reference labs, per-site availability, state-wide deviations, source links | NSW lists EUC as one orderable item |
+| **Site** (a hospital) | thin overrides only (quantity/tube/lab/availability), each with a `note` warning | a site collecting a 2nd crossmatch tube |
 
 The user picks a **Site** (which knows its **State**); the engine composes
-Base -> State -> Site into the effective ruleset. New hospital = a few override
-rows. New state = a new state profile, base untouched.
+Base -> Groups -> State -> Site into the effective ruleset. New hospital = a few
+override rows. New state = a new state profile, base untouched.
+
+**Catalogue status (current):** `tests.csv` is one-to-one with the RCPA Manual index
+(~582 `source=rcpa` rows, every one carrying its RCPA deep link) plus a handful of
+`source=local` rows (real tests RCPA does not list discretely, e.g. eGFR, CK-MB, JAK2).
+Panels live separately in `groups.csv` (EUC, CMP, LFT, Coeliac/Hepatitis serology, Trace
+elements, Thyroid function/antibodies). `matchTests()` is **catalogue-first**: a known
+test maps by its declared tube straight from the catalogue; the regex `RULES` remain only
+as the free-text / OCR fallback.
 
 ## Source of truth: CSVs in /data  ->  generated catalogue.js
 You edit CSVs in Excel/Sheets, then run the build; the app ships the generated
@@ -22,14 +31,15 @@ file. Fully offline (a `<script src>`, no fetch).
 
 ```
 /data/
-  tubes.csv      key,name,color,draw,ml,maxTests,note
-  tests.csv      name,tube,aliases,offsite,defaultLab,rcpa,nsw
+  tubes.csv      key,name,color,draw,ml,maxTests,additive,note
+  tests.csv      name,tube,aliases,offsite,defaultLab,rcpa,nsw,verified,short,source
+  groups.csv     name,members,aliases,short,note,source   (panels: bundles of RCPA tests)
   labs.csv       id,name,state
   states.csv     id,name,catalogueHome,catalogueSearch
   regions.csv    id,name,state            (a region within a state, e.g. an LHD)
   sites.csv      id,name,state,lab,region (lab = the site's own performing lab)
   availability.csv  test,lab              (which labs perform each test; many-to-many)
-  overrides.csv  scope,scopeId,test,field,value      (scope = site|state)
+  overrides.csv  scope,scopeId,test,field,value,note  (scope = site|state)
   resources.csv  level,scope,key,label,url (reference links: national|state|regional)
 /tools/
   build-data.mjs        CSV  ->  catalogue.js   (run after editing)
@@ -53,6 +63,32 @@ index.html       loads catalogue.js; keeps the regex matching layer (RULES) in c
 2. `node tools/build-data.mjs`  (regenerates `catalogue.js`).
 3. `node tests/match.test.mjs`  (must stay green).
 4. Bump `CACHE` in `sw.js`, commit, push.
+
+## Combining RCPA + NSW Health (the two-catalogue model)
+The two authoritative sources live at **different levels**, so they layer rather than
+compete:
+- **RCPA = the canonical definition layer (the spine).** What a test is, its proper name,
+  default tube/specimen/handling. National + stable, so it is the safe offline default.
+  `tests.csv` stays one-to-one with it.
+- **NSW Health = the operational layer.** What is *orderable* (panels like EUC), *where*
+  it is performed, what is sent away, local tube/turnaround. Maps onto our existing tables:
+  orderable panels -> `groups.csv` (members = RCPA tests, panel `source` = NSW page);
+  per-site availability -> `availability.csv` + `sites.csv`/`labs.csv`; local tube/qty
+  deltas -> `overrides.csv`; reference links -> `RESOURCES`.
+
+**The crosswalk is the glue:** every NSW item links to its RCPA test(s) by name; for a
+panel that mapping *is* the group's `members` (EUC -> the 6 atomic RCPA tests).
+
+**Precedence (safety-critical):**
+- Naming / definition -> **RCPA wins** (canonical).
+- Availability / routing / turnaround -> **NSW wins** (RCPA has none).
+- Tube / specimen -> the user's selected **site (NSW local)** if chosen, else RCPA default;
+  if they *conflict*, **show both and flag 'confirm locally'** — never silently override a
+  tube. The `source` / `verified` columns track provenance for this audit.
+
+**Ingestion is a repass:** a build step (with permission) ingests an NSW export and updates
+`availability`, group sources, per-site overrides and a NSW link per test, matched to the
+RCPA spine. The CSV + build-validation model already supports this without touching the app.
 
 ## Phases
 - **Phase 1 (done): editable catalogue.** CSV -> catalogue.js, `offsite` flag + source

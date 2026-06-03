@@ -64,7 +64,7 @@ Beta hydroxybutyrate,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual
 Beta Trace Protein Fluid,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-Trace-Protein-Fluid,,rcpa-index,,rcpa
 Beta-2 Glycoprotein Antibodies,gold,beta-2 glycoprotein|b2gpi|beta 2 glycoprotein 1,usually,,,,estimate,,local
 Beta-2 Microglobulin,gold,b2m|beta 2 microglobulin,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-2-Microglobulin,,estimate,B2M,rcpa
-Bicarbonate,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bicarbonate,,rcpa-index,,rcpa
+Bicarbonate,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bicarbonate,,rcpa-index,,rcpa
 Bile Acids,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bile-Acids,,rcpa-index,,rcpa
 Bilirubin,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bilirubin,,rcpa-index,,rcpa
 Bilirubin amniotic fluid,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bilirubin-amniotic-fluid,,rcpa-index,,rcpa
@@ -118,7 +118,7 @@ Charcot Marie Tooth disease testing,confirm,,maybe,,https://www.rcpa.edu.au/Manu
 Chikungunya detection,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chikungunya-detection,,rcpa-index,,rcpa
 Chlamydia trachomatis nucleic acid,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chlamydia-trachomatis-nucleic-acid,,rcpa-index,,rcpa
 Chlamydophila pneumoniae and psittacosis detection,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chlamydophila-pneumoniae-and-psittacosis-detection,,rcpa-index,,rcpa
-Chloride,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chloride,,rcpa-index,,rcpa
+Chloride,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chloride,,rcpa-index,,rcpa
 Chloride sweat,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chloride-sweat,,rcpa-index,,rcpa
 Chloride urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chloride-urine,,rcpa-index,,rcpa
 Cholinesterase,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cholinesterase,,rcpa-index,,rcpa
@@ -229,13 +229,13 @@ Follicle stimulating hormone,gold,FSH,none,,https://www.rcpa.edu.au/Manuals/RCPA
 Fragile X syndrome test,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Fragile-X-syndrome-test,,rcpa-index,,rcpa
 Free Androgen Index,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-Androgen-Index,,rcpa-index,,rcpa
 Free light chains,gold,Serum Free Light Chains|flc|sflc|kappa lambda ratio,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-light-chains,,estimate,FLC,rcpa
-Free T3,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T3,,rcpa-index,,rcpa
-Free T4,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T4,,rcpa-index,,rcpa
+Free T3,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T3,,rcpa-index,,rcpa
+Free T4,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T4,,rcpa-index,,rcpa
 Frozen section,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Frozen-section,,rcpa-index,,rcpa
 Fructosamine,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Fructosamine,,rcpa-index,,rcpa
 Full Blood Count,purple,FBC|FBE|CBC|full blood exam|complete blood count|blood count,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Full-Blood-Count,,estimate,FBC,rcpa
 Fungal detection,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Fungal-detection,,rcpa-index,,rcpa
-Gamma glutamyltransferase,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gamma-glutamyltransferase,,rcpa-index,,rcpa
+Gamma glutamyltransferase,confirm,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gamma-glutamyltransferase,,rcpa-index,,rcpa
 Gastric biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gastric-biopsy,,rcpa-index,,rcpa
 Gastric cytology,confirm,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gastric-cytology,,rcpa-index,,rcpa
 Gastrin,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gastrin,,rcpa-index,,rcpa
@@ -454,7 +454,7 @@ Porphobilinogen,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Path
 Porphyrin faeces,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphyrin-faeces,,rcpa-index,,rcpa
 Porphyrin red cell,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphyrin-red-cell,,rcpa-index,,rcpa
 Porphyrin urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphyrin-urine,,rcpa-index,,rcpa
-Potassium,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium,,rcpa-index,,rcpa
+Potassium,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium,,rcpa-index,,rcpa
 Potassium faeces,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium-faeces,,rcpa-index,,rcpa
 Potassium urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium-urine,,rcpa-index,,rcpa
 "Precipitins (Includes Aspergillus, Avian, Fungal",confirm,,maybe,,"https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Precipitins-(Includes-Aspergillus,-Avian,-Fungal",,rcpa-index,,rcpa
@@ -506,7 +506,7 @@ Skin prick allergen,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/
 Skin tests,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Skin-tests,,rcpa-index,,rcpa
 Small bowel biopsy,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Small-bowel-biopsy,,rcpa-index,,rcpa
 Smooth muscle Ab,gold,Smooth muscle antibody,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Smooth-muscle-Ab,,rcpa-index,,rcpa
-Sodium,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sodium,,rcpa-index,,rcpa
+Sodium,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sodium,,rcpa-index,,rcpa
 Sodium faeces,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sodium-faeces,,rcpa-index,,rcpa
 Sodium urine,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sodium-urine,,rcpa-index,,rcpa
 Soluble transferrin receptor,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Soluble-transferrin-receptor,,rcpa-index,,rcpa

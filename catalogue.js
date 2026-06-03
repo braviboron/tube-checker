@@ -755,7 +755,7 @@ const TESTS = [
     "name": "Bicarbonate",
     "tube": "gold",
     "aliases": [],
-    "offsite": "maybe",
+    "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bicarbonate"
     }
@@ -1304,7 +1304,7 @@ const TESTS = [
     "name": "Chloride",
     "tube": "gold",
     "aliases": [],
-    "offsite": "maybe",
+    "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chloride"
     }
@@ -2435,7 +2435,7 @@ const TESTS = [
     "name": "Free T3",
     "tube": "gold",
     "aliases": [],
-    "offsite": "maybe",
+    "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T3"
     }
@@ -2444,7 +2444,7 @@ const TESTS = [
     "name": "Free T4",
     "tube": "gold",
     "aliases": [],
-    "offsite": "maybe",
+    "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T4"
     }
@@ -2497,7 +2497,7 @@ const TESTS = [
     "name": "Gamma glutamyltransferase",
     "tube": "confirm",
     "aliases": [],
-    "offsite": "maybe",
+    "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gamma-glutamyltransferase"
     }
@@ -4670,7 +4670,7 @@ const TESTS = [
     "name": "Potassium",
     "tube": "gold",
     "aliases": [],
-    "offsite": "maybe",
+    "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium"
     }
@@ -5193,7 +5193,7 @@ const TESTS = [
     "name": "Sodium",
     "tube": "gold",
     "aliases": [],
-    "offsite": "maybe",
+    "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sodium"
     }

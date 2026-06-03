@@ -35,6 +35,30 @@
           gets its own tube of its colour, separate from local tests. `tubeGroupsFor()`
           splits local vs referral. Per-test (no site-specific list baked in).
 
+## Catalogue: RCPA one-to-one + groups
+- [x] **Rebuilt the catalogue one-to-one with the RCPA Manual index** (~582 `source=rcpa`
+      rows, every one carrying its RCPA deep link) + a few `source=local` singles RCPA does
+      not list discretely (eGFR, CK-MB, JAK2, Mercury, Beta-2 glycoprotein, ...).
+- [x] **`matchTests()` is catalogue-first** — a known test maps by its declared tube from
+      the catalogue; `RULES` are now only the free-text / OCR fallback. Multi-tube tests
+      supported (pipe-separated, e.g. blood culture = aerobic + anaerobic).
+- [x] **GROUPS / panels** in a separate `data/groups.csv` (kept out of the one-to-one test
+      list): a group is a named bundle of RCPA tests; search shows it badged ('Group of N',
+      dot coloured if all members share a tube); adding it EXPANDS into its member tests with
+      a make-up warning; optional panel `source` (NSW Health for EUC). Defined: EUC, CMP, LFT,
+      Coeliac/Hepatitis serology, Trace elements, Thyroid function/antibodies. `groupsForTest()`
+      gives the reverse member->group link so the relationship survives a revert.
+- [x] `source` provenance column; `confirm` / `nonblood` advisory tubes; verified the
+      unlinked/ambiguous rows against the RCPA source.
+- [ ] **`confirm`-tube sweep** — the conservative import left many common chemistry tests on
+      `confirm`; sweep them to the right tube (electrolytes + thyroid + LFT members done).
+- [ ] **NSW Health repass** — when an NSW catalogue export is available (with permission),
+      ingest it as the operational layer: orderable panels -> `groups.csv` (+ NSW `source`),
+      per-site availability -> `availability.csv`, local tube/qty deltas -> `overrides.csv`,
+      a NSW link per test. Precedence: RCPA owns naming/definition; NSW owns availability /
+      routing; on a tube conflict show both and flag 'confirm locally'. See PLAN.md.
+- [ ] Add a verified link for the 3 sourceless locals (JAK2, Mercury, Beta-2 glycoprotein).
+
 ## Parked for later (agreed with user)
 - [ ] **Clinical test-list sweep** — go through the tests actually ordered on the ward
       (paste a list / photograph a request form) and add every missing abbreviation,
