@@ -222,6 +222,11 @@
   #picker-input { flex: 1; background: var(--card); border: 1px solid var(--sep-strong); border-radius: 10px; padding: 11px 13px; font-size: 16px; font-family: var(--font); color: var(--label); outline: none; }
   #picker-input:focus { border-color: var(--blue); }
   .picker-done { background: none; border: none; color: var(--blue); font-size: 16px; font-weight: 600; font-family: var(--font); cursor: pointer; padding: 8px 2px; }
+  /* On a computer the picker behaves like a dropdown panel near the top, not a bottom sheet */
+  @media (min-width: 720px) {
+    .picker-modal { align-items: flex-start; background: rgba(0,0,0,0.10); }
+    .picker-sheet { margin-top: 60px; height: auto; max-height: 72vh; border-radius: 14px; box-shadow: 0 16px 48px rgba(0,0,0,0.22); }
+  }
   .picker-toggle { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 10px; padding: 10px 12px; background: var(--card); border-radius: 10px; font-size: 14px; color: var(--label); cursor: pointer; }
   .picker-toggle[hidden] { display: none; }
   .picker-toggle input { width: 20px; height: 20px; accent-color: var(--blue); flex: none; }
@@ -285,7 +290,7 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
 <main>
   <!-- Primary input: opens the multi-select picker (search / type / paste a list) -->
   <p class="group-header">Requested tests</p>
-  <button class="add-field" id="open-picker">Add or search tests, or paste a list</button>
+  <button class="add-field" id="open-picker">Start typing to search tests, or paste a list</button>
 
   <!-- Image input: camera or upload (built-in offline reader) -->
   <div class="group option">
@@ -330,7 +335,7 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
     <button class="btn-box" id="share-btn">Share summary</button>
   </div>
 
-  <button class="btn-box" id="clear-btn">Clear</button>
+  <button class="btn-box" id="clear-btn" hidden>Clear</button>
   <div id="sources-wrap"></div>
 
   <!-- Disclaimer, privacy and sources (consolidated fine print) -->
@@ -725,6 +730,8 @@ function mergeTests(tests) {
 function showResults() {
   const r = document.getElementById('results');
   r.style.display = 'block';
+  const cb = document.getElementById('clear-btn');
+  if (cb) cb.hidden = selectedTests.length === 0;   // Clear only shows when there's something
   // Don't yank the page while the picker is open (it sits over the results).
   if (!document.getElementById('picker-modal').classList.contains('active')) {
     r.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -741,6 +748,8 @@ function update() {
   renderChips(new Set(unmatched));
   renderTubes(groups);
   renderSources();
+  const cb = document.getElementById('clear-btn');
+  if (cb) cb.hidden = selectedTests.length === 0;
 }
 
 // Reference resources for a test, resolved from the NATIONAL -> STATE -> REGIONAL
@@ -1313,6 +1322,7 @@ document.getElementById('clear-btn').addEventListener('click', () => {
   lastRawText = '';
   rawShown = false;
   renderSources();   // sources-wrap is outside #results now, so clear it explicitly
+  document.getElementById('clear-btn').hidden = true;
   while (pages.length) removePage(0);
 });
 
@@ -1338,7 +1348,7 @@ document.getElementById('open-picker').addEventListener('click', () => openPicke
     if (e.key === 'Enter') {
       e.preventDefault();
       const v = input.value.trim();
-      if (!v) return;
+      if (!v) { pickerDone(); return; }   // empty + Enter = Done
       if (pickerEditIndex !== null) {
         const top = searchTests(v, 1)[0];
         chooseTest(top ? top.name : v);
