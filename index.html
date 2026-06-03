@@ -137,6 +137,7 @@
     transition: opacity 0.15s;
   }
   .btn-box:active { opacity: 0.6; }
+  .btn-box[hidden] { display: none; }   /* author display:block above beats the UA [hidden] rule */
   #share-btn { color: var(--blue); margin-top: 18px; }   /* space from the mL total above */
   #clear-btn { color: var(--secondary); }
 
@@ -233,6 +234,7 @@
   .picker-list { margin-top: 10px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
   .picker-item { display: flex; align-items: center; gap: 12px; padding: 12px 4px; cursor: pointer; border-bottom: 1px solid var(--sep); }
   .picker-item:active { background: var(--card); }
+  .picker-item.kbd-active { background: rgba(0,122,255,0.10); border-radius: 8px; }   /* keyboard highlight (computer) */
   .picker-dot { width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.14); }
   .picker-text { flex: 1; min-width: 0; }
   .picker-name { font-size: 15px; color: var(--label); }
@@ -681,6 +683,14 @@ function displayName(name) {
   const t = (typeof findTest === 'function') ? findTest(name) : null;
   return (t && t.short) ? t.short : name;
 }
+// Resolve any input (canonical name, short label, or alias) to the test's CANONICAL
+// name, so the same test added two ways (e.g. 'CRP' and 'C-Reactive Protein') is one
+// entry, not two.
+function canonicalName(name) {
+  const t = (name || '').trim();
+  const found = (typeof findTest === 'function') ? findTest(t) : null;
+  return found ? found.name : t;
+}
 
 // Detect tests in the ORDER they appear in the text (line by line, left to right),
 // including test-like lines that didn't match any rule.
@@ -715,9 +725,9 @@ function renderResults(text) {
 }
 
 function mergeTests(tests) {
-  const have = new Set(selectedTests.map(t => t.toLowerCase()));
+  const have = new Set(selectedTests.map(t => canonicalName(t).toLowerCase()));
   for (let t of tests) {
-    t = (t || '').trim();
+    t = canonicalName(t);
     if (!t) continue;
     const k = t.toLowerCase();
     if (have.has(k)) continue;
@@ -998,7 +1008,8 @@ function syncRefToggle() {
 }
 
 function isSelectedTest(name) {
-  return selectedTests.some(t => t.toLowerCase() === name.toLowerCase());
+  const c = canonicalName(name).toLowerCase();
+  return selectedTests.some(t => canonicalName(t).toLowerCase() === c);
 }
 
 function tubeKeyFor(name) {
@@ -1058,13 +1069,14 @@ function renderPickerList() {
 }
 
 function removeSelectedByName(name) {
-  const i = selectedTests.findIndex(x => x.toLowerCase() === name.toLowerCase());
+  const c = canonicalName(name).toLowerCase();
+  const i = selectedTests.findIndex(x => canonicalName(x).toLowerCase() === c);
   if (i >= 0) { referral.delete(selectedTests[i].toLowerCase()); selectedTests.splice(i, 1); }
 }
 
 // Choose a result: replace if editing, else toggle in the multi-select.
 function chooseTest(name) {
-  const t = (name || '').trim();
+  const t = canonicalName(name);
   if (!t) return;
   if (pickerEditIndex !== null) {
     const dup = selectedTests.findIndex((x, j) => j !== pickerEditIndex && x.toLowerCase() === t.toLowerCase());
@@ -1367,11 +1379,37 @@ document.getElementById('open-picker').addEventListener('click', () => openPicke
   const modal = document.getElementById('picker-modal');
   const list = document.getElementById('picker-list');
 
-  input.addEventListener('input', () => renderPickerList());
+  // Keyboard highlight for the result rows (computer only).
+  let kbdIndex = -1;
+  const isDesktop = () => window.innerWidth >= 720;
+  const pickerRows = () => Array.from(list.querySelectorAll('.picker-item'));
+  function highlight(i) {
+    const rows = pickerRows();
+    kbdIndex = i;
+    rows.forEach((r, j) => r.classList.toggle('kbd-active', j === kbdIndex));
+    if (rows[kbdIndex]) rows[kbdIndex].scrollIntoView({ block: 'nearest' });
+  }
+  input.addEventListener('input', () => { kbdIndex = -1; renderPickerList(); });
   input.addEventListener('keydown', e => {
+    // Up/Down move a highlight through the search results, on computer only.
+    if ((e.key === 'ArrowDown' || e.key === 'ArrowUp') && isDesktop() && input.value.trim()) {
+      const rows = pickerRows();
+      if (!rows.length) return;
+      e.preventDefault();
+      let i = (kbdIndex < 0 ? (e.key === 'ArrowDown' ? -1 : 0) : kbdIndex) + (e.key === 'ArrowDown' ? 1 : -1);
+      if (i < 0) i = rows.length - 1;
+      if (i >= rows.length) i = 0;
+      highlight(i);
+      return;
+    }
     if (e.key === 'Enter') {
       e.preventDefault();
       const v = input.value.trim();
+      // A highlighted row (computer) wins: pick it like a click.
+      if (isDesktop() && v && kbdIndex >= 0) {
+        const row = pickerRows()[kbdIndex];
+        if (row && row.dataset.name) { chooseTest(row.dataset.name); kbdIndex = -1; return; }
+      }
       if (!v) { pickerDone(); return; }   // empty + Enter = Done
       if (pickerEditIndex !== null) {
         const top = searchTests(v, 1)[0];
