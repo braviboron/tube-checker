@@ -1,2 +1,2 @@
-scope,scopeId,test,field,value
-site,nepean,Group & Hold,quantity,2
+scope,scopeId,test,field,value,note
+site,westmead,Crossmatch,quantity,2,Example only: some centres collect a second crossmatch sample - confirm with your transfusion laboratory.

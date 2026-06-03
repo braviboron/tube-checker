@@ -258,14 +258,18 @@ expectEq2(resolveLab('FK506', 'nepean').dest, 'ICPMR', 'alias FK506 resolves lik
   expectEq2(plan.labs.length, 2, 'Nepean plan: 2 send-away tubes (different labs)');
   expectEq2(plan.labs.map(g => g.dest).sort().join(','), 'ICPMR,RPA', 'send-aways go to ICPMR and RPA');
 }
-// Phase 3: a site quantity override (Nepean Group & Hold x2) is applied.
+// Phase 3: a site quantity override (example: Westmead Crossmatch x2) is applied, and
+// carries a human-readable warning/explanation through to the group.
 {
-  const plan = planTubes(['Group & Hold'], 'nepean');
+  const plan = planTubes(['Crossmatch'], 'westmead');
   const pink = plan.local.find(g => g.key === 'pink');
-  expectEq2(pink ? pink.qty : 0, 2, 'Phase 3 override: Group & Hold = 2 pink tubes at Nepean');
-  const planDefault = planTubes(['Group & Hold'], 'default');
-  const pinkD = planDefault.local.find(g => g.key === 'pink');
-  expectEq2(pinkD ? pinkD.qty : 0, 1, 'no override at the generic site: Group & Hold = 1 tube');
+  expectEq2(pink ? pink.qty : 0, 2, 'Phase 3 override: Crossmatch = 2 pink tubes at the example site');
+  expectEq2(pink && pink.warnings && pink.warnings.length === 1 && /confirm/i.test(pink.warnings[0].note), true,
+    'Phase 3 override carries a warning + explanation');
+  // The same order resolves via an alias (group & hold) to the canonical row.
+  const aliasPlan = planTubes(['group and hold'], 'default');
+  const pinkA = aliasPlan.local.find(g => g.key === 'pink');
+  expectEq2(pinkA ? pinkA.qty : 0, 1, 'no override at the generic site: 1 tube');
 }
 
 // ─── Report ─────────────────────────────────────────────────────────────────

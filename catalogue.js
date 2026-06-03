@@ -387,40 +387,24 @@ const TESTS = [
     }
   },
   {
-    "name": "Anti-Xa",
-    "tube": "blue",
-    "aliases": [
-      "anti-xa",
-      "antixa",
-      "heparin assay",
-      "heparin level"
-    ],
-    "offsite": "maybe"
-  },
-  {
-    "name": "Group & Hold",
-    "tube": "pink",
-    "aliases": [
-      "group and hold",
-      "G&H",
-      "group & hold",
-      "GH",
-      "group and save",
-      "group save"
-    ],
-    "offsite": "none",
-    "sources": {
-      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-and-antibody-screen"
-    }
-  },
-  {
-    "name": "Group & Screen",
+    "name": "Blood group and antibody screen",
     "tube": "pink",
     "aliases": [
       "group and screen",
       "group & screen",
       "type and screen",
-      "blood group and antibody screen"
+      "blood group and antibody screen",
+      "group and hold",
+      "G&H",
+      "group & hold",
+      "GH",
+      "group and save",
+      "group save",
+      "Group & Hold",
+      "antibody screen",
+      "red cell antibodies",
+      "red cell antibody screen",
+      "Antibody Screen"
     ],
     "offsite": "none",
     "sources": {
@@ -441,19 +425,6 @@ const TESTS = [
     "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Crossmatch"
-    }
-  },
-  {
-    "name": "Antibody Screen",
-    "tube": "pink",
-    "aliases": [
-      "antibody screen",
-      "red cell antibodies",
-      "red cell antibody screen"
-    ],
-    "offsite": "none",
-    "sources": {
-      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-group-and-antibody-screen"
     }
   },
   {
@@ -482,15 +453,6 @@ const TESTS = [
     ],
     "offsite": "none",
     "short": "OGTT"
-  },
-  {
-    "name": "Lactate",
-    "tube": "grey",
-    "aliases": [
-      "lactate",
-      "lactic acid"
-    ],
-    "offsite": "none"
   },
   {
     "name": "Zinc",
@@ -560,16 +522,6 @@ const TESTS = [
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Ammonia"
     }
-  },
-  {
-    "name": "Chromosome Studies",
-    "tube": "green",
-    "aliases": [
-      "chromosome studies",
-      "karyotype",
-      "cytogenetics"
-    ],
-    "offsite": "usually"
   },
   {
     "name": "Blood culture",
@@ -891,16 +843,6 @@ const TESTS = [
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Immunoglobulins"
     }
-  },
-  {
-    "name": "Complement (C3/C4)",
-    "tube": "gold",
-    "aliases": [
-      "complement",
-      "C3",
-      "C4"
-    ],
-    "offsite": "maybe"
   },
   {
     "name": "Antinuclear Ab",
@@ -1291,15 +1233,6 @@ const TESTS = [
     }
   },
   {
-    "name": "CMV Serology",
-    "tube": "gold",
-    "aliases": [
-      "CMV",
-      "cytomegalovirus"
-    ],
-    "offsite": "maybe"
-  },
-  {
     "name": "Protein Electrophoresis",
     "tube": "gold",
     "aliases": [
@@ -1433,16 +1366,6 @@ const TESTS = [
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/0-9/17-hydroxyprogesterone"
     }
-  },
-  {
-    "name": "Anticardiolipin Antibodies",
-    "tube": "gold",
-    "aliases": [
-      "anticardiolipin",
-      "acl antibodies",
-      "cardiolipin antibodies"
-    ],
-    "offsite": "usually"
   },
   {
     "name": "Beta-2 Glycoprotein Antibodies",
@@ -1636,24 +1559,6 @@ const TESTS = [
     }
   },
   {
-    "name": "SHBG",
-    "tube": "gold",
-    "aliases": [
-      "sex hormone binding globulin"
-    ],
-    "offsite": "maybe"
-  },
-  {
-    "name": "DHEAS",
-    "tube": "gold",
-    "aliases": [
-      "dhea-s",
-      "dhea sulphate",
-      "dheas level"
-    ],
-    "offsite": "maybe"
-  },
-  {
     "name": "Anti-Mullerian Hormone",
     "tube": "gold",
     "aliases": [
@@ -1805,7 +1710,7 @@ const TESTS = [
   },
   {
     "name": "ADAMTS 13 activity",
-    "tube": "blue",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -1814,7 +1719,7 @@ const TESTS = [
   },
   {
     "name": "Adenovirus detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2033,8 +1938,14 @@ const TESTS = [
   {
     "name": "Anti factor Xa",
     "tube": "blue",
-    "aliases": [],
-    "offsite": "none",
+    "aliases": [
+      "anti-xa",
+      "antixa",
+      "heparin assay",
+      "heparin level",
+      "Anti-Xa"
+    ],
+    "offsite": "maybe",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anti-factor-Xa"
     }
@@ -2108,7 +2019,7 @@ const TESTS = [
   },
   {
     "name": "Arbovirus detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2135,7 +2046,7 @@ const TESTS = [
   },
   {
     "name": "Bacterial antigen detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2413,7 +2324,7 @@ const TESTS = [
   },
   {
     "name": "CA 19 9",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2449,7 +2360,7 @@ const TESTS = [
   },
   {
     "name": "Calculi urinary tract",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2496,9 +2407,13 @@ const TESTS = [
     "name": "Cardiolipin Ab",
     "tube": "gold",
     "aliases": [
-      "Cardiolipin antibody"
+      "Cardiolipin antibody",
+      "anticardiolipin",
+      "acl antibodies",
+      "cardiolipin antibodies",
+      "Anticardiolipin Antibodies"
     ],
-    "offsite": "none",
+    "offsite": "usually",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cardiolipin-Ab"
     }
@@ -2570,7 +2485,7 @@ const TESTS = [
   },
   {
     "name": "Cervical screening test",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2751,8 +2666,13 @@ const TESTS = [
   {
     "name": "Complement C3 and Complement C4",
     "tube": "gold",
-    "aliases": [],
-    "offsite": "none",
+    "aliases": [
+      "complement",
+      "C3",
+      "C4",
+      "Complement (C3/C4)"
+    ],
+    "offsite": "maybe",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-C3-and-Complement-C4"
     }
@@ -2968,16 +2888,19 @@ const TESTS = [
     "name": "Cytomegalovirus Ab",
     "tube": "gold",
     "aliases": [
-      "Cytomegalovirus antibody"
+      "Cytomegalovirus antibody",
+      "CMV",
+      "cytomegalovirus",
+      "CMV Serology"
     ],
-    "offsite": "none",
+    "offsite": "maybe",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytomegalovirus-Ab"
     }
   },
   {
     "name": "Cytomegalovirus nucleic acid detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2997,8 +2920,13 @@ const TESTS = [
   },
   {
     "name": "Dehydroepiandrosterone sulfate",
-    "tube": "confirm",
-    "aliases": [],
+    "tube": "gold",
+    "aliases": [
+      "dhea-s",
+      "dhea sulphate",
+      "dheas level",
+      "DHEAS"
+    ],
     "offsite": "maybe",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Dehydroepiandrosterone-sulfate"
@@ -3053,7 +2981,7 @@ const TESTS = [
   },
   {
     "name": "DNA Ab",
-    "tube": "purple",
+    "tube": "gold",
     "aliases": [
       "DNA antibody"
     ],
@@ -3147,7 +3075,7 @@ const TESTS = [
   },
   {
     "name": "Electron microscopy",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3357,7 +3285,7 @@ const TESTS = [
   },
   {
     "name": "Flavivirus detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3465,7 +3393,7 @@ const TESTS = [
   },
   {
     "name": "Gastric cytology",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3501,7 +3429,7 @@ const TESTS = [
   },
   {
     "name": "GI brushing cytology including pancreato bile duc",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3521,7 +3449,7 @@ const TESTS = [
   },
   {
     "name": "Globulin",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3810,7 +3738,7 @@ const TESTS = [
   },
   {
     "name": "Hepatitis C",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3872,7 +3800,7 @@ const TESTS = [
   },
   {
     "name": "HIV p24 antigen",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3881,7 +3809,7 @@ const TESTS = [
   },
   {
     "name": "HIV viral load and resistance testing",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4047,7 +3975,7 @@ const TESTS = [
   },
   {
     "name": "Influenza virus nucleic acid",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4114,8 +4042,13 @@ const TESTS = [
   },
   {
     "name": "Karyotype analysis",
-    "tube": "purple",
-    "aliases": [],
+    "tube": "green",
+    "aliases": [
+      "chromosome studies",
+      "karyotype",
+      "cytogenetics",
+      "Chromosome Studies"
+    ],
     "offsite": "maybe",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/K/Karyotype-analysis"
@@ -4133,7 +4066,11 @@ const TESTS = [
   {
     "name": "L Lactate",
     "tube": "grey",
-    "aliases": [],
+    "aliases": [
+      "lactate",
+      "lactic acid",
+      "Lactate"
+    ],
     "offsite": "none",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/L-Lactate"
@@ -4206,7 +4143,7 @@ const TESTS = [
   },
   {
     "name": "Legionella pneumophila serogroup 1 urinary Ag",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4242,7 +4179,7 @@ const TESTS = [
   },
   {
     "name": "Liquid based cervical cytology",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4271,7 +4208,7 @@ const TESTS = [
   },
   {
     "name": "Lower respiratory tract cytology",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4352,7 +4289,7 @@ const TESTS = [
   },
   {
     "name": "Malaria Ag",
-    "tube": "purple",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4361,7 +4298,7 @@ const TESTS = [
   },
   {
     "name": "Malaria thick film",
-    "tube": "purple",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4415,7 +4352,7 @@ const TESTS = [
   },
   {
     "name": "MCS wound",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4451,7 +4388,7 @@ const TESTS = [
   },
   {
     "name": "Measles virus",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4802,7 +4739,7 @@ const TESTS = [
   },
   {
     "name": "Non Invasive Prenatal Blood Group Genotyping",
-    "tube": "pink",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4811,7 +4748,7 @@ const TESTS = [
   },
   {
     "name": "Norovirus Sapovirus detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4921,7 +4858,7 @@ const TESTS = [
   },
   {
     "name": "Pap smear",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4968,7 +4905,7 @@ const TESTS = [
   },
   {
     "name": "Parvovirus B19",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5089,7 +5026,7 @@ const TESTS = [
   },
   {
     "name": "Platelet antigen genotyping",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5098,7 +5035,7 @@ const TESTS = [
   },
   {
     "name": "Platelet function screen",
-    "tube": "blue",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5233,7 +5170,7 @@ const TESTS = [
   },
   {
     "name": "Prostate specific antigen, free",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5372,7 +5309,7 @@ const TESTS = [
   },
   {
     "name": "Respiratory syncytial virus detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5476,8 +5413,11 @@ const TESTS = [
   {
     "name": "SHBG Sex Hormone Binding Globulin",
     "tube": "gold",
-    "aliases": [],
-    "offsite": "none",
+    "aliases": [
+      "sex hormone binding globulin",
+      "SHBG"
+    ],
+    "offsite": "maybe",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/SHBG-Sex-Hormone-Binding-Globulin"
     }
@@ -5679,7 +5619,7 @@ const TESTS = [
   },
   {
     "name": "Syphilis test mucocutaneous ulcer",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5769,7 +5709,7 @@ const TESTS = [
   },
   {
     "name": "Thyroglobulin",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5889,7 +5829,7 @@ const TESTS = [
   },
   {
     "name": "Tumour markers",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5918,7 +5858,7 @@ const TESTS = [
   },
   {
     "name": "Upper respiratory tract virus detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -6019,7 +5959,7 @@ const TESTS = [
   },
   {
     "name": "Virus detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -6082,7 +6022,7 @@ const TESTS = [
   },
   {
     "name": "von Willebrand factor Ag",
-    "tube": "blue",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -6109,7 +6049,7 @@ const TESTS = [
   },
   {
     "name": "Vulvar cytology",
-    "tube": "nonblood",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -6147,7 +6087,7 @@ const TESTS = [
   },
   {
     "name": "Zika virus detection",
-    "tube": "gold",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -6220,10 +6160,11 @@ const SITES = [
 const OVERRIDES = [
   {
     "scope": "site",
-    "scopeId": "nepean",
-    "test": "Group & Hold",
+    "scopeId": "westmead",
+    "test": "Crossmatch",
     "field": "quantity",
-    "value": "2"
+    "value": "2",
+    "note": "Example only: some centres collect a second crossmatch sample - confirm with your transfusion laboratory."
   }
 ];
 const AVAILABILITY = [

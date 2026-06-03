@@ -14,7 +14,7 @@ One row per collection tube. `key` is the internal id used elsewhere. `color` is
 colour. `draw` is the order-of-draw position (lower = drawn first). `ml` is the nominal
 fill volume. `maxTests` is a conservative capacity (blank = unlimited / always 1 tube).
 
-### tests.csv  `name,tube,aliases,offsite,defaultLab,rcpa,nsw,verified,short`
+### tests.csv  `name,tube,aliases,offsite,defaultLab,rcpa,nsw,verified,short,source`
 The catalogue. `name` is the **canonical** name (aligned to the RCPA Manual where possible);
 it is what is stored, matched, and linked. `tube` references a `tubes.csv` key. `aliases` are
 pipe-separated (`FBC|FBE`) and are for SEARCH/DETECTION (the old name is kept here whenever a
@@ -30,8 +30,14 @@ back to a catalogue search link; `rcpa` holds a verified RCPA deep link where kn
   least-verified rows first.
 - `tube` may list MORE than one tube, pipe-separated (e.g. `bc_aerobic|bc_anaerobic` for a
   blood culture set). Two special keys exist for the RCPA import: `confirm` (no verified tube
-  yet) and `nonblood` (collected as a non-blood specimen) - both render as advisory cards
-  after the blood tubes and do not count toward the tube total.
+  yet) and `nonblood` (collected as a non-blood specimen) - both render as a separate
+  link-to-RCPA block after the blood tubes and do not count toward the tube total.
+- `source` is the PRIMARY SOURCE / audit tag: `rcpa` = this row is one-to-one with an RCPA
+  Manual index entry; `local` = a clinical convenience entry (e.g. a panel such as UEC or
+  LFTs) that RCPA does not list as a single test. The catalogue aims to be one-for-one with
+  the RCPA index, so clinical shorthands (e.g. 'Group & Hold') are kept as `aliases` on the
+  matching RCPA row rather than as their own row. Audit with `source=local` and any `rcpa`
+  row missing an `rcpa` link.
 
 ## Rebuilding from the RCPA index
 `node tools/rebuild-from-rcpa.mjs` regenerates `tests.csv` using the RCPA Manual index (in
@@ -87,10 +93,13 @@ tests need rows here; routine tests are assumed available everywhere. **The curr
 an illustrative EXAMPLE**, to be replaced by data derived from the NSW Health Pathology
 catalogue (with permission). Used by the dormant Phase 2 routing.
 
-### overrides.csv  `scope,scopeId,test,field,value`
+### overrides.csv  `scope,scopeId,test,field,value,note`
 Per-site or per-state tweaks. `scope` is `site` or `state`; `scopeId` is the site/state id.
-`field` is one of:
-- `quantity` - force N tubes for this test (e.g. Nepean Group & Hold = 2).
+`note` is an optional human-readable warning/explanation surfaced with the change (e.g. why
+a centre collects an extra tube). The current row is an illustrative EXAMPLE only. `field` is
+one of:
+- `quantity` - force N tubes for this test (e.g. a site that collects a second crossmatch
+  sample); the `note` explains it.
 - `lab` - route this test to a specific `labs.csv` id.
 - `tube` - collect this test in a different `tubes.csv` key.
 - `remove` - this site does not offer the test.
