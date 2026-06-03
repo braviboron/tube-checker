@@ -143,7 +143,7 @@ function expectTopHit(query, name, msg) {
 expectTopHit('FBE', 'Full Blood Count', 'alias FBE → Full Blood Count');
 expectTopHit('EUC', 'Urea, Electrolytes & Creatinine', 'acronym EUC → UEC entry');
 expectTopHit('magnesum', 'Magnesium', 'typo magnesum → Magnesium');
-expectTopHit('troponni', 'Troponin', 'typo troponni → Troponin');
+expectTopHit('troponni', 'Troponin I', 'typo troponni → Troponin I');
 expectTopHit('gent', 'Gentamicin', 'partial gent → Gentamicin');
 
 // Every canonical test must be findable as its own top search hit, and names unique.

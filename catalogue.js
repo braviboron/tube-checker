@@ -92,7 +92,10 @@ const TESTS = [
       "complete blood count",
       "blood count"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Full-Blood-Count"
+    }
   },
   {
     "name": "White Cell Count",
@@ -102,7 +105,10 @@ const TESTS = [
       "white cell count",
       "white blood cells"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/W/White-Cell-Count"
+    }
   },
   {
     "name": "Platelet Count",
@@ -112,7 +118,10 @@ const TESTS = [
       "PLT",
       "platelet count"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Platelet-Count"
+    }
   },
   {
     "name": "Blood Film",
@@ -122,25 +131,34 @@ const TESTS = [
       "blood film",
       "peripheral smear"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-Film"
+    }
   },
   {
-    "name": "Reticulocytes",
+    "name": "Reticulocyte count",
     "tube": "purple",
     "aliases": [
-      "retics",
-      "reticulocyte count"
+      "Reticulocytes",
+      "retics"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Reticulocyte-count"
+    }
   },
   {
-    "name": "ESR",
+    "name": "Erythrocyte sedimentation rate",
     "tube": "purple",
     "aliases": [
-      "erythrocyte sedimentation rate",
+      "ESR",
       "sed rate"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Erythrocyte-sedimentation-rate"
+    }
   },
   {
     "name": "HbA1c",
@@ -151,18 +169,24 @@ const TESTS = [
       "glycosylated haemoglobin",
       "hba1c"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HbA1c"
+    }
   },
   {
-    "name": "Coombs / DCT",
+    "name": "Direct antiglobulin test",
     "tube": "purple",
     "aliases": [
+      "Coombs / DCT",
       "coombs",
       "direct coombs",
-      "DCT",
-      "direct antiglobulin test"
+      "DCT"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Direct-antiglobulin-test"
+    }
   },
   {
     "name": "Malaria",
@@ -201,7 +225,10 @@ const TESTS = [
       "parathyroid hormone",
       "parathyroid"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Parathyroid-Hormone"
+    }
   },
   {
     "name": "Homocysteine",
@@ -209,17 +236,22 @@ const TESTS = [
     "aliases": [
       "homocysteine"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Homocysteine"
+    }
   },
   {
-    "name": "Ciclosporin",
+    "name": "Cyclosporin",
     "tube": "purple",
     "aliases": [
-      "ciclosporin",
-      "cyclosporin",
+      "Ciclosporin",
       "cyclosporine"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cyclosporin"
+    }
   },
   {
     "name": "Tacrolimus",
@@ -228,7 +260,10 @@ const TESTS = [
       "tacrolimus",
       "FK506"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tacrolimus"
+    }
   },
   {
     "name": "INR",
@@ -237,7 +272,10 @@ const TESTS = [
       "INR",
       "international normalised ratio"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/INR"
+    }
   },
   {
     "name": "APTT",
@@ -247,7 +285,10 @@ const TESTS = [
       "aptt",
       "activated partial thromboplastin time"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/APTT"
+    }
   },
   {
     "name": "Prothrombin Time",
@@ -257,7 +298,10 @@ const TESTS = [
       "prothrombin",
       "prothrombin time"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Prothrombin-Time"
+    }
   },
   {
     "name": "Coagulation Profile",
@@ -269,7 +313,10 @@ const TESTS = [
       "clotting screen",
       "coagulation screen"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Coagulation-Profile"
+    }
   },
   {
     "name": "D-Dimer",
@@ -279,7 +326,10 @@ const TESTS = [
       "ddimer",
       "d dimer"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/D-Dimer"
+    }
   },
   {
     "name": "Fibrinogen",
@@ -287,7 +337,10 @@ const TESTS = [
     "aliases": [
       "fibrinogen"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Fibrinogen"
+    }
   },
   {
     "name": "Factor Assay",
@@ -306,7 +359,10 @@ const TESTS = [
     "aliases": [
       "lupus anticoagulant"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lupus-Anticoagulant"
+    }
   },
   {
     "name": "Anti-Xa",
@@ -349,7 +405,10 @@ const TESTS = [
       "XM",
       "GXM"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Crossmatch"
+    }
   },
   {
     "name": "Antibody Screen",
@@ -371,7 +430,10 @@ const TESTS = [
       "random glucose",
       "blood sugar"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucose"
+    }
   },
   {
     "name": "Oral Glucose Tolerance Test",
@@ -399,7 +461,10 @@ const TESTS = [
       "zinc",
       "Zn"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/Z/Zinc"
+    }
   },
   {
     "name": "Copper",
@@ -408,7 +473,10 @@ const TESTS = [
       "copper",
       "Cu"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copper"
+    }
   },
   {
     "name": "Manganese",
@@ -417,7 +485,10 @@ const TESTS = [
       "manganese",
       "Mn"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Manganese"
+    }
   },
   {
     "name": "Selenium",
@@ -426,7 +497,10 @@ const TESTS = [
       "selenium",
       "Se"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Selenium"
+    }
   },
   {
     "name": "Trace Elements",
@@ -444,7 +518,10 @@ const TESTS = [
       "ammonia",
       "NH3"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Ammonia"
+    }
   },
   {
     "name": "Chromosome Studies",
@@ -457,15 +534,17 @@ const TESTS = [
     "offsite": "usually"
   },
   {
-    "name": "Blood Cultures",
+    "name": "Blood culture",
     "tube": "bc_aerobic",
     "aliases": [
-      "blood culture",
-      "blood cultures",
+      "Blood Cultures",
       "BC",
       "BCx"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Blood-culture"
+    }
   },
   {
     "name": "Urea, Electrolytes & Creatinine",
@@ -499,7 +578,10 @@ const TESTS = [
       "LFTs",
       "liver function"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Liver-Function-Tests"
+    }
   },
   {
     "name": "C-Reactive Protein",
@@ -508,7 +590,10 @@ const TESTS = [
       "CRP",
       "c-reactive protein"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/C-Reactive-Protein"
+    }
   },
   {
     "name": "Thyroid Function",
@@ -533,7 +618,10 @@ const TESTS = [
       "Ca",
       "corrected calcium"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Calcium"
+    }
   },
   {
     "name": "Phosphate",
@@ -542,7 +630,10 @@ const TESTS = [
       "phosphate",
       "PO4"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phosphate"
+    }
   },
   {
     "name": "Magnesium",
@@ -551,7 +642,10 @@ const TESTS = [
       "magnesium",
       "Mg"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Magnesium"
+    }
   },
   {
     "name": "Urate",
@@ -560,7 +654,10 @@ const TESTS = [
       "urate",
       "uric acid"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/U/Urate"
+    }
   },
   {
     "name": "Creatine Kinase",
@@ -569,7 +666,10 @@ const TESTS = [
       "CK",
       "creatine kinase"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Creatine-Kinase"
+    }
   },
   {
     "name": "CK-MB",
@@ -586,7 +686,10 @@ const TESTS = [
     "aliases": [
       "amylase"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amylase"
+    }
   },
   {
     "name": "Lipase",
@@ -594,7 +697,10 @@ const TESTS = [
     "aliases": [
       "lipase"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lipase"
+    }
   },
   {
     "name": "Lipids",
@@ -607,7 +713,10 @@ const TESTS = [
       "LDL",
       "lipid profile"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lipids"
+    }
   },
   {
     "name": "Iron Studies",
@@ -618,7 +727,10 @@ const TESTS = [
       "transferrin",
       "transferrin saturation"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Iron-Studies"
+    }
   },
   {
     "name": "Ferritin",
@@ -626,7 +738,10 @@ const TESTS = [
     "aliases": [
       "ferritin"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Ferritin"
+    }
   },
   {
     "name": "Vitamin B12",
@@ -636,7 +751,10 @@ const TESTS = [
       "vitamin B12",
       "cobalamin"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-B12"
+    }
   },
   {
     "name": "Folate",
@@ -645,7 +763,10 @@ const TESTS = [
       "folate",
       "folic acid"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Folate"
+    }
   },
   {
     "name": "Vitamin D",
@@ -655,7 +776,10 @@ const TESTS = [
       "25-OH vitamin D",
       "25 OH"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-D"
+    }
   },
   {
     "name": "Beta-hCG",
@@ -670,16 +794,18 @@ const TESTS = [
     "offsite": "none"
   },
   {
-    "name": "Troponin",
+    "name": "Troponin I",
     "tube": "gold",
     "aliases": [
-      "troponin",
+      "Troponin",
       "trop",
-      "troponin I",
       "troponin T",
       "hs-troponin"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Troponin-I"
+    }
   },
   {
     "name": "BNP / NT-proBNP",
@@ -699,7 +825,10 @@ const TESTS = [
       "procalcitonin",
       "PCT"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Procalcitonin"
+    }
   },
   {
     "name": "Immunoglobulins",
@@ -711,7 +840,10 @@ const TESTS = [
       "IgM",
       "IgE"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Immunoglobulins"
+    }
   },
   {
     "name": "Complement (C3/C4)",
@@ -766,7 +898,10 @@ const TESTS = [
       "rheumatoid factor",
       "RF"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Rheumatoid-Factor"
+    }
   },
   {
     "name": "Anti-CCP",
@@ -784,7 +919,10 @@ const TESTS = [
       "digoxin",
       "dig level"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Digoxin"
+    }
   },
   {
     "name": "Phenytoin",
@@ -793,7 +931,10 @@ const TESTS = [
       "phenytoin",
       "dilantin"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phenytoin"
+    }
   },
   {
     "name": "Valproate",
@@ -803,7 +944,10 @@ const TESTS = [
       "sodium valproate",
       "epilim"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Valproate"
+    }
   },
   {
     "name": "Carbamazepine",
@@ -812,7 +956,10 @@ const TESTS = [
       "carbamazepine",
       "tegretol"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carbamazepine"
+    }
   },
   {
     "name": "Lithium",
@@ -821,7 +968,10 @@ const TESTS = [
       "lithium",
       "lithium level"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lithium"
+    }
   },
   {
     "name": "Vancomycin",
@@ -830,7 +980,10 @@ const TESTS = [
       "vancomycin",
       "vanc level"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vancomycin"
+    }
   },
   {
     "name": "Gentamicin",
@@ -839,7 +992,10 @@ const TESTS = [
       "gentamicin",
       "gent level"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gentamicin"
+    }
   },
   {
     "name": "Paracetamol",
@@ -849,7 +1005,10 @@ const TESTS = [
       "acetaminophen",
       "panadol level"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Paracetamol"
+    }
   },
   {
     "name": "Cortisol",
@@ -857,7 +1016,10 @@ const TESTS = [
     "aliases": [
       "cortisol"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cortisol"
+    }
   },
   {
     "name": "Testosterone",
@@ -874,7 +1036,10 @@ const TESTS = [
       "oestradiol",
       "estradiol"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/O/Oestradiol"
+    }
   },
   {
     "name": "Progesterone",
@@ -882,7 +1047,10 @@ const TESTS = [
     "aliases": [
       "progesterone"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Progesterone"
+    }
   },
   {
     "name": "Prolactin",
@@ -890,25 +1058,32 @@ const TESTS = [
     "aliases": [
       "prolactin"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Prolactin"
+    }
   },
   {
-    "name": "FSH",
+    "name": "Follicle stimulating hormone",
     "tube": "gold",
     "aliases": [
-      "FSH",
-      "follicle stimulating hormone"
+      "FSH"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Follicle-stimulating-hormone"
+    }
   },
   {
-    "name": "LH",
+    "name": "Luteinising hormone",
     "tube": "gold",
     "aliases": [
-      "LH",
-      "luteinising hormone"
+      "LH"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Luteinising-hormone"
+    }
   },
   {
     "name": "Insulin",
@@ -916,7 +1091,10 @@ const TESTS = [
     "aliases": [
       "insulin"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Insulin"
+    }
   },
   {
     "name": "C-Peptide",
@@ -925,25 +1103,32 @@ const TESTS = [
       "c-peptide",
       "c peptide"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/C-Peptide"
+    }
   },
   {
-    "name": "PSA",
+    "name": "Prostate specific antigen",
     "tube": "gold",
     "aliases": [
-      "PSA",
-      "prostate specific antigen"
+      "PSA"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Prostate-specific-antigen"
+    }
   },
   {
-    "name": "CEA",
+    "name": "Carcinoembryonic antigen",
     "tube": "gold",
     "aliases": [
-      "CEA",
-      "carcinoembryonic antigen"
+      "CEA"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carcinoembryonic-antigen"
+    }
   },
   {
     "name": "CA-125",
@@ -953,7 +1138,10 @@ const TESTS = [
       "CA-125",
       "ca125"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/CA-125"
+    }
   },
   {
     "name": "AFP",
@@ -962,7 +1150,10 @@ const TESTS = [
       "AFP",
       "alpha fetoprotein"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/AFP"
+    }
   },
   {
     "name": "Coeliac Serology",
@@ -983,7 +1174,10 @@ const TESTS = [
       "HIV",
       "hiv serology"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HIV-Serology"
+    }
   },
   {
     "name": "Hepatitis Serology",
@@ -1005,17 +1199,24 @@ const TESTS = [
       "RPR",
       "TPHA"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Syphilis-Serology"
+    }
   },
   {
-    "name": "EBV Serology",
+    "name": "Epstein-Barr virus serology",
     "tube": "gold",
     "aliases": [
+      "EBV Serology",
       "EBV",
       "epstein barr",
       "monospot"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Epstein-Barr-virus-serology"
+    }
   },
   {
     "name": "CMV Serology",
@@ -1035,7 +1236,10 @@ const TESTS = [
       "EPP",
       "protein studies"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Protein-Electrophoresis"
+    }
   },
   {
     "name": "Albumin",
@@ -1043,7 +1247,10 @@ const TESTS = [
     "aliases": [
       "albumin"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Albumin"
+    }
   },
   {
     "name": "Sirolimus",
@@ -1053,7 +1260,10 @@ const TESTS = [
       "sirolimus level",
       "rapamune"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sirolimus"
+    }
   },
   {
     "name": "Everolimus",
@@ -1064,7 +1274,10 @@ const TESTS = [
       "afinitor",
       "votubia"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Everolimus"
+    }
   },
   {
     "name": "Aldosterone",
@@ -1074,7 +1287,10 @@ const TESTS = [
       "aldosterone renin ratio",
       "arr"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Aldosterone"
+    }
   },
   {
     "name": "Renin",
@@ -1086,7 +1302,10 @@ const TESTS = [
       "pra",
       "renin concentration"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Renin"
+    }
   },
   {
     "name": "ACTH",
@@ -1096,7 +1315,10 @@ const TESTS = [
       "corticotropin",
       "acth level"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/ACTH"
+    }
   },
   {
     "name": "IGF-1",
@@ -1106,7 +1328,10 @@ const TESTS = [
       "insulin-like growth factor",
       "somatomedin c"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/IGF-1"
+    }
   },
   {
     "name": "Growth Hormone",
@@ -1116,7 +1341,10 @@ const TESTS = [
       "somatotropin",
       "growth hormone level"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Growth-Hormone"
+    }
   },
   {
     "name": "17-OH-Progesterone",
@@ -1162,13 +1390,16 @@ const TESTS = [
     "offsite": "usually"
   },
   {
-    "name": "G6PD",
+    "name": "Glucose-6-phosphate dehydrogenase",
     "tube": "purple",
     "aliases": [
-      "glucose-6-phosphate dehydrogenase",
+      "G6PD",
       "g6pd screen"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucose-6-phosphate-dehydrogenase"
+    }
   },
   {
     "name": "JAK2",
@@ -1187,7 +1418,10 @@ const TESTS = [
       "cryoglobulin",
       "cryoglobulin screen"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cryoglobulins"
+    }
   },
   {
     "name": "Lead",
@@ -1197,7 +1431,10 @@ const TESTS = [
       "pb level",
       "lead level"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lead"
+    }
   },
   {
     "name": "Mercury",
@@ -1216,16 +1453,22 @@ const TESTS = [
       "al level",
       "aluminium level"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Aluminium"
+    }
   },
   {
-    "name": "LDH",
+    "name": "Lactate dehydrogenase",
     "tube": "gold",
     "aliases": [
-      "lactate dehydrogenase",
+      "LDH",
       "ldh level"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactate-dehydrogenase"
+    }
   },
   {
     "name": "Osmolality",
@@ -1235,7 +1478,10 @@ const TESTS = [
       "plasma osmolality",
       "osmol"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/O/Osmolality"
+    }
   },
   {
     "name": "Haptoglobin",
@@ -1243,7 +1489,10 @@ const TESTS = [
     "aliases": [
       "hapto"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Haptoglobin"
+    }
   },
   {
     "name": "Ethanol",
@@ -1254,7 +1503,10 @@ const TESTS = [
       "etoh",
       "bac"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Ethanol"
+    }
   },
   {
     "name": "Salicylate",
@@ -1263,7 +1515,10 @@ const TESTS = [
       "aspirin level",
       "salicylate level"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Salicylate"
+    }
   },
   {
     "name": "Theophylline",
@@ -1271,7 +1526,10 @@ const TESTS = [
     "aliases": [
       "theophylline level"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Theophylline"
+    }
   },
   {
     "name": "Tobramycin",
@@ -1280,7 +1538,10 @@ const TESTS = [
       "tobramycin level",
       "tobra"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tobramycin"
+    }
   },
   {
     "name": "Clozapine",
@@ -1289,7 +1550,10 @@ const TESTS = [
       "clozapine level",
       "norclozapine"
     ],
-    "offsite": "none"
+    "offsite": "none",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Clozapine"
+    }
   },
   {
     "name": "SHBG",
@@ -1316,7 +1580,10 @@ const TESTS = [
       "amh",
       "anti-mullerian hormone"
     ],
-    "offsite": "maybe"
+    "offsite": "maybe",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anti-Mullerian-Hormone"
+    }
   },
   {
     "name": "Beta-2 Microglobulin",
@@ -1325,18 +1592,24 @@ const TESTS = [
       "b2m",
       "beta 2 microglobulin"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-2-Microglobulin"
+    }
   },
   {
-    "name": "Serum Free Light Chains",
+    "name": "Free light chains",
     "tube": "gold",
     "aliases": [
-      "free light chains",
+      "Serum Free Light Chains",
       "flc",
       "sflc",
       "kappa lambda ratio"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-light-chains"
+    }
   },
   {
     "name": "Immunofixation",
@@ -1354,7 +1627,10 @@ const TESTS = [
       "mast cell tryptase",
       "serum tryptase"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tryptase"
+    }
   },
   {
     "name": "Caeruloplasmin",
@@ -1362,7 +1638,10 @@ const TESTS = [
     "aliases": [
       "ceruloplasmin"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Caeruloplasmin"
+    }
   },
   {
     "name": "HLA-B27",
@@ -1380,7 +1659,10 @@ const TESTS = [
       "thiamine",
       "thiamine level"
     ],
-    "offsite": "usually"
+    "offsite": "usually",
+    "sources": {
+      "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-B1"
+    }
   }
 ];
 const LABS = [
@@ -1455,7 +1737,7 @@ const AVAILABILITY = [
     "lab": "WESTMEAD"
   },
   {
-    "test": "Ciclosporin",
+    "test": "Cyclosporin",
     "lab": "ICPMR"
   },
   {
