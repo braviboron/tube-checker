@@ -229,8 +229,8 @@ Follicle stimulating hormone,gold,FSH,none,,https://www.rcpa.edu.au/Manuals/RCPA
 Fragile X syndrome test,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Fragile-X-syndrome-test,,rcpa-index,,rcpa
 Free Androgen Index,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-Androgen-Index,,rcpa-index,,rcpa
 Free light chains,gold,Serum Free Light Chains|flc|sflc|kappa lambda ratio,usually,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-light-chains,,estimate,FLC,rcpa
-Free T3,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T3,,rcpa-index,,rcpa
-Free T4,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T4,,rcpa-index,,rcpa
+Free T3,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T3,,rcpa-index,,rcpa
+Free T4,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Free-T4,,rcpa-index,,rcpa
 Frozen section,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Frozen-section,,rcpa-index,,rcpa
 Fructosamine,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Fructosamine,,rcpa-index,,rcpa
 Full Blood Count,purple,FBC|FBE|CBC|full blood exam|complete blood count|blood count,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Full-Blood-Count,,estimate,FBC,rcpa
@@ -537,8 +537,6 @@ Thiopurine S methyltransferase genotyping,nonblood,,none,,https://www.rcpa.edu.a
 Throat swab,nonblood,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Throat-swab,,rcpa-index,,rcpa
 Thrombin time,blue,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Thrombin-time,,rcpa-index,,rcpa
 Thyroglobulin,gold,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Thyroglobulin,,rcpa-index,,rcpa
-Thyroid Antibodies,gold,anti-tpo|tpo antibodies|thyroid peroxidase antibodies|anti-thyroglobulin|trab|tsh receptor antibodies,usually,,,,estimate,,local
-Thyroid Function,gold,TSH|TFT|TFTs|thyroid function|T4|FT4|T3|FT3,none,,,,estimate,TFTs,local
 Thyroid stimulating hormone,gold,,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Thyroid-stimulating-hormone,,rcpa-index,,rcpa
 Tobramycin,gold,tobramycin level|tobra,none,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tobramycin,,estimate,,rcpa
 Total Protein,confirm,,maybe,,https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Total-Protein,,rcpa-index,,rcpa

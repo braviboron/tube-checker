@@ -2433,7 +2433,7 @@ const TESTS = [
   },
   {
     "name": "Free T3",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2442,7 +2442,7 @@ const TESTS = [
   },
   {
     "name": "Free T4",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5485,35 +5485,6 @@ const TESTS = [
     }
   },
   {
-    "name": "Thyroid Antibodies",
-    "tube": "gold",
-    "aliases": [
-      "anti-tpo",
-      "tpo antibodies",
-      "thyroid peroxidase antibodies",
-      "anti-thyroglobulin",
-      "trab",
-      "tsh receptor antibodies"
-    ],
-    "offsite": "usually"
-  },
-  {
-    "name": "Thyroid Function",
-    "tube": "gold",
-    "aliases": [
-      "TSH",
-      "TFT",
-      "TFTs",
-      "thyroid function",
-      "T4",
-      "FT4",
-      "T3",
-      "FT3"
-    ],
-    "offsite": "none",
-    "short": "TFTs"
-  },
-  {
     "name": "Thyroid stimulating hormone",
     "tube": "gold",
     "aliases": [],
@@ -6288,5 +6259,42 @@ const GROUPS = [
     ],
     "note": "Panel make-up is indicative and varies by laboratory; confirm locally.",
     "short": "CMP"
+  },
+  {
+    "name": "Thyroid Function",
+    "members": [
+      "Thyroid stimulating hormone",
+      "Free T4",
+      "Free T3"
+    ],
+    "aliases": [
+      "TFT",
+      "TFTs",
+      "thyroid function",
+      "thyroid function tests",
+      "T4",
+      "FT4",
+      "T3",
+      "FT3"
+    ],
+    "note": "Panel make-up is indicative and varies by laboratory; confirm locally.",
+    "short": "TFT"
+  },
+  {
+    "name": "Thyroid Antibodies",
+    "members": [
+      "TPO Ab",
+      "TSH receptor Ab"
+    ],
+    "aliases": [
+      "thyroid antibodies",
+      "anti-tpo",
+      "tpo antibodies",
+      "thyroid peroxidase antibodies",
+      "anti-thyroglobulin",
+      "trab",
+      "tsh receptor antibodies"
+    ],
+    "note": "Panel make-up is indicative and varies by laboratory; confirm locally."
   }
 ];
