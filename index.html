@@ -401,7 +401,7 @@ const RULES = [
   { re: /\b(fbc|fbe|cbc|full\s*blood\s*(?:count|exam)|complete\s*blood\s*count|blood\s*film|\bfilm\b|wcc|white\s*cell\s*count|differential|\bdiff\b|platelets?|\bplt\b|hb\s*a1c|hba1c|glycated\s*h(?:a)?emoglobin|haemoglobin|\bhb\b|reticulocytes?|retics?|esr|coombs|\bdct\b|malaria|thick\s*(?:and|&)?\s*thin|haemochromatosis|\bhfe\b|thalassaemia|parathyroid|\bpth\b|homocysteine|ciclosporin|cyclosporin|tacrolimus|sirolimus|everolimus|\brenin\b|\bacth\b|adrenocorticotrop|corticotropin|g6pd|glucose[\s-]?6[\s-]?phosphate|jak[\s-]?2|hla[\s-]?b27|\bb27\b|thiamine|vitamin\s*b1|erythrocyte\s*sedimentation\s*rate|direct\s*antiglobulin)\b/i, tube: 'purple' },
 
   // Biochemistry / serology / hormones / drug levels / serum → gold (broad; last)
-  { re: /\b(euc|uec|u\s*&\s*e|ue\b|urea|creatinine|egfr|electrolytes?|sodium|potassium|chloride|bicarb(?:onate)?|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein\s*(?:studies|electrophoresis)|spep|crp|c[\s-]?reactive\s*protein|tsh|t4|ft4|free\s*t4|t3|ft3|thyroid\s*function|tfts?|calcium|phosphate(?!\s*dehydrog)|po4|magnesium|mg\b|urate|uric\s*acid|ldh|creatine\s*kinase|ck[\s-]?mb|\bck\b|amylase|lipase|cholesterol|triglycerides?|hdl|ldl|lipids?|iron\s*studies|\biron\b|transferrin|ferritin|\bb12\b|vitamin\s*b12|folate|vitamin\s*d|25[\s-]?oh|\bhcg\b|beta[\s-]?hcg|bhcg|troponin|trop\b|\bbnp\b|nt[\s-]?pro[\s-]?bnp|procalcitonin|immunoglobulins?|ig[gam]\b|\bige\b|complement|\bc3\b|\bc4\b|\bana\b|\banca\b|anti[\s-]?ds[\s-]?dna|dsdna|\bena\b|rheumatoid|\brf\b|anti[\s-]?ccp|digoxin|phenytoin|valproate|carbamazepine|lithium|vancomycin|gentamicin|tobramycin|theophylline|paracetamol|salicylate|clonazepam|clozapine|drug\s*levels?|cortisol|dheas?|testosterone|oestradiol|estradiol|progesterone|prolactin|\bfsh\b|\blh\b|insulin|c[\s-]?peptide|psa|\bcea\b|\bca[\s-]*125\b|ca[\s-]*19[\s-]?9|ca[\s-]*15[\s-]?3|afp|alpha\s*fetoprotein|osmolality|ethanol|coeliac|\bttg\b|gliadin|hiv|hepatitis|hbsag|hcv|syphilis|rpr|tpha|ebv|\bcmv\b|toxoplasma|rubella|varicella|\bvzv\b|measles|mumps|aldosterone|\bigf|insulin[\s-]?like\s*growth|somatomedin|growth\s*hormone|somatotropin|anticardiolipin|cardiolipin|beta[\s-]?2\s*glycoprotein|b2[\s-]?gpi?|17[\s-]?ohp|thyroid\s*antibod(?:y|ies)|anti[\s-]?tpo|\btpo\b|anti[\s-]?thyroglobulin|\btrab\b|tsh\s*receptor|cryoglobulins?|haptoglobin|microglobulin|\bb2m\b|free\s*light\s*chains?|\bflc\b|sflc|immunofixation|\bife\b|tryptase|caeruloplasmin|ceruloplasmin|shbg|sex\s*hormone\s*binding|\bamh\b|anti[\s-]?mullerian|follicle\s*stimulating\s*hormone|luteinising\s*hormone|luteinizing\s*hormone|prostate\s*specific\s*antigen|carcinoembryonic|lactate\s*dehydrogenase|serology)\b/i, tube: 'gold' },
+  { re: /\b(euc|uec|u\s*&\s*e|ue\b|urea|creatinine|egfr|electrolytes?|sodium|potassium|chloride|bicarb(?:onate)?|lfts?|liver\s*function|alp|alt|ast|ggt|bilirubin|albumin|total\s*protein|protein\s*(?:studies|electrophoresis)|spep|crp|c[\s-]?reactive\s*protein|tsh|t4|ft4|free\s*t4|t3|ft3|thyroid\s*function|tfts?|calcium|phosphate(?!\s*dehydrog)|po4|magnesium|mg\b|urate|uric\s*acid|ldh|creatine\s*kinase|ck[\s-]?mb|\bck\b|amylase|lipase|cholesterol|triglycerides?|hdl|ldl|lipids?|iron\s*studies|\biron\b|transferrin|ferritin|\bb12\b|vitamin\s*b12|folate|vitamin\s*d|25[\s-]?oh|\bhcg\b|beta[\s-]?hcg|bhcg|troponin|trop\b|\bbnp\b|nt[\s-]?pro[\s-]?bnp|procalcitonin|immunoglobulins?|ig[gam]\b|\bige\b|complement|\bc3\b|\bc4\b|\bana\b|\banca\b|anti[\s-]?ds[\s-]?dna|dsdna|\bena\b|rheumatoid|\brf\b|anti[\s-]?ccp|digoxin|phenytoin|valproate|carbamazepine|lithium|vancomycin|gentamicin|tobramycin|theophylline|paracetamol|salicylate|clonazepam|clozapine|drug\s*levels?|cortisol|dheas?|testosterone|oestradiol|estradiol|progesterone|prolactin|\bfsh\b|\blh\b|insulin|c[\s-]?peptide|psa|\bcea\b|\bca[\s-]*125\b|ca[\s-]*19[\s-]?9|ca[\s-]*15[\s-]?3|afp|alpha\s*fetoprotein|osmolality|ethanol|coeliac|\bttg\b|gliadin|hiv|hepatitis|hbsag|hcv|syphilis|rpr|tpha|ebv|\bcmv\b|toxoplasma|rubella|varicella|\bvzv\b|measles|mumps|aldosterone|\bigf|insulin[\s-]?like\s*growth|somatomedin|growth\s*hormone|somatotropin|anticardiolipin|cardiolipin|beta[\s-]?2\s*glycoprotein|b2[\s-]?gpi?|17[\s-]?ohp|thyroid\s*antibod(?:y|ies)|anti[\s-]?tpo|\btpo\b|anti[\s-]?thyroglobulin|\btrab\b|tsh\s*receptor|cryoglobulins?|haptoglobin|microglobulin|\bb2m\b|free\s*light\s*chains?|\bflc\b|sflc|immunofixation|\bife\b|tryptase|caeruloplasmin|ceruloplasmin|shbg|sex\s*hormone\s*binding|\bamh\b|anti[\s-]?mullerian|follicle\s*stimulating\s*hormone|luteinising\s*hormone|luteinizing\s*hormone|prostate\s*specific\s*antigen|carcinoembryonic|lactate\s*dehydrogenase|antinuclear|antineutrophil|extractable\s*nuclear|cyclic\s*citrullinated|citrullinated\s*peptide|natriuretic\s*peptide|hydroxyprogesterone|serology)\b/i, tube: 'gold' },
 ];
 
 // Phrases to ignore when scanning for "unrecognised" candidate lines (form noise).
@@ -670,6 +670,12 @@ let rawShown = false;
 function escapeHtml(s) {
   return String(s).replace(/[&<>"'`]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' }[c]));
 }
+// Compact display label: a known test's `short` (e.g. ESR) if it has one, else the
+// canonical name. The canonical name is still what is stored, matched, and linked.
+function displayName(name) {
+  const t = (typeof findTest === 'function') ? findTest(name) : null;
+  return (t && t.short) ? t.short : name;
+}
 
 // Detect tests in the ORDER they appear in the text (line by line, left to right),
 // including test-like lines that didn't match any rule.
@@ -773,7 +779,7 @@ function renderSources() {
     const links = sourceLinks(t, site)
       .map(l => `<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)}</a>`)
       .join('');
-    return `<div class="src-row"><span class="src-name">${escapeHtml(t)}</span><span class="src-links">${links}</span></div>`;
+    return `<div class="src-row"><span class="src-name">${escapeHtml(displayName(t))}</span><span class="src-links">${links}</span></div>`;
   }).join('');
   el.innerHTML = `<p class="group-header">Test references</p>` +
     `<p class="group-caption">Check each test against its source for tube and handling details.</p>${rows}`;
@@ -790,7 +796,7 @@ function buildSummary() {
       total += g.qty;
       const q = g.qty > 1 ? ` (x${g.qty})` : '';
       const ref = g.referral ? ' [send-away]' : '';
-      return `${i + 1}. ${TUBES[g.key].name}${ref}${q}: ${g.tests.join(', ')}`;
+      return `${i + 1}. ${TUBES[g.key].name}${ref}${q}: ${g.tests.map(displayName).join(', ')}`;
     });
     lines.push(`${total} tube${total === 1 ? '' : 's'}, in order of draw:`, '', ...body);
     const ml = tubesMl(groups);
@@ -820,7 +826,7 @@ function renderChips(unmatched) {
     const isRef = referral.has(t.toLowerCase());
     const ref = isRef ? `<button class="chip-tag" data-ref="${i}" title="Tap to collect on site">Send separately</button>` : '';
     const hint = (!isRef && isNicheTest(t)) ? `<button class="chip-hint" data-ref="${i}" title="Tap to send separately">Off site?</button>` : '';
-    return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>${ref}${hint}` +
+    return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(displayName(t))}</span>${ref}${hint}` +
            `<button class="chip-x" data-i="${i}" aria-label="Remove"><svg viewBox="0 0 12 12" width="9" height="9" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></span>`;
   }).join('');
   const rawHtml = lastRawText ? `
@@ -862,7 +868,7 @@ function renderTubes(groups) {
     const tube = TUBES[g.key];
     total += g.qty;
     const notes = [];
-    if (g.refTests.length) notes.push(`Includes a send-away tube for: ${g.refTests.map(escapeHtml).join(', ')}.`);
+    if (g.refTests.length) notes.push(`Includes a send-away tube for: ${g.refTests.map(t => escapeHtml(displayName(t))).join(', ')}.`);
     if (g.localQty > 1) notes.push(`Large local panel: about ${g.localQty} tubes estimated for volume; confirm with your lab.`);
     if (tube.note) notes.push(tube.note);
     const noteHtml = notes.length ? `<div class="tube-note">${notes.join(' ')}</div>` : '';
@@ -878,7 +884,7 @@ function renderTubes(groups) {
           ${qtyHtml}
         </div>
         <div class="tube-sub">${tube.additive}</div>
-        <div class="tube-tests"><span>Tests:</span> ${g.tests.map(escapeHtml).join(', ')}</div>
+        <div class="tube-tests"><span>Tests:</span> ${g.tests.map(t => escapeHtml(displayName(t))).join(', ')}</div>
         ${noteHtml}
       </div>`;
     tubesEl.appendChild(row);

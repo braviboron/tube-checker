@@ -2,9 +2,9 @@ test,lab
 Tacrolimus,ICPMR
 Tacrolimus,WESTMEAD
 Cyclosporin,ICPMR
-ANCA,RPA
-ANCA,ICPMR
+Antineutrophil cytoplasmic Ab,RPA
+Antineutrophil cytoplasmic Ab,ICPMR
 dsDNA,RPA
-ENA,RPA
+Extractable nuclear antigen Ab,RPA
 Protein Electrophoresis,ICPMR
 Protein Electrophoresis,WESTMEAD

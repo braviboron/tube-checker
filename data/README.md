@@ -14,13 +14,34 @@ One row per collection tube. `key` is the internal id used elsewhere. `color` is
 colour. `draw` is the order-of-draw position (lower = drawn first). `ml` is the nominal
 fill volume. `maxTests` is a conservative capacity (blank = unlimited / always 1 tube).
 
-### tests.csv  `name,tube,aliases,offsite,defaultLab,rcpa,nsw`
-The catalogue. `tube` references a `tubes.csv` key. `aliases` are pipe-separated (`FBC|FBE`).
-`offsite` is `none | maybe | usually` (how likely the test is referred to a reference lab;
-drives the 'Off site?' hint even with no site selected). `defaultLab` is a `labs.csv` id or
-blank. `rcpa` / `nsw` are optional source links (blank `nsw` falls back to a catalogue
-search link). **Invariant:** every `name` must map through the app's `RULES` to its `tube`
-(a test asserts this).
+### tests.csv  `name,tube,aliases,offsite,defaultLab,rcpa,nsw,verified,short`
+The catalogue. `name` is the **canonical** name (aligned to the RCPA Manual where possible);
+it is what is stored, matched, and linked. `tube` references a `tubes.csv` key. `aliases` are
+pipe-separated (`FBC|FBE`) and are for SEARCH/DETECTION (the old name is kept here whenever a
+test is renamed, so it stays findable). `offsite` is `none | maybe | usually`. `defaultLab` is
+a `labs.csv` id or blank. `rcpa` / `nsw` are optional source-link overrides (blank `nsw` falls
+back to a catalogue search link; `rcpa` holds a verified RCPA deep link where known).
+- `short` is a compact DISPLAY label (e.g. `ESR` for `Erythrocyte sedimentation rate`). It is
+  shown in chips, tube cards, the summary and references; the canonical `name` is unchanged
+  and is still what links/data use. This is distinct from `aliases` (search only).
+- `verified` is provenance: `estimate` (clinical best-effort, the default) up to `official`
+  once confirmed against an authoritative extract. Lets a repass target unverified rows.
+
+**Invariant:** every `name` must map through the app's `RULES` to its `tube` (a test asserts
+this). Renaming a test therefore usually needs a matching `RULES` term added in index.html.
+
+## Repass / importing from an authoritative source
+When an official extract (e.g. an RCPA or NSW Health data feed, with permission) arrives, the
+CSV model is built to absorb it:
+1. **Match** each incoming row to ours by `name` OR any `aliases` entry (old names are retained
+   as aliases on every rename, so prior identities still match).
+2. **Update** `tube`, `offsite`, `defaultLab`, `rcpa`/`nsw`, and set `verified` accordingly;
+   add any new synonyms to `aliases`. Add brand-new tests as new rows.
+3. **Flag conflicts** (e.g. our tube differs from the source's specimen) for clinical review
+   rather than auto-overwriting.
+4. `node tools/build-data.mjs` re-validates every reference, so a bad merge fails the build,
+   not the app. References in `availability.csv` / `overrides.csv` are by test name, so update
+   them too if a name changes (the build will flag any that dangle).
 
 ### labs.csv  `id,name,state`
 Reference and hospital laboratories. `state` references `states.csv`.

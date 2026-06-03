@@ -39,6 +39,7 @@ const TESTS = readTable('tests').map(t => {
   const o = { name: t.name, tube: t.tube,
     aliases: t.aliases ? t.aliases.split('|').map(s => s.trim()).filter(Boolean) : [],
     offsite: t.offsite || 'none' };
+  if (blank(t.short)) o.short = t.short;        // compact display label (canonical name unchanged)
   if (blank(t.defaultLab)) o.defaultLab = t.defaultLab;
   const sources = {};
   if (blank(t.rcpa)) sources.rcpa = t.rcpa;
