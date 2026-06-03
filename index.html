@@ -471,7 +471,7 @@ function searchTests(query, limit = 8) {
   const scored = [];
   for (const t of TESTS) {
     let best = Infinity;
-    for (const h of [t.name, ...(t.aliases || [])]) {
+    for (const h of [t.name, t.short, ...(t.aliases || [])].filter(Boolean)) {
       const n = normTest(h);
       if (!n) continue;
       let score;
@@ -499,7 +499,7 @@ function fuzzyCanonical(s) {
   if (q.length < 5) return null;
   let best = null, bestD = Infinity;
   for (const t of TESTS) {
-    for (const a of [t.name, ...(t.aliases || [])]) {
+    for (const a of [t.name, t.short, ...(t.aliases || [])].filter(Boolean)) {
       const n = normTest(a);
       if (!n || Math.abs(n.length - q.length) > 3) continue;
       const d = levenshtein(q, n);
@@ -511,7 +511,7 @@ function fuzzyCanonical(s) {
 
 // A test that may need to be sent off-site (offsite flag maybe|usually) gets a soft hint.
 const _offsiteKeys = new Set();
-for (const t of TESTS) if (t.offsite && t.offsite !== 'none') for (const a of [t.name, ...(t.aliases || [])]) _offsiteKeys.add(normTest(a));
+for (const t of TESTS) if (t.offsite && t.offsite !== 'none') for (const a of [t.name, t.short, ...(t.aliases || [])].filter(Boolean)) _offsiteKeys.add(normTest(a));
 function isNicheTest(s) { return _offsiteKeys.has(normTest(s)); }
 
 // Estimated number of tubes of a colour needed for `n` tests on it. Volume-limited
@@ -570,7 +570,7 @@ function tubesMl(groups) {
 // A test name or alias, resolved to its canonical TESTS entry (or null).
 function findTest(name) {
   const k = normTest(name);
-  return TESTS.find(t => normTest(t.name) === k || (t.aliases || []).some(a => normTest(a) === k)) || null;
+  return TESTS.find(t => [t.name, t.short, ...(t.aliases || [])].filter(Boolean).some(a => normTest(a) === k)) || null;
 }
 // Lookup: canonical test name -> the labs known to perform it (from AVAILABILITY).
 const _availByTest = {};
@@ -779,7 +779,7 @@ function renderSources() {
     const links = sourceLinks(t, site)
       .map(l => `<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)}</a>`)
       .join('');
-    return `<div class="src-row"><span class="src-name">${escapeHtml(displayName(t))}</span><span class="src-links">${links}</span></div>`;
+    return `<div class="src-row"><span class="src-name">${escapeHtml(t)}</span><span class="src-links">${links}</span></div>`;
   }).join('');
   el.innerHTML = `<p class="group-header">Test references</p>` +
     `<p class="group-caption">Check each test against its source for tube and handling details.</p>${rows}`;
@@ -826,7 +826,7 @@ function renderChips(unmatched) {
     const isRef = referral.has(t.toLowerCase());
     const ref = isRef ? `<button class="chip-tag" data-ref="${i}" title="Tap to collect on site">Send separately</button>` : '';
     const hint = (!isRef && isNicheTest(t)) ? `<button class="chip-hint" data-ref="${i}" title="Tap to send separately">Off site?</button>` : '';
-    return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(displayName(t))}</span>${ref}${hint}` +
+    return `<span class="chip${flag}"><span class="chip-label" data-i="${i}">${escapeHtml(t)}</span>${ref}${hint}` +
            `<button class="chip-x" data-i="${i}" aria-label="Remove"><svg viewBox="0 0 12 12" width="9" height="9" aria-hidden="true"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></span>`;
   }).join('');
   const rawHtml = lastRawText ? `
@@ -1016,7 +1016,7 @@ function renderPickerList() {
   const results = searchTests(q, 12);
   let html = results.map(t => pickerRow(t.name, isSelectedTest(t.name), null, t.tube)).join('');
   const qn = normTest(q);
-  const covered = results.some(t => [t.name, ...(t.aliases || [])].some(a => normTest(a) === qn));
+  const covered = results.some(t => [t.name, t.short, ...(t.aliases || [])].filter(Boolean).some(a => normTest(a) === qn));
   if (!covered) {
     const keys = Object.keys(matchTests(q).tubeMap).sort((a, b) => TUBES[a].draw - TUBES[b].draw);
     if (keys.length) html = pickerRow(q, isSelectedTest(q), null, keys[0], true) + html;
