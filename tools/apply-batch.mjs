@@ -7,16 +7,16 @@ const cell=v=>{v=(v??'').toString();return /[",\n]/.test(v)?'"'+v.replace(/"/g,'
 
 // name -> { tube, note }
 const BATCH = {
-  'Amino acids': { tube:'green', note:'Plasma; collect on ice and deliver promptly (some labs use EDTA).' },
-  'Anabolic steroids': { tube:'nonblood', note:'Usually a urine screen; serum only for some confirmatory assays.' },
-  'Anion gap': { tube:'gold', note:'Calculated from the electrolytes and collected with the U&E sample.' },
-  'Base excess arterial': { tube:'abg', note:'Arterial blood-gas syringe; analyse immediately.' },
-  'Blood gas arterial': { tube:'abg', note:'Arterial blood-gas syringe; analyse immediately.' },
-  'Carboxyhaemoglobin': { tube:'abg', note:'Measured on a blood-gas analyser (arterial or venous sample).' },
-  'Cold agglutinins': { tube:'gold', note:'Collect and transport warm at 37C (pre-warmed tube).' },
-  'Copeptin': { tube:'purple', note:'EDTA plasma; send frozen.' },
-  'Corticosteroids': { tube:'gold', note:'Serum (blood). Urinary free cortisol is a separate urine test (see RCPA).' },
-  'Cryptococcal Ag': { tube:'gold', note:'Serum (blood). Also performed on CSF (see RCPA).' },
+  'Cytokine receptors': { tube:'gold', note:'Soluble cytokine receptors, serum.' },
+  'Dexamethasone suppression test overnight': { tube:'gold', note:'Dynamic test: serum cortisol at set times (see RCPA for the protocol).' },
+  'Down syndrome prenatal risk test': { tube:'gold', note:'Maternal serum screen.' },
+  'Drug assays therapeutic drug monitoring': { tube:'gold', note:'Umbrella for therapeutic drug levels: serum for most, but some need EDTA (e.g. tacrolimus). Check the specific drug.' },
+  'Glucagon': { tube:'purple', note:'EDTA with aprotinin, collect on ice and send frozen.' },
+  'Heparin induced thrombocytopenia screen': { tube:'gold', note:'PF4 / heparin antibody, serum.' },
+  'HTLV detection': { tube:'gold', note:'HTLV I/II serology, serum.' },
+  'Isohaemagglutinin titre': { tube:'gold', note:'Anti-A and anti-B titres, serum.' },
+  'Lactose tolerance test': { tube:'grey', note:'Timed blood glucose after a lactose load (fluoride tube).' },
+  'Lymphocyte function test': { tube:'green', note:'Viable lymphocytes, lithium heparin; deliver promptly and check local handling.' },
 };
 
 const raw=parseCsv(readFileSync('data/tests.csv','utf8')).filter(r=>r.some(c=>c.trim()!==''));

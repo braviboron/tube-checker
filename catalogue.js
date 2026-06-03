@@ -1801,9 +1801,10 @@ const TESTS = [
   },
   {
     "name": "Cytokine receptors",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Soluble cytokine receptors, serum.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytokine-receptors"
     }
@@ -1891,9 +1892,10 @@ const TESTS = [
   },
   {
     "name": "Dexamethasone suppression test overnight",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Dynamic test: serum cortisol at set times (see RCPA for the protocol).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Dexamethasone-suppression-test-overnight"
     }
@@ -1983,18 +1985,20 @@ const TESTS = [
   },
   {
     "name": "Down syndrome prenatal risk test",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Maternal serum screen.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Down-syndrome-prenatal-risk-test"
     }
   },
   {
     "name": "Drug assays therapeutic drug monitoring",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Umbrella for therapeutic drug levels: serum for most, but some need EDTA (e.g. tacrolimus). Check the specific drug.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Drug-assays-therapeutic-drug-monitoring"
     }
@@ -2628,9 +2632,10 @@ const TESTS = [
   },
   {
     "name": "Glucagon",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "note": "EDTA with aprotinin, collect on ice and send frozen.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucagon"
     }
@@ -2953,9 +2958,10 @@ const TESTS = [
   },
   {
     "name": "Heparin induced thrombocytopenia screen",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "PF4 / heparin antibody, serum.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Heparin-induced-thrombocytopenia-screen"
     }
@@ -3126,9 +3132,10 @@ const TESTS = [
   },
   {
     "name": "HTLV detection",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "HTLV I/II serology, serum.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HTLV-detection"
     }
@@ -3350,9 +3357,10 @@ const TESTS = [
   },
   {
     "name": "Isohaemagglutinin titre",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Anti-A and anti-B titres, serum.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Isohaemagglutinin-titre"
     }
@@ -3465,9 +3473,10 @@ const TESTS = [
   },
   {
     "name": "Lactose tolerance test",
-    "tube": "confirm",
+    "tube": "grey",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Timed blood glucose after a lactose load (fluoride tube).",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactose-tolerance-test"
     }
@@ -3679,9 +3688,10 @@ const TESTS = [
   },
   {
     "name": "Lymphocyte function test",
-    "tube": "confirm",
+    "tube": "green",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Viable lymphocytes, lithium heparin; deliver promptly and check local handling.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymphocyte-function-test"
     }
