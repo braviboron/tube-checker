@@ -123,7 +123,7 @@ const TESTS = [
   },
   {
     "name": "4 hydroxy 3 methoxymandelate",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -174,7 +174,7 @@ const TESTS = [
   },
   {
     "name": "Acute phase reactants",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -183,7 +183,7 @@ const TESTS = [
   },
   {
     "name": "ADAMTS 13 activity",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -192,7 +192,7 @@ const TESTS = [
   },
   {
     "name": "Adenovirus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -253,7 +253,7 @@ const TESTS = [
   },
   {
     "name": "Alcohol",
-    "tube": "confirm",
+    "tube": "grey",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -302,7 +302,7 @@ const TESTS = [
   },
   {
     "name": "Alpha 1 antitrypsin",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -338,7 +338,7 @@ const TESTS = [
   },
   {
     "name": "Alpha subunit Glycoprotein",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -387,7 +387,7 @@ const TESTS = [
   },
   {
     "name": "Amiodarone",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -437,7 +437,7 @@ const TESTS = [
   },
   {
     "name": "Androstenedione",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -446,7 +446,7 @@ const TESTS = [
   },
   {
     "name": "Angiostrongylus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -573,7 +573,7 @@ const TESTS = [
   },
   {
     "name": "Apolipoprotein A I",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -582,7 +582,7 @@ const TESTS = [
   },
   {
     "name": "Apolipoprotein B",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -615,7 +615,7 @@ const TESTS = [
   },
   {
     "name": "Arbovirus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -658,7 +658,7 @@ const TESTS = [
   },
   {
     "name": "Bacterial antigen detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -667,7 +667,7 @@ const TESTS = [
   },
   {
     "name": "Bartonella henselae detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -685,7 +685,7 @@ const TESTS = [
   },
   {
     "name": "Bence Jones protein",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -712,7 +712,7 @@ const TESTS = [
   },
   {
     "name": "Beta hydroxybutyrate",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -762,7 +762,7 @@ const TESTS = [
   },
   {
     "name": "Bile Acids",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -896,7 +896,7 @@ const TESTS = [
   },
   {
     "name": "Bordetella pertussis nucleic acid",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -999,7 +999,7 @@ const TESTS = [
   },
   {
     "name": "C1 esterase inhibitor",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1017,7 +1017,7 @@ const TESTS = [
   },
   {
     "name": "C3 nephritic factor",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1026,7 +1026,7 @@ const TESTS = [
   },
   {
     "name": "CA 15 3",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1035,7 +1035,7 @@ const TESTS = [
   },
   {
     "name": "CA 19 9",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -1068,7 +1068,7 @@ const TESTS = [
   },
   {
     "name": "Calcitonin",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1099,7 +1099,7 @@ const TESTS = [
   },
   {
     "name": "Calculi biliary tract",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1108,7 +1108,7 @@ const TESTS = [
   },
   {
     "name": "Calculi urinary tract",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -1138,7 +1138,7 @@ const TESTS = [
   },
   {
     "name": "Carbohydrate deficient transferrin",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1192,7 +1192,7 @@ const TESTS = [
   },
   {
     "name": "Carnitine",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1201,7 +1201,7 @@ const TESTS = [
   },
   {
     "name": "Carotene",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1219,7 +1219,7 @@ const TESTS = [
   },
   {
     "name": "Cell immunophenotyping",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1257,7 +1257,7 @@ const TESTS = [
   },
   {
     "name": "Cervical screening test",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -1266,7 +1266,7 @@ const TESTS = [
   },
   {
     "name": "Charcot Marie Tooth disease testing",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1275,7 +1275,7 @@ const TESTS = [
   },
   {
     "name": "Chikungunya detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1284,7 +1284,7 @@ const TESTS = [
   },
   {
     "name": "Chlamydia trachomatis nucleic acid",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1293,7 +1293,7 @@ const TESTS = [
   },
   {
     "name": "Chlamydophila pneumoniae and psittacosis detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1329,7 +1329,7 @@ const TESTS = [
   },
   {
     "name": "Cholinesterase",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1338,7 +1338,7 @@ const TESTS = [
   },
   {
     "name": "Cholinesterase red cell",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1347,7 +1347,7 @@ const TESTS = [
   },
   {
     "name": "Chromogranin A",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1383,7 +1383,7 @@ const TESTS = [
   },
   {
     "name": "Clonazepam",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1392,7 +1392,7 @@ const TESTS = [
   },
   {
     "name": "Clostridium difficile detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1456,7 +1456,7 @@ const TESTS = [
   },
   {
     "name": "Collagen binding assay",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1563,7 +1563,7 @@ const TESTS = [
   },
   {
     "name": "Corneal scraping",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1738,7 +1738,7 @@ const TESTS = [
   },
   {
     "name": "Cystatin C",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1756,7 +1756,7 @@ const TESTS = [
   },
   {
     "name": "Cytochemistry",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1806,7 +1806,7 @@ const TESTS = [
   },
   {
     "name": "Cytomegalovirus nucleic acid detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -1894,7 +1894,7 @@ const TESTS = [
   },
   {
     "name": "Dilute Russell viper venom ratio",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1903,7 +1903,7 @@ const TESTS = [
   },
   {
     "name": "Diphtheria detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1983,7 +1983,7 @@ const TESTS = [
   },
   {
     "name": "Drugs of abuse screen",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1992,7 +1992,7 @@ const TESTS = [
   },
   {
     "name": "Duchenne and Becker muscular dystrophy",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2037,7 +2037,7 @@ const TESTS = [
   },
   {
     "name": "Electron microscopy",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2099,7 +2099,7 @@ const TESTS = [
   },
   {
     "name": "Eosinophil cationic protein",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2136,7 +2136,7 @@ const TESTS = [
   },
   {
     "name": "Erythropoietin",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2260,7 +2260,7 @@ const TESTS = [
   },
   {
     "name": "Familial polyposis coli test",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2291,7 +2291,7 @@ const TESTS = [
   },
   {
     "name": "Feto maternal haemorrhage estimation",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2320,7 +2320,7 @@ const TESTS = [
   },
   {
     "name": "Filaria",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2349,7 +2349,7 @@ const TESTS = [
   },
   {
     "name": "Flavivirus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2358,7 +2358,7 @@ const TESTS = [
   },
   {
     "name": "Flow cytometry",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2367,7 +2367,7 @@ const TESTS = [
   },
   {
     "name": "Fluorescence in situ hybridisation",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2400,7 +2400,7 @@ const TESTS = [
   },
   {
     "name": "Fragile X syndrome test",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2409,7 +2409,7 @@ const TESTS = [
   },
   {
     "name": "Free Androgen Index",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2451,7 +2451,7 @@ const TESTS = [
   },
   {
     "name": "Frozen section",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2460,7 +2460,7 @@ const TESTS = [
   },
   {
     "name": "Fructosamine",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2486,7 +2486,7 @@ const TESTS = [
   },
   {
     "name": "Fungal detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2495,7 +2495,7 @@ const TESTS = [
   },
   {
     "name": "Gamma glutamyltransferase",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2513,7 +2513,7 @@ const TESTS = [
   },
   {
     "name": "Gastric cytology",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2561,7 +2561,7 @@ const TESTS = [
   },
   {
     "name": "GI brushing cytology including pancreato bile duc",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2657,7 +2657,7 @@ const TESTS = [
   },
   {
     "name": "Glycoprotein Ib binding assay using recombinant GP",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2666,7 +2666,7 @@ const TESTS = [
   },
   {
     "name": "Glycoprotein Ib binding assay using recombinant mu",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2675,7 +2675,7 @@ const TESTS = [
   },
   {
     "name": "Glycoprotein Ib binding assays",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2684,7 +2684,7 @@ const TESTS = [
   },
   {
     "name": "Gonadotrophins",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2725,7 +2725,7 @@ const TESTS = [
   },
   {
     "name": "Haemoglobin",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2734,7 +2734,7 @@ const TESTS = [
   },
   {
     "name": "Haemoglobin A2",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2752,7 +2752,7 @@ const TESTS = [
   },
   {
     "name": "Haemoglobin F",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2761,7 +2761,7 @@ const TESTS = [
   },
   {
     "name": "Haemoglobin H",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2770,7 +2770,7 @@ const TESTS = [
   },
   {
     "name": "Haemoglobin M",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2779,7 +2779,7 @@ const TESTS = [
   },
   {
     "name": "Haemoglobin S",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2797,7 +2797,7 @@ const TESTS = [
   },
   {
     "name": "Haemoglobin variant",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2886,7 +2886,7 @@ const TESTS = [
   },
   {
     "name": "Heinz body",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3026,7 +3026,7 @@ const TESTS = [
   },
   {
     "name": "HIV p24 antigen",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3047,7 +3047,7 @@ const TESTS = [
   },
   {
     "name": "HIV viral load and resistance testing",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3070,7 +3070,7 @@ const TESTS = [
   },
   {
     "name": "Holotranscobalamin",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3117,7 +3117,7 @@ const TESTS = [
   },
   {
     "name": "Human epidermal growth factor receptor 2",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3168,7 +3168,7 @@ const TESTS = [
   },
   {
     "name": "Immune complex assays",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3177,7 +3177,7 @@ const TESTS = [
   },
   {
     "name": "Immunofluorescence",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3228,7 +3228,7 @@ const TESTS = [
   },
   {
     "name": "Immunohistochemistry",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3257,7 +3257,7 @@ const TESTS = [
   },
   {
     "name": "Influenza virus nucleic acid",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3289,7 +3289,7 @@ const TESTS = [
   },
   {
     "name": "Intradermal allergen",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3351,7 +3351,7 @@ const TESTS = [
   },
   {
     "name": "Japanese Encephalitis (JEV) detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3407,7 +3407,7 @@ const TESTS = [
   },
   {
     "name": "Lactase small bowel mucosa",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3498,7 +3498,7 @@ const TESTS = [
   },
   {
     "name": "Legionella pneumophila serogroup 1 urinary Ag",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3507,7 +3507,7 @@ const TESTS = [
   },
   {
     "name": "Legionella species detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3516,7 +3516,7 @@ const TESTS = [
   },
   {
     "name": "Leptospiral (leptospirosis)",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3552,7 +3552,7 @@ const TESTS = [
   },
   {
     "name": "Lipoprotein (a)",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3561,7 +3561,7 @@ const TESTS = [
   },
   {
     "name": "Liquid based cervical cytology",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3602,7 +3602,7 @@ const TESTS = [
   },
   {
     "name": "Lower respiratory tract cytology",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3631,7 +3631,7 @@ const TESTS = [
   },
   {
     "name": "Lupus band test",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3670,7 +3670,7 @@ const TESTS = [
   },
   {
     "name": "Lymphocyte immunophenotyping",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3718,7 +3718,7 @@ const TESTS = [
   },
   {
     "name": "Malaria Ag",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3754,7 +3754,7 @@ const TESTS = [
   },
   {
     "name": "MCS bronchoalveolar lavage",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3763,7 +3763,7 @@ const TESTS = [
   },
   {
     "name": "MCS fungal",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3772,7 +3772,7 @@ const TESTS = [
   },
   {
     "name": "MCS pus",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3808,7 +3808,7 @@ const TESTS = [
   },
   {
     "name": "Mean cell haemoglobin",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3817,7 +3817,7 @@ const TESTS = [
   },
   {
     "name": "Mean cell haemoglobin concentration",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3826,7 +3826,7 @@ const TESTS = [
   },
   {
     "name": "Mean cell volume",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3871,7 +3871,7 @@ const TESTS = [
   },
   {
     "name": "Methaemoglobin",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3880,7 +3880,7 @@ const TESTS = [
   },
   {
     "name": "Methotrexate",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3898,7 +3898,7 @@ const TESTS = [
   },
   {
     "name": "MIC susceptibility",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3963,7 +3963,7 @@ const TESTS = [
   },
   {
     "name": "Mpox detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3972,7 +3972,7 @@ const TESTS = [
   },
   {
     "name": "Multiple endocrine neoplasia type 2",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3990,7 +3990,7 @@ const TESTS = [
   },
   {
     "name": "Murray Valley Encephalitis (MVE) detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4019,7 +4019,7 @@ const TESTS = [
   },
   {
     "name": "Mycobacteria testing",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4037,7 +4037,7 @@ const TESTS = [
   },
   {
     "name": "Mycobacterium ulcerans detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4099,7 +4099,7 @@ const TESTS = [
   },
   {
     "name": "Myotonic dystrophy test",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4126,7 +4126,7 @@ const TESTS = [
   },
   {
     "name": "Neuron specific enolase",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4166,7 +4166,7 @@ const TESTS = [
   },
   {
     "name": "Newborn screening",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4195,7 +4195,7 @@ const TESTS = [
   },
   {
     "name": "Non Invasive Prenatal Blood Group Genotyping",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4204,7 +4204,7 @@ const TESTS = [
   },
   {
     "name": "Norovirus Sapovirus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4294,7 +4294,7 @@ const TESTS = [
   },
   {
     "name": "Osmotic fragility",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4350,7 +4350,7 @@ const TESTS = [
   },
   {
     "name": "Pap smear",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4420,7 +4420,7 @@ const TESTS = [
   },
   {
     "name": "Paroxysmal nocturnal haemoglobinuria",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4438,7 +4438,7 @@ const TESTS = [
   },
   {
     "name": "Paternity testing",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4465,7 +4465,7 @@ const TESTS = [
   },
   {
     "name": "Phenobarbitone",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4507,7 +4507,7 @@ const TESTS = [
   },
   {
     "name": "Phosphatidylethanol",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4536,7 +4536,7 @@ const TESTS = [
   },
   {
     "name": "Plasminogen",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4545,7 +4545,7 @@ const TESTS = [
   },
   {
     "name": "Plasminogen activator inhibitor",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4565,7 +4565,7 @@ const TESTS = [
   },
   {
     "name": "Platelet aggregometry",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4574,7 +4574,7 @@ const TESTS = [
   },
   {
     "name": "Platelet antigen genotyping",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4596,7 +4596,7 @@ const TESTS = [
   },
   {
     "name": "Platelet function screen",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4605,7 +4605,7 @@ const TESTS = [
   },
   {
     "name": "Platelet indices",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4632,7 +4632,7 @@ const TESTS = [
   },
   {
     "name": "Porphobilinogen",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4650,7 +4650,7 @@ const TESTS = [
   },
   {
     "name": "Porphyrin red cell",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4704,7 +4704,7 @@ const TESTS = [
   },
   {
     "name": "Primidone",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4777,7 +4777,7 @@ const TESTS = [
   },
   {
     "name": "Prostate specific antigen, free",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4861,7 +4861,7 @@ const TESTS = [
   },
   {
     "name": "Pubic lice (Pediculosis pubis) detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4879,7 +4879,7 @@ const TESTS = [
   },
   {
     "name": "Pyruvate kinase",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4888,7 +4888,7 @@ const TESTS = [
   },
   {
     "name": "Q Fever detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4908,7 +4908,7 @@ const TESTS = [
   },
   {
     "name": "Red cell distribution width",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4950,7 +4950,7 @@ const TESTS = [
   },
   {
     "name": "Reptilase time",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4959,7 +4959,7 @@ const TESTS = [
   },
   {
     "name": "Respiratory syncytial virus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4992,7 +4992,7 @@ const TESTS = [
   },
   {
     "name": "Rickettsial infection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5001,7 +5001,7 @@ const TESTS = [
   },
   {
     "name": "Ristocetin cofactor",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5010,7 +5010,7 @@ const TESTS = [
   },
   {
     "name": "Ristocetin induced platelet aggregation",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5042,7 +5042,7 @@ const TESTS = [
   },
   {
     "name": "SARS CoV 2 nucleic acid",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5051,7 +5051,7 @@ const TESTS = [
   },
   {
     "name": "Scabies",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5218,7 +5218,7 @@ const TESTS = [
   },
   {
     "name": "Soluble transferrin receptor",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5227,7 +5227,7 @@ const TESTS = [
   },
   {
     "name": "Sparganosis detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5256,7 +5256,7 @@ const TESTS = [
   },
   {
     "name": "Spinal muscular atrophy test",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5283,7 +5283,7 @@ const TESTS = [
   },
   {
     "name": "Streptococcus agalactiae (group B streptococcus GB",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5292,7 +5292,7 @@ const TESTS = [
   },
   {
     "name": "Streptococcus pneumoniae Ag",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5343,7 +5343,7 @@ const TESTS = [
   },
   {
     "name": "Syphilis test mucocutaneous ulcer",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5507,7 +5507,7 @@ const TESTS = [
   },
   {
     "name": "Total Protein",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5594,7 +5594,7 @@ const TESTS = [
   },
   {
     "name": "Trypanosome identification",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5626,7 +5626,7 @@ const TESTS = [
   },
   {
     "name": "Tuberculin sensitivity test",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5655,7 +5655,7 @@ const TESTS = [
   },
   {
     "name": "Unstable haemoglobin screening test",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5664,7 +5664,7 @@ const TESTS = [
   },
   {
     "name": "Upper respiratory tract virus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5791,7 +5791,7 @@ const TESTS = [
   },
   {
     "name": "Very long chain fatty acids",
-    "tube": "confirm",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5811,7 +5811,7 @@ const TESTS = [
   },
   {
     "name": "Virus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5912,7 +5912,7 @@ const TESTS = [
   },
   {
     "name": "von Willebrand factor Ag",
-    "tube": "confirm",
+    "tube": "blue",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5939,7 +5939,7 @@ const TESTS = [
   },
   {
     "name": "Vulvar cytology",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5971,7 +5971,7 @@ const TESTS = [
   },
   {
     "name": "White cell count differential",
-    "tube": "confirm",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5991,7 +5991,7 @@ const TESTS = [
   },
   {
     "name": "Zika virus detection",
-    "tube": "confirm",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
     "sources": {
