@@ -246,6 +246,7 @@
   .picker-item { display: flex; align-items: center; gap: 12px; padding: 12px 4px; cursor: pointer; border-bottom: 1px solid var(--sep); }
   .picker-item:active { background: var(--card); }
   .picker-item.kbd-active { background: rgba(0,122,255,0.10); border-radius: 8px; }   /* keyboard highlight (computer) */
+  .picker-shorthint { color: var(--secondary); font-weight: 400; }
   .picker-dot { width: 18px; height: 18px; border-radius: 5px; flex: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.14); }
   .picker-text { flex: 1; min-width: 0; }
   .picker-name { font-size: 15px; color: var(--label); }
@@ -1104,7 +1105,11 @@ function pickerRow(name, selected, index, tubeKey, isFree) {
   const tube = key ? TUBES[key] : null;
   const color = tube ? tube.color : 'var(--tertiary)';
   const sub = tube ? tube.name : (isFree ? 'add as typed' : 'unrecognised');
-  const label = isFree ? `Use '${escapeHtml(name)}'` : escapeHtml(name);
+  // Show the short label in brackets for clarity, e.g. 'C-Reactive Protein (CRP)'.
+  const t = isFree ? null : ((typeof findTest === 'function') ? findTest(name) : null);
+  const shortHint = (t && t.short && normTest(t.short) !== normTest(name))
+    ? ` <span class="picker-shorthint">(${escapeHtml(t.short)})</span>` : '';
+  const label = isFree ? `Use '${escapeHtml(name)}'` : (escapeHtml(name) + shortHint);
   return `<div class="picker-item${selected ? ' selected' : ''}" data-name="${escapeHtml(name)}"${index != null ? ` data-index="${index}"` : ''}>
       <span class="picker-dot" style="background:${color}"></span>
       <div class="picker-text"><div class="picker-name${isFree ? ' picker-free' : ''}">${label}</div><div class="picker-sub">${escapeHtml(sub)}</div></div>
