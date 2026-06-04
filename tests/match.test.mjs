@@ -278,6 +278,16 @@ expectEq2(resolveLab('FK506', 'nepean').dest, 'ICPMR', 'alias FK506 resolves lik
   const pinkA = aliasPlan.local.find(g => g.key === 'pink');
   expectEq2(pinkA ? pinkA.qty : 0, 1, 'no override at the generic site: 1 tube');
 }
+// Phase 3: a site HANDLING rule (Orange Hospital: handwritten group & hold labels),
+// resolved through the 'group and hold' alias to the canonical row.
+{
+  const plan = planTubes(['group and hold'], 'orange');
+  const h = (plan.handling || []).find(x => /handwritten|hand-labelled/i.test(x.note));
+  expectEq2(!!h, true, 'Orange site: handwritten group & hold handling rule surfaced');
+  expectEq2(h ? h.verified : '', 'confirmed', 'handling rule carries its verified flag');
+  const none = planTubes(['group and hold'], 'default').handling || [];
+  expectEq2(none.length, 0, 'no handling rule at the generic site');
+}
 
 // ─── Report ─────────────────────────────────────────────────────────────────
 console.log(`\nTube Checker matching tests: ${pass} passed, ${fail} failed\n`);

@@ -674,6 +674,13 @@ function overrideNoteFor(name, siteId) {
   const ov = _override(siteId, name, 'quantity');
   return ov && ov.note ? ov.note : '';
 }
+// PHASE 3: a site-specific HANDLING rule for a test (e.g. Orange Hospital requires
+// handwritten group & hold labels). Does not change the tube; surfaces as a warning.
+function handlingNoteFor(name, siteId) {
+  const ov = _override(siteId, name, 'handling');
+  if (!ov) return null;
+  return { test: name, note: ov.note || ov.value || '', date: ov.date || '', verified: ov.verified || '' };
+}
 // PHASE 3: does the site hide this test (a 'remove' override)?
 function siteHidesTest(name, siteId) { return !!_override(siteId, name, 'remove'); }
 // PHASE 2: decide where a single test is performed for a given site.
@@ -698,7 +705,7 @@ function resolveLab(name, siteId) {
 // flagged so the UI can later offer combining when the lab is the same. Different labs
 // are always separate. Quantity / tube / remove overrides are applied. Pure.
 function planTubes(tests, siteId) {
-  const local = new Map(), byLab = new Map(), unmatched = [], uncertain = [];
+  const local = new Map(), byLab = new Map(), unmatched = [], uncertain = [], handling = [];
   const push = (bucket, key, name, force, note) => {
     if (!bucket.has(key)) bucket.set(key, { tests: [], force: 0, warnings: [] });
     const g = bucket.get(key); g.tests.push(name);
@@ -706,6 +713,8 @@ function planTubes(tests, siteId) {
   };
   for (const name of tests) {
     if (siteHidesTest(name, siteId)) continue;                  // Phase 3: not offered here
+    const hn = handlingNoteFor(name, siteId);                   // Phase 3: site handling rule
+    if (hn) handling.push(hn);
     const keys = effectiveTubeKeys(name, siteId);               // Phase 3: tube override
     if (!keys.length) { unmatched.push(name); continue; }
     const r = resolveLab(name, siteId);                         // Phase 2: local vs which lab
@@ -727,7 +736,7 @@ function planTubes(tests, siteId) {
         qty: Math.max(g.tests.length, g.force || 1),            // safer default: one tube per referred test
         couldConsolidate: g.tests.length > 1, warnings: g.warnings });
   labGroups.sort((a, b) => a.dest.localeCompare(b.dest) || draw(a.key) - draw(b.key));
-  return { local: localGroups, labs: labGroups, unmatched, uncertain };
+  return { local: localGroups, labs: labGroups, unmatched, uncertain, handling };
 }
 // A lab id resolved to its display name.
 function labName(id) { const l = LABS.find(x => x.id === id); return l ? l.name : id; }

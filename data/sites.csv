@@ -2,3 +2,4 @@ id,name,state,lab,region
 default,Generic (NSW default),NSW,,
 nepean,Nepean Hospital,NSW,NEPEAN,nbmlhd
 westmead,Westmead Hospital,NSW,WESTMEAD,wslhd
+orange,Orange Hospital,NSW,ORANGE,wnswlhd

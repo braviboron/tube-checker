@@ -101,7 +101,7 @@ for (const g of GROUPS) {
 }
 for (const o of OVERRIDES) {
   if (!testNames.has(o.test)) errs.push(`override -> unknown test "${o.test}"`);
-  if (!['quantity', 'lab', 'tube', 'add', 'remove'].includes(o.field)) errs.push(`override "${o.test}" -> bad field "${o.field}"`);
+  if (!['quantity', 'lab', 'tube', 'add', 'remove', 'handling'].includes(o.field)) errs.push(`override "${o.test}" -> bad field "${o.field}"`);
   if (o.field === 'lab' && !labIds.has(o.value)) errs.push(`override "${o.test}" -> unknown lab "${o.value}"`);
   if (o.field === 'tube' && !tubeKeys.has(o.value)) errs.push(`override "${o.test}" -> unknown tube "${o.value}"`);
 }

@@ -109,13 +109,16 @@ tests need rows here; routine tests are assumed available everywhere. **The curr
 an illustrative EXAMPLE**, to be replaced by data derived from the NSW Health Pathology
 catalogue (with permission). Used by the dormant Phase 2 routing.
 
-### overrides.csv  `scope,scopeId,test,field,value,note`
+### overrides.csv  `scope,scopeId,test,field,value,note,date,verified`
 Per-site or per-state tweaks. `scope` is `site` or `state`; `scopeId` is the site/state id.
 `note` is an optional human-readable warning/explanation surfaced with the change (e.g. why
-a centre collects an extra tube). The current row is an illustrative EXAMPLE only. `field` is
-one of:
+a centre collects an extra tube). `date` is the entry date and `verified` the provenance
+(`example` | `confirmed` | ...) so site rules are auditable. `field` is one of:
 - `quantity` - force N tubes for this test (e.g. a site that collects a second crossmatch
   sample); the `note` explains it.
+- `handling` - a site-specific HANDLING rule that does not change the tube (e.g. Orange
+  Hospital requires handwritten group & hold / transfusion labels). The instruction is in
+  `value` / `note`; `planTubes` returns it in `handling[]` to surface as a warning.
 - `lab` - route this test to a specific `labs.csv` id.
 - `tube` - collect this test in a different `tubes.csv` key.
 - `remove` - this site does not offer the test.

@@ -6088,6 +6088,11 @@ const LABS = [
     "id": "WESTMEAD",
     "name": "Westmead Hospital Laboratory",
     "state": "NSW"
+  },
+  {
+    "id": "ORANGE",
+    "name": "Orange Health Service Laboratory",
+    "state": "NSW"
   }
 ];
 const STATES = [
@@ -6119,6 +6124,13 @@ const SITES = [
     "state": "NSW",
     "lab": "WESTMEAD",
     "region": "wslhd"
+  },
+  {
+    "id": "orange",
+    "name": "Orange Hospital",
+    "state": "NSW",
+    "lab": "ORANGE",
+    "region": "wnswlhd"
   }
 ];
 const OVERRIDES = [
@@ -6128,7 +6140,19 @@ const OVERRIDES = [
     "test": "Crossmatch",
     "field": "quantity",
     "value": "2",
-    "note": "Example only: some centres collect a second crossmatch sample - confirm with your transfusion laboratory."
+    "note": "Example only: some centres collect a second crossmatch sample - confirm with your transfusion laboratory.",
+    "date": "",
+    "verified": "example"
+  },
+  {
+    "scope": "site",
+    "scopeId": "orange",
+    "test": "Blood group and antibody screen",
+    "field": "handling",
+    "value": "Handwritten label required",
+    "note": "Orange Hospital requires group and hold / transfusion samples to be hand-labelled at the bedside (printed labels are not accepted).",
+    "date": "2026-06-04",
+    "verified": "confirmed"
   }
 ];
 const AVAILABILITY = [
