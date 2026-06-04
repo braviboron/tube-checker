@@ -6109,28 +6109,32 @@ const SITES = [
     "name": "Generic (NSW default)",
     "state": "NSW",
     "lab": "",
-    "region": ""
+    "region": "",
+    "selectable": "yes"
   },
   {
     "id": "nepean",
     "name": "Nepean Hospital",
     "state": "NSW",
     "lab": "NEPEAN",
-    "region": "nbmlhd"
+    "region": "nbmlhd",
+    "selectable": "no"
   },
   {
     "id": "westmead",
     "name": "Westmead Hospital",
     "state": "NSW",
     "lab": "WESTMEAD",
-    "region": "wslhd"
+    "region": "wslhd",
+    "selectable": "no"
   },
   {
     "id": "orange",
     "name": "Orange Hospital",
     "state": "NSW",
     "lab": "ORANGE",
-    "region": "wnswlhd"
+    "region": "wnswlhd",
+    "selectable": "yes"
   }
 ];
 const OVERRIDES = [

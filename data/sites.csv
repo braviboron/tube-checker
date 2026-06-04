@@ -1,5 +1,5 @@
-id,name,state,lab,region
-default,Generic (NSW default),NSW,,
-nepean,Nepean Hospital,NSW,NEPEAN,nbmlhd
-westmead,Westmead Hospital,NSW,WESTMEAD,wslhd
-orange,Orange Hospital,NSW,ORANGE,wnswlhd
+id,name,state,lab,region,selectable
+default,Generic (NSW default),NSW,,,yes
+nepean,Nepean Hospital,NSW,NEPEAN,nbmlhd,no
+westmead,Westmead Hospital,NSW,WESTMEAD,wslhd,no
+orange,Orange Hospital,NSW,ORANGE,wnswlhd,yes

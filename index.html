@@ -121,6 +121,8 @@
   .advisory-title { font-size: 13px; font-weight: 600; color: var(--note); margin-bottom: 6px; }
   .advisory ul { margin: 0; padding-left: 18px; }
   .advisory li { font-size: 13px; color: var(--note); margin-bottom: 4px; line-height: 1.45; }
+  .advisory-site { background: rgba(0,122,255,0.08); margin-top: 0; margin-bottom: 14px; }
+  .advisory-site .advisory-title, .advisory-site li { color: var(--blue); }
 
   .btn-filled {
     width: 100%; margin-top: 12px; background: var(--blue); color: #fff; border: none;
@@ -348,6 +350,7 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
   <!-- Results -->
   <div id="results">
     <div id="recognised-wrap"></div>
+    <div id="site-rules"></div>
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <div class="group" id="tubes-needed"></div>
@@ -834,6 +837,7 @@ function update() {
 
   const { groups, unmatched } = tubeGroupsFor(selectedTests, referral);
   renderChips(new Set(unmatched));
+  renderSiteRules();
   renderTubes(groups);
   renderSources();
   const cb = document.getElementById('clear-btn');
@@ -1064,6 +1068,23 @@ function renderReferAdvisory() {
   });
   el.innerHTML = items.length
     ? `<div class="advisory"><div class="advisory-title">Possible referrals (check locally)</div><ul>${items.join('')}</ul></div>`
+    : '';
+}
+
+// Site-specific HANDLING rules for the chosen site (Phase 3 overrides), shown at the top of
+// the results, e.g. Orange Hospital requires handwritten group & hold labels.
+function renderSiteRules() {
+  const el = document.getElementById('site-rules');
+  if (!el) return;
+  if (!selectedTests.length || currentSite === 'default') { el.innerHTML = ''; return; }
+  const items = [];
+  for (const t of selectedTests) {
+    const hn = (typeof handlingNoteFor === 'function') ? handlingNoteFor(t, currentSite) : null;
+    if (hn && hn.note) items.push(`<li>${escapeHtml(displayName(t))}: ${escapeHtml(hn.note)}</li>`);
+  }
+  const site = (typeof SITES !== 'undefined' ? SITES.find(s => s.id === currentSite) : null) || {};
+  el.innerHTML = items.length
+    ? `<div class="advisory advisory-site"><div class="advisory-title">${escapeHtml(site.name || currentSite)} site rules</div><ul>${items.join('')}</ul></div>`
     : '';
 }
 
@@ -1684,15 +1705,17 @@ const FOOTER_LINKS = {
 // stored in `currentSite` for the engine to use later (Phase 3 overrides); it does
 // NOT change any tube output yet.
 let currentSite = 'default';
-const SITE_PICKER_ENABLED = false;   // unwired for now; flip to true to show the picker
+const SITE_PICKER_ENABLED = true;    // picker is live; only sites flagged selectable appear
 (() => {
   if (!SITE_PICKER_ENABLED) return;
   const wrap = document.getElementById('footer-site');
   const sel = document.getElementById('site-select');
   if (!wrap || !sel || typeof SITES === 'undefined' || !SITES.length) return;
   const stateName = id => (typeof STATES !== 'undefined' ? STATES : []).find(s => s.id === id)?.name || id;
+  // For now only sites flagged selectable=yes are offered; everyone else stays on default.
+  const choices = SITES.filter(s => s.selectable === 'yes');
   const byState = {};
-  for (const s of SITES) (byState[s.state] = byState[s.state] || []).push(s);
+  for (const s of choices) (byState[s.state] = byState[s.state] || []).push(s);
   sel.innerHTML = Object.keys(byState).map(st =>
     `<optgroup label="${escapeHtml(stateName(st))}">` +
     byState[st].map(s => `<option value="${escapeHtml(s.id)}">${escapeHtml(s.name)}</option>`).join('') +
@@ -1700,11 +1723,12 @@ const SITE_PICKER_ENABLED = false;   // unwired for now; flip to true to show th
   let saved = '';
   try { saved = localStorage.getItem('tc-site') || ''; } catch (e) {}
   if (saved && [...sel.options].some(o => o.value === saved)) sel.value = saved;
-  currentSite = sel.value;
+  currentSite = sel.value || 'default';
   wrap.hidden = false;
   sel.addEventListener('change', () => {
     currentSite = sel.value;
     try { localStorage.setItem('tc-site', sel.value); } catch (e) {}
+    if (typeof update === 'function') update();   // re-render so site rules apply
   });
 })();
 
