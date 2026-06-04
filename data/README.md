@@ -117,8 +117,10 @@ a centre collects an extra tube). `date` is the entry date and `verified` the pr
 - `quantity` - force N tubes for this test (e.g. a site that collects a second crossmatch
   sample); the `note` explains it.
 - `handling` - a site-specific HANDLING rule that does not change the tube (e.g. Orange
-  Hospital requires handwritten group & hold / transfusion labels). The instruction is in
-  `value` / `note`; `planTubes` returns it in `handling[]` to surface as a warning.
+  Hospital requires handwritten transfusion labels). The instruction is in `value` / `note`;
+  `planTubes` returns it in `handling[]` and `renderSiteRules()` shows it. For a `handling`
+  rule, `test` may be a TUBE key (e.g. `pink`) instead of a test name, so one rule covers
+  every test on that tube (all transfusion samples), not just one.
 - `lab` - route this test to a specific `labs.csv` id.
 - `tube` - collect this test in a different `tubes.csv` key.
 - `remove` - this site does not offer the test.

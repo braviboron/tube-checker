@@ -100,7 +100,8 @@ for (const g of GROUPS) {
   for (const m of g.members) if (!testNames.has(m)) errs.push(`group "${g.name}" -> member is not a test: "${m}"`);
 }
 for (const o of OVERRIDES) {
-  if (!testNames.has(o.test)) errs.push(`override -> unknown test "${o.test}"`);
+  // a `handling` rule may target a TUBE key (e.g. all pink transfusion samples) instead of a test
+  if (!testNames.has(o.test) && !(o.field === 'handling' && tubeKeys.has(o.test))) errs.push(`override -> unknown test "${o.test}"`);
   if (!['quantity', 'lab', 'tube', 'add', 'remove', 'handling'].includes(o.field)) errs.push(`override "${o.test}" -> bad field "${o.field}"`);
   if (o.field === 'lab' && !labIds.has(o.value)) errs.push(`override "${o.test}" -> unknown lab "${o.value}"`);
   if (o.field === 'tube' && !tubeKeys.has(o.value)) errs.push(`override "${o.test}" -> unknown tube "${o.value}"`);

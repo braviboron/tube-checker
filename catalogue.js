@@ -6151,10 +6151,10 @@ const OVERRIDES = [
   {
     "scope": "site",
     "scopeId": "orange",
-    "test": "Blood group and antibody screen",
+    "test": "pink",
     "field": "handling",
     "value": "Handwritten label required",
-    "note": "Orange Hospital requires group and hold / transfusion samples to be hand-labelled at the bedside (printed labels are not accepted).",
+    "note": "Orange Hospital requires handwritten labels on all Group and Hold, Crossmatch and other transfusion (pink-top) samples; printed labels are not accepted.",
     "date": "2026-06-04",
     "verified": "confirmed"
   }

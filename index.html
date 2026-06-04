@@ -680,7 +680,12 @@ function overrideNoteFor(name, siteId) {
 // PHASE 3: a site-specific HANDLING rule for a test (e.g. Orange Hospital requires
 // handwritten group & hold labels). Does not change the tube; surfaces as a warning.
 function handlingNoteFor(name, siteId) {
-  const ov = _override(siteId, name, 'handling');
+  // test-level rule first, then a TUBE-level rule (e.g. all pink transfusion samples).
+  let ov = _override(siteId, name, 'handling');
+  if (!ov) {
+    const keys = Object.keys(matchTests(name).tubeMap);
+    ov = overridesFor(siteId).find(o => o.field === 'handling' && keys.includes(o.test)) || null;
+  }
   if (!ov) return null;
   return { test: name, note: ov.note || ov.value || '', date: ov.date || '', verified: ov.verified || '' };
 }
@@ -1077,11 +1082,14 @@ function renderSiteRules() {
   const el = document.getElementById('site-rules');
   if (!el) return;
   if (!selectedTests.length || currentSite === 'default') { el.innerHTML = ''; return; }
-  const items = [];
+  // Group the matching tests under each distinct rule (a tube-level rule covers several).
+  const byNote = new Map();
   for (const t of selectedTests) {
     const hn = (typeof handlingNoteFor === 'function') ? handlingNoteFor(t, currentSite) : null;
-    if (hn && hn.note) items.push(`<li>${escapeHtml(displayName(t))}: ${escapeHtml(hn.note)}</li>`);
+    if (hn && hn.note) { if (!byNote.has(hn.note)) byNote.set(hn.note, []); byNote.get(hn.note).push(displayName(t)); }
   }
+  const items = [...byNote.entries()].map(([note, tests]) =>
+    `<li>${escapeHtml(tests.join(', '))}: ${escapeHtml(note)}</li>`);
   const site = (typeof SITES !== 'undefined' ? SITES.find(s => s.id === currentSite) : null) || {};
   el.innerHTML = items.length
     ? `<div class="advisory advisory-site"><div class="advisory-title">${escapeHtml(site.name || currentSite)} site rules</div><ul>${items.join('')}</ul></div>`
