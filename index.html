@@ -118,8 +118,10 @@
   .advisory-title { font-size: 13px; font-weight: 600; color: var(--note); margin-bottom: 6px; }
   .advisory ul { margin: 0; padding-left: 18px; }
   .advisory li { font-size: 13px; color: var(--note); margin-bottom: 4px; line-height: 1.45; }
-  .advisory-site { background: rgba(0,122,255,0.08); margin-top: 0; margin-bottom: 14px; }
-  .advisory-site .advisory-title, .advisory-site li { color: var(--blue); }
+  /* Pre-analytical handling alerts (on ice, frozen, keep warm): red, because wrong handling can void the sample */
+  .advisory-handling { background: rgba(220,38,38,0.09); }
+  .advisory-handling .advisory-title, .advisory-handling li { color: #c0271f; }
+  .note-test { font-weight: 600; }
 
   .btn-filled {
     width: 100%; margin-top: 12px; background: var(--blue); color: #fff; border: none;
@@ -169,8 +171,8 @@
   .syringe-total { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin: 4px 2px 14px; padding: 12px 15px; background: var(--blue-tint); border-radius: 12px; }
   .syringe-total:empty { display: none; }
   .st-label { font-size: 13px; font-weight: 600; color: var(--label); }
-  .st-value { font-size: 21px; font-weight: 700; color: var(--blue); letter-spacing: -0.01em; }
-  .st-note { font-size: 12px; color: var(--secondary); }
+  .st-value { font-size: 13px; font-weight: 700; color: var(--blue); }
+  .st-note { font-size: 13px; color: var(--secondary); }
 
   /* Per-test source links (RCPA + NSW catalogue) */
   #sources-wrap { margin-top: 24px; }
@@ -303,11 +305,11 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
   <!-- Results -->
   <div id="results">
     <div id="recognised-wrap"></div>
-    <div id="site-rules"></div>
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
     <p id="syringe-total" class="syringe-total"></p>
     <div class="group" id="tubes-needed"></div>
+    <div id="handling-advisory"></div>
     <div id="refer-advisory"></div>
     <button class="btn-box" id="share-btn">Share summary</button>
   </div>
@@ -788,7 +790,6 @@ function update() {
 
   const { groups, unmatched } = tubeGroupsFor(selectedTests, referral);
   renderChips(new Set(unmatched));
-  renderSiteRules();
   renderTubes(groups);
   renderSources();
   const cb = document.getElementById('clear-btn');
@@ -1000,10 +1001,42 @@ function renderTubes(groups) {
   if (mlEl) {
     const ml = tubesMl(blood);
     mlEl.innerHTML = ml > 0
-      ? `<span class="st-label">Total blood to draw</span><span class="st-value">≈ ${Math.ceil(ml)} mL</span><span class="st-note">if using a syringe (approx)</span>`
+      ? `<span class="st-label">Total blood to draw</span><span class="st-value">≈ ${Math.ceil(ml)} mL</span><span class="st-note">if using a syringe</span>`
       : '';
   }
+  renderHandling();
   renderReferAdvisory();
+}
+
+// Pre-analytical handling alerts in a prominent RED box above the referral advisory, because
+// mishandling can invalidate the sample. Coalesces two sources: (1) test-level catalogue
+// notes that are collection instructions (on ice, frozen, keep warm, light-protected); and
+// (2) site-specific handling rules for the chosen site (e.g. Orange Hospital handwritten
+// transfusion labels), grouped so a tube-level rule lists all its tests together.
+const HANDLING_RE = /\b(on ice|ice|frozen|freeze|keep warm|warm at|37\s?°?\s?c|protect(?:ed)? from light|aprotinin|pre-?chilled|chilled)\b/i;
+function renderHandling() {
+  const el = document.getElementById('handling-advisory');
+  if (!el) return;
+  const items = [];
+  selectedTests.forEach(t => {
+    const ft = (typeof findTest === 'function') ? findTest(t) : null;
+    if (ft && ft.note && HANDLING_RE.test(ft.note)) {
+      items.push(`<li><span class="note-test">${escapeHtml(displayName(t))}:</span> ${escapeHtml(ft.note)}</li>`);
+    }
+  });
+  if (currentSite && currentSite !== 'default') {
+    const byNote = new Map();
+    selectedTests.forEach(t => {
+      const hn = (typeof handlingNoteFor === 'function') ? handlingNoteFor(t, currentSite) : null;
+      if (hn && hn.note) { if (!byNote.has(hn.note)) byNote.set(hn.note, []); byNote.get(hn.note).push(displayName(t)); }
+    });
+    for (const [note, tests] of byNote) {
+      items.push(`<li><span class="note-test">${escapeHtml([...new Set(tests)].join(', '))}:</span> ${escapeHtml(note)}</li>`);
+    }
+  }
+  el.innerHTML = items.length
+    ? `<div class="advisory advisory-handling"><div class="advisory-title">Collection and handling</div><ul>${items.join('')}</ul></div>`
+    : '';
 }
 
 // Bottom-of-results advisory: even without confirming send-away, name each niche test
@@ -1021,26 +1054,6 @@ function renderReferAdvisory() {
   });
   el.innerHTML = items.length
     ? `<div class="advisory"><div class="advisory-title">Possible referrals (check locally)</div><ul>${items.join('')}</ul></div>`
-    : '';
-}
-
-// Site-specific HANDLING rules for the chosen site (Phase 3 overrides), shown at the top of
-// the results, e.g. Orange Hospital requires handwritten group & hold labels.
-function renderSiteRules() {
-  const el = document.getElementById('site-rules');
-  if (!el) return;
-  if (!selectedTests.length || currentSite === 'default') { el.innerHTML = ''; return; }
-  // Group the matching tests under each distinct rule (a tube-level rule covers several).
-  const byNote = new Map();
-  for (const t of selectedTests) {
-    const hn = (typeof handlingNoteFor === 'function') ? handlingNoteFor(t, currentSite) : null;
-    if (hn && hn.note) { if (!byNote.has(hn.note)) byNote.set(hn.note, []); byNote.get(hn.note).push(displayName(t)); }
-  }
-  const items = [...byNote.entries()].map(([note, tests]) =>
-    `<li>${escapeHtml(tests.join(', '))}: ${escapeHtml(note)}</li>`);
-  const site = (typeof SITES !== 'undefined' ? SITES.find(s => s.id === currentSite) : null) || {};
-  el.innerHTML = items.length
-    ? `<div class="advisory advisory-site"><div class="advisory-title">${escapeHtml(site.name || currentSite)} site rules</div><ul>${items.join('')}</ul></div>`
     : '';
 }
 
