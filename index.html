@@ -179,7 +179,6 @@
   #sources-wrap .group-header { margin-top: 0; }
   .src-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 8px 4px; font-size: 14px; }
   .src-main { min-width: 0; }
-  .src-note { font-size: 12px; color: var(--secondary); margin-top: 2px; }
   .src-row + .src-row { border-top: 1px solid var(--sep); }
   .src-name { color: var(--label); min-width: 0; word-break: break-word; }
   .src-links { display: flex; gap: 14px; flex: none; }
@@ -844,9 +843,7 @@ function renderSources() {
     const links = sourceLinks(t, site)
       .map(l => `<a href="${escapeHtml(l.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(l.label)}</a>`)
       .join('');
-    const ft = (typeof findTest === 'function') ? findTest(t) : null;
-    const note = (ft && ft.note) ? `<div class="src-note">${escapeHtml(ft.note)}</div>` : '';
-    return `<div class="src-row"><div class="src-main"><span class="src-name">${escapeHtml(t)}</span>${note}</div><span class="src-links">${links}</span></div>`;
+    return `<div class="src-row"><div class="src-main"><span class="src-name">${escapeHtml(t)}</span></div><span class="src-links">${links}</span></div>`;
   }).join('');
   el.innerHTML = `<p class="group-header">Test references</p>` +
     `<p class="group-caption">Check each test against its source for tube and handling details.</p>${rows}`;
