@@ -79,6 +79,14 @@ const TUBES = {
     "note": "Draw-order position for trace-element tubes varies, check local policy.",
     "maxTests": 6
   },
+  "acd": {
+    "name": "Yellow (ACD)",
+    "color": "#fbbf24",
+    "draw": 10,
+    "ml": 8,
+    "additive": "Acid citrate dextrose (ACD-A or ACD-B)",
+    "note": "Used for HLA typing, some flow cytometry, and molecular virology (e.g. CMV). Check local policy for ACD-A vs ACD-B."
+  },
   "confirm": {
     "name": "Confirm collection type",
     "color": "#8e8e93",
@@ -154,6 +162,7 @@ const TESTS = [
       "Acetylcholine receptor antibody"
     ],
     "offsite": "none",
+    "note": "5 mL blood in SST/serum tube on melting ice, or blood spots on kit filter paper.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Acetylcholine-receptor-Ab"
     }
@@ -167,15 +176,17 @@ const TESTS = [
       "acth level"
     ],
     "offsite": "usually",
+    "note": "5 mL blood in EDTA tube, colllected on ice; plasma separated and frozen immediately. Collect sample between 0800-0900 h.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/ACTH"
     }
   },
   {
     "name": "Activated clotting time",
-    "tube": "blue",
+    "tube": "confirm",
     "aliases": [],
     "offsite": "none",
+    "note": "Point-of-care device (e.g. ACT analyser). Consult the laboratory for instrument-specific requirements.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Activated-clotting-time"
     }
@@ -194,6 +205,7 @@ const TESTS = [
     "tube": "blue",
     "aliases": [],
     "offsite": "none",
+    "note": "Citrated human plasma. Samples may be stored for up to two hours at room temperature or preferably frozen as soon as pos",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/ADAMTS-13-activity"
     }
@@ -270,13 +282,14 @@ const TESTS = [
   },
   {
     "name": "Aldosterone",
-    "tube": "gold",
+    "tube": "purple",
     "aliases": [
       "aldosterone level",
       "aldosterone renin ratio",
       "arr"
     ],
     "offsite": "usually",
+    "note": "5 mL blood in EDTA tube - plasma separated and frozen immediately. Cessation of diuretics or interfering antihypertensiv",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Aldosterone"
     }
@@ -451,6 +464,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "5 mL blood in SST/Serum tube. Serum separated and frozen immediately.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Androstenedione"
     }
@@ -533,9 +547,10 @@ const TESTS = [
   },
   {
     "name": "Antidiuretic hormone",
-    "tube": "gold",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in EDTA tube. The tube should be pre-cooled and delivered to the laboratory on melting ice, for immediate sep",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Antidiuretic-hormone"
     }
@@ -627,7 +642,7 @@ const TESTS = [
   },
   {
     "name": "Arbovirus detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -679,7 +694,7 @@ const TESTS = [
   },
   {
     "name": "Bartonella henselae detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -796,6 +811,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
+    "note": "2 mL amniotic fluid. Protect from light.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bilirubin-amniotic-fluid"
     }
@@ -1016,6 +1032,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Immunochemical assay: 5 mL blood in SST/Serum tube. Functional assay: 5 mL blood in EDTA tube. The specimen should be pl",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/C1-esterase-inhibitor"
     }
@@ -1025,6 +1042,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in SST/Serum tube. The specimen should be placed on melting ice and transported immediately to the laboratory",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/C1Q-level"
     }
@@ -1034,6 +1052,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "10 mL blood in SST/Serum tube. The specimen should be placed on melting ice and transported immediately to the laborator",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/C3-nephritic-factor"
     }
@@ -1207,7 +1226,7 @@ const TESTS = [
   },
   {
     "name": "Carnitine",
-    "tube": "gold",
+    "tube": "green",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1228,6 +1247,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
+    "note": "Morning spot urine sample preferred. Sample must be acidified to pH 2.0-4.0 ASAP, but within 2 h of collection using a s",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Catecholamines-urine"
     }
@@ -1290,7 +1310,7 @@ const TESTS = [
   },
   {
     "name": "Chikungunya detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1308,7 +1328,7 @@ const TESTS = [
   },
   {
     "name": "Chlamydophila pneumoniae and psittacosis detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1347,13 +1367,14 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Serum preferred. Lithium heparin also accepted. If Butylcholinesterase genotyping is requested, EDTA is required.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cholinesterase"
     }
   },
   {
     "name": "Cholinesterase red cell",
-    "tube": "purple",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1498,6 +1519,7 @@ const TESTS = [
       "Complement (C3/C4)"
     ],
     "offsite": "maybe",
+    "note": "5mL blood in SST/Serum tube. The specimen should be placed on ice and transported immediately to the laboratory.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-C3-and-Complement-C4"
     }
@@ -1507,6 +1529,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in SST/Serum tube. Serum should be frozen at -20°.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-component-C4-allotypes"
     }
@@ -1516,6 +1539,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in SST/Serum tube. The specimen should be placed on ice and transported immediately to the laboratory.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-components-C5,-C6,-C7,-C8,-C9"
     }
@@ -1525,6 +1549,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "10 mL blood in SST/Serum tube. The specimen should be placed on melting ice and transported immediately to the laborator",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Complement-Total-Complement-Activity"
     }
@@ -1540,10 +1565,10 @@ const TESTS = [
   },
   {
     "name": "Copeptin",
-    "tube": "purple",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
-    "note": "EDTA plasma; send frozen.",
+    "note": "Early morning collection. Serum preferred; lithium heparin and EDTA also accepted.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copeptin"
     }
@@ -1707,6 +1732,7 @@ const TESTS = [
       "cryoglobulin screen"
     ],
     "offsite": "usually",
+    "note": "10 mL blood collected in a pre-warmed SST/Serum tube, separated at 37°C and then transported to the laboratory.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cryoglobulins"
     }
@@ -1775,7 +1801,7 @@ const TESTS = [
   },
   {
     "name": "Cytochemistry",
-    "tube": "nonblood",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -1826,7 +1852,7 @@ const TESTS = [
   },
   {
     "name": "Cytomegalovirus nucleic acid detection",
-    "tube": "nonblood",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -1966,7 +1992,7 @@ const TESTS = [
   },
   {
     "name": "DNA ploidy",
-    "tube": "purple",
+    "tube": "green",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -1980,6 +2006,7 @@ const TESTS = [
       "Donath Landsteiner antibody"
     ],
     "offsite": "none",
+    "note": "Collection by laboratory staff into 2 SST/Serum tubes, one at 37°C and one at 4°C.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Donath-Landsteiner-Ab"
     }
@@ -2146,7 +2173,7 @@ const TESTS = [
   },
   {
     "name": "Erythrocyte sedimentation rate",
-    "tube": "purple",
+    "tube": "blue",
     "aliases": [
       "ESR",
       "sed rate"
@@ -2220,7 +2247,7 @@ const TESTS = [
   },
   {
     "name": "Factor II prothrombin G20210A mutation",
-    "tube": "blue",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2229,7 +2256,7 @@ const TESTS = [
   },
   {
     "name": "Factor V Leiden",
-    "tube": "blue",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2241,6 +2268,7 @@ const TESTS = [
     "tube": "blue",
     "aliases": [],
     "offsite": "none",
+    "note": "7ml blood in sodium citrate. Double spin, separate and freeze. Consult pathologist prior to collection.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Factor-VIII-inhibitor-Bethesda-assay"
     }
@@ -2323,10 +2351,10 @@ const TESTS = [
   },
   {
     "name": "FIB 4",
-    "tube": "gold",
+    "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
-    "note": "Calculated from AST, ALT, platelets and age; no separate sample (reported from routine bloods).",
+    "note": "Calculated from AST, ALT, platelet count and age. No separate collection required; reported from LFT (gold/green) and FBC (purple) samples.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/FIB-4"
     }
@@ -2344,7 +2372,7 @@ const TESTS = [
   },
   {
     "name": "Filaria",
-    "tube": "nonblood",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -2373,7 +2401,7 @@ const TESTS = [
   },
   {
     "name": "Flavivirus detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -2549,6 +2577,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in SST/Serum tube or lithium heparin tube. Patient must be fasting. Serum should be separated promptly and st",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gastrin"
     }
@@ -2615,7 +2644,7 @@ const TESTS = [
   },
   {
     "name": "Glomerular basement membrane Ab",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [
       "Glomerular basement membrane antibody"
     ],
@@ -3035,7 +3064,7 @@ const TESTS = [
   },
   {
     "name": "Histone Ab",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [
       "Histone antibody"
     ],
@@ -3076,7 +3105,7 @@ const TESTS = [
   },
   {
     "name": "HIV viral load and resistance testing",
-    "tube": "purple",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -3313,6 +3342,7 @@ const TESTS = [
       "insulin"
     ],
     "offsite": "usually",
+    "note": "5 mL blood in a SST/Serum tube; must be separated and frozen immediately. Simultaneous plasma glucose levels are require",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Insulin"
     }
@@ -3382,7 +3412,7 @@ const TESTS = [
   },
   {
     "name": "Japanese Encephalitis (JEV) detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -3432,6 +3462,7 @@ const TESTS = [
       "Lactate"
     ],
     "offsite": "none",
+    "note": "5 mL blood in fluoride tube or blood gas syringe. A lithium heparin tube can be used if plasma is separated and frozen i",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/L-Lactate"
     }
@@ -3441,6 +3472,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Small bowel biopsy: at least 5 mg fresh tissue transported in a container on melting ice.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactase-small-bowel-mucosa"
     }
@@ -3548,7 +3580,7 @@ const TESTS = [
   },
   {
     "name": "Leptospiral (leptospirosis)",
-    "tube": "nonblood",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4026,7 +4058,7 @@ const TESTS = [
   },
   {
     "name": "Murray Valley Encephalitis (MVE) detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4049,6 +4081,7 @@ const TESTS = [
       "MUSK antibody"
     ],
     "offsite": "none",
+    "note": "5 mL blood in SST/Serum tube on melting ice.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/MUSK-Ab"
     }
@@ -4304,6 +4337,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
+    "note": "Random urine, ideally collected when patient is symptomatic. Freeze sample after collection.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/O/Organic-acids-urine"
     }
@@ -4382,6 +4416,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
+    "note": "5g faeces (random) frozen immediately after collection.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Pancreatic-elastase-faeces"
     }
@@ -4438,7 +4473,7 @@ const TESTS = [
   },
   {
     "name": "Parathyroid hormone related protein",
-    "tube": "gold",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4537,7 +4572,7 @@ const TESTS = [
   },
   {
     "name": "Phosphate urine",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -4675,6 +4710,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "maybe",
+    "note": "Random urine specimen, kept frozen and protect from light if immediate analysis is not possible. Collect sample during s",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphobilinogen"
     }
@@ -4684,6 +4720,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
+    "note": "A minimum of 2 g faeces - protect from light; delivered to the laboratory within 5 h or frozen until delivered.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphyrin-faeces"
     }
@@ -4693,6 +4730,7 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "note": "5 mL blood in EDTA or lithium heparin (no gel) tube, protected from light and transported rapidly to the laboratory.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphyrin-red-cell"
     }
@@ -4702,6 +4740,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
+    "note": "Random urine, protected from light and refrigerated if immediate analysis is not possible. If possible collect sample du",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphyrin-urine"
     }
@@ -4930,7 +4969,7 @@ const TESTS = [
   },
   {
     "name": "Q Fever detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -4977,6 +5016,7 @@ const TESTS = [
       "renin concentration"
     ],
     "offsite": "usually",
+    "note": "10 mL blood in EDTA tube. Do not collect/transport on ice. Do not refrigerate sample.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/R/Renin"
     }
@@ -5034,7 +5074,7 @@ const TESTS = [
   },
   {
     "name": "Rickettsial infection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5440,6 +5480,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
+    "note": "Open biopsy for assessment of fertility. Transcrotal testicular biopsy should not be used for diagnosis of malignancy du",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Testicular-biopsy"
     }
@@ -5487,7 +5528,7 @@ const TESTS = [
   },
   {
     "name": "Thiopurine methyltransferase",
-    "tube": "nonblood",
+    "tube": "green",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5496,7 +5537,7 @@ const TESTS = [
   },
   {
     "name": "Thiopurine S methyltransferase genotyping",
-    "tube": "nonblood",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
     "sources": {
@@ -5615,7 +5656,7 @@ const TESTS = [
   },
   {
     "name": "Troponin I",
-    "tube": "gold",
+    "tube": "green",
     "aliases": [
       "Troponin",
       "trop",
@@ -5640,7 +5681,7 @@ const TESTS = [
   },
   {
     "name": "Trypanosome identification",
-    "tube": "nonblood",
+    "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
     "sources": {
@@ -5762,6 +5803,7 @@ const TESTS = [
     "tube": "nonblood",
     "aliases": [],
     "offsite": "none",
+    "note": "Random urine; protect from light.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/U/Urine-ALA"
     }
@@ -5830,9 +5872,10 @@ const TESTS = [
   },
   {
     "name": "Vasoactive intestinal polypeptide",
-    "tube": "gold",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in EDTA tube; some laboratories require an EDTA/Trasylol tube. Patient must be fasting. Plasma must be separa",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vasoactive-intestinal-polypeptide"
     }
@@ -5871,6 +5914,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in SST/serum tube. Protection from light.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-A"
     }
@@ -5883,6 +5927,7 @@ const TESTS = [
       "thiamine level"
     ],
     "offsite": "usually",
+    "note": "5 mL blood in EDTA tube. Protect from light. Sample must be collected prior to vitamin therapy.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-B1"
     }
@@ -5902,9 +5947,10 @@ const TESTS = [
   },
   {
     "name": "Vitamin B6",
-    "tube": "gold",
+    "tube": "purple",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in EDTA tube. Sample must be collected prior to vitamin therapy. Protected from light. Fasting sample preferr",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-B6"
     }
@@ -5914,6 +5960,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in SST/serum or lithium heparin tube. Protect from light. Sample may require special preparation - contact th",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-C"
     }
@@ -5945,6 +5992,7 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "note": "5 mL blood in lithium heparin or SST/serum tube. Protect from light.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-E"
     }
@@ -6040,7 +6088,7 @@ const TESTS = [
   },
   {
     "name": "Zika virus detection",
-    "tube": "nonblood",
+    "tube": "gold",
     "aliases": [],
     "offsite": "none",
     "sources": {

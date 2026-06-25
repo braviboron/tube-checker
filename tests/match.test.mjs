@@ -97,8 +97,9 @@ expectTubes('Hb', ['purple'], 'bare Hb still → purple');
 expectLabelContains('ck-mb', 'MB', 'ck-mb → CK-MB label');
 expectNoExactLabel('ck-mb', 'CK', 'ck-mb must not collapse to bare CK');
 
-// — Regression: ESR must NOT double-map to gold (was a bug) —
-expectIncludes('ESR', 'purple', 'ESR → purple');
+// — ESR: citrate (blue) per RCPA Westergren method —
+expectIncludes('ESR', 'blue', 'ESR → blue');
+expectExcludes('ESR', 'purple', 'ESR must NOT map to purple');
 expectExcludes('ESR', 'gold', 'ESR must NOT map to gold');
 
 // — Lithium drug level stays serum (gold), not green —
