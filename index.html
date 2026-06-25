@@ -166,6 +166,8 @@
   .tube-tests { font-size: 13px; color: var(--label); margin-top: 5px; }
   .tube-tests span { color: var(--secondary); }
   .tube-note { font-size: 12.5px; color: var(--note); background: var(--note-bg); border-radius: 7px; padding: 6px 9px; margin-top: 7px; }
+  .tube-alts { font-size: 12px; color: var(--secondary); margin-top: 5px; }
+  .tube-alts-swatch { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 3px; vertical-align: middle; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15); }
 
   .empty { padding: 22px 16px; text-align: center; color: var(--secondary); font-size: 14px; }
   .syringe-total { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin: 4px 2px 14px; padding: 12px 15px; background: var(--blue-tint); border-radius: 12px; }
@@ -951,6 +953,9 @@ function renderTubes(groups) {
   const blood = groups.filter(g => !SPECIAL[g.key]);
   const special = groups.filter(g => SPECIAL[g.key]);
 
+  // Build a set of tube keys actually being drawn (for alt-tube suggestions)
+  const drawnKeys = new Set(blood.map(g => g.key));
+
   let total = 0;
   blood.forEach((g, i) => {
     const tube = TUBES[g.key];
@@ -961,6 +966,41 @@ function renderTubes(groups) {
     if (tube.note) notes.push(tube.note);
     const noteHtml = notes.length ? `<div class="tube-note">${notes.join(' ')}</div>` : '';
     const qtyHtml = `<span class="tube-qty${g.qty > 1 ? ' multi' : ''}">&times;${g.qty}</span>`;
+
+    // Per-test alternatives: group tests that could go in another tube already being drawn
+    // Map: altTubeKey -> [testNames]
+    const altMap = new Map();
+    for (const t of g.tests) {
+      const ct = findTest(t);
+      if (!ct || !ct.tubeAlts) continue;
+      for (const altKey of ct.tubeAlts) {
+        if (!drawnKeys.has(altKey) || altKey === g.key) continue;
+        if (!altMap.has(altKey)) altMap.set(altKey, []);
+        altMap.get(altKey).push(displayName(t));
+      }
+    }
+    // Also show alts even if that tube isn't being drawn (standalone info)
+    for (const t of g.tests) {
+      const ct = findTest(t);
+      if (!ct || !ct.tubeAlts) continue;
+      for (const altKey of ct.tubeAlts) {
+        if (drawnKeys.has(altKey) || altKey === g.key) continue;
+        if (!altMap.has(altKey)) altMap.set(altKey, []);
+        altMap.get(altKey).push(displayName(t));
+      }
+    }
+    let altsHtml = '';
+    if (altMap.size) {
+      const parts = [...altMap.entries()].map(([key, names]) => {
+        const altTube = TUBES[key];
+        if (!altTube) return '';
+        const swatch = `<span class="tube-alts-swatch" style="background:${altTube.color}"></span>`;
+        const alsoDrawn = drawnKeys.has(key) ? ' (already being drawn)' : '';
+        return `${swatch}${escapeHtml(altTube.name)}${alsoDrawn}: ${names.map(escapeHtml).join(', ')}`;
+      }).filter(Boolean);
+      if (parts.length) altsHtml = `<div class="tube-alts">Also acceptable &mdash; ${parts.join('; ')}</div>`;
+    }
+
     const row = document.createElement('div');
     row.className = 'tube-row';
     row.innerHTML = `
@@ -973,6 +1013,7 @@ function renderTubes(groups) {
         </div>
         <div class="tube-sub">${tube.additive}</div>
         <div class="tube-tests"><span>Tests:</span> ${g.tests.map(t => escapeHtml(displayName(t))).join(', ')}</div>
+        ${altsHtml}
         ${noteHtml}
       </div>`;
     tubesEl.appendChild(row);

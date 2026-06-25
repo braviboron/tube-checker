@@ -39,9 +39,10 @@ const TESTS = readTable('tests').map(t => {
   const o = { name: t.name, tube: t.tube,
     aliases: t.aliases ? t.aliases.split('|').map(s => s.trim()).filter(Boolean) : [],
     offsite: t.offsite || 'none' };
-  if (blank(t.short)) o.short = t.short;        // compact display label (canonical name unchanged)
-  if (blank(t.note)) o.note = t.note;           // per-test handling note (specimen / transport)
+  if (blank(t.short)) o.short = t.short;
+  if (blank(t.note)) o.note = t.note;
   if (blank(t.defaultLab)) o.defaultLab = t.defaultLab;
+  if (blank(t.tube_alts)) o.tubeAlts = t.tube_alts.split('|').map(s => s.trim()).filter(Boolean);
   const sources = {};
   if (blank(t.rcpa)) sources.rcpa = t.rcpa;
   if (blank(t.nsw)) sources.nsw = t.nsw;

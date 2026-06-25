@@ -196,6 +196,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Acute-phase-reactants"
     }
@@ -247,6 +250,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Alanine-aminotransferase"
     }
@@ -258,6 +264,9 @@ const TESTS = [
       "albumin"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Albumin"
     }
@@ -299,6 +308,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Alkaline-phosphatase"
     }
@@ -308,6 +320,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Alkaline-phosphatase-isoenzymes"
     }
@@ -326,6 +341,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Alpha-1-antitrypsin"
     }
@@ -394,6 +412,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "Plasma; collect on ice and deliver promptly (some labs use EDTA).",
+    "tubeAlts": [
+      "gold"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amino-acids"
     }
@@ -412,6 +433,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amiodarone"
     }
@@ -436,6 +460,9 @@ const TESTS = [
       "amylase"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Amylase"
     }
@@ -493,6 +520,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "Calculated from the electrolytes and collected with the U&E sample.",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anion-gap"
     }
@@ -541,6 +571,9 @@ const TESTS = [
     ],
     "offsite": "maybe",
     "short": "AMH",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Anti-Mullerian-Hormone"
     }
@@ -603,6 +636,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Apolipoprotein-A-I"
     }
@@ -612,6 +648,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Apolipoprotein-B"
     }
@@ -645,6 +684,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Arbovirus-detection"
     }
@@ -663,6 +705,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Aspartate-aminotransferase"
     }
@@ -679,6 +724,9 @@ const TESTS = [
     ],
     "offsite": "maybe",
     "short": "BNP",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/B-Type-natriuretic-peptide"
     }
@@ -743,6 +791,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "grey"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Beta-hydroxybutyrate"
     }
@@ -784,6 +835,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bicarbonate"
     }
@@ -802,6 +856,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/B/Bilirubin"
     }
@@ -998,6 +1055,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/C-terminal-telopeptide-of-type-I-collagen-(beta-CT"
     }
@@ -1033,6 +1093,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "Immunochemical assay: 5 mL blood in SST/Serum tube. Functional assay: 5 mL blood in EDTA tube. The specimen should be pl",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/C1-esterase-inhibitor"
     }
@@ -1062,6 +1125,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/CA-15-3"
     }
@@ -1071,6 +1137,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/CA-19-9"
     }
@@ -1084,6 +1153,9 @@ const TESTS = [
       "ca125"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/CA-125"
     }
@@ -1104,6 +1176,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Calcitonin"
     }
@@ -1117,6 +1192,9 @@ const TESTS = [
       "corrected calcium"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Calcium"
     }
@@ -1165,6 +1243,9 @@ const TESTS = [
       "tegretol"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Carbamazepine"
     }
@@ -1257,6 +1338,10 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "acd",
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cell-immunophenotyping"
     }
@@ -1340,6 +1425,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Chloride"
     }
@@ -1368,6 +1456,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "Serum preferred. Lithium heparin also accepted. If Butylcholinesterase genotyping is requested, EDTA is required.",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cholinesterase"
     }
@@ -1377,6 +1468,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cholinesterase-red-cell"
     }
@@ -1422,6 +1516,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Clonazepam"
     }
@@ -1443,6 +1540,9 @@ const TESTS = [
       "norclozapine"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Clozapine"
     }
@@ -1569,6 +1669,10 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "Early morning collection. Serum preferred; lithium heparin and EDTA also accepted.",
+    "tubeAlts": [
+      "green",
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copeptin"
     }
@@ -1581,6 +1685,11 @@ const TESTS = [
       "Cu"
     ],
     "offsite": "usually",
+    "tubeAlts": [
+      "green",
+      "purple",
+      "gold"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Copper"
     }
@@ -1629,6 +1738,10 @@ const TESTS = [
       "cortisol"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green",
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cortisol"
     }
@@ -1668,6 +1781,9 @@ const TESTS = [
       "creatine kinase"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Creatine-Kinase"
     }
@@ -1677,6 +1793,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Creatinine"
     }
@@ -1786,6 +1905,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cystatin-C"
     }
@@ -1813,6 +1935,9 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/C/Cytogenetics-oncology"
     }
@@ -1893,6 +2018,9 @@ const TESTS = [
       "DHEAS"
     ],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Dehydroepiandrosterone-sulfate"
     }
@@ -1923,6 +2051,10 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "Dynamic test: serum cortisol at set times (see RCPA for the protocol).",
+    "tubeAlts": [
+      "green",
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Dexamethasone-suppression-test-overnight"
     }
@@ -1935,6 +2067,9 @@ const TESTS = [
       "dig level"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/D/Digoxin"
     }
@@ -2143,6 +2278,9 @@ const TESTS = [
       "Enterovirus antibody"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Enterovirus-Ab"
     }
@@ -2180,6 +2318,9 @@ const TESTS = [
     ],
     "offsite": "none",
     "short": "ESR",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Erythrocyte-sedimentation-rate"
     }
@@ -2189,6 +2330,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Erythropoietin"
     }
@@ -2203,6 +2347,10 @@ const TESTS = [
       "bac"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "grey",
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/E/Ethanol"
     }
@@ -2336,6 +2484,9 @@ const TESTS = [
       "ferritin"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Ferritin"
     }
@@ -2404,6 +2555,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Flavivirus-detection"
     }
@@ -2413,6 +2567,10 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "acd",
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Flow-cytometry"
     }
@@ -2434,6 +2592,9 @@ const TESTS = [
       "folic acid"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Folate"
     }
@@ -2446,6 +2607,9 @@ const TESTS = [
     ],
     "offsite": "none",
     "short": "FSH",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/F/Follicle-stimulating-hormone"
     }
@@ -2550,6 +2714,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gamma-glutamyltransferase"
     }
@@ -2578,6 +2745,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "none",
     "note": "5 mL blood in SST/Serum tube or lithium heparin tube. Patient must be fasting. Serum should be separated promptly and st",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gastrin"
     }
@@ -2599,6 +2769,9 @@ const TESTS = [
       "gent level"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Gentamicin"
     }
@@ -2685,6 +2858,9 @@ const TESTS = [
       "blood sugar"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Glucose"
     }
@@ -2756,6 +2932,9 @@ const TESTS = [
       "growth hormone level"
     ],
     "offsite": "usually",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/G/Growth-Hormone"
     }
@@ -2876,6 +3055,9 @@ const TESTS = [
       "hapto"
     ],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Haptoglobin"
     }
@@ -2907,6 +3089,9 @@ const TESTS = [
     ],
     "offsite": "none",
     "short": "Beta-hCG",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HCG"
     }
@@ -2916,6 +3101,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HDL-Cholesterol"
     }
@@ -2995,6 +3183,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "PF4 / heparin antibody, serum.",
+    "tubeAlts": [
+      "blue"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Heparin-induced-thrombocytopenia-screen"
     }
@@ -3025,6 +3216,10 @@ const TESTS = [
     "aliases": [],
     "offsite": "none",
     "note": "HCV antibody serology (serum); HCV RNA viral load uses EDTA.",
+    "tubeAlts": [
+      "blue",
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Hepatitis-C"
     }
@@ -3122,6 +3317,9 @@ const TESTS = [
       "hla-b27"
     ],
     "offsite": "maybe",
+    "tubeAlts": [
+      "acd"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HLA-typing"
     }
@@ -3142,6 +3340,9 @@ const TESTS = [
       "homocysteine"
     ],
     "offsite": "usually",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/Homocysteine"
     }
@@ -3170,6 +3371,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "HTLV I/II serology, serum.",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/H/HTLV-detection"
     }
@@ -3386,6 +3590,9 @@ const TESTS = [
       "transferrin saturation"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/I/Iron-Studies"
     }
@@ -3415,6 +3622,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/J/Japanese-Encephalitis-(JEV)-detection"
     }
@@ -3449,6 +3659,9 @@ const TESTS = [
     "tube": "pink",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/K/Kleihauer"
     }
@@ -3463,6 +3676,9 @@ const TESTS = [
     ],
     "offsite": "none",
     "note": "5 mL blood in fluoride tube or blood gas syringe. A lithium heparin tube can be used if plasma is separated and frozen i",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/L-Lactate"
     }
@@ -3486,6 +3702,9 @@ const TESTS = [
     ],
     "offsite": "none",
     "short": "LDH",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactate-dehydrogenase"
     }
@@ -3495,6 +3714,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactate-dehydrogenase-isoenzymes"
     }
@@ -3514,6 +3736,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "Timed blood glucose after a lactose load (fluoride tube).",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lactose-tolerance-test"
     }
@@ -3523,6 +3748,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/LDL-cholesterol"
     }
@@ -3536,6 +3764,9 @@ const TESTS = [
       "lead level"
     ],
     "offsite": "usually",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lead"
     }
@@ -3583,6 +3814,9 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "gold"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Leptospiral-(leptospirosis)"
     }
@@ -3610,6 +3844,9 @@ const TESTS = [
       "lipid profile"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lipids"
     }
@@ -3619,6 +3856,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lipoprotein-(a)"
     }
@@ -3640,6 +3880,9 @@ const TESTS = [
       "lithium level"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lithium"
     }
@@ -3738,6 +3981,10 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "acd",
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/L/Lymphocyte-immunophenotyping"
     }
@@ -3760,6 +4007,9 @@ const TESTS = [
       "Mg"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Magnesium"
     }
@@ -3814,6 +4064,9 @@ const TESTS = [
       "Mn"
     ],
     "offsite": "usually",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Manganese"
     }
@@ -3905,6 +4158,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "none",
     "note": "Serology (serum); viral detection is a swab.",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Measles-virus"
     }
@@ -3950,6 +4206,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Methotrexate"
     }
@@ -4061,6 +4320,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/M/Murray-Valley-Encephalitis-(MVE)-detection"
     }
@@ -4221,6 +4483,9 @@ const TESTS = [
       "Neutrophil antibody"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Neutrophil-Ab"
     }
@@ -4260,6 +4525,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/Non-HDL-cholesterol"
     }
@@ -4287,6 +4555,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/N/NT-pro-B-Natriuretic-peptide"
     }
@@ -4496,6 +4767,10 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "acd",
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Paroxysmal-nocturnal-haemoglobinuria"
     }
@@ -4506,6 +4781,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "none",
     "note": "Serology (serum).",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Parvovirus-B19"
     }
@@ -4542,6 +4820,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phenobarbitone"
     }
@@ -4554,6 +4835,9 @@ const TESTS = [
       "dilantin"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phenytoin"
     }
@@ -4566,6 +4850,9 @@ const TESTS = [
       "PO4"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Phosphate"
     }
@@ -4634,6 +4921,9 @@ const TESTS = [
       "Platelet antibody"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Platelet-Ab"
     }
@@ -4652,6 +4942,9 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "acd"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Platelet-antigen-genotyping"
     }
@@ -4731,6 +5024,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "5 mL blood in EDTA or lithium heparin (no gel) tube, protected from light and transported rapidly to the laboratory.",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Porphyrin-red-cell"
     }
@@ -4750,6 +5046,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Potassium"
     }
@@ -4787,6 +5086,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Primidone"
     }
@@ -4799,6 +5101,9 @@ const TESTS = [
       "PCT"
     ],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Procalcitonin"
     }
@@ -4819,6 +5124,9 @@ const TESTS = [
       "progesterone"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Progesterone"
     }
@@ -4860,6 +5168,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Prostate-specific-antigen,-free"
     }
@@ -4963,6 +5274,9 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/P/Pyruvate-kinase"
     }
@@ -4972,6 +5286,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/Q/Q-Fever-detection"
     }
@@ -5159,6 +5476,10 @@ const TESTS = [
       "Se"
     ],
     "offsite": "usually",
+    "tubeAlts": [
+      "green",
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Selenium"
     }
@@ -5199,6 +5520,9 @@ const TESTS = [
       "SHBG"
     ],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/SHBG-Sex-Hormone-Binding-Globulin"
     }
@@ -5209,6 +5533,10 @@ const TESTS = [
     "aliases": [],
     "offsite": "maybe",
     "note": "Dynamic: serum cortisol before and after Synacthen.",
+    "tubeAlts": [
+      "green",
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Short-Synacthen-test"
     }
@@ -5278,6 +5606,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Sodium"
     }
@@ -5305,6 +5636,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/S/Soluble-transferrin-receptor"
     }
@@ -5531,6 +5865,9 @@ const TESTS = [
     "tube": "green",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Thiopurine-methyltransferase"
     }
@@ -5588,6 +5925,9 @@ const TESTS = [
       "tobra"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Tobramycin"
     }
@@ -5597,6 +5937,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Total-Protein"
     }
@@ -5650,6 +5993,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Triglyceride"
     }
@@ -5664,6 +6010,9 @@ const TESTS = [
       "hs-troponin"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "gold"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Troponin-I"
     }
@@ -5684,6 +6033,9 @@ const TESTS = [
     "tube": "purple",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "gold"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/T/Trypanosome-identification"
     }
@@ -5767,6 +6119,9 @@ const TESTS = [
       "uric acid"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/U/Urate"
     }
@@ -5785,6 +6140,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/U/Urea"
     }
@@ -5856,6 +6214,9 @@ const TESTS = [
       "vanc level"
     ],
     "offsite": "none",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vancomycin"
     }
@@ -5885,6 +6246,9 @@ const TESTS = [
     "tube": "gold",
     "aliases": [],
     "offsite": "maybe",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Very-long-chain-fatty-acids"
     }
@@ -5961,6 +6325,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "none",
     "note": "5 mL blood in SST/serum or lithium heparin tube. Protect from light. Sample may require special preparation - contact th",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-C"
     }
@@ -5993,6 +6360,9 @@ const TESTS = [
     "aliases": [],
     "offsite": "none",
     "note": "5 mL blood in lithium heparin or SST/serum tube. Protect from light.",
+    "tubeAlts": [
+      "green"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/V/Vitamin-E"
     }
@@ -6103,6 +6473,10 @@ const TESTS = [
       "Zn"
     ],
     "offsite": "usually",
+    "tubeAlts": [
+      "green",
+      "purple"
+    ],
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/Z/Zinc"
     }
