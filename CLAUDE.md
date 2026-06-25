@@ -64,9 +64,14 @@ phone's built-in text scanner (iPhone Scan Text / Android keyboard scan) into th
 - **Site picker is LIVE** (`SITE_PICKER_ENABLED = true`): the footer offers only sites
   flagged `selectable=yes` in `sites.csv` (currently default + Orange Hospital); the choice
   saves to `localStorage` `tc-site`. The live app still routes TUBES via `tubeGroupsFor` +
-  the manual `referral` Set, but now also surfaces per-site HANDLING rules via
-  `renderSiteRules()` (e.g. Orange requires handwritten group & hold labels), read from
-  `OVERRIDES` `field=handling`.
+  the manual `referral` Set.
+- **Collection and handling (red box)** via `renderHandling()` into `#handling-advisory`,
+  shown above the "Possible referrals" advisory. It coalesces two sources: (1) test-level
+  catalogue notes that are collection instructions, matched by `HANDLING_RE` (on ice,
+  frozen, keep warm, light-protected, aprotinin) against `tests.csv` `note`; and (2) the
+  chosen site's HANDLING rules from `OVERRIDES` `field=handling` via `handlingNoteFor()`
+  (e.g. Orange requires handwritten group & hold labels), grouped by note. The old separate
+  blue `renderSiteRules()`/`#site-rules` box was folded into this red box.
 - **DORMANT next-gen routing** (built, NOT wired): `resolveLab(test, site)` and
   `planTubes(tests, site)` do site-aware local-vs-referred routing (Phase 2) and apply the
   quantity/tube/lab `OVERRIDES` (Phase 3), fed by `AVAILABILITY`/`SITES.lab`. Not yet the
