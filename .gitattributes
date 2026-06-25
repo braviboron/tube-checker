@@ -3,7 +3,3 @@
 *.html text eol=lf
 *.md   text eol=lf
 *.sh   text eol=lf
-
-# Vendored OCR assets — treat as binary (no EOL normalisation / diffing).
-*.gz                   binary
-vendor/tesseract/*.js  -text

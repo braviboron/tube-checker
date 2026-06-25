@@ -3,20 +3,20 @@
 **Live:** https://braviboron.github.io/tube-checker/ — open on a phone and
 *Share → Add to Home Screen* to install it.
 
-An offline web app that reads a pathology request form (photo, scan, or manual entry)
-and tells you which **blood collection tubes** you need, in what quantity and in what
-**order of draw**, using NSW Health / RCPA conventions.
+An offline web app that maps the tests on a pathology request form to the **blood
+collection tubes** you need, in what quantity and in what **order of draw**, using
+NSW Health / RCPA conventions. Enter tests by typing, pasting a list, or using your
+phone's built-in text scanner (iPhone Scan Text / Android keyboard scan) to read a
+paper form straight into the search box.
 
-- **Fully offline — zero network calls.** OCR (Tesseract.js) and its language model are
-  vendored locally under `vendor/tesseract/`. Nothing is fetched from the internet and
-  no image or patient data is stored or transmitted. The only external URLs are the
-  citation links in the references section, which open only when tapped.
-- **No build step:** the app is `index.html` plus the vendored OCR assets.
+- **Fully offline, zero network calls.** Nothing is fetched from the internet and no
+  patient data is stored or transmitted. The only external URLs are the citation links
+  in the references section, which open only when tapped.
+- **No build step:** the app is `index.html` plus its compiled `catalogue.js`.
 
 ## Run it
 
-Serve the folder over `localhost` (the camera and OCR worker need an HTTP origin —
-browsers block `getUserMedia` and workers on `file://`):
+Open `index.html` directly, or serve the folder over `localhost`:
 
 ```sh
 # from the project root
@@ -30,18 +30,18 @@ python -m http.server 8000
 
 Host the folder on any static host (e.g. GitHub Pages / Netlify, free), open the URL on
 the phone, then **Share → Add to Home Screen**. It installs like an app: full-screen, its
-own icon, and — thanks to the service worker — it caches everything (including the 11 MB
-language model) so it then runs **fully offline**. No developer account, no cost.
+own icon, and — thanks to the service worker — it caches everything so it then runs
+**fully offline**. No developer account, no cost.
 
 ## Project layout
 
 ```
-index.html              the app (UI + matching engine + OCR wiring)
+index.html              the app (UI + matching engine)
+catalogue.js            compiled clinical data (built from data/*.csv)
+data/                   source CSVs for the catalogue (tubes, tests, sites, etc.)
 manifest.json           PWA manifest (installable, standalone)
 sw.js                   service worker — precaches the app for offline use
 icons/                  app icons (192 / 512 / apple-touch)
-vendor/tesseract/        vendored Tesseract.js — library, worker, WASM core, eng model
-  fetch-assets.sh        re-download/upgrade those assets
 tests/match.test.mjs     matching-engine tests (run against index.html directly)
 ```
 
@@ -50,13 +50,12 @@ tests/match.test.mjs     matching-engine tests (run against index.html directly)
 
 ## How it works
 
-1. **Input** — type the tests, scan with the camera, or upload an image. Typing and
-   scanning both **add** to one editable list.
-2. **OCR** — Tesseract.js extracts text locally (with image pre-processing).
-3. **Detected tests** — shown as **editable chips** in form order: tap to edit, × to
+1. **Input** — type the tests, paste a list, or use your phone's built-in text scanner
+   to read a paper form into the search box. All paths **add** to one editable list.
+2. **Detected tests** — shown as **editable chips** in form order: tap to edit, × to
    remove, **+** to add via a **searchable picker** (canonical names, alias + typo
    tolerant). Unrecognised tests show as amber chips you can fix.
-4. **Tubes** — recomputed live from the chip list and shown **in order of draw**, with
+3. **Tubes** — recomputed live from the chip list and shown **in order of draw**, with
    tests sharing a tube consolidated. A **Share / print summary** button exports it.
 
 Key structures in the `<script>` block of `index.html`:
@@ -86,8 +85,8 @@ node tests/match.test.mjs
 ## Status
 
 Working prototype with order of draw, tube counts, references and a disclaimer.
-Remaining work — chiefly a second-clinician audit of the full rule set and OCR
-robustness — is tracked in [TODO.md](TODO.md).
+Remaining work — chiefly a second-clinician audit of the full rule set — is tracked
+in [TODO.md](TODO.md).
 
 ## ⚠️ Disclaimer
 

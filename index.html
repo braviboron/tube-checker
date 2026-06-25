@@ -15,9 +15,6 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Tube Checker">
 
-<!-- Tesseract.js is vendored locally (no CDN, zero network). The library is not in
-     the initial page load (so the app opens fast); it is warmed up in the background
-     the moment the user reaches for Scan/Upload, and on idle for the installed app. -->
 <style>
   :root {
     /* iOS-style system palette */
@@ -143,23 +140,6 @@
   #share-btn { color: var(--blue); margin-top: 18px; }   /* space from the mL total above */
   #clear-btn { color: var(--secondary); }
 
-  /* Pages strip */
-  .pages { display: flex; gap: 10px; flex-wrap: wrap; padding: 0 2px; }
-  .pages:not(:empty) { margin-top: 12px; }
-  .page-thumb { position: relative; width: 60px; height: 76px; border-radius: 9px; overflow: hidden; background: var(--card); border: 1px solid var(--sep); }
-  .page-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .page-num { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.55); color: #fff; font-size: 10px; text-align: center; padding: 1px 0; }
-  .page-remove { position: absolute; top: 3px; right: 3px; width: 19px; height: 19px; padding: 0; border-radius: 50%; background: rgba(0,0,0,0.6); color: #fff; border: none; font-size: 14px; line-height: 1; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-  /* Plus tile in the strip: take/add another page */
-  .add-page-tile { width: 60px; height: 76px; border-radius: 9px; background: var(--blue-tint); border: 1px dashed #cfe2fb; color: var(--blue); display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 0; }
-  .add-page-tile:active { opacity: 0.6; }
-
-  /* Progress */
-  #progress-wrap { display: none; margin-top: 14px; padding: 0 2px; }
-  .progress-label { font-size: 13px; color: var(--secondary); margin-bottom: 7px; }
-  .progress-bar-bg { height: 5px; background: var(--sep); border-radius: 3px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; background: var(--blue); width: 0%; transition: width 0.3s; border-radius: 3px; }
-
   /* Results */
   #results { display: none; margin-top: 16px; }   /* gap between Check tubes and detected tests */
 
@@ -186,8 +166,11 @@
   .tube-note { font-size: 12.5px; color: var(--note); background: var(--note-bg); border-radius: 7px; padding: 6px 9px; margin-top: 7px; }
 
   .empty { padding: 22px 16px; text-align: center; color: var(--secondary); font-size: 14px; }
-  .syringe-total { font-size: 12.5px; color: var(--secondary); margin: 10px 6px 0; }
+  .syringe-total { display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; margin: 4px 2px 14px; padding: 12px 15px; background: var(--blue-tint); border-radius: 12px; }
   .syringe-total:empty { display: none; }
+  .st-label { font-size: 13px; font-weight: 600; color: var(--label); }
+  .st-value { font-size: 21px; font-weight: 700; color: var(--blue); letter-spacing: -0.01em; }
+  .st-note { font-size: 12px; color: var(--secondary); }
 
   /* Per-test source links (RCPA + NSW catalogue) */
   #sources-wrap { margin-top: 24px; }
@@ -279,7 +262,7 @@
 
   /* Print: just the detected tests + tube list, cleanly */
   @media print {
-    header, .group-header, .add-field, .group.option, #read-btn, .pages, #progress-wrap,
+    header, .group-header, .add-field,
     #clear-btn, .fineprint, footer, #share-btn, #sources-wrap, .raw-toggle, #raw-text, .chip-x, .chip-add, .chip-tag, .chip-hint {
       display: none !important;
     }
@@ -315,37 +298,7 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
   <p class="group-header">Requested tests</p>
   <button class="add-field" id="open-picker">Start typing to search tests, or paste a list</button>
 
-  <!-- Image input: camera or upload (built-in offline reader) -->
-  <div class="group option">
-    <label class="row" for="camera-input">
-      <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
-      <div class="row-main">
-        <div class="row-title">Scan with camera</div>
-        <div class="row-sub">Use camera to scan one or more pages</div>
-      </div>
-      <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
-      <input type="file" id="camera-input" accept="image/*" capture="environment" hidden>
-    </label>
-  </div>
-  <div class="group option">
-    <label class="row" for="file-input">
-      <span class="tile blue"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span>
-      <div class="row-main">
-        <div class="row-title">Upload page(s)</div>
-        <div class="row-sub">Add one or more photos or scans</div>
-      </div>
-      <span class="chevron"><svg width="9" height="15" viewBox="0 0 9 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l6 6.5L1 14"/></svg></span>
-      <input type="file" id="file-input" accept="image/*" multiple hidden>
-    </label>
-  </div>
-
-  <div class="pages" id="pages"></div>
-  <button class="btn-filled" id="read-btn" disabled style="display:none">Done</button>
-
-  <div id="progress-wrap">
-    <div class="progress-label" id="progress-label">Preparing...</div>
-    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-bar"></div></div>
-  </div>
+  <p class="group-caption" style="margin-top: 22px;">To read a paper form, open the box above and use your phone's built-in text scanner: press and hold the field, then choose Scan Text on iPhone, or tap the scan icon on the keyboard on Android.</p>
 
   <!-- Results -->
   <div id="results">
@@ -353,8 +306,8 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
     <div id="site-rules"></div>
     <p class="group-header">Tubes required</p>
     <p class="group-caption" id="summary-wrap"></p>
-    <div class="group" id="tubes-needed"></div>
     <p id="syringe-total" class="syringe-total"></p>
+    <div class="group" id="tubes-needed"></div>
     <div id="refer-advisory"></div>
     <button class="btn-box" id="share-btn">Share summary</button>
   </div>
@@ -800,13 +753,6 @@ function detectOrdered(text) {
 }
 
 // Entry point from "Check tubes" and scanning: detect tests (in order) and MERGE.
-function renderResults(text) {
-  lastRawText = text || '';
-  rawShown = false;          // start collapsed each time new text is read
-  mergeTests(detectOrdered(text));
-  showResults();
-}
-
 function mergeTests(tests) {
   const have = new Set(selectedTests.map(t => canonicalName(t).toLowerCase()));
   for (const raw of tests) {
@@ -1053,7 +999,9 @@ function renderTubes(groups) {
   const mlEl = document.getElementById('syringe-total');
   if (mlEl) {
     const ml = tubesMl(blood);
-    mlEl.textContent = ml > 0 ? `Total ≈ ${Math.ceil(ml)} mL if drawing with a syringe (approx).` : '';
+    mlEl.innerHTML = ml > 0
+      ? `<span class="st-label">Total blood to draw</span><span class="st-value">≈ ${Math.ceil(ml)} mL</span><span class="st-note">if using a syringe (approx)</span>`
+      : '';
   }
   renderReferAdvisory();
 }
@@ -1318,231 +1266,6 @@ function pickerDone() {
   closePicker();
 }
 
-// ─── MULTI-PAGE OCR PIPELINE ──────────────────────────────────────────────────
-const pages = []; // { blob, url }
-
-function renderPages() {
-  const el = document.getElementById('pages');
-  const thumbs = pages.map((p, i) => `
-    <div class="page-thumb">
-      <img src="${p.url}" alt="Page ${i + 1}">
-      <span class="page-num">Page ${i + 1}</span>
-      <button class="page-remove" data-i="${i}" title="Remove page">&times;</button>
-    </div>`).join('');
-  // A plus tile sits next to the previews to take/add another page.
-  const addTile = pages.length ? `
-    <button class="add-page-tile" id="add-page-tile" aria-label="Add another page">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-    </button>` : '';
-  el.innerHTML = thumbs + addTile;
-  el.querySelectorAll('.page-remove').forEach(btn =>
-    btn.addEventListener('click', () => removePage(+btn.dataset.i)));
-  const addTileEl = document.getElementById('add-page-tile');
-  if (addTileEl) addTileEl.addEventListener('click', () => document.getElementById('camera-input').click());
-
-  const pending = pages.filter(p => p.text == null).length;
-  const readBtn = document.getElementById('read-btn');
-  readBtn.style.display = pending ? 'block' : 'none';
-  readBtn.disabled = pending === 0;
-  readBtn.textContent = pending <= 1 ? 'Done' : `Done · ${pending} pages`;
-}
-
-function addPage(blob) {
-  if (!blob) return;
-  pages.push({ blob, url: URL.createObjectURL(blob), text: null });
-  renderPages();
-}
-
-function removePage(i) {
-  if (pages[i]) { URL.revokeObjectURL(pages[i].url); pages.splice(i, 1); renderPages(); }
-}
-
-// Absolute base URL for the vendored assets. Must be absolute: Tesseract runs the
-// worker from a blob URL, and importScripts() inside it cannot resolve relative paths.
-const TESS_VENDOR = new URL('vendor/tesseract/', document.baseURI).href;
-
-// Load the Tesseract library on first use (kept out of initial page load for speed).
-let _tessLoading = null;
-function ensureTesseract() {
-  if (window.Tesseract) return Promise.resolve();
-  if (_tessLoading) return _tessLoading;
-  _tessLoading = new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = 'vendor/tesseract/tesseract.min.js';
-    s.onload = () => resolve();
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-  return _tessLoading;
-}
-
-// Load a Blob/File into an <img>.
-function blobToImage(blob) {
-  return new Promise((resolve, reject) => {
-    const url = URL.createObjectURL(blob);
-    const img = new Image();
-    img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
-    img.onerror = e => { URL.revokeObjectURL(url); reject(e); };
-    img.src = url;
-  });
-}
-
-// Pre-process a photo for OCR: scale to a legible size, convert to greyscale, and
-// stretch contrast. This makes a big difference on phone snaps of request forms.
-// Returns a <canvas>; falls back to the original blob if anything goes wrong.
-async function preprocess(blob) {
-  const img = await blobToImage(blob);
-  const MIN_W = 1400, MAX_W = 2400;   // higher resolution = better OCR accuracy on forms
-  let scale = 1;
-  if (img.width < MIN_W) scale = MIN_W / img.width;
-  else if (img.width > MAX_W) scale = MAX_W / img.width;
-  const w = Math.max(1, Math.round(img.width * scale));
-  const h = Math.max(1, Math.round(img.height * scale));
-
-  const canvas = document.createElement('canvas');
-  canvas.width = w; canvas.height = h;
-  const ctx = canvas.getContext('2d', { willReadFrequently: true });
-  ctx.drawImage(img, 0, 0, w, h);
-
-  const imageData = ctx.getImageData(0, 0, w, h);
-  const d = imageData.data;
-  const CONTRAST = 1.45, MID = 128;
-  for (let i = 0; i < d.length; i += 4) {
-    let lum = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
-    lum = (lum - MID) * CONTRAST + MID;          // contrast stretch
-    lum = lum < 0 ? 0 : lum > 255 ? 255 : lum;
-    d[i] = d[i + 1] = d[i + 2] = lum;            // greyscale
-  }
-  ctx.putImageData(imageData, 0, 0);
-  return canvas;
-}
-
-// One reusable Tesseract worker (faster across multi-page) with tuned parameters.
-// Created once and kept warm; a promise guard means a warm-up and a real scan that
-// start together share the SAME worker instead of racing to build two.
-let _ocrWorker = null;
-let _ocrWorkerPromise = null;
-let _ocrProgress = null;
-function getOCRWorker() {
-  if (_ocrWorker) return Promise.resolve(_ocrWorker);
-  if (_ocrWorkerPromise) return _ocrWorkerPromise;
-  _ocrWorkerPromise = (async () => {
-    await ensureTesseract();
-    const worker = await Tesseract.createWorker('eng', 1, {
-      // All assets served locally, no network access required.
-      workerBlobURL: false,
-      workerPath: TESS_VENDOR + 'worker.min.js',
-      corePath: TESS_VENDOR,
-      langPath: TESS_VENDOR,
-      logger: m => { if (_ocrProgress && m.status === 'recognizing text') _ocrProgress(m.progress); }
-    });
-    try {
-      await worker.setParameters({
-        user_defined_dpi: '300',            // avoids bad auto-DPI guesses on photos
-        preserve_interword_spaces: '1',
-        tessedit_pageseg_mode: '4'          // single column of text of variable sizes (forms)
-      });
-    } catch (e) { /* tuning only; a worker without it still reads text */ }
-    _ocrWorker = worker;
-    return worker;
-  })();
-  _ocrWorkerPromise.catch(() => { _ocrWorkerPromise = null; });   // allow a retry on failure
-  return _ocrWorkerPromise;
-}
-
-// Warm up the OCR engine ahead of the first scan so it feels instant. The service
-// worker already caches the engine + language model offline, so this is local-only
-// work. We warm the moment the user touches Scan/Upload (the worker initialises
-// while they frame the shot), and also on idle for the installed home-screen app,
-// since those users clearly intend to scan. Failures are ignored - a real scan
-// still initialises on demand.
-(function warmUpOCR() {
-  let started = false;
-  const warm = () => { if (started) return; started = true; getOCRWorker().catch(() => {}); };
-  const cam = document.querySelector('label[for="camera-input"]');
-  const up = document.querySelector('label[for="file-input"]');
-  if (cam) cam.addEventListener('pointerdown', warm, { once: true });
-  if (up) up.addEventListener('pointerdown', warm, { once: true });
-  const installed = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-  if (installed) {
-    if ('requestIdleCallback' in window) requestIdleCallback(warm, { timeout: 3000 });
-    else setTimeout(warm, 1200);
-  }
-})();
-
-async function runOCR(source, onProgress) {
-  let image = source;
-  try { image = await preprocess(source); } catch (e) { image = source; }  // fall back to raw
-  try {
-    _ocrProgress = onProgress;
-    const worker = await getOCRWorker();
-    const { data } = await worker.recognize(image);
-    return data.text;
-  } catch (e) {
-    // Fallback if the persistent-worker API isn't available, still uses preprocessing.
-    await ensureTesseract();
-    const { data } = await Tesseract.recognize(image, 'eng', {
-      workerBlobURL: false,
-      workerPath: TESS_VENDOR + 'worker.min.js',
-      corePath: TESS_VENDOR,
-      langPath: TESS_VENDOR,
-      logger: m => { if (onProgress && m.status === 'recognizing text') onProgress(m.progress); }
-    });
-    return data.text;
-  }
-}
-
-async function readPages() {
-  if (!pages.length) return;
-  const prog = document.getElementById('progress-wrap');
-  const label = document.getElementById('progress-label');
-  const bar = document.getElementById('progress-bar');
-  const readBtn = document.getElementById('read-btn');
-
-  // Only OCR pages we have not read yet (so adding a page never re-reads old ones).
-  const pending = pages.filter(p => p.text == null);
-  if (pending.length) {
-    prog.style.display = 'block';
-    prog.scrollIntoView({ block: 'center', behavior: 'smooth' });   // make processing visible
-    readBtn.disabled = true;
-    try {
-      for (let i = 0; i < pending.length; i++) {
-        const n = i + 1, total = pending.length;
-        bar.style.width = '0%';
-        pending[i].text = await runOCR(pending[i].blob, pr => {
-          bar.style.width = Math.round(pr * 100) + '%';
-          label.textContent = total > 1
-            ? `Reading page ${n} of ${total}... ${Math.round(pr * 100)}%`
-            : `Reading text... ${Math.round(pr * 100)}%`;
-        });
-      }
-      prog.style.display = 'none';
-    } catch (e) {
-      label.textContent = 'Reading failed, try a clearer image, or type the tests above.';
-      readBtn.disabled = false;
-      return;
-    }
-  }
-
-  // Merge the text from every page (in order) into the detected-tests list.
-  const total = pages.length;
-  const combined = pages
-    .map((p, i) => total > 1 ? `--- Page ${i + 1} ---\n${p.text || ''}` : (p.text || ''))
-    .join('\n\n');
-  renderResults(combined);
-  renderPages();   // refresh: nothing pending now, so hide the Done button
-}
-
-document.getElementById('file-input').addEventListener('change', e => {
-  [...e.target.files].forEach(addPage);
-  e.target.value = '';
-});
-
-// Drag & drop onto the whole document for convenience
-document.addEventListener('dragover', e => e.preventDefault());
-document.addEventListener('drop', e => { e.preventDefault(); if (e.dataTransfer.files.length) [...e.dataTransfer.files].forEach(addPage); });
-
-document.getElementById('read-btn').addEventListener('click', readPages);
 document.getElementById('share-btn').addEventListener('click', shareSummary);
 
 // ─── CLEAR ────────────────────────────────────────────────────────────────────
@@ -1554,17 +1277,6 @@ document.getElementById('clear-btn').addEventListener('click', () => {
   rawShown = false;
   renderSources();   // sources-wrap is outside #results now, so clear it explicitly
   document.getElementById('clear-btn').hidden = true;
-  while (pages.length) removePage(0);
-});
-
-// ─── CAMERA: native one-shot capture (clearer photo than a held live stream).
-// Each tap takes one full-resolution photo via the system camera; re-tap to add
-// more pages. No photo is saved to the device. ────────────────────────────────
-document.getElementById('camera-input').addEventListener('change', e => {
-  const files = [...e.target.files];
-  files.forEach(addPage);
-  e.target.value = '';   // allow re-capturing another page with the same input
-  if (files.length) readPages();   // a captured photo processes automatically
 });
 
 // ─── PICKER wiring ────────────────────────────────────────────────────────────

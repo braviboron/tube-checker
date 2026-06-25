@@ -2,10 +2,9 @@
  * Strategy:
  *   - App shell (HTML/navigation): NETWORK-FIRST, so updates land immediately when
  *     online; falls back to cache when offline.
- *   - Big immutable assets (Tesseract lib/worker/core, language model, icons):
- *     CACHE-FIRST, so they load instantly and work offline.
+ *   - Immutable assets (icons): CACHE-FIRST, so they load instantly and work offline.
  * Bump CACHE when precached assets change. */
-const CACHE = 'tube-checker-v83';
+const CACHE = 'tube-checker-v84';
 
 const ASSETS = [
   './',
@@ -17,11 +16,6 @@ const ASSETS = [
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/apple-touch-icon.png',
-  'vendor/tesseract/tesseract.min.js',
-  'vendor/tesseract/worker.min.js',
-  'vendor/tesseract/tesseract-core.wasm.js',
-  'vendor/tesseract/tesseract-core-simd.wasm.js',
-  'vendor/tesseract/eng.traineddata.gz',
 ];
 
 self.addEventListener('install', event => {

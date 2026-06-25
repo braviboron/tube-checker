@@ -411,6 +411,7 @@ const TESTS = [
       "NH3"
     ],
     "offsite": "maybe",
+    "note": "Place on ice immediately and deliver to the lab without delay, ammonia rises in the sample on standing. Some labs use EDTA.",
     "sources": {
       "rcpa": "https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests/A/Ammonia"
     }

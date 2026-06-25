@@ -91,15 +91,15 @@
       manufacturer; needs the user to confirm values (clinical), so not added blind.
 
 ## OCR / input
-- [x] **Slimmer/faster model (tessdata_fast)** — swapped the 11 MB standard `tessdata`
-      eng model for the ~1.9 MB `tessdata_fast` one. A/B tested via Node (real OCR) on
-      clean + degraded form samples: identical tests detected, equal/higher confidence.
-      ~5.8x smaller download, faster load + recognition.
-- [x] **Fuzzy typo correction** — `fuzzyCanonical()` snaps a near-miss OCR token to a
-      known canonical test by tight edit distance (e.g. 'Coaqulation'->'Coagulation').
-- [x] Image pre-processing (upscale, greyscale, contrast) + tuned worker.
-- [ ] Further pre-processing (deskew, adaptive threshold) if accuracy needs it.
-- [ ] Optional auto-scan when the form is held steady in frame.
+- [x] **In-app OCR removed (v84)** — the bundled Tesseract.js reader (engine, worker,
+      WASM core, eng model under `vendor/tesseract/`) and the camera/upload pipeline were
+      removed. It was too inaccurate on real ward forms to be usable. Image-to-text now
+      relies on the phone's native text scanner (iPhone Scan Text / Android keyboard scan)
+      used inside the picker box: on-device, far more accurate, nothing to bundle. Do not
+      reintroduce a bundled engine or cloud OCR. `fuzzyCanonical()` is kept (it still helps
+      typed/pasted/scanned-in text).
+- [x] ~~Slimmer/faster model, image pre-processing, tuned worker, auto-scan~~ — moot;
+      in-app OCR was removed (see above).
 
 ## Engineering
 - [x] `npm test` wrapper + GitHub Actions CI.
