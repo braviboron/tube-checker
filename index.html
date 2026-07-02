@@ -67,7 +67,7 @@
 
   /* Grouped-list building blocks */
   .group-header { font-size: 13px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; margin: 26px 6px 4px; }
-  .group-caption { font-size: 12px; color: var(--tertiary); margin: 0 6px 9px; }
+  .group-caption { font-size: 12px; color: var(--secondary); margin: 0 6px 9px; }
   .group { background: var(--card); border-radius: 12px; overflow: hidden; }
   .group.option { margin-top: 10px; border: 1px solid var(--sep); }   /* distinct box per input option */
 
@@ -177,14 +177,16 @@
   /* Per-test source links (RCPA + NSW catalogue) + tube-choice pills */
   #sources-wrap { margin-top: 24px; }
   #sources-wrap .group-header { margin-top: 0; }
-  .src-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 8px 4px; font-size: 14px; }
+  .src-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 4px; font-size: 14px; }
   .src-main { min-width: 0; display: flex; flex-direction: column; gap: 6px; }
   .src-row + .src-row { border-top: 1px solid var(--sep); }
   .src-name { color: var(--label); min-width: 0; word-break: break-word; }
-  .src-links { display: flex; gap: 14px; flex: none; margin-top: 1px; }
+  .src-links { display: flex; gap: 14px; flex: none; }
   .src-links a { color: var(--blue); text-decoration: none; font-size: 13px; white-space: nowrap; }
   .src-links a:active { opacity: 0.6; }
-  .src-tubes { display: flex; flex-wrap: wrap; gap: 6px; }
+  .src-tubes { display: flex; flex-direction: column; gap: 4px; }
+  .src-tube-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+  .src-tube-label { font-size: 11px; font-weight: 600; color: var(--secondary); flex: none; }
   .src-pill {
     display: inline-flex; align-items: center; gap: 5px; font-family: var(--font); font-size: 12px;
     color: var(--secondary); background: var(--card); border: 1px solid var(--sep-strong);
@@ -856,7 +858,8 @@ function rcpaLinkFor(name) {
 
 // One coloured pill per candidate tube for a test: the preferred tube plus any
 // `tubeAlts`. Only single-tube tests get a clickable switch (a test needing 2 tubes
-// at once has no single alternative to swap to); those render as plain info pills.
+// at once has no single alternative to swap to); those render as a plain info pill
+// with no "Preferred" label, since there is nothing to choose between.
 function tubePillsHtml(ct) {
   if (!ct || !ct.tube) return '';
   const primaryKeys = String(ct.tube).split('|');
@@ -870,11 +873,18 @@ function tubePillsHtml(ct) {
     const cls = 'src-pill' + (isActive ? ' active' : '');
     return canSwitch
       ? `<button type="button" class="${cls}" data-test="${escapeHtml(ct.name)}" data-tube="${escapeHtml(key)}">${swatch}${escapeHtml(label)}</button>`
-      : `<span class="${cls} active">${swatch}${escapeHtml(label)}</span>`;
+      : `<span class="${cls}">${swatch}${escapeHtml(label)}</span>`;
   };
-  const pills = primaryKeys.map(k => pill(k, k === activeKey));
-  if (canSwitch) for (const ak of ct.tubeAlts) if (!primaryKeys.includes(ak)) pills.push(pill(ak, ak === activeKey));
-  return `<div class="src-tubes">${pills.join('')}</div>`;
+  if (!canSwitch) {
+    const pills = primaryKeys.map(k => pill(k, true)).join('');
+    return `<div class="src-tubes"><div class="src-tube-group">${pills}</div></div>`;
+  }
+  const preferredPill = pill(primaryKeys[0], primaryKeys[0] === activeKey);
+  const altPills = ct.tubeAlts.filter(ak => ak !== primaryKeys[0]).map(ak => pill(ak, ak === activeKey)).join('');
+  return `<div class="src-tubes">` +
+    `<div class="src-tube-group"><span class="src-tube-label">Preferred:</span>${preferredPill}</div>` +
+    `<div class="src-tube-group"><span class="src-tube-label">Alternatives:</span>${altPills}</div>` +
+    `</div>`;
 }
 
 // Switch a test to an alternative tube (or back to its preferred one). Recomputes the
