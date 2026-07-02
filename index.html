@@ -187,13 +187,16 @@
   .src-links a { color: var(--blue); text-decoration: none; font-size: 13px; white-space: nowrap; }
   .src-links a:active { opacity: 0.6; }
   .src-tubes { display: flex; flex-direction: column; gap: 8px; }
-  .src-tube-group { display: flex; flex-direction: column; gap: 4px; }
-  .src-tube-label { font-size: 11px; font-weight: 600; color: var(--secondary); }
-  .src-tube-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  /* Hanging indent: label sits on the first line, and if a pill doesn't fit next to it,
+     the wrapped line lands at the same x as the label width instead of flush left, so
+     Preferred/Alternatives pills always start at the same horizontal position. */
+  .src-tube-group { padding-left: 78px; text-indent: -78px; line-height: 1.7; }
+  .src-tube-label { display: inline-block; width: 78px; text-indent: 0; vertical-align: middle; font-size: 11px; font-weight: 600; color: var(--secondary); }
+  .src-tube-pills { display: flex; flex-wrap: wrap; }
   .src-pill {
     display: inline-flex; align-items: center; gap: 5px; font-family: var(--font); font-size: 12px;
     color: var(--secondary); background: var(--card); border: 1px solid var(--sep-strong);
-    border-radius: 999px; padding: 3px 9px 3px 7px; line-height: 1.4;
+    border-radius: 999px; padding: 3px 9px 3px 7px; line-height: 1.4; margin: 0 6px 6px 0;
   }
   button.src-pill { cursor: pointer; }
   button.src-pill:active { opacity: 0.6; }
@@ -884,8 +887,8 @@ function tubePillsHtml(ct) {
   const preferredPill = pill(primaryKeys[0], primaryKeys[0] === activeKey);
   const altPills = ct.tubeAlts.filter(ak => ak !== primaryKeys[0]).map(ak => pill(ak, ak === activeKey)).join('');
   return `<div class="src-tubes">` +
-    `<div class="src-tube-group"><span class="src-tube-label">Preferred:</span><div class="src-tube-pills">${preferredPill}</div></div>` +
-    `<div class="src-tube-group"><span class="src-tube-label">Alternatives:</span><div class="src-tube-pills">${altPills}</div></div>` +
+    `<div class="src-tube-group"><span class="src-tube-label">Preferred:</span>${preferredPill}</div>` +
+    `<div class="src-tube-group"><span class="src-tube-label">Alternatives:</span>${altPills}</div>` +
     `</div>`;
 }
 
