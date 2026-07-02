@@ -66,8 +66,8 @@
   main { max-width: 620px; margin: 0 auto; padding: 8px 18px 24px; }
 
   /* Grouped-list building blocks */
-  .group-header { font-size: 13px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.01em; font-weight: 500; margin: 26px 6px 7px; }
-  .group-caption { font-size: 13px; color: var(--secondary); margin: -2px 6px 9px; }
+  .group-header { font-size: 13px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; margin: 26px 6px 4px; }
+  .group-caption { font-size: 12px; color: var(--tertiary); margin: 0 6px 9px; }
   .group { background: var(--card); border-radius: 12px; overflow: hidden; }
   .group.option { margin-top: 10px; border: 1px solid var(--sep); }   /* distinct box per input option */
 
@@ -866,10 +866,11 @@ function tubePillsHtml(ct) {
     const tube = TUBES[key];
     if (!tube) return '';
     const swatch = `<span class="src-pill-swatch" style="background:${tube.color}"></span>`;
+    const label = tube.short || tube.name;   // colour-free label; the swatch already shows the colour
     const cls = 'src-pill' + (isActive ? ' active' : '');
     return canSwitch
-      ? `<button type="button" class="${cls}" data-test="${escapeHtml(ct.name)}" data-tube="${escapeHtml(key)}">${swatch}${escapeHtml(tube.name)}</button>`
-      : `<span class="${cls} active">${swatch}${escapeHtml(tube.name)}</span>`;
+      ? `<button type="button" class="${cls}" data-test="${escapeHtml(ct.name)}" data-tube="${escapeHtml(key)}">${swatch}${escapeHtml(label)}</button>`
+      : `<span class="${cls} active">${swatch}${escapeHtml(label)}</span>`;
   };
   const pills = primaryKeys.map(k => pill(k, k === activeKey));
   if (canSwitch) for (const ak of ct.tubeAlts) if (!primaryKeys.includes(ak)) pills.push(pill(ak, ak === activeKey));

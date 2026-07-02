@@ -32,6 +32,7 @@ for (const t of readTable('tubes')) {
   TUBES[t.key] = { name: t.name, color: t.color, draw: num(t.draw), ml: num(t.ml),
     additive: t.additive || '', note: t.note || '' };
   if (t.maxTests !== '') TUBES[t.key].maxTests = num(t.maxTests);
+  if (blank(t.short)) TUBES[t.key].short = t.short;
 }
 
 // --- TESTS (array) ---

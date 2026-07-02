@@ -7,7 +7,8 @@ const TUBES = {
     "draw": 1,
     "ml": 10,
     "additive": "Aerobic culture medium",
-    "note": "Aseptic technique. Fill to the mark. Collect BEFORE the anaerobic bottle."
+    "note": "Aseptic technique. Fill to the mark. Collect BEFORE the anaerobic bottle.",
+    "short": "Aerobic culture"
   },
   "bc_anaerobic": {
     "name": "Blood Culture, Anaerobic",
@@ -15,7 +16,8 @@ const TUBES = {
     "draw": 2,
     "ml": 10,
     "additive": "Anaerobic culture medium",
-    "note": "Collect AFTER the aerobic bottle."
+    "note": "Collect AFTER the aerobic bottle.",
+    "short": "Anaerobic culture"
   },
   "blue": {
     "name": "Light Blue (Sodium Citrate)",
@@ -24,7 +26,8 @@ const TUBES = {
     "ml": 2.7,
     "additive": "3.2% sodium citrate, coagulation",
     "note": "Fill exactly to the line, the blood:anticoagulant ratio is critical.",
-    "maxTests": 5
+    "maxTests": 5,
+    "short": "Sodium Citrate"
   },
   "gold": {
     "name": "Gold / SST (Serum)",
@@ -33,7 +36,8 @@ const TUBES = {
     "ml": 5,
     "additive": "Clot activator + separator gel, serum",
     "note": "",
-    "maxTests": 15
+    "maxTests": 15,
+    "short": "SST (Serum)"
   },
   "green": {
     "name": "Green (Lithium Heparin)",
@@ -42,7 +46,8 @@ const TUBES = {
     "ml": 4,
     "additive": "Lithium heparin, plasma",
     "note": "",
-    "maxTests": 15
+    "maxTests": 15,
+    "short": "Lithium Heparin"
   },
   "purple": {
     "name": "Purple / Lavender (EDTA)",
@@ -51,7 +56,8 @@ const TUBES = {
     "ml": 4,
     "additive": "EDTA anticoagulant, whole blood",
     "note": "",
-    "maxTests": 12
+    "maxTests": 12,
+    "short": "EDTA"
   },
   "pink": {
     "name": "Pink (EDTA, Blood Bank)",
@@ -59,7 +65,8 @@ const TUBES = {
     "draw": 7,
     "ml": 6,
     "additive": "EDTA, group & hold / crossmatch",
-    "note": "Strict patient-ID and labelling rules apply for transfusion samples."
+    "note": "Strict patient-ID and labelling rules apply for transfusion samples.",
+    "short": "EDTA, Blood Bank"
   },
   "grey": {
     "name": "Grey (Fluoride Oxalate)",
@@ -68,7 +75,8 @@ const TUBES = {
     "ml": 2,
     "additive": "Sodium fluoride / potassium oxalate, glycolysis inhibitor",
     "note": "",
-    "maxTests": 8
+    "maxTests": 8,
+    "short": "Fluoride Oxalate"
   },
   "royalblue": {
     "name": "Royal Blue (Trace Elements)",
@@ -77,7 +85,8 @@ const TUBES = {
     "ml": 6,
     "additive": "Trace-element-free tube",
     "note": "Draw-order position for trace-element tubes varies, check local policy.",
-    "maxTests": 6
+    "maxTests": 6,
+    "short": "Trace Elements"
   },
   "acd": {
     "name": "Yellow (ACD)",
@@ -85,7 +94,8 @@ const TUBES = {
     "draw": 10,
     "ml": 8,
     "additive": "Acid citrate dextrose (ACD-A or ACD-B)",
-    "note": "Used for HLA typing, some flow cytometry, and molecular virology (e.g. CMV). Check local policy for ACD-A vs ACD-B."
+    "note": "Used for HLA typing, some flow cytometry, and molecular virology (e.g. CMV). Check local policy for ACD-A vs ACD-B.",
+    "short": "ACD"
   },
   "confirm": {
     "name": "Confirm collection type",
@@ -93,7 +103,8 @@ const TUBES = {
     "draw": 90,
     "ml": 0,
     "additive": "Specimen and tube not yet confirmed",
-    "note": "Tube Checker does not yet have a verified tube for this test. Open the RCPA entry to confirm the correct specimen and tube."
+    "note": "Tube Checker does not yet have a verified tube for this test. Open the RCPA entry to confirm the correct specimen and tube.",
+    "short": "Unconfirmed"
   },
   "nonblood": {
     "name": "Non-blood specimen",
@@ -101,7 +112,8 @@ const TUBES = {
     "draw": 95,
     "ml": 0,
     "additive": "Not a blood tube",
-    "note": "Collected as a non-blood specimen (e.g. urine, swab, fluid, tissue). Open the RCPA entry to confirm requirements."
+    "note": "Collected as a non-blood specimen (e.g. urine, swab, fluid, tissue). Open the RCPA entry to confirm requirements.",
+    "short": "Non-blood"
   },
   "abg": {
     "name": "Arterial blood gas (syringe)",
@@ -109,7 +121,8 @@ const TUBES = {
     "draw": 92,
     "ml": 0,
     "additive": "Balanced heparin, arterial",
-    "note": "Collected into a pre-heparinised blood-gas syringe and measured immediately, not a cap-colour tube."
+    "note": "Collected into a pre-heparinised blood-gas syringe and measured immediately, not a cap-colour tube.",
+    "short": "Arterial blood gas"
   }
 };
 const TESTS = [
