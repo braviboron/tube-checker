@@ -51,6 +51,8 @@
     font-size: 16px;
     line-height: 1.4;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     -webkit-font-smoothing: antialiased;
     overscroll-behavior-y: contain;   /* Android: no accidental pull-to-refresh wiping entered tests */
   }
@@ -63,7 +65,7 @@
   h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
   .subtitle { font-size: 13px; color: var(--secondary); margin-top: 2px; }
 
-  main { max-width: 620px; margin: 0 auto; padding: 8px 18px 24px; }
+  main { max-width: 620px; width: 100%; margin: 0 auto; padding: 8px 18px 24px; flex: 1 0 auto; box-sizing: border-box; }
 
   /* Grouped-list building blocks */
   .group-header { font-size: 13px; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; margin: 26px 6px 4px; }
@@ -184,9 +186,10 @@
   .src-links { display: flex; gap: 14px; flex: none; }
   .src-links a { color: var(--blue); text-decoration: none; font-size: 13px; white-space: nowrap; }
   .src-links a:active { opacity: 0.6; }
-  .src-tubes { display: flex; flex-direction: column; gap: 4px; }
-  .src-tube-group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
-  .src-tube-label { font-size: 11px; font-weight: 600; color: var(--secondary); flex: none; }
+  .src-tubes { display: flex; flex-direction: column; gap: 8px; }
+  .src-tube-group { display: flex; flex-direction: column; gap: 4px; }
+  .src-tube-label { font-size: 11px; font-weight: 600; color: var(--secondary); }
+  .src-tube-pills { display: flex; flex-wrap: wrap; gap: 6px; }
   .src-pill {
     display: inline-flex; align-items: center; gap: 5px; font-family: var(--font); font-size: 12px;
     color: var(--secondary); background: var(--card); border: 1px solid var(--sep-strong);
@@ -205,7 +208,7 @@
   }
 
   /* Consolidated fine print: disclaimer + privacy + sources */
-  .fineprint { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--sep); }
+  .fineprint { max-width: 620px; margin: 0 auto 16px; padding-bottom: 16px; border-bottom: 1px solid var(--sep); text-align: left; }
   .fineprint p { font-size: 12px; color: var(--secondary); line-height: 1.55; }
   .fineprint p + p { margin-top: 8px; }
   .fineprint a { color: var(--blue); text-decoration: none; word-break: break-word; }
@@ -327,16 +330,15 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
 
   <button class="btn-box" id="clear-btn" hidden>Clear</button>
   <div id="sources-wrap"></div>
-
-  <!-- Disclaimer, privacy and sources (consolidated fine print) -->
-  <section class="fineprint">
-    <p>Decision-support aid only, not a substitute for professional judgement or your laboratory's official collection manual. Tube types, additives and the order of draw vary between laboratories and over time, so always verify against your local pathology service before collecting blood. Use of this tool is subject to its <a href="terms.html">terms of use</a>.</p>
-    <p>All processing happens on your device and nothing is sent anywhere. However, protecting patient confidentiality is your responsibility: do not enter, photograph or expose identifiable patient information, and follow your workplace's privacy and data-handling policies.</p>
-    <p>Sources: the <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests" target="_blank" rel="noopener noreferrer">RCPA Manual</a> is the primary per-test reference, with test names aligned to it; each requested test links to its RCPA entry (and its <a href="https://catalogue.pathology.health.nsw.gov.au/" target="_blank" rel="noopener noreferrer">NSW Health Pathology Test Catalogue</a> entry for local availability and tube details). Also: <a href="https://pathology.health.nsw.gov.au/" target="_blank" rel="noopener noreferrer">NSW Health Pathology</a> (collection guidance); <a href="https://www.cec.health.nsw.gov.au/__data/assets/pdf_file/0005/259412/Adult-Blood-Culture-Guidance.PDF" target="_blank" rel="noopener noreferrer">NSW CEC Adult Blood Culture Guidance (v3.0, 2024)</a>; <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/General-Information/Chart/Chart-A1" target="_blank" rel="noopener noreferrer">RCPA Manual blood tube chart and order of draw</a>. Order of draw follows the standard CLSI / RCPA sequence used across Australian laboratories. Last reviewed June 2026.</p>
-  </section>
 </main>
 
 <footer>
+  <!-- Disclaimer, privacy and sources (consolidated fine print) -->
+  <section class="fineprint">
+    <p>Decision-support only, not a substitute for professional judgement or your laboratory's official manual. Tube types and order of draw vary and change, so always verify locally before collecting blood. Subject to its <a href="terms.html">terms of use</a>.</p>
+    <p>Runs entirely on your device; nothing is sent anywhere. Protecting patient confidentiality is still your responsibility: do not enter, photograph or expose identifiable patient information.</p>
+    <p>Sources: <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests" target="_blank" rel="noopener noreferrer">RCPA Manual</a> (primary reference, linked per test) and <a href="https://catalogue.pathology.health.nsw.gov.au/" target="_blank" rel="noopener noreferrer">NSW Health Pathology Test Catalogue</a>, <a href="https://pathology.health.nsw.gov.au/" target="_blank" rel="noopener noreferrer">NSW Health Pathology</a>, <a href="https://www.cec.health.nsw.gov.au/__data/assets/pdf_file/0005/259412/Adult-Blood-Culture-Guidance.PDF" target="_blank" rel="noopener noreferrer">NSW CEC Adult Blood Culture Guidance (v3.0, 2024)</a>, and the <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/General-Information/Chart/Chart-A1" target="_blank" rel="noopener noreferrer">RCPA tube chart and order of draw</a> (CLSI / RCPA sequence). Last reviewed June 2026.</p>
+  </section>
   <div class="footer-site" id="footer-site" hidden>
     <label for="site-select">Your site</label>
     <select id="site-select" aria-label="Your site"></select>
@@ -877,13 +879,13 @@ function tubePillsHtml(ct) {
   };
   if (!canSwitch) {
     const pills = primaryKeys.map(k => pill(k, true)).join('');
-    return `<div class="src-tubes"><div class="src-tube-group">${pills}</div></div>`;
+    return `<div class="src-tubes"><div class="src-tube-pills">${pills}</div></div>`;
   }
   const preferredPill = pill(primaryKeys[0], primaryKeys[0] === activeKey);
   const altPills = ct.tubeAlts.filter(ak => ak !== primaryKeys[0]).map(ak => pill(ak, ak === activeKey)).join('');
   return `<div class="src-tubes">` +
-    `<div class="src-tube-group"><span class="src-tube-label">Preferred:</span>${preferredPill}</div>` +
-    `<div class="src-tube-group"><span class="src-tube-label">Alternatives:</span>${altPills}</div>` +
+    `<div class="src-tube-group"><span class="src-tube-label">Preferred:</span><div class="src-tube-pills">${preferredPill}</div></div>` +
+    `<div class="src-tube-group"><span class="src-tube-label">Alternatives:</span><div class="src-tube-pills">${altPills}</div></div>` +
     `</div>`;
 }
 
@@ -912,8 +914,8 @@ function renderSources() {
     const tubesHtml = tubePillsHtml(findTest(t));
     return `<div class="src-row"><div class="src-main"><span class="src-name">${escapeHtml(t)}</span>${tubesHtml}</div><span class="src-links">${links}</span></div>`;
   }).join('');
-  el.innerHTML = `<p class="group-header">Test references</p>` +
-    `<p class="group-caption">Check each test against its source for tube and handling details.</p>${rows}`;
+  el.innerHTML = `<p class="group-header">Specimen alternatives and references</p>` +
+    `<p class="group-caption">Tap a link to check the source, or tap an alternative tube to reconfigure the tubes required above.</p>${rows}`;
   el.querySelectorAll('.src-pill[data-test]').forEach(b =>
     b.addEventListener('click', () => setTubeOverride(b.dataset.test, b.dataset.tube)));
 }
