@@ -816,8 +816,9 @@ function showResults() {
 function update() {
   // prune referral flags and tube-choice overrides for tests no longer present
   const present = new Set(selectedTests.map(t => t.toLowerCase()));
+  const presentCanon = new Set(selectedTests.map(t => { const ct = findTest(t); return normTest(ct ? ct.name : t); }));
   for (const k of [...referral]) if (!present.has(k)) referral.delete(k);
-  for (const k of [...tubeOverride.keys()]) if (!present.has(k)) tubeOverride.delete(k);
+  for (const k of [...tubeOverride.keys()]) if (!presentCanon.has(k)) tubeOverride.delete(k);
   if (!selectedTests.length) expandedPanels.clear();
 
   const { groups, unmatched } = tubeGroupsFor(selectedTests, referral);
@@ -874,7 +875,7 @@ function tubePillsHtml(ct) {
   if (!ct || !ct.tube) return '';
   const primaryKeys = String(ct.tube).split('|');
   const canSwitch = primaryKeys.length === 1 && ct.tubeAlts && ct.tubeAlts.length > 0;
-  const activeKey = canSwitch ? (tubeOverride.get(ct.name.toLowerCase()) || primaryKeys[0]) : null;
+  const activeKey = canSwitch ? (tubeOverride.get(normTest(ct.name)) || primaryKeys[0]) : null;
   const pill = (key, isActive) => {
     const tube = TUBES[key];
     if (!tube) return '';
@@ -902,7 +903,7 @@ function tubePillsHtml(ct) {
 function setTubeOverride(name, tubeKey) {
   const t = findTest(name);
   if (!t) return;
-  const key = t.name.toLowerCase();
+  const key = normTest(t.name);
   const preferred = String(t.tube).split('|')[0];
   if (tubeKey === preferred || tubeOverride.get(key) === tubeKey) tubeOverride.delete(key);
   else tubeOverride.set(key, tubeKey);
