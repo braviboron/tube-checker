@@ -6536,7 +6536,7 @@ const STATES = [
     "id": "NSW",
     "name": "New South Wales",
     "catalogueHome": "https://catalogue.pathology.health.nsw.gov.au/home",
-    "catalogueSearch": "https://catalogue.pathology.health.nsw.gov.au/search?searchValue="
+    "catalogueSearch": "https://catalogue.pathology.health.nsw.gov.au/search?searchValue={q}&page=1&pageSize=50"
   }
 ];
 const SITES = [
@@ -6546,7 +6546,9 @@ const SITES = [
     "state": "NSW",
     "lab": "",
     "region": "",
-    "selectable": "yes"
+    "selectable": "yes",
+    "postcode": "",
+    "suburb": ""
   },
   {
     "id": "nepean",
@@ -6554,7 +6556,9 @@ const SITES = [
     "state": "NSW",
     "lab": "NEPEAN",
     "region": "nbmlhd",
-    "selectable": "no"
+    "selectable": "no",
+    "postcode": "2747",
+    "suburb": "Kingswood"
   },
   {
     "id": "westmead",
@@ -6562,7 +6566,9 @@ const SITES = [
     "state": "NSW",
     "lab": "WESTMEAD",
     "region": "wslhd",
-    "selectable": "no"
+    "selectable": "no",
+    "postcode": "2145",
+    "suburb": "Westmead"
   },
   {
     "id": "orange",
@@ -6570,7 +6576,9 @@ const SITES = [
     "state": "NSW",
     "lab": "ORANGE",
     "region": "wnswlhd",
-    "selectable": "yes"
+    "selectable": "yes",
+    "postcode": "2800",
+    "suburb": "Orange"
   }
 ];
 const OVERRIDES = [
@@ -6663,7 +6671,7 @@ const RESOURCES = [
     "scope": "NSW",
     "key": "nsw",
     "label": "NSW catalogue",
-    "url": "https://catalogue.pathology.health.nsw.gov.au/search?searchValue={q}"
+    "url": "https://catalogue.pathology.health.nsw.gov.au/search?searchValue={q}&page=1&pageSize=50"
   }
 ];
 const GROUPS = [

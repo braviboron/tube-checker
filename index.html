@@ -850,7 +850,12 @@ function sourceLinks(name, siteId) {
     .sort((a, b) => rank[a.level] - rank[b.level])
     .map(r => {
       const override = (t && t.sources && r.key && t.sources[r.key]) ? t.sources[r.key] : null;
-      const url = override || r.url.replace(/\{q\}/g, enc).replace(/\{name\}/g, t ? t.name : name);
+      let url = override || r.url.replace(/\{q\}/g, enc).replace(/\{name\}/g, t ? t.name : name);
+      // NSW catalogue's search narrows to the selected site's suburb when given
+      // userLocation/userSuburb, but only together with searchType=startsWith.
+      if (!override && r.key === 'nsw' && site.postcode && site.suburb) {
+        url += `&searchType=startsWith&userLocation=${encodeURIComponent(site.postcode)}&userSuburb=${encodeURIComponent(site.suburb)}`;
+      }
       return { label: r.label, url };
     });
 }

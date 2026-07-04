@@ -4,7 +4,7 @@
  *     online; falls back to cache when offline.
  *   - Immutable assets (icons): CACHE-FIRST, so they load instantly and work offline.
  * Bump CACHE when precached assets change. */
-const CACHE = 'tube-checker-v96';
+const CACHE = 'tube-checker-v98';
 
 const ASSETS = [
   './',

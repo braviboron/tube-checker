@@ -1,2 +1,2 @@
 id,name,catalogueHome,catalogueSearch
-NSW,New South Wales,https://catalogue.pathology.health.nsw.gov.au/home,https://catalogue.pathology.health.nsw.gov.au/search?searchValue=
+NSW,New South Wales,https://catalogue.pathology.health.nsw.gov.au/home,https://catalogue.pathology.health.nsw.gov.au/search?searchValue={q}&page=1&pageSize=50

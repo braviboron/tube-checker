@@ -1,5 +1,5 @@
-id,name,state,lab,region,selectable
-default,Generic (NSW default),NSW,,,yes
-nepean,Nepean Hospital,NSW,NEPEAN,nbmlhd,no
-westmead,Westmead Hospital,NSW,WESTMEAD,wslhd,no
-orange,Orange Hospital,NSW,ORANGE,wnswlhd,yes
+id,name,state,lab,region,selectable,postcode,suburb
+default,Generic (NSW default),NSW,,,yes,,
+nepean,Nepean Hospital,NSW,NEPEAN,nbmlhd,no,2747,Kingswood
+westmead,Westmead Hospital,NSW,WESTMEAD,wslhd,no,2145,Westmead
+orange,Orange Hospital,NSW,ORANGE,wnswlhd,yes,2800,Orange

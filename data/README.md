@@ -89,10 +89,13 @@ state.
 A region within a state (e.g. a Local Health District). `state` references `states.csv`.
 Used to scope regional reference resources.
 
-### sites.csv  `id,name,state,lab,region`
+### sites.csv  `id,name,state,lab,region,selectable,postcode,suburb`
 Hospitals the user can pick. `lab` is the site's OWN performing laboratory (a `labs.csv` id),
 used to decide whether a test is done locally. `region` is a `regions.csv` id (or blank).
-Blank `lab`/`region` = generic / unknown.
+Blank `lab`/`region` = generic / unknown. `selectable` (`yes`/`no`) controls whether the site
+appears in the footer site picker. `postcode`/`suburb` (both required together) feed the NSW
+catalogue search link's `userLocation`/`userSuburb` params so results are scoped to that site;
+leave both blank to omit location scoping.
 
 ### resources.csv  `level,scope,key,label,url`
 Reference links shown per test (the 'Test references' section). `level` is
