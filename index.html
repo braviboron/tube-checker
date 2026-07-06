@@ -223,7 +223,6 @@
   .fineprint a:hover { text-decoration: underline; }
 
   footer { text-align: center; padding: 10px 18px calc(20px + env(safe-area-inset-bottom)); }
-  .footer-name { font-size: 11px; color: var(--tertiary); }
   .footer-links { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 9px; margin-top: 8px; }
   .footer-link { font-size: 12.5px; color: var(--blue); text-decoration: none; }
   .footer-link[hidden] { display: none; }
@@ -322,7 +321,7 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
   <p class="group-header">Requested tests</p>
   <button class="add-field" id="open-picker">Start typing to search tests, or paste a list</button>
 
-  <p class="group-caption" style="margin-top: 22px;">To read a paper form, open the box above and use your phone's built-in text scanner: press and hold the field, then choose Scan Text on iPhone, or tap the scan icon on the keyboard on Android.</p>
+  <p class="group-caption" style="margin-top: 22px;">To scan a paper form, open the box above and use your phone's built-in text scanner: press and hold the field, then choose Scan Text on iPhone, or tap the scan icon on the keyboard on Android.</p>
 
   <!-- Results -->
   <div id="results">
@@ -343,15 +342,15 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
 <footer>
   <!-- Disclaimer, privacy and sources (consolidated fine print) -->
   <section class="fineprint">
-    <p>Decision-support only, not a substitute for professional judgement or your laboratory's official manual. Tube types and order of draw vary and change, so always verify locally before collecting blood. Subject to its <a href="terms.html">terms of use</a>.</p>
-    <p>Runs entirely on your device; nothing is sent anywhere. Protecting patient confidentiality is still your responsibility: do not enter, photograph or expose identifiable patient information.</p>
-    <p>Sources: <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests" target="_blank" rel="noopener noreferrer">RCPA Manual</a> (primary reference, linked per test) and <a href="https://catalogue.pathology.health.nsw.gov.au/" target="_blank" rel="noopener noreferrer">NSW Health Pathology Test Catalogue</a>, <a href="https://pathology.health.nsw.gov.au/" target="_blank" rel="noopener noreferrer">NSW Health Pathology</a>, <a href="https://www.cec.health.nsw.gov.au/__data/assets/pdf_file/0005/259412/Adult-Blood-Culture-Guidance.PDF" target="_blank" rel="noopener noreferrer">NSW CEC Adult Blood Culture Guidance (v3.0, 2024)</a>, and the <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/General-Information/Chart/Chart-A1" target="_blank" rel="noopener noreferrer">RCPA tube chart and order of draw</a> (CLSI / RCPA sequence). Last reviewed June 2026.</p>
+    <p>Use of this application is subject to the <a href="terms.html">terms of use</a>.</p>
+    <p>Decision-support only, not a substitute for professional judgement or your laboratory's policies/guidance. Always verify locally before collecting.</p>
+    <p>This application does not send information anywhere, however protecting patient confidentiality is your responsibility: do not enter, photograph or expose identifiable patient information and follow your institution's policies.</p>
+    <p>Sources: <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/Pathology-Tests" target="_blank" rel="noopener noreferrer">RCPA Manual</a> (primary reference) and the <a href="https://www.rcpa.edu.au/Manuals/RCPA-Manual/General-Information/Chart/Chart-A1" target="_blank" rel="noopener noreferrer">RCPA tube chart and order of draw</a> (CLSI / RCPA sequence). Some information added from <a href="https://catalogue.pathology.health.nsw.gov.au/" target="_blank" rel="noopener noreferrer">NSW Health Pathology Test Catalogue</a>. Last reviewed June 2026.</p>
   </section>
   <div class="footer-site" id="footer-site" hidden>
     <label for="site-select">Your site</label>
     <select id="site-select" aria-label="Your site"></select>
   </div>
-  <div class="footer-name">Tube Checker</div>
   <div class="footer-links" id="footer-links">
     <a class="footer-link" href="help.html">How to use</a>
     <a class="footer-link" id="feedback-link" target="_blank" rel="noopener noreferrer" hidden>Glitches/suggestions</a>
@@ -363,7 +362,7 @@ setTimeout(function(){var s=document.getElementById('splash');if(s){s.classList.
 <div id="picker-modal" class="picker-modal">
   <div class="picker-sheet">
     <div class="picker-bar">
-      <input id="picker-input" type="text" placeholder="Search, type, or paste a list" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <input id="picker-input" type="text" placeholder="Search, type, or paste a list" autocorrect="off" autocapitalize="off" spellcheck="false">
       <button id="picker-done" class="picker-done">Done</button>
     </div>
     <label class="picker-toggle" id="picker-ref-row" hidden><span>Send separately to reference lab (own tube)</span><input type="checkbox" id="picker-ref"></label>
